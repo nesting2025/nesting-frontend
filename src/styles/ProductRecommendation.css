@@ -1,0 +1,73 @@
+/* 추천 섹션 스타일 */
+.product-recommendation {
+    text-align: center;
+    padding: 40px 160px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  /* 제목 스타일 (글씨 크기 증가) */
+  .product-recommendation h2 {
+    font-size: 36px; 
+    font-weight: bold;
+    text-align: left;
+  }
+  
+
+    /* 캐러셀 컨테이너 */
+    .carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    max-width: 1440px;
+    width: 100%; 
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden; /* 넘치는 부분 숨김 */
+  }
+  
+  /* 상품 리스트 (가로 스크롤 가능하도록 설정) */
+  .product-list {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+    max-width: 1440px;
+    white-space: nowrap;
+  }
+  
+  /* 스크롤 바 숨기기 */
+  .product-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* 캐러셀 버튼 (오른쪽 상단 배치) */
+.carousel-buttons {
+    position: absolute;
+    top: -40px;
+    right: 160px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* 캐러셀 버튼 스타일 */
+  .carousel-btn {
+    background: white;
+    border: 2px solid black;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .carousel-btn:hover {
+    background: black;
+    color: white;
+  }

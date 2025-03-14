@@ -1,0 +1,85 @@
+/* 헤더 전체 스타일 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%; /* ✅ 전체 화면 너비를 차지하도록 설정 */
+  max-width: 1440px; /* ✅ 화면을 벗어나지 않도록 제한 */
+  height: 90px;
+  padding: 0 max(5vw, 160px); /* ✅ 화면 크기에 따라 자동 조정되는 패딩 */
+  background-color: white;
+  border-bottom: 2px solid black;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  margin: 0 auto; /* ✅ 중앙 정렬 */
+  overflow: hidden; /* ✅ 불필요한 가로 스크롤 방지 */
+}
+/* 네비게이션 메뉴 (왼쪽 정렬) */
+.navbar {
+  display: flex;
+  gap: 108px;
+  font-size: 24px;
+  font-weight: medium;
+  text-transform: uppercase;
+  height: 32px; /* ✅ 네비게이션 높이 설정 */
+  align-items: center;
+  margin: 29px 0; /* ✅ 위아래 마진 적용 */
+}
+
+/* 네비게이션 링크 스타일 (밑줄 제거) */
+.navbar a {
+  text-decoration: none; /* ✅ 밑줄 제거 */
+  color: black; /* 기본 색상 유지 */
+  transition: color 0.2s ease-in-out;
+}
+
+/* 로고 (정중앙 배치) */
+.logo {
+  position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 50px;
+}
+
+/* 아이콘 그룹 (오른쪽 정렬) */
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 108px;
+  margin: 21px; /* ✅ 위아래 마진 적용 */
+  margin: right 160px;
+}
+
+/* 아이콘 공통 스타일 */
+.icon {
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+}
+
+/* 장바구니 아이콘 + 숫자 배지 */
+.cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #ffcc00;
+  color: black;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-family: "Pretendard", sans-serif;
+}
+
