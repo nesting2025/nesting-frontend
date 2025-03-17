@@ -35,6 +35,11 @@
     background-color: white;
     transition: transform 0.2s ease-in-out, width 0.3s ease-in-out;
   }
+
+  .character-card:hover{
+    background-color: var(--color);
+
+  }
   
   /* 캐릭터 이미지 */
   .character-image {
