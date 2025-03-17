@@ -40,6 +40,9 @@
     background-color: var(--color);
 
   }
+  .character-card:active {
+    box-shadow: 0 0 0 1px #111111;
+}
   
   /* 캐릭터 이미지 */
   .character-image {
