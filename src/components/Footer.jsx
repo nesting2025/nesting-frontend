@@ -21,9 +21,11 @@ const Footer = () => {
         <img src="assets/social/instagram.svg" />
         <img src="assets/social/kakao.svg" />
         <img src="assets/social/naver_blog.svg" />
+
       </div>
       <button className='btn_goup' onClick={scrollToTop}>{"\u2191"}</button>
     </footer>
   );
 };
+
 export default Footer;
