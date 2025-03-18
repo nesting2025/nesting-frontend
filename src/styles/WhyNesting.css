@@ -2,19 +2,22 @@
 .why-nesting {
     margin-top: 60px; /* 120px 원래 */
     background-color: #FFE788;
-    padding: 60px 160px;
+    padding: 60px 5%;
     text-align: center;
-  }
+    width: 100%;
+    box-sizing: border-box;
+}
   
-  /* 섹션 제목 */
-  .section-title {
+/* 섹션 제목 */
+.section-title {
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 40px;
     text-align: left;
-  }
+    margin-left:40px;
+}
   
-  .why-card {
+.why-card {
     background-color: white;
     border-radius: 12px;
     padding: 40px;
@@ -23,12 +26,14 @@
     justify-content: space-between;
     align-items: center;
     max-width: 1440px;
+    width: 100%;
     margin: 0 auto;
     border: 2px solid black; /* 테두리 추가 */
-  }
+    box-sizing: border-box;
+}
   
-  /* 개별 항목 */
-  .why-item {
+/* 개별 항목 */
+.why-item {
     display: flex;
     align-items: center;
     flex: 1;
@@ -36,43 +41,43 @@
     justify-content: flex-start;
     text-align: left;
     gap: 20px;
-  }
+}
   
-  /* 강조 텍스트 */
-  .highlight-text {
-    font-size: 56px;
+/* 강조 텍스트 */
+.highlight-text {
+    font-size: clamp(32px, 5vw, 56px); /* 반응형 폰트 크기 */
     font-weight: bold;
     color: black;
-    min-width: 432px;
+    width: 100%;
+    max-width: 432px;
     text-align: left;
     align-items: flex-start;
-    flex:none;
-  }
+    flex: none;
+}
   
-  .highlight-text span {
-    font-size: 18px;
+.highlight-text span {
+    font-size: clamp(14px, 2vw, 18px); /* 반응형 폰트 크기 */
     font-weight: normal;
     color: #666;
-  }
+}
   
-  /* 제목 */
-  .why-item h4 {
-    font-size: 18px;
+/* 제목 */
+.why-item h4 {
+    font-size: clamp(16px, 2vw, 18px); /* 반응형 폰트 크기 */
     font-weight: bold;
     margin-bottom: 5px;
-  }
+}
   
-  /* 설명 */
-  .why-item p {
-    font-size: 14px;
+/* 설명 */
+.why-item p {
+    font-size: clamp(12px, 1.5vw, 14px); /* 반응형 폰트 크기 */
     color: #555;
     line-height: 1.5;
-    padding-right: 30px;
-  }
+    padding-right: 5%;
+}
   
-  
-  /* 버튼 */
-  .why-btn {
+/* 버튼 */
+.why-btn {
     background: white;
     border: 2px solid black;
     padding: 12px 24px;
@@ -81,22 +86,45 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     margin-top: 40px;
-  }
+}
   
-  .why-btn:hover {
+.why-btn:hover {
     background: black;
     color: white;
-  }
+}
   
 /* 반응형 */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .why-card {
-      flex-direction: column;
-      padding: 20px;
+        padding: 30px;
+    }
+    
+    .highlight-text {
+        min-width: unset;
+    }
+}
+
+@media (max-width: 768px) {
+    .why-nesting {
+        padding: 40px 20px;
+    }
+    
+    .why-card {
+        flex-direction: column;
+        padding: 20px;
     }
   
     .why-item {
-      flex-direction: column;
-      text-align: center;
+        width: 100%;
+        margin-top: 20px;
     }
-  }
+    
+    .highlight-text {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .why-item p {
+        padding-right: 0;
+    }
+}

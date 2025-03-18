@@ -89,7 +89,7 @@ function App() {
       <ProductRecommendation products={mockProducts} />
       <GroupOrder />
       <WhyNesting />
-      <Reviews reviews={mockReviews} />
+      {/* <Reviews reviews={mockReviews} /> */}
       <Footer />
     </div>
   );

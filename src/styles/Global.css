@@ -3,16 +3,16 @@ html, body {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden; /* ✅ 가로 스크롤 방지 */
-    margin: 0;
+    margin: 0px;
     padding: 0;
     box-sizing: border-box;
   }
   
   /* 컨테이너 기본 스타일 */
   .container {
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
-    margin: auto;
+    margin: 0;
   }
   
   /* 버튼 기본 스타일 */
