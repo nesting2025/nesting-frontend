@@ -1,0 +1,10 @@
+.floating-btn {
+    position: fixed;
+    bottom: 140px;
+    right: 30px;
+    width: 120px;
+    height: auto;
+    background-color: transparent;
+    cursor: pointer; 
+    border: none;
+}

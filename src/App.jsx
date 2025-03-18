@@ -7,6 +7,7 @@ import GroupOrder from "./components/GroupOrder";
 import WhyNesting from "./components/WhyNesting";
 import Footer from "./components/Footer";
 import Reviews from "./components/Reviews";
+import FloatingButton from "./components/\bFloatingButton";
 
 const mockProducts = [
   {
@@ -91,6 +92,8 @@ function App() {
       <WhyNesting />
       <Reviews reviews={mockReviews} />
       <Footer />
+
+      <FloatingButton />
     </div>
   );
 }
