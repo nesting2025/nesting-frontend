@@ -1,0 +1,32 @@
+.review-card {
+    flex-shrink: 0;
+    width: 304px;
+    height: 380px;
+    border: 1px solid black;
+    border-radius: 12px;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%),
+    url("/assets/card/photo.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between; /* ✅ 내용이 균등하게 분배되도록 설정 */
+  }
+  .review-info{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0; /* 양쪽 패딩 유지 */
+    padding: 16px;
+    white-space: normal;
+    text-align: left;
+  }
+  .review-text{
+    color: white;
+    margin: 0;
+    font-size: 20px;
+    line-height: 28px;
+    letter-spacing: -0.04em;  
+}

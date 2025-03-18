@@ -1,0 +1,35 @@
+.reviews {
+    text-align: center;
+    padding: 40px 160px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .reviews h2 {
+    font-size: 28px; 
+    font-weight: bold;
+    text-align: left;
+  }
+  .carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    max-width: 1440px;
+    width: 100%; 
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden; /* 넘치는 부분 숨김 */
+  }
+  .review-list {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+    min-width: 100%;
+    max-width: 1440px;
+    white-space: nowrap;
+  }
+  .review-list::-webkit-scrollbar {
+    display: none;
+  }

@@ -6,6 +6,7 @@ const characters = [
     name: "한교동",
     enName: "HANGYODONG",
     image: "/assets/character=hangyodong, status=default.png",
+    color: "#EFFFFF",
     comingSoon: false,
   },
   {
@@ -13,6 +14,7 @@ const characters = [
     name: "짱구",
     enName: "SHINCHAN",
     image: "/assets/character=shinchan, status=default.png",
+    color: "#FFFDEF",
     comingSoon: false,
   },
   {
@@ -20,6 +22,7 @@ const characters = [
     name: "헬로키티",
     enName: "HELLO KITTY",
     image: "/assets/character=hellokitty, status=default.png",
+    color: "#FFEFF3",
     comingSoon: true,
   },
   {
@@ -27,6 +30,7 @@ const characters = [
     name: "쿠로미",
     enName: "KUROMI",
     image: "/assets/character=kuromi, status=default.png",
+    color: "F6EFFF",
     comingSoon: true,
   },
 ];
@@ -40,6 +44,7 @@ const CharacterFilter = () => {
           <div
             key={char.id}
             className={`character-card ${char.comingSoon ? "disabled" : ""}`}
+            style={{"--color": char.color}}
           >
             <div className="character-info">
               <span className="char-name">{char.name}</span>
