@@ -1,10 +1,58 @@
+import "../styles/GroupOrder.css";
+
 const GroupOrder = () => {
   return (
-    <section className="group-order">
-      <h2>같이 배송으로 더 저렴하게</h2>
-      <p>목표 수량을 달성할수록 배송이 빨라져요</p>
-      <button>같이 배송이 뭔가요?</button>
+    <section className="group-order-banner">
+      <div className="group-order-content">
+        <p className="sub-text">같이 배송으로 더 저렴하게</p>
+        <h2 className="main-text">목표 수량을 달성할수록 배송이 빨라져요</h2>
+      </div>
+      <button className="group-order-btn">같이 배송이 뭔가요?</button>
+
+      <img
+        src="/assets/green-circle.svg"
+        alt="Green Circle"
+        className="pattern green-circle"
+      />
+      <img
+        src="/assets/green-circle.svg"
+        alt="Green Circle"
+        className="pattern green-circle right"
+      />
+      <img
+        src="/assets/green-circle.svg"
+        alt="Green Circle"
+        className="pattern green-circle bottom"
+      />
+
+      <img
+        src="/assets/red-triangle.svg"
+        alt="Red Triangle"
+        className="pattern red-triangle"
+      />
+      <img
+        src="/assets/red-triangle.svg"
+        alt="Red Triangle"
+        className="pattern red-triangle center"
+      />
+      <img
+        src="/assets/red-triangle.svg"
+        alt="Red Triangle"
+        className="pattern red-triangle right"
+      />
+
+      <img
+        src="/assets/yellow-square.svg"
+        alt="Yellow Square"
+        className="pattern yellow-square"
+      />
+      <img
+        src="/assets/yellow-square.svg"
+        alt="Yellow Square"
+        className="pattern yellow-square right"
+      />
     </section>
   );
 };
+
 export default GroupOrder;

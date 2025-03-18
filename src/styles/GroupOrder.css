@@ -1,0 +1,117 @@
+/* 배너 스타일 */
+.group-order-banner {
+    position: relative;
+    background-color: #f7f7fc;
+    padding: 60px 160px;
+    text-align: left;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* 텍스트 컨텐츠 */
+  .group-order-content {
+    max-width: 600px;
+  }
+  
+  .sub-text {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .main-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 5px;
+  }
+  
+  /* 버튼 스타일 */
+  .group-order-btn {
+    background: white;
+    border: 2px solid black;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .group-order-btn:hover {
+    background: black;
+    color: white;
+  }
+  
+  /* 배경 패턴 (SVG 파일) */
+  .pattern {
+    position: absolute;
+    opacity: 0.8;
+    width: 50px; /* 기본 크기 */
+    height: auto;
+  }
+  
+  /* 초록색 원 */
+.green-circle {
+    width: 60px;
+    top: 8%;
+    left: 4%;
+  }
+  
+  .green-circle.bottom {
+    top: 80%;
+    left: 23%;
+  }
+
+  .green-circle.right {
+    top: 53%;
+    left: 97%;
+  }
+  
+  /* 빨간색 삼각형 */
+  .red-triangle {
+    width: 40px;
+    top: 60%;
+    left: 0%;
+    rotate: 270deg;
+  }
+  
+  .red-triangle.center {
+    top: 20%;
+    left: 49%;
+  }
+  .red-triangle.right {
+    top: 87%;
+    left: 60%;
+    rotate: 270deg;
+  }
+  
+  /* 노란색 사각형 */
+  .yellow-square {
+    width: 50px;
+    top: 40%;
+    left: 40%;
+  }
+  
+  .yellow-square.right {
+    top: 2%;
+    left: 82%;
+  }
+  
+  /* 반응형 조정 */
+  @media (max-width: 768px) {
+    .group-order-banner {
+      flex-direction: column;
+      text-align: center;
+      padding: 40px 20px;
+    }
+  
+    .group-order-btn {
+      margin-top: 20px;
+    }
+  
+    /* 모바일에서는 크기 축소 */
+    .pattern {
+      width: 30px;
+    }
+  }

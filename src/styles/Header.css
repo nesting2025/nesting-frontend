@@ -3,17 +3,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 80%; /* ✅ 전체 화면 너비를 차지하도록 설정 */
-  max-width: 1440px; /* ✅ 화면을 벗어나지 않도록 제한 */
+  width: 100%;
+  max-width: 1440px; 
   height: 90px;
   padding: 0 max(5vw, 160px); /* ✅ 화면 크기에 따라 자동 조정되는 패딩 */
   background-color: white;
   border-bottom: 2px solid black;
-  position: sticky;
+  position: sticky; /* 스티키 헤더 */
   top: 0;
   z-index: 1000;
-  margin: 0 auto; /* ✅ 중앙 정렬 */
-  overflow: hidden; /* ✅ 불필요한 가로 스크롤 방지 */
+  margin: 0; 
+  overflow: hidden; 
 }
 /* 네비게이션 메뉴 (왼쪽 정렬) */
 .navbar {
