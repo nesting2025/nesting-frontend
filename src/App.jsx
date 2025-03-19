@@ -78,18 +78,9 @@ const mockReviews = [
     text: "배송도 빠르고 제품이 너무 예뻐요!",
     image: "/assets/review1.jpg",
   },
-  { id: 2, 
-    text: "기대했던 것보다 더 귀여워요!", 
-    image: "/assets/review2.jpg" 
-  },
-  { id: 3, 
-    text: "기대했던 것보다 더 귀여워요!", 
-    image: "/assets/review2.jpg" 
-  },
-  { id: 4, 
-    text: "기대했던 것보다 더 귀여워요!", 
-    image: "/assets/review2.jpg" 
-  },
+  { id: 2, text: "기대했던 것보다 더 귀여워요!", image: "/assets/review2.jpg" },
+  { id: 3, text: "기대했던 것보다 더 귀여워요!", image: "/assets/review2.jpg" },
+  { id: 4, text: "기대했던 것보다 더 귀여워요!", image: "/assets/review2.jpg" },
 ];
 
 function App() {
@@ -101,7 +92,7 @@ function App() {
       <ProductRecommendation products={mockProducts} />
       <GroupOrder />
       <WhyNesting />
-      {/* <Reviews reviews={mockReviews} /> */}
+      <Reviews reviews={mockReviews} />
       <Footer />
 
       <FloatingButton />
