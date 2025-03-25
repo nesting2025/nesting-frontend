@@ -86,7 +86,6 @@ const mockReviews = [
 function App() {
   return (
     <div>
-      <Banner />
       <Header />
       <CharacterFilter />
       <ProductRecommendation products={mockProducts} />

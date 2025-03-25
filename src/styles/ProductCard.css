@@ -1,13 +1,17 @@
 /* 상품 카드 */
 .product-card {
-    width: 382px;
-    height: 564px;
-    border: 1px solid black;
+    min-width: 262px;
+    max-width: 382px;
+    height: auto;
+    max-height: 564px;
+    border: 2px solid black;
     border-radius: 12px;
-    padding:20px;
+    padding:20px 20px 24px 20px;
     text-align: center;
     background-color: white;
-    flex-shrink:0;
+    flex-grow: 1; /* ✅ 가능한 최대 크기로 확장 */
+    flex-shrink: 1; /* ✅ 부모 크기에 맞춰 줄어들도록 설정 */
+    flex-basis: 0; /* ✅ 기본 크기 자동 조정 */
     position: relative;
     flex-direction: column;
     align-items: flex-start;
@@ -26,8 +30,8 @@
   /* 상품 정보 */
   .product-info {
     display: flex;
-    align-items: center;
-    margin-top: 19px;
+    align-items: flex-start;
+    margin: 20px 0 0 8px;
     justify-content: space-between; 
     text-align: left;
     width: 100%;
@@ -36,19 +40,24 @@
   .product-name {
     font-size: 20px;
     font-weight: medium;
-    display: -webkit-box;
-    line-height: 1.4; /* ✅ 줄 간격 조정 */
-    max-height: 2.8em; /* ✅ 두 줄 유지 */
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    height: 60px;
+    width: 100%;
+    max-width: 100%; /* ✅ 부모 컨테이너(`product-card`) 너비 이상으로 확장되지 않도록 제한 */
+    line-height: 28px; /* ✅ 줄 간격 조정 */
+    letter-spacing: -0.5px;
     overflow: hidden;
     word-break: break-word;
     flex: 1;
+    display: -webkit-box; /* 두 줄 제한을 위한 추가 속성 */
+    -webkit-line-clamp: 2; /* 두 줄로 제한 */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis; /* 넘치는 텍스트는 말줄임표로 표시 */
+    white-space: normal;
   }
   
   .product-price {
     font-size: 24px;
-    margin-top:6px;
+    margin: 6px 0 0 8px;
     font-weight: bold;
     text-align:left;
     width: 100%;
@@ -56,15 +65,19 @@
   
   /* 장바구니 버튼 */
 .cart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    flex-shrink: 0; /* 버튼 크기 유지 */
+    padding: 17px 16px 11px 12px;
+    background-color: #ffcc00;
     position: relative;
     width: 60px; 
     height: 60px;
-    padding: 17px 16px 11px 12px;
-    background-color: #ffcc00;
-    border: none;
-    cursor: pointer;
     border-radius: 50%;
     display: flex;
+    margin-right: 10px;
     align-items: center;
     justify-content: center;
     transition: background 0.3s ease-in-out;
@@ -81,3 +94,15 @@
     width: 32px;
     height: 32px;
   }
+
+  @media (max-width: 1024px) {
+    .product-card {
+        max-width: 320px; /* ✅ 화면이 작아지면 최대 너비 조정 */
+    }
+}
+
+@media (max-width: 768px) {
+    .product-card {
+        max-width: 280px; /* ✅ 모바일에서는 조금 더 작게 조정 */
+    }
+}
