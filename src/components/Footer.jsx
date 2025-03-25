@@ -1,10 +1,6 @@
 import "../styles/Footer.css";
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
     <footer className="footer">
       <div className="nesting-info">
@@ -24,9 +20,6 @@ const Footer = () => {
         <img src="assets/social/kakao.svg" />
         <img src="assets/social/naver_blog.svg" />
       </div>
-      <button className="btn_goup" onClick={scrollToTop}>
-        {"\u2191"}
-      </button>
     </footer>
   );
 };
