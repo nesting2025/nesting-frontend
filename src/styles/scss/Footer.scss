@@ -1,0 +1,39 @@
+@import "./colors";
+@import "./typography";
+
+.footer {
+    padding: 40px 0;
+    @include bg-color("bg-weak");
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+
+    .nesting-info {
+        margin-left: 160px;
+
+        .img-banner {
+            width: 149px;
+            height: auto;
+        }
+
+        p {
+            @include font-style("body2");
+            @include text-color();
+
+            span {
+                @include text-color("line-medium");
+            }
+        }
+    }
+  
+    .social-icons {
+        display: flex;
+        gap: 20px;
+        margin-right: 160px;
+
+        img {
+            width: 48px;
+            height: 48px;
+        }
+    }
+}

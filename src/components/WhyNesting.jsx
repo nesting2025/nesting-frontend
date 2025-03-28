@@ -1,4 +1,4 @@
-import "../styles/WhyNesting.css";
+import "../styles/css/WhyNesting.css";
 
 const WhyNesting = () => {
   return (
@@ -8,7 +8,7 @@ const WhyNesting = () => {
       <div className="why-card">
         <div className="why-item">
           <h3 className="highlight-text">
-            88<span>%</span>
+            88<span> %</span>
           </h3>
           <div>
             <h4>더 저렴한 배송비</h4>

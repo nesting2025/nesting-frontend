@@ -1,0 +1,127 @@
+@import "./typography";
+@import "./colors";
+
+/* 섹션 스타일 */
+.why-nesting {
+    margin-top: 60px; 
+    @include bg-color("primary200");
+    padding: 60px 5%;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  
+    @media (max-width: 768px) {
+      padding: 40px 20px;
+    }
+  }
+  
+  /* 섹션 제목 */
+.section-title {
+    @include font-style("display6");
+    @include text-color();
+    margin-bottom: 40px;
+    text-align: left;
+    margin-left: 40px;
+}
+  
+.why-card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 40px 32px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    max-width: 1440px;
+    width: 100%;
+    margin: 0 auto;
+    border: 2px solid black;
+    box-sizing: border-box;
+    gap: 80px;
+  
+    @media (max-width: 1024px) {
+      padding: 30px;
+    }
+  
+    @media (max-width: 768px) {
+      flex-direction: column;
+      padding: 20px;
+    }
+}
+  
+  /* 개별 항목 */
+.why-item {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+
+    /* 강조 텍스트 */
+    .highlight-text {
+        // font-size: clamp(32px, 5vw, 56px);
+        font-size: 108px;
+        @include text-color();
+        width: 100%;
+        max-width: 432px;
+        text-align: left;
+        align-items: flex-start;
+        flex: none;
+        margin: 0;
+    
+        span {
+        @include font-style("display4");
+        @include text-color();
+        }
+    
+        @media (max-width: 1024px) {
+        min-width: unset;
+        }
+        
+        @media (max-width: 768px) {
+        text-align: center;
+        margin-bottom: 20px;
+        }
+    }
+  
+    h4 {
+      @include font-style("headline2");
+      @include text-color();
+      margin-top: 60px;
+      margin-bottom: 12px;
+    }
+  
+    p {
+      @include font-style("title1");
+      @include text-color("text-sub2");
+      margin: 0;
+
+      @media (max-width: 768px) {
+        padding-right: 0;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      width: 100%;
+      margin-top: 20px;
+    }
+}
+  
+  /* 버튼 스타일 */
+.why-btn {
+    background: transparent;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 12px 24px;
+
+    // font-size: 16px;
+    @include font-style("headline4");
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 40px;
+  
+    &:hover {
+      background: black;
+      color: white;
+    }
+}
