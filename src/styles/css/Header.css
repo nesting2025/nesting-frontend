@@ -1,30 +1,36 @@
+@charset "UTF-8";
 /* 헤더 전체 스타일 */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1440px;
+  max-width: 100%;
   height: 90px;
-  padding: 0 max(5vw, 160px); /* ✅ 화면 크기에 따라 자동 조정되는 패딩 */
+  padding: 0 max(5vw, 160px);
   background-color: white;
   border-bottom: 2px solid black;
-  position: sticky; /* 스티키 헤더 */
+  position: sticky;
   top: 0;
   z-index: 1000;
-  margin: 0; 
-  overflow: hidden; 
+  margin: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 }
+
 /* 네비게이션 메뉴 (왼쪽 정렬) */
 .navbar {
   display: flex;
-  gap: 108px;
-  font-size: 24px;
-  font-weight: medium;
+  gap: 60px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
   text-transform: uppercase;
-  height: 32px; /* ✅ 네비게이션 높이 설정 */
+  height: 32px;
   align-items: center;
-  margin: 29px 0; /* ✅ 위아래 마진 적용 */
+  margin: 29px 0;
 }
 
 /* 네비게이션 링크 스타일 (밑줄 제거) */
@@ -42,7 +48,6 @@
   display: flex;
   align-items: center;
 }
-
 .logo img {
   height: 50px;
 }
@@ -51,9 +56,8 @@
 .icons {
   display: flex;
   align-items: center;
-  gap: 108px;
-  margin: 21px; /* ✅ 위아래 마진 적용 */
-  margin: right 160px;
+  gap: 60px;
+  margin: 21px 0;
 }
 
 /* 아이콘 공통 스타일 */
@@ -69,17 +73,17 @@
   display: flex;
   align-items: center;
 }
-
-.cart-badge {
+.cart-icon .cart-badge {
   position: absolute;
   top: -5px;
   right: -10px;
   background-color: #ffcc00;
-  color: black;
+  color: #111111;
   font-size: 12px;
-  font-weight: bold;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
   padding: 2px 6px;
   border-radius: 50%;
   font-family: "Pretendard", sans-serif;
-}
-
+}/*# sourceMappingURL=Header.css.map */
