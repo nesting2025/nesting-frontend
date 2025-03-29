@@ -66,9 +66,16 @@ const CharacterFilter = ({screenSize}) => {
               <span className="char-name">{char.name}</span>
               <span className="char-enName">{char.enName}</span>
             </div>
-            <img src={char.image[screenSize]} alt={char.name} className="character-image" />
-
-            {char.comingSoon && <div className="coming-soon">coming soon</div>}
+            <div className="character-image-wrapper">
+              <img
+                src={char.image[screenSize]}
+                alt={char.name}
+                className="character-image"
+              />
+              {char.comingSoon && (
+                <div className="coming-soon">coming <br /> soon</div>
+              )}
+            </div>
           </div>
         ))}
       </div>

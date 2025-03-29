@@ -1,9 +1,124 @@
 /* 컨테이너 스타일 */
+.character-filter.large{
+  text-align: left;
+    padding: 80px 160px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+.character-filter.large h2{
+  font-size: 28px;
+  padding : 20px 0 20px 0;
+  margin: 0 0 20px 0;
+}
+
+
+/* 캐릭터 리스트 */
+.character-filter.large .character-list {
+  display: flex;
+    gap: 20px;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%; 
+    max-width: 1440px;
+}
+
+/* 개별 캐릭터 카드 */
+.character-filter.large .character-card {
+  position: relative;
+    flex-grow: 1; /* 카드 크기만 가변적으로 변경 */
+    min-width: 262px; /* 최소 크기 */
+    max-width: 25%; /* 최대 크기 */
+    height: 104px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    border: 2px solid black;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: white;
+    transition: transform 0.2s ease-in-out, width 0.3s ease-in-out;
+}
+
+.character-filter.large .character-card:hover{
+  background-color: var(--color);
+
+}
+.character-filter.large .character-card:active {
+  box-shadow: 0 0 0 1px #111111;
+}
+.character-filter.large .character-image-wrapper {
+  position: relative; /* ✅ 내부 요소를 absolute로 배치할 수 있도록 설정 */
+  display: inline-block; /* 이미지 크기에 맞게 정렬 */
+  
+}
+/* 캐릭터 이미지 */
+.character-filter.large .character-image {
+  width: 104px;
+  display: block;
+    height: auto;
+    object-fit: contain;
+    margin-left: auto; /* ✅ 이미지를 오른쪽으로 밀어 정렬 */
+}
+
+/* 텍스트 스타일 */
+.character-filter.large .character-info {
+  text-align: left;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    color: black;
+}
+
+.character-filter.large .char-name {
+  font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.character-filter.large .char-enName {
+  font-size: 16px;
+  color: #767676;
+}
+
+/* COMING SOON 상태 */
+.character-filter.large .character-card.disabled {
+  background-color: #F1F1F5;
+  border-color: #E5E5EC;
+  cursor: not-allowed;
+}
+.character-filter.large .character-card.disabled span{
+  color : #999999;
+}
+
+.character-filter.large .coming-soon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  width: 104px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+}
+
+/* 컨테이너 스타일 */
 .character-filter.medium{
     text-align: left;
     padding: 40px 20px;
     max-width: 1440px;
     margin: 0 auto;
+  }
+  .character-filter.medium h2{
+    font-size: 36px;
+    padding : 20px 0 20px 0;
+    margin: 0 0 20px 0;
   }
   
   /* 캐릭터 리스트 */
@@ -26,8 +141,7 @@
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    justify-content:space-around;
-    padding: 12px 0px 12px;
+    justify-content:center;
     border: 2px solid black;
     border-radius: 12px;
     overflow: hidden;
@@ -44,6 +158,10 @@
     box-shadow: 0 0 0 1px #111111;
 }
   
+  .character-filter.medium .character-image-wrapper {
+  position: relative; /* ✅ 내부 요소를 absolute로 배치할 수 있도록 설정 */
+  display: inline-block; /* 이미지 크기에 맞게 정렬 */
+  }
   /* 캐릭터 이미지 */
   .character-filter.medium .character-image {
     width: 100px;
@@ -56,7 +174,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-
+    padding: 4px;
   }
   
   .character-filter.medium .char-name {
@@ -75,18 +193,26 @@
     background-color: #f0f0f0;
     border-color: #ddd;
     cursor: not-allowed;
-    opacity: 0.6;
+  }
+  .character-filter.medium .character-card.disabled span{
+    color : #999999;
   }
   
   .character-filter.medium .coming-soon {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 0 10px 0 10px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
   
 /* 컨테이너 스타일 */
@@ -104,7 +230,10 @@
     justify-content: space-between; 
     align-items: center;
     width: 100%; 
-    margin: 0 auto;
+  }
+
+  .character-filter.small .character-list h2{
+    font-size: 18px;  
   }
 
   /* 개별 캐릭터 카드 */
@@ -116,11 +245,10 @@
     height: 84px;
     display: flex;
     flex-direction: column-reverse;
-    gap: 10px;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 13px;
+    gap: 4px;
     border: 2px solid black;
     border-radius: 12px;
     overflow: hidden;
@@ -137,9 +265,13 @@
     box-shadow: 0 0 0 1px #111111;
   }
 
+  .character-filter.small .character-image-wrapper {
+    position: relative; /* ✅ 내부 요소를 absolute로 배치할 수 있도록 설정 */
+    display: inline-block; /* 이미지 크기에 맞게 정렬 */
+  }
   /* 캐릭터 이미지 */
   .character-filter.small .character-image {
-    width: 44px;
+    width: 48px;
     height: auto;
     object-fit: contain;
   }
@@ -152,7 +284,7 @@
   }
 
   .character-filter.small .char-name {
-    font-size: 18px;
+    font-size: 11px;
     font-weight: medium;
   }
 
@@ -165,16 +297,25 @@
     background-color: #f0f0f0;
     border-color: #ddd;
     cursor: not-allowed;
-    opacity: 0.6;
+  }
+
+  .character-filter.small .character-card.disabled span{
+    color : #999999;
   }
 
   .character-filter.small .coming-soon {
     position: absolute;
     top: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 0 10px 0 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 4px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
