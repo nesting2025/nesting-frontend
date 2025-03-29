@@ -89,6 +89,7 @@ function App() {
       <Header />
       <CharacterFilter />
       <ProductRecommendation products={mockProducts} />
+      <ProductRecommendation products={mockProducts} />
       <GroupOrder />
       <WhyNesting />
       <Reviews reviews={mockReviews} />
