@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState, useEffect } from "react";
 import Banner from "./components/Banner";
 import Header from "./components/Header";
 import CharacterFilter from "./components/CharacterFilter";
@@ -75,7 +76,7 @@ const mockProducts = [
 const mockReviews = [
   {
     id: 1,
-    text: "배송도 빠르고 제품이 너무 예뻐요!",
+    text: "이쁘게 잘 왔어요 ! 포장도 깔끔하고 좋았습니당 실물 너무 귀여움🥹 재구매하러 올게요 🩷실물이 훠어얼씬 더 귀여워욤",
     image: "/assets/review1.jpg",
   },
   { id: 2, text: "기대했던 것보다 더 귀여워요!", image: "/assets/review2.jpg" },
@@ -84,10 +85,26 @@ const mockReviews = [
 ];
 
 function App() {
+  const [screenSize, setScreenSize] = useState(getScreenSize());
+
+  function getScreenSize() {
+    if (window.innerWidth < 768) return "small";
+    else if (window.innerWidth < 1439) return "medium";
+    else return "large";
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(getScreenSize());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div>
       <Header />
-      <CharacterFilter />
+      <CharacterFilter screenSize={screenSize}/>
       <ProductRecommendation products={mockProducts} />
       <ProductRecommendation products={mockProducts} />
       <GroupOrder />

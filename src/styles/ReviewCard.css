@@ -24,6 +24,12 @@
     text-align: left;
   }
   .review-text{
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 최대 3줄 */
+    -webkit-box-orient:vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 84px;
     color: white;
     margin: 0;
     font-size: 20px;
