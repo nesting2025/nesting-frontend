@@ -5,16 +5,69 @@
     max-width: 1440px;
     margin: 0 auto;
     position: relative;
+    
+  }
+  .title-and-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .title-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nesting-badge {
+    display: inline-block;
+    background-color: #FFD773;
+    color: #111111;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -2.5%;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 12px;    
   }
   
   /* 제목 스타일 (글씨 크기 증가) */
   .product-recommendation h2 {
-    font-size: 36px; 
+    margin: 8px 0 0 0;
+    font-size: 28px; 
+    line-height: 38px;
+    letter-spacing: -2.5%;
     font-weight: bold;
     text-align: left;
+    color: #111111;
   }
   
-
+  /* 캐러셀 버튼 (오른쪽 상단 배치) */
+  .carousel-buttons {
+    margin-top: 18px;
+    position: relative;
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* 캐러셀 버튼 스타일 */
+  .carousel-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .carousel-btn:hover {
+    background: black;
+    color: white;
+  }
     /* 캐러셀 컨테이너 */
     .carousel-container {
     display: flex;
@@ -24,13 +77,15 @@
     width: 100%; 
     margin: 0 auto;
     position: relative;
-    overflow: hidden; /* 넘치는 부분 숨김 */
+    overflow-x: auto;
   }
   
-  /* 상품 리스트 (가로 스크롤 가능하도록 설정) */
   .product-list {
-    display: flex;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 72px) / 4); 
     gap: 24px;
+    justify-content: space-between;
     overflow-x: auto;
     scroll-behavior: smooth;
     width: 100%;
@@ -43,31 +98,3 @@
     display: none;
   }
   
-  /* 캐러셀 버튼 (오른쪽 상단 배치) */
-.carousel-buttons {
-    position: absolute;
-    top: -40px;
-    right: 160px;
-    display: flex;
-    gap: 10px;
-  }
-  
-  /* 캐러셀 버튼 스타일 */
-  .carousel-btn {
-    background: white;
-    border: 2px solid black;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .carousel-btn:hover {
-    background: black;
-    color: white;
-  }

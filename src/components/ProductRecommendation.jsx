@@ -4,40 +4,58 @@ import "../styles/ProductRecommendation.css";
 
 const ProductRecommendation = ({ products }) => {
   const sliderRef = useRef(null);
+  const cardRef = useRef(null);
 
-  // 슬라이드 왼쪽 이동
   const slideLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollLeft -= 300;
+    if (sliderRef.current && cardRef.current) {
+      const cardWidth = cardRef.current.offsetWidth;
+      const gap = 24; // 카드 사이 간격
+      sliderRef.current.scrollLeft -= cardWidth + gap;
     }
   };
 
-  // 슬라이드 오른쪽 이동
   const slideRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollLeft += 300;
+    if (sliderRef.current && cardRef.current) {
+      const cardWidth = cardRef.current.offsetWidth;
+      const gap = 24;
+      sliderRef.current.scrollLeft += cardWidth + gap;
     }
   };
 
   return (
     <section className="product-recommendation">
-      <h2>네스터들을 위한 추천</h2>
+      <div class="title-and-buttons">
+        <div class="title-block">
+          <span class="nesting-badge">네스팅 PICK</span>
+          <h2>언제든 내 손 안에🤚 데일리 굿즈</h2>
+        </div>
 
-      {/* 오른쪽 정렬된 버튼 */}
-      <div className="carousel-buttons">
-        <button className="carousel-btn left" onClick={slideLeft}>
-          &lt;
-        </button>
-        <button className="carousel-btn right" onClick={slideRight}>
-          &gt;
-        </button>
+        <div className="carousel-buttons">
+          <div>
+            <img
+              src="/assets/round/button-left.svg"
+              alt="slide to left"
+              className="carousel-btn left"
+              onClick={slideLeft}
+            />
+          </div>
+          <div>
+            <img
+              src="/assets/round/button-right.svg"
+              alt="slide to right"
+              className="carousel-btn right"
+              onClick={slideRight}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* 상품 리스트 */}
       <div className="carousel-container">
         <div className="product-list" ref={sliderRef}>
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <div ref={cardRef} key={product.id}>
+              <ProductCard product={product} />
+            </div>
           ))}
         </div>
       </div>
