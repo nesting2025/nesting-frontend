@@ -1,0 +1,126 @@
+.group-order-banner {
+  position: relative;
+  background-color: #F7F7FB;
+  padding: 60px 160px;
+  text-align: left;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .group-order-banner {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+  }
+}
+
+.group-order-content {
+  max-width: 600px;
+}
+
+.sub-text {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin: 0;
+}
+
+.main-text {
+  font-size: 36px;
+  line-height: 48px;
+  font-weight: 600;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin-top: 20px;
+  margin: 20px 0 0 0;
+}
+
+.group-order-btn {
+  background: white;
+  border: 2px solid black;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.group-order-btn:hover {
+  background: black;
+  color: white;
+}
+@media (max-width: 768px) {
+  .group-order-btn {
+    margin-top: 20px;
+  }
+}
+
+.pattern {
+  position: absolute;
+  opacity: 0.8;
+  width: 50px;
+  height: auto;
+}
+@media (max-width: 768px) {
+  .pattern {
+    width: 30px;
+  }
+}
+
+.green-circle {
+  width: 60px;
+  top: 8%;
+  left: 4%;
+  transform: rotate(0deg);
+}
+.green-circle.bottom {
+  width: 60px;
+  top: 80%;
+  left: 23%;
+  transform: rotate(0deg);
+}
+.green-circle.right {
+  width: 60px;
+  top: 53%;
+  left: 97%;
+  transform: rotate(0deg);
+}
+
+.red-triangle {
+  width: 40px;
+  top: 60%;
+  left: 0%;
+  transform: rotate(270deg);
+}
+.red-triangle.center {
+  width: 40px;
+  top: 20%;
+  left: 49%;
+  transform: rotate(0deg);
+}
+.red-triangle.right {
+  width: 40px;
+  top: 87%;
+  left: 60%;
+  transform: rotate(270deg);
+}
+
+.yellow-square {
+  width: 50px;
+  top: 40%;
+  left: 40%;
+  transform: rotate(0deg);
+}
+.yellow-square.right {
+  width: 50px;
+  top: 2%;
+  left: 82%;
+  transform: rotate(0deg);
+}/*# sourceMappingURL=GroupOrder.css.map */
