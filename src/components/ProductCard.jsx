@@ -6,7 +6,7 @@ const ProductCard = ({ product }) => {
       <img src={product.image} alt={product.name} className="product-image" />
 
       <div className="product-info">
-        <p className="product-name">{product.name}</p>
+        <div className="product-name">{product.name}</div>
         <button className="cart-btn">
           <img
             src="/assets/size=32, type=cart.svg"

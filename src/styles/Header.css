@@ -3,63 +3,75 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  max-width: 1440px; 
-  height: 90px;
-  padding: 0 max(5vw, 160px); /* ✅ 화면 크기에 따라 자동 조정되는 패딩 */
+  width: 100%; /* 뷰포트 너비에 맞춤 */
+  height: auto;
+  min-height: 90px;
+  padding: 15px clamp(20px, 5vw, 160px); /* 반응형 패딩 */
   background-color: white;
   border-bottom: 2px solid black;
-  position: sticky; /* 스티키 헤더 */
+  position: sticky;
   top: 0;
   z-index: 1000;
-  margin: 0; 
-  overflow: hidden; 
+  box-sizing: border-box; /* 패딩 포함 전체 너비 계산 */
+  overflow-x: hidden; /* 수평 스크롤 방지 */
 }
-/* 네비게이션 메뉴 (왼쪽 정렬) */
+
+/* body나 html에도 추가 권장 */
+body, html {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* 네비게이션 메뉴 */
 .navbar {
   display: flex;
-  gap: 108px;
-  font-size: 24px;
-  font-weight: medium;
-  text-transform: uppercase;
-  height: 32px; /* ✅ 네비게이션 높이 설정 */
+  flex-wrap: wrap; /* 작은 화면에서 줄바꿈 허용 */
+  justify-content: flex-start;
   align-items: center;
-  margin: 29px 0; /* ✅ 위아래 마진 적용 */
+  gap: clamp(30px, 6vw, 108px); /* 반응형 간격 */
+  font-size: clamp(16px, 3vw, 24px); /* 반응형 폰트 크기 */
+  font-weight: 500;
+  text-transform: uppercase;
+  width: 100%; /* 전체 너비 사용 */
 }
 
-/* 네비게이션 링크 스타일 (밑줄 제거) */
 .navbar a {
-  text-decoration: none; /* ✅ 밑줄 제거 */
-  color: black; /* 기본 색상 유지 */
+  text-decoration: none;
+  color: black;
   transition: color 0.2s ease-in-out;
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
 }
 
-/* 로고 (정중앙 배치) */
+/* 로고 */
 .logo {
-  position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
+  position: absolute;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
+  max-width: 200px; /* 최대 너비 제한 */
+  width: clamp(100px, 20vw, 200px); /* 반응형 로고 크기 */
 }
 
 .logo img {
-  height: 50px;
+  width: 100%;
+  height: auto;
+  max-height: 70px;
 }
 
-/* 아이콘 그룹 (오른쪽 정렬) */
+/* 아이콘 그룹 */
 .icons {
   display: flex;
   align-items: center;
-  gap: 108px;
-  margin: 21px; /* ✅ 위아래 마진 적용 */
-  margin: right 160px;
+  gap: clamp(30px, 6vw, 108px); /* 반응형 간격 */
+  width: auto; /* 내용에 맞게 조정 */
 }
 
-/* 아이콘 공통 스타일 */
 .icon {
-  width: 48px;
-  height: 48px;
+  width: clamp(32px, 6vw, 48px); /* 반응형 아이콘 크기 */
+  height: clamp(32px, 6vw, 48px);
   cursor: pointer;
 }
 
@@ -76,10 +88,30 @@
   right: -10px;
   background-color: #ffcc00;
   color: black;
-  font-size: 12px;
+  font-size: clamp(10px, 2vw, 12px);
   font-weight: bold;
   padding: 2px 6px;
   border-radius: 50%;
   font-family: "Pretendard", sans-serif;
 }
 
+/* 작은 화면에서의 레이아웃 조정 */
+@media screen and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 20px;
+  }
+
+  .navbar, .icons {
+    width: 100%;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  .logo {
+    position: static;
+    transform: none;
+    margin-bottom: 15px;
+  }
+}
