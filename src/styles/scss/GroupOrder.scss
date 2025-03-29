@@ -1,0 +1,113 @@
+@import "./colors"; 
+@import "./typography"; 
+
+.group-order-banner {
+    position: relative;
+    @include bg-color("bg-weak");
+    padding: 60px 160px;
+    text-align: left;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+    }
+}
+
+// 텍스트 컨텐츠
+.group-order-content {
+    max-width: 600px;
+}
+
+.sub-text {
+    @include font-style("headline3");
+    @include text-color();
+    margin: 0
+}
+
+.main-text {
+    @include font-style("display4");
+    @include text-color();
+    margin-top: 20px;
+    margin: 20px 0 0 0;
+}
+
+// 버튼 스타일
+.group-order-btn {
+    background: white;
+    border: 2px solid black;
+    border-radius: 12px;
+    padding: 12px 24px;
+    @include font-style("headline4");
+    @include text-color();
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background: black;
+        color: white;
+    }
+
+    @media (max-width: 768px) {
+        margin-top: 20px;
+    }
+}
+
+// 배경 패턴 (SVG 파일)
+.pattern {
+    position: absolute;
+    opacity: 0.8;
+    width: 50px;
+    height: auto;
+
+    @media (max-width: 768px) {
+        width: 30px;
+    }
+}
+
+// 공통 스타일 믹스인
+@mixin shape-style($size, $top, $left, $rotate: 0deg) {
+    width: $size;
+    top: $top;
+    left: $left;
+    transform: rotate($rotate);
+}
+
+// 초록색 원
+.green-circle {
+    @include shape-style(60px, 8%, 4%);
+
+    &.bottom {
+        @include shape-style(60px, 80%, 23%);
+    }
+
+    &.right {
+        @include shape-style(60px, 53%, 97%);
+    }
+}
+
+// 빨간색 삼각형
+.red-triangle {
+    @include shape-style(40px, 60%, 0%, 270deg);
+
+    &.center {
+        @include shape-style(40px, 20%, 49%);
+    }
+
+    &.right {
+        @include shape-style(40px, 87%, 60%, 270deg);
+    }
+}
+
+// 노란색 사각형
+.yellow-square {
+    @include shape-style(50px, 40%, 40%);
+
+    &.right {
+        @include shape-style(50px, 2%, 82%);
+    }
+}

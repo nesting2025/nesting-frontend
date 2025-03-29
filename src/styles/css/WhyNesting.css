@@ -1,0 +1,139 @@
+@charset "UTF-8";
+/* 섹션 스타일 */
+.why-nesting {
+  margin-top: 60px;
+  background-color: #FFE788;
+  padding: 60px 5%;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 768px) {
+  .why-nesting {
+    padding: 40px 20px;
+  }
+}
+
+/* 섹션 제목 */
+.section-title {
+  font-size: 28px;
+  line-height: 38px;
+  font-weight: 600;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin-bottom: 40px;
+  text-align: left;
+  margin-left: 40px;
+}
+
+.why-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  border: 2px solid black;
+  box-sizing: border-box;
+  gap: 80px;
+}
+@media (max-width: 1024px) {
+  .why-card {
+    padding: 30px;
+  }
+}
+@media (max-width: 768px) {
+  .why-card {
+    flex-direction: column;
+    padding: 20px;
+  }
+}
+
+/* 개별 항목 */
+.why-item {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+  /* 강조 텍스트 */
+}
+.why-item .highlight-text {
+  font-size: 108px;
+  color: #111111;
+  width: 100%;
+  max-width: 432px;
+  text-align: left;
+  align-items: flex-start;
+  flex: none;
+  margin: 0;
+}
+.why-item .highlight-text span {
+  font-size: 36px;
+  line-height: 48px;
+  font-weight: 600;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+@media (max-width: 1024px) {
+  .why-item .highlight-text {
+    min-width: unset;
+  }
+}
+@media (max-width: 768px) {
+  .why-item .highlight-text {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
+.why-item h4 {
+  font-size: 28px;
+  line-height: 38px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin-top: 60px;
+  margin-bottom: 12px;
+}
+.why-item p {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 600;
+  letter-spacing: -2.5%;
+  color: #505050;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .why-item p {
+    padding-right: 0;
+  }
+}
+@media (max-width: 768px) {
+  .why-item {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+/* 버튼 스타일 */
+.why-btn {
+  background: transparent;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 40px;
+}
+.why-btn:hover {
+  background: black;
+  color: white;
+}/*# sourceMappingURL=WhyNesting.css.map */

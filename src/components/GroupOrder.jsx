@@ -1,4 +1,4 @@
-import "../styles/GroupOrder.css";
+import "../styles/css/GroupOrder.css";
 
 const GroupOrder = () => {
   return (
