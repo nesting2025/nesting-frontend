@@ -5,7 +5,11 @@ const characters = [
     id: "hangyodong",
     name: "한교동",
     enName: "HANGYODONG",
-    image: "/assets/character=hangyodong, status=default.png",
+    image: {
+      large : "/assets/character=hangyodong, status=default.png",
+      medium : "/assets/character=hangyodong, status=small.png",
+      small : "/assets/character=hangyodong, status=small.png"
+    },
     color: "#EFFFFF",
     comingSoon: false,
   },
@@ -13,7 +17,11 @@ const characters = [
     id: "shinchang",
     name: "짱구",
     enName: "SHINCHAN",
-    image: "/assets/character=shinchan, status=default.png",
+    image: {
+      large : "/assets/character=shinchan, status=default.png",
+      medium : "/assets/character=shinchan, status=small.png",
+      small : "/assets/character=shinchan, status=small.png"
+    },
     color: "#FFFDEF",
     comingSoon: false,
   },
@@ -21,7 +29,11 @@ const characters = [
     id: "hellokitty",
     name: "헬로키티",
     enName: "HELLO KITTY",
-    image: "/assets/character=hellokitty, status=default.png",
+    image: {
+      large : "/assets/character=hellokitty, status=default.png",
+      medium : "/assets/character=hellokitty, status=small.png",
+      small : "/assets/character=hellokitty, status=small.png"
+    },
     color: "#FFEFF3",
     comingSoon: true,
   },
@@ -29,15 +41,19 @@ const characters = [
     id: "kuromi",
     name: "쿠로미",
     enName: "KUROMI",
-    image: "/assets/character=kuromi, status=default.png",
+    image: {
+      large: "/assets/character=kuromi, status=default.png",
+      medium: "/assets/character=kuromi, status=small.png",
+      small: "/assets/character=kuromi, status=small.png"
+    },
     color: "F6EFFF",
     comingSoon: true,
   },
 ];
 
-const CharacterFilter = () => {
+const CharacterFilter = ({screenSize}) => {
   return (
-    <div className="character-filter">
+    <div className={`character-filter ${screenSize}`}>
       <h2>캐릭터별로 둘러볼까요?</h2>
       <div className="character-list">
         {characters.map((char) => (
@@ -50,7 +66,7 @@ const CharacterFilter = () => {
               <span className="char-name">{char.name}</span>
               <span className="char-enName">{char.enName}</span>
             </div>
-            <img src={char.image} alt={char.name} className="character-image" />
+            <img src={char.image[screenSize]} alt={char.name} className="character-image" />
 
             {char.comingSoon && <div className="coming-soon">coming soon</div>}
           </div>

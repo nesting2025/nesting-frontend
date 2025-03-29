@@ -1,4 +1,5 @@
 import "./App.css";
+import { useState, useEffect } from "react";
 import Banner from "./components/Banner";
 import Header from "./components/Header";
 import CharacterFilter from "./components/CharacterFilter";
@@ -93,11 +94,26 @@ const mockReviews = [
 ];
 
 function App() {
+  const [screenSize, setScreenSize] = useState(getScreenSize());
+
+  function getScreenSize() {
+    if (window.innerWidth < 768) return "small";
+    else if (window.innerWidth < 1439) return "medium";
+    else return "large";
+  }
+
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenSize(getScreenSize());
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <div>
-      <Banner />
       <Header />
-      <CharacterFilter />
+      <CharacterFilter screenSize={screenSize}/>
       <ProductRecommendation products={mockProducts} />
       <GroupOrder />
       <WhyNesting />
