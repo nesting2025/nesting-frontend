@@ -1,0 +1,102 @@
+@import "./colors"; 
+@import "./typography"; 
+
+
+/* 추천 섹션 스타일 */
+.product-recommendation {
+    text-align: center;
+    padding: 40px 160px;
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    
+  }
+  .title-and-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .title-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nesting-badge {
+    display: inline-block;
+    background-color: #FFD773;
+    @include font-style("title4");
+    @include text-color("text-main");
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -2.5%;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 12px;    
+  }
+  
+  /* 제목 스타일 (글씨 크기 증가) */
+  .product-recommendation h2 {
+    @include font-style("display6");
+    @include text-color("text-main");
+    margin: 8px 0 0 0;
+    text-align: left;
+  }
+  
+  /* 캐러셀 버튼 (오른쪽 상단 배치) */
+  .carousel-buttons {
+    margin-top: 18px;
+    position: relative;
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* 캐러셀 버튼 스타일 */
+  .carousel-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .carousel-btn:hover {
+    background: black;
+    color: white;
+  }
+    /* 캐러셀 컨테이너 */
+    .carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    max-width: 1440px;
+    width: 100%; 
+    margin: 0 auto;
+    position: relative;
+    overflow-x: auto;
+  }
+  
+  .product-list {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 72px) / 4); 
+    gap: 24px;
+    justify-content: space-between;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    width: 100%;
+    max-width: 1440px;
+    white-space: nowrap;
+  }
+  
+  /* 스크롤 바 숨기기 */
+  .product-list::-webkit-scrollbar {
+    display: none;
+  }
+  

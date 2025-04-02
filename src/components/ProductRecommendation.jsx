@@ -2,7 +2,7 @@ import { useRef } from "react";
 import ProductCard from "./ProductCard";
 import "../styles/ProductRecommendation.css";
 
-const ProductRecommendation = ({ products }) => {
+const ProductRecommendation = ({ products, screenSize }) => {
   const sliderRef = useRef(null);
   const cardRef = useRef(null);
 
