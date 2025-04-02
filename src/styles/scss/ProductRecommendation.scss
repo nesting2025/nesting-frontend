@@ -5,13 +5,24 @@
 /* 추천 섹션 스타일 */
 .product-recommendation {
     text-align: center;
-    padding: 40px 160px;
     max-width: 1440px;
     margin: 0 auto;
     position: relative;
-    
+
+    &.large {
+      padding: 40px 160px;
+    }
+
+    &.medium{
+      padding: 20px 28px;
+    }
+
+    &.small{
+      padding: 20px 28px;
+    }
   }
-  .title-and-buttons .large {
+
+  .title-and-buttons {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -19,17 +30,11 @@
     margin-bottom: 20px;
   }
 
-  .title-and-buttons .medium {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
-  }
   .title-block {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-left: 8px;
   }
   .nesting-badge {
     display: inline-block;
@@ -93,16 +98,23 @@
   .product-list {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: calc((100% - 72px) / 4); 
     gap: 24px;
-    justify-content: space-between;
     overflow-x: auto;
     scroll-behavior: smooth;
     width: 100%;
     max-width: 1440px;
     white-space: nowrap;
+
+    &.large {
+      justify-content: space-between;
+      grid-auto-columns: calc((100% - 72px) / 4);
+    }
+
+    &.medium, small {
+      justify-content: flex-start;
+      grid-auto-columns: auto;
+    }
   }
-  
   /* 스크롤 바 숨기기 */
   .product-list::-webkit-scrollbar {
     display: none;

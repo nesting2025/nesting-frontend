@@ -19,6 +19,15 @@
     align-items: flex-start;
     justify-content: space-between;
 
+    &.medium{
+      width: 256px; /* 패딩, 보더라인 뺀 값 */
+      height: auto;
+    }
+
+    &.small {
+      width: 116px;
+      height: auto;
+    }
 }
 
 

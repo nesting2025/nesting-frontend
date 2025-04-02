@@ -1,7 +1,7 @@
-import "../styles/ProductCard.css";
+import "../styles/css/ProductCard.css";
 import React, { useState } from "react";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, screenSize }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLikeClick = (e) => {
@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
     setIsLiked(!isLiked);
   };
   return (
-    <div className="product-card">
+    <div className={`product-card ${screenSize}`}>
       <div className="image-container">
         <img src={product.image} alt={product.name} className="product-image" />
         <div className="like-btn" onClick={handleLikeClick}>
