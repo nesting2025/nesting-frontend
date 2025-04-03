@@ -107,7 +107,7 @@ function App() {
       <CharacterFilter screenSize={screenSize}/>
       <ProductRecommendation products={mockProducts} />
       <ProductRecommendation products={mockProducts} />
-      <GroupOrder />
+      <GroupOrder screenSize={screenSize} />
       <WhyNesting />
       <Reviews reviews={mockReviews} />
       <Footer />
