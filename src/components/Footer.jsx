@@ -1,16 +1,25 @@
 import "../styles/css/Footer.css";
+import Divider from "./Divider";
 
-const Footer = () => {
+const Footer = ({ screenSize }) => {
   return (
-    <footer className="footer">
+    <footer className={`footer ${screenSize}`}>
       <div className="nesting-info">
         <img className="img-banner" src="assets/banner.png" />
-        <p>서비스 이용 약관 <span>|</span> 개인정보처리방침 <span>|</span> 이용 안내</p>
-        <p>
-          사업자등록번호: 102-18-66318 <span>|</span> 통신판매업신고번호: 2024-서울성북-0983 <span>|</span> 고객센터 : 070-7954-4117
+        <p className="goto-info">
+          서비스 이용 약관 <span> | </span>
+          개인정보처리방침 <span> | </span>
+          이용 안내
         </p>
-        <p>대표: 남윤수 <span>|</span> @ Busyboyshop</p>
-        <p>© 2025 NESTING</p>
+        <p>
+          사업자등록번호: 102-18-66318 <Divider screenSize={screenSize} /> 
+          통신판매업신고번호: 2024-서울성북-0983 <Divider screenSize={screenSize} /> 
+          고객센터 : 070-7954-4117
+        </p>
+        <p>
+          대표: 남윤수 <Divider screenSize={screenSize} /> 
+          @ Busyboyshop
+        </p>
       </div>
       <div className="social-icons">
         <img src="assets/social/naver_shopping.svg" />
