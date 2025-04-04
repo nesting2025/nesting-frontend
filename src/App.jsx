@@ -108,7 +108,7 @@ function App() {
       <ProductRecommendation products={mockProducts} />
       <ProductRecommendation products={mockProducts} />
       <GroupOrder screenSize={screenSize} />
-      <WhyNesting />
+      <WhyNesting screenSize={screenSize} />
       <Reviews reviews={mockReviews} />
       <Footer />
 

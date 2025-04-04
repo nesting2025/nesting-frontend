@@ -83,6 +83,7 @@
   all: unset;
   cursor: pointer;
   background: url("/assets/button/button_right_default.svg");
+  background-size: contain;
   width: 60px;
   height: 60px;
   z-index: 10;
@@ -90,11 +91,7 @@
 .group-order-img-btn:hover {
   background: url("/assets/button/button_right_pressed.svg");
 }
-.group-order-img-btn.medium img {
-  width: 60px;
-  height: 60px;
-}
-.group-order-img-btn.small img {
+.group-order-img-btn.small {
   width: 32px;
   height: 32px;
 }
