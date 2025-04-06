@@ -1,12 +1,12 @@
 import "../styles/css/WhyNesting.css";
 
-const WhyNesting = () => {
+const WhyNesting = ({ screenSize }) => {
   return (
     <section className="why-nesting">
-      <h2 className="section-title">네스팅은 뭐가 특별할까요?</h2>
+      <h2 className={`section-title ${screenSize}`}>네스팅은 뭐가 특별할까요?</h2>
 
-      <div className="why-card">
-        <div className="why-item">
+      <div className={`why-card ${screenSize}`}>
+        <div className={`why-item ${screenSize}`}>
           <h3 className="highlight-text">
             88<span> %</span>
           </h3>
@@ -18,7 +18,7 @@ const WhyNesting = () => {
             </p>
           </div>
         </div>
-        <div className="why-item">
+        <div className={`why-item ${screenSize}`}>
           <h3 className="highlight-text">
             2<span> step</span>
           </h3>
@@ -30,7 +30,7 @@ const WhyNesting = () => {
             </p>
           </div>
         </div>
-        <div className="why-item">
+        <div className={`why-item ${screenSize}`}>
           <h3 className="highlight-text">
             4.9<span> 점</span>
           </h3>
@@ -43,7 +43,7 @@ const WhyNesting = () => {
           </div>
         </div>
       </div>
-      <button className="why-btn">네스팅에 대해 더 알고 싶으신가요?</button>
+      <button className={`why-btn ${screenSize}`}>네스팅에 대해 더 알고 싶으신가요?</button>
     </section>
   );
 };

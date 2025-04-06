@@ -10,23 +10,32 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+
+    @media (max-width: 1439px) {
+        padding: 60px 40px;
+    }
 
     @media (max-width: 768px) {
-        flex-direction: column;
-        text-align: center;
-        padding: 40px 20px;
+        padding: 20px 20px
     }
 }
 
 // 텍스트 컨텐츠
 .group-order-content {
     max-width: 600px;
+    z-index: 10;
 }
 
 .sub-text {
     @include font-style("headline3");
     @include text-color();
-    margin: 0
+    margin: 0;
+    
+
+    &.small {
+        @include font-style("body4");
+    }
 }
 
 .main-text {
@@ -34,6 +43,10 @@
     @include text-color();
     margin-top: 20px;
     margin: 20px 0 0 0;
+
+    &.small {
+        @include font-style("title4");
+    }
 }
 
 // 버튼 스타일
@@ -54,6 +67,25 @@
 
     @media (max-width: 768px) {
         margin-top: 20px;
+    }
+}
+
+.group-order-img-btn {
+    all: unset;
+    cursor: pointer;
+    background: url("/assets/button/button_right_default.svg");
+    background-size: contain;
+    width: 60px;
+    height: 60px;
+    z-index: 10;
+    
+    &:hover {
+        background: url("/assets/button/button_right_pressed.svg");
+    }
+
+    &.small {
+        width: 32px;
+        height: 32px;
     }
 }
 

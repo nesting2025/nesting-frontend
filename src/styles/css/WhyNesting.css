@@ -23,7 +23,14 @@
   color: #111111;
   margin-bottom: 40px;
   text-align: left;
-  margin-left: 40px;
+  margin-left: 8px;
+}
+.section-title.small {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  margin-bottom: 20px;
 }
 
 .why-card {
@@ -31,31 +38,27 @@
   border-radius: 12px;
   padding: 40px 32px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
   border: 2px solid black;
   box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 80px;
 }
-@media (max-width: 1024px) {
-  .why-card {
-    padding: 30px;
-  }
+.why-card.medium {
+  grid-template-columns: repeat(2, 1fr);
 }
-@media (max-width: 768px) {
-  .why-card {
-    flex-direction: column;
-    padding: 20px;
-  }
+.why-card.small {
+  grid-template-columns: 1fr;
+  padding: 20px;
+  gap: 40px;
 }
 
 /* 개별 항목 */
 .why-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex: 1;
   flex-direction: column;
   justify-content: flex-start;
@@ -79,17 +82,6 @@
   letter-spacing: -2.5%;
   color: #111111;
 }
-@media (max-width: 1024px) {
-  .why-item .highlight-text {
-    min-width: unset;
-  }
-}
-@media (max-width: 768px) {
-  .why-item .highlight-text {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-}
 .why-item h4 {
   font-size: 28px;
   line-height: 38px;
@@ -107,16 +99,33 @@
   color: #505050;
   margin: 0;
 }
-@media (max-width: 768px) {
-  .why-item p {
-    padding-right: 0;
-  }
+.why-item.medium h4 {
+  margin-top: 30px;
 }
-@media (max-width: 768px) {
-  .why-item {
-    width: 100%;
-    margin-top: 20px;
-  }
+.why-item.small h4 {
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+}
+.why-item.small p {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+}
+.why-item.small .highlight-text {
+  font-size: 28px;
+  line-height: 38px;
+  font-weight: 600;
+  letter-spacing: -2.5%;
+}
+.why-item.small .highlight-text span {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
 }
 
 /* 버튼 스타일 */
@@ -136,4 +145,11 @@
 .why-btn:hover {
   background: black;
   color: white;
+}
+.why-btn.small {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  margin-top: 20px;
 }/*# sourceMappingURL=WhyNesting.css.map */

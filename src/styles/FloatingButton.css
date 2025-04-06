@@ -8,6 +8,7 @@
     cursor: pointer; 
     border: none;
     cursor: pointer;
+    z-index: 20;
 }
 
 .goup-btn {
