@@ -103,7 +103,7 @@ function App() {
   }, []);
   return (
     <div>
-      <Header />
+      <Header screenSize={screenSize}/>
       <CharacterFilter screenSize={screenSize}/>
       <ProductRecommendation products={mockProducts} />
       <ProductRecommendation products={mockProducts} />

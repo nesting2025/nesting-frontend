@@ -2,7 +2,7 @@
 @import "./colors";
 
 /* 헤더 전체 스타일 */
-.header {
+.header.large {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -21,7 +21,7 @@
   }
   
   /* 네비게이션 메뉴 (왼쪽 정렬) */
-  .navbar {
+  .header.large .navbar {
     display: flex;
     gap: 60px;
     @include font-style("title4");
@@ -30,17 +30,20 @@
     height: 32px; 
     align-items: center;
     margin: 29px 0;
+
+    img {
+      display: none;
+    }
+    a {
+      text-decoration: none; /* ✅ 밑줄 제거 */
+      color: black; /* 기본 색상 유지 */
+      transition: color 0.2s ease-in-out;
+    }
   }
   
-  /* 네비게이션 링크 스타일 (밑줄 제거) */
-  .navbar a {
-    text-decoration: none; /* ✅ 밑줄 제거 */
-    color: black; /* 기본 색상 유지 */
-    transition: color 0.2s ease-in-out;
-  }
   
   /* 로고 (정중앙 배치) */
-  .logo {
+  .header.large .logo {
     position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
     left: 50%;
     transform: translateX(-50%);
@@ -53,7 +56,7 @@
   }
   
   /* 아이콘 그룹 (오른쪽 정렬) */
-  .icons {
+  .header.large .icons {
     display: flex;
     align-items: center;
     gap: 60px;
@@ -61,14 +64,14 @@
   }
   
   /* 아이콘 공통 스타일 */
-  .icon {
+  .header.large .icon {
     width: 48px;
     height: 48px;
     cursor: pointer;
   }
   
   /* 장바구니 아이콘 + 숫자 배지 */
-  .cart-icon {
+  .header.large .cart-icon {
     position: relative;
     display: flex;
     align-items: center;
@@ -83,6 +86,188 @@
       padding: 2px 6px;
       border-radius: 50%;
       font-family: "Pretendard", sans-serif;
+    }
+  }
+
+  .header.medium {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    height: 90px;
+    padding: 0 20px;
+    background-color: white;
+    border-bottom: 2px solid black;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  /* 네비게이션 메뉴 (왼쪽 정렬) */
+  .header.medium .navbar {
+    display: flex;
+    gap: 60px;
+    @include font-style("title4");
+    @include text-color();
+    text-transform: uppercase;
+    height: 32px; 
+    align-items: center;
+    margin: 29px 0;
+    
+    a {
+      display: none;
+    }
+  }
+  
+  /* 네비게이션 링크 스타일 (밑줄 제거) */
+  .header.medium .navbar a {
+    text-decoration: none; /* ✅ 밑줄 제거 */
+    color: black; /* 기본 색상 유지 */
+    transition: color 0.2s ease-in-out;
+  }
+  
+  /* 로고 (정중앙 배치) */
+  .header.medium .logo {
+    position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+  
+    img {
+      height: 50px;
+    }
+  }
+  
+  /* 아이콘 그룹 (오른쪽 정렬) */
+  .header.medium .icons {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    margin: 21px 20px;
+    .user-icon {
+      display: none;
+    }
+  }
+  
+  /* 아이콘 공통 스타일 */
+  .header.medium .icon {
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+
+    
+  }
+  
+  /* 장바구니 아이콘 + 숫자 배지 */
+  .header.medium .cart-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+  
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -10px;
+      background-color: #ffcc00;
+      @include text-color();
+      @include font-style("caption2");
+      padding: 2px 6px;
+      border-radius: 50%;
+      font-family: "Pretendard", sans-serif;
+    }
+  }
+
+  .header.small {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+    height: 48px;
+    padding: 0 20px;
+    background-color: white;
+    border-bottom: 2px solid black;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin: 0;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  /* 네비게이션 메뉴 (왼쪽 정렬) */
+  .header.small .navbar {
+    display: flex;
+    gap: 60px;
+    @include font-style("title4");
+    @include text-color();
+    text-transform: uppercase;
+    height: 32px; 
+    align-items: center;
+    margin: 29px 0;
+    
+    a {
+      display: none;
+    }
+  }
+  
+  /* 네비게이션 링크 스타일 (밑줄 제거) */
+  .header.small .navbar a {
+    text-decoration: none; /* ✅ 밑줄 제거 */
+    color: black; /* 기본 색상 유지 */
+    transition: color 0.2s ease-in-out;
+  }
+  
+  /* 로고 (정중앙 배치) */
+  .header.small .logo {
+    position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+  
+    img {
+      height: 50px;
+    }
+  }
+  
+  /* 아이콘 그룹 (오른쪽 정렬) */
+  .header.small .icons {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    .search-icon, .user-icon {
+      display: none;
+    }
+  }
+
+  
+  /* 아이콘 공통 스타일 */
+  .header.small .icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+  }
+  /* 장바구니 아이콘 + 숫자 배지 */
+  .header.small .cart-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+  
+    .cart-badge {
+      position: absolute;
+      top: 4px;
+      left:17px;
+      width: 8px;
+      height: 8px;
+      background-color: #ffcc00;
+      border-radius: 50%;
     }
   }
   
