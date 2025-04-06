@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import ProductCard from "./ProductCard";
-import "../styles/ProductRecommendation.css";
+import "../styles/css/ProductRecommendation.css";
 
-const ProductRecommendation = ({ products }) => {
+const ProductRecommendation = ({ products, screenSize }) => {
   const sliderRef = useRef(null);
   const cardRef = useRef(null);
 
@@ -23,38 +23,39 @@ const ProductRecommendation = ({ products }) => {
   };
 
   return (
-    <section className="product-recommendation">
-      <div class="title-and-buttons">
+    <section className={`product-recommendation ${screenSize}`}>
+      <div class={`title-and-buttons ${screenSize}`}>
         <div class="title-block">
           <span class="nesting-badge">네스팅 PICK</span>
           <h2>언제든 내 손 안에🤚 데일리 굿즈</h2>
         </div>
-
-        <div className="carousel-buttons">
-          <div>
-            <img
-              src="/assets/round/button-left.svg"
-              alt="slide to left"
-              className="carousel-btn left"
-              onClick={slideLeft}
-            />
+        {screenSize === "large" && (
+          <div className="carousel-buttons">
+            <div>
+              <img
+                src="/assets/round/button-left.svg"
+                alt="slide to left"
+                className="carousel-btn left"
+                onClick={slideLeft}
+              />
+            </div>
+            <div>
+              <img
+                src="/assets/round/button-right.svg"
+                alt="slide to right"
+                className="carousel-btn right"
+                onClick={slideRight}
+              />
+            </div>
           </div>
-          <div>
-            <img
-              src="/assets/round/button-right.svg"
-              alt="slide to right"
-              className="carousel-btn right"
-              onClick={slideRight}
-            />
-          </div>
-        </div>
+        )}
       </div>
 
-      <div className="carousel-container">
-        <div className="product-list" ref={sliderRef}>
+      <div className={`carousel-container`}>
+        <div className={`product-list ${screenSize}`} ref={sliderRef}>
           {products.map((product) => (
             <div ref={cardRef} key={product.id}>
-              <ProductCard product={product} />
+              <ProductCard product={product} screenSize={screenSize} />
             </div>
           ))}
         </div>
