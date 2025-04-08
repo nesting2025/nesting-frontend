@@ -103,10 +103,10 @@ function App() {
   }, []);
   return (
     <div>
-      <Header />
-      <CharacterFilter screenSize={screenSize}/>
-      <ProductRecommendation products={mockProducts} />
-      <ProductRecommendation products={mockProducts} />
+      <Header screenSize={screenSize}/>
+      <CharacterFilter screenSize={screenSize} />
+      <ProductRecommendation products={mockProducts} screenSize={screenSize} />
+      <ProductRecommendation products={mockProducts} screenSize={screenSize} />
       <GroupOrder screenSize={screenSize} />
       <WhyNesting screenSize={screenSize} />
       <Reviews reviews={mockReviews} />

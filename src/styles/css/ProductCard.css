@@ -17,6 +17,14 @@
   align-items: flex-start;
   justify-content: space-between;
 }
+.product-card.medium {
+  width: 256px; /* 패딩, 보더라인 뺀 값 */
+  height: auto;
+}
+.product-card.small {
+  width: 116px;
+  height: auto;
+}
 
 .product-card .image-container {
   position: relative;
@@ -54,7 +62,6 @@
   justify-content: center;
   transition: background 0.3s ease-in-out;
 }
-
 
 .like_btn:active {
   box-shadow: 0 0 0 1px #111111;

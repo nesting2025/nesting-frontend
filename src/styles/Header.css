@@ -1,5 +1,5 @@
 /* 헤더 전체 스타일 */
-.header {
+.header.large{
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,16 +16,9 @@
   overflow-x: hidden; /* 수평 스크롤 방지 */
 }
 
-/* body나 html에도 추가 권장 */
-body, html {
-  max-width: 100%;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
-}
 
 /* 네비게이션 메뉴 */
-.navbar {
+.header.large .navbar {
   display: flex;
   flex-wrap: wrap; /* 작은 화면에서 줄바꿈 허용 */
   justify-content: flex-start;
@@ -37,7 +30,7 @@ body, html {
   width: 100%; /* 전체 너비 사용 */
 }
 
-.navbar a {
+.header.large .navbar a {
   text-decoration: none;
   color: black;
   transition: color 0.2s ease-in-out;
@@ -45,7 +38,7 @@ body, html {
 }
 
 /* 로고 */
-.logo {
+.header.large .logo {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -55,34 +48,34 @@ body, html {
   width: clamp(100px, 20vw, 200px); /* 반응형 로고 크기 */
 }
 
-.logo img {
+.header.large .logo img {
   width: 100%;
   height: auto;
   max-height: 70px;
 }
 
 /* 아이콘 그룹 */
-.icons {
+.header.large .icons {
   display: flex;
   align-items: center;
   gap: clamp(30px, 6vw, 108px); /* 반응형 간격 */
   width: auto; /* 내용에 맞게 조정 */
 }
 
-.icon {
+.header.large .icon {
   width: clamp(32px, 6vw, 48px); /* 반응형 아이콘 크기 */
   height: clamp(32px, 6vw, 48px);
   cursor: pointer;
 }
 
 /* 장바구니 아이콘 + 숫자 배지 */
-.cart-icon {
+.header.large .cart-icon {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.cart-badge {
+.header.large .cart-badge {
   position: absolute;
   top: -5px;
   right: -10px;
@@ -95,7 +88,103 @@ body, html {
   font-family: "Pretendard", sans-serif;
 }
 
-/* 작은 화면에서의 레이아웃 조정 */
+/* 헤더 전체 스타일 */
+.header.medium {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; /* 뷰포트 너비에 맞춤 */
+  height: auto;
+  min-height: 90px;
+  padding: 100px;
+  background-color: white;
+  border-bottom: 2px solid black;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-sizing: border-box; /* 패딩 포함 전체 너비 계산 */
+  overflow-x: hidden; /* 수평 스크롤 방지 */
+}
+
+/* body나 html에도 추가 권장 */
+.header.medium .body, html {
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* 네비게이션 메뉴 */
+.header.medium .navbar {
+  display: flex;
+  flex-wrap: wrap; /* 작은 화면에서 줄바꿈 허용 */
+  justify-content: flex-start;
+  align-items: center;
+  gap: clamp(30px, 6vw, 108px); /* 반응형 간격 */
+  font-size: clamp(16px, 3vw, 24px); /* 반응형 폰트 크기 */
+  font-weight: 500;
+  text-transform: uppercase;
+  width: 100%; /* 전체 너비 사용 */
+}
+
+.header.medium .navbar a {
+  text-decoration: none;
+  color: black;
+  transition: color 0.2s ease-in-out;
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/* 로고 */
+.header.medium .logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  max-width: 200px; /* 최대 너비 제한 */
+  width: clamp(100px, 20vw, 200px); /* 반응형 로고 크기 */
+}
+
+.header.medium .logo img {
+  width: 100%;
+  height: auto;
+  max-height: 70px;
+}
+
+/* 아이콘 그룹 */
+.header.medium .icons {
+  display: flex;
+  align-items: center;
+  gap: clamp(30px, 6vw, 108px); /* 반응형 간격 */
+  width: auto; /* 내용에 맞게 조정 */
+}
+
+.header.medium .icon {
+  width: clamp(32px, 6vw, 48px); /* 반응형 아이콘 크기 */
+  height: clamp(32px, 6vw, 48px);
+  cursor: pointer;
+}
+
+/* 장바구니 아이콘 + 숫자 배지 */
+.header.medium .cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.header.medium .cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #ffcc00;
+  color: black;
+  font-size: clamp(10px, 2vw, 12px);
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-family: "Pretendard", sans-serif;
+}
+/* 작은 화면에서의 레이아웃 조정
 @media screen and (max-width: 768px) {
   .header {
     flex-direction: column;
@@ -114,4 +203,4 @@ body, html {
     transform: none;
     margin-bottom: 15px;
   }
-}
+} */

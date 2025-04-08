@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* 헤더 전체 스타일 */
-.header {
+.header.large {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -19,7 +19,7 @@
 }
 
 /* 네비게이션 메뉴 (왼쪽 정렬) */
-.navbar {
+.header.large .navbar {
   display: flex;
   gap: 60px;
   font-size: 16px;
@@ -32,28 +32,29 @@
   align-items: center;
   margin: 29px 0;
 }
-
-/* 네비게이션 링크 스타일 (밑줄 제거) */
-.navbar a {
+.header.large .navbar img {
+  display: none;
+}
+.header.large .navbar a {
   text-decoration: none; /* ✅ 밑줄 제거 */
   color: black; /* 기본 색상 유지 */
   transition: color 0.2s ease-in-out;
 }
 
 /* 로고 (정중앙 배치) */
-.logo {
+.header.large .logo {
   position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
 }
-.logo img {
+.header.large .logo img {
   height: 50px;
 }
 
 /* 아이콘 그룹 (오른쪽 정렬) */
-.icons {
+.header.large .icons {
   display: flex;
   align-items: center;
   gap: 60px;
@@ -61,19 +62,116 @@
 }
 
 /* 아이콘 공통 스타일 */
-.icon {
+.header.large .icon {
   width: 48px;
   height: 48px;
   cursor: pointer;
 }
 
 /* 장바구니 아이콘 + 숫자 배지 */
-.cart-icon {
+.header.large .cart-icon {
   position: relative;
   display: flex;
   align-items: center;
 }
-.cart-icon .cart-badge {
+.header.large .cart-icon .cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: #ffcc00;
+  color: #111111;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-family: "Pretendard", sans-serif;
+<<<<<<< HEAD
+}
+=======
+}
+
+.header.medium {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  height: 90px;
+  padding: 0 20px;
+  background-color: white;
+  border-bottom: 2px solid black;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  margin: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 네비게이션 메뉴 (왼쪽 정렬) */
+.header.medium .navbar {
+  display: flex;
+  gap: 60px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  text-transform: uppercase;
+  height: 32px;
+  align-items: center;
+  margin: 29px 0;
+}
+.header.medium .navbar a {
+  display: none;
+}
+
+/* 네비게이션 링크 스타일 (밑줄 제거) */
+.header.medium .navbar a {
+  text-decoration: none; /* ✅ 밑줄 제거 */
+  color: black; /* 기본 색상 유지 */
+  transition: color 0.2s ease-in-out;
+}
+
+/* 로고 (정중앙 배치) */
+.header.medium .logo {
+  position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+.header.medium .logo img {
+  height: 50px;
+}
+
+/* 아이콘 그룹 (오른쪽 정렬) */
+.header.medium .icons {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  margin: 21px 20px;
+}
+.header.medium .icons .user-icon {
+  display: none;
+}
+
+/* 아이콘 공통 스타일 */
+.header.medium .icon {
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+}
+
+/* 장바구니 아이콘 + 숫자 배지 */
+.header.medium .cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.header.medium .cart-icon .cart-badge {
   position: absolute;
   top: -5px;
   right: -10px;
@@ -87,3 +185,92 @@
   border-radius: 50%;
   font-family: "Pretendard", sans-serif;
 }
+
+.header.small {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  height: 48px;
+  padding: 0 20px;
+  background-color: white;
+  border-bottom: 2px solid black;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  margin: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 네비게이션 메뉴 (왼쪽 정렬) */
+.header.small .navbar {
+  display: flex;
+  gap: 60px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  text-transform: uppercase;
+  height: 32px;
+  align-items: center;
+  margin: 29px 0;
+}
+.header.small .navbar a {
+  display: none;
+}
+
+/* 네비게이션 링크 스타일 (밑줄 제거) */
+.header.small .navbar a {
+  text-decoration: none; /* ✅ 밑줄 제거 */
+  color: black; /* 기본 색상 유지 */
+  transition: color 0.2s ease-in-out;
+}
+
+/* 로고 (정중앙 배치) */
+.header.small .logo {
+  position: absolute; /* ✅ 중앙 배치를 위해 절대 위치 설정 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+.header.small .logo img {
+  height: 50px;
+}
+
+/* 아이콘 그룹 (오른쪽 정렬) */
+.header.small .icons {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+.header.small .icons .search-icon, .header.small .icons .user-icon {
+  display: none;
+}
+
+/* 아이콘 공통 스타일 */
+.header.small .icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* 장바구니 아이콘 + 숫자 배지 */
+.header.small .cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.header.small .cart-icon .cart-badge {
+  position: absolute;
+  top: 4px;
+  left: 17px;
+  width: 8px;
+  height: 8px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+}/*# sourceMappingURL=Header.css.map */
+>>>>>>> main

@@ -1,12 +1,13 @@
 import "../styles/css/Header.css";
 
-const Header = () => {
+const Header = ({screenSize}) => {
   return (
-    <header className="header">
+    <header className={`header ${screenSize}`}>
       <nav className="navbar">
         <a href="#">SHOP</a>
         <a href="#">ABOUT</a>
         <a href="#">CONTACT US</a>
+        <img src="/assets/size=48, type=menu.svg" alt="Menu" className="icon" />
       </nav>
 
       <div className="logo">
@@ -16,14 +17,19 @@ const Header = () => {
 
       <div className="icons">
         {/* 검색 아이콘 */}
-        <img
-          src="/assets/size=24, type=search.svg"
-          alt="Search"
-          className="icon"
-        />
+        <div className="search-icon">
+          <img
+            src="/assets/size=24, type=search.svg"
+            alt="Search"
+            className="icon"
+          />
+        </div>
+        
 
         {/* 사용자 아이콘 */}
-        <img src="/assets/size=24, type=user.svg" alt="User" className="icon" />
+        <div className="user-icon">
+          <img src="/assets/size=24, type=user.svg" alt="User" className="icon" />
+        </div>
 
         {/* 장바구니 아이콘 */}
         <div className="cart-icon">
@@ -32,7 +38,8 @@ const Header = () => {
             alt="Cart"
             className="icon"
           />
-          <span className="cart-badge">10</span> {/* 장바구니 개수 표시 */}
+          <span className="cart-badge">{screenSize == "small"? "" : "10"}</span> {/* 장바구니 개수 표시 */}
+          
         </div>
       </div>
     </header>
