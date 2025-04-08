@@ -8,7 +8,7 @@ import GroupOrder from "./components/GroupOrder";
 import WhyNesting from "./components/WhyNesting";
 import Footer from "./components/Footer";
 import Reviews from "./components/Reviews";
-import FloatingButton from "./components/\bFloatingButton";
+import FloatingButton from "./components/FloatingButton";
 
 const mockProducts = [
   {
