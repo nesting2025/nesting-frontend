@@ -110,7 +110,7 @@ function App() {
       <GroupOrder screenSize={screenSize} />
       <WhyNesting screenSize={screenSize} />
       <Reviews reviews={mockReviews} />
-      <Footer />
+      <Footer screenSize={screenSize} />
 
       <FloatingButton />
     </div>
