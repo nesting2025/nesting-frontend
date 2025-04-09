@@ -1,0 +1,53 @@
+@import "./typography";
+@import "./colors";
+
+.search-bar {
+    margin: 0 auto;
+    padding: 40px 160px;
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+    @include bg-color("white");
+
+    p {
+        @include font-style("title1");
+    }
+
+    .input-wrapper {
+        width: 100%;
+        position: relative;
+
+        display: flex;
+        align-items: center;
+
+        .input {
+            width: 100%;
+            border: 2px solid black;
+            border-radius: 12px;
+            padding: 16px 140px 16px 32px;
+            box-sizing: border-box;
+            @include font-style("headline3");
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .x-button {
+            position: absolute;
+            right: 84px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            // visibility: hidden;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 32px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    }
+}

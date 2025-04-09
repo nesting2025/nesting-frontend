@@ -1,7 +1,16 @@
 import "../styles/css/Header.css";
+import SearchBar from "./SearchBar";
+import { useState } from "react";
 
 const Header = ({screenSize}) => {
+  const [showSearchBar, setShowSearchBar] = useState(false)
+
+  const toggleSearchBar = () => {
+    setShowSearchBar((showSearchBar) => !showSearchBar)
+  }
+
   return (
+    <>
     <header className={`header ${screenSize}`}>
       <nav className="navbar">
         <a href="#">SHOP</a>
@@ -17,7 +26,7 @@ const Header = ({screenSize}) => {
 
       <div className="icons">
         {/* 검색 아이콘 */}
-        <div className="search-icon">
+        <div className="search-icon" onClick={toggleSearchBar}>
           <img
             src="/assets/size=24, type=search.svg"
             alt="Search"
@@ -43,6 +52,16 @@ const Header = ({screenSize}) => {
         </div>
       </div>
     </header>
+
+    {showSearchBar && (
+      <>
+      <div className="overlay" onClick={toggleSearchBar}></div>
+      <div className="searchbar-wrapper">
+        <SearchBar />
+      </div>
+      </>
+    )}
+    </>
   );
 };
 
