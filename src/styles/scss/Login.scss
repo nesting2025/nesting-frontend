@@ -1,0 +1,71 @@
+@import "./colors";
+@import "./typography";
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .back-button {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 24px;
+        left: 12px;
+        cursor: pointer;
+    }
+
+    .logo-img {
+        width: 128px;
+        height: auto;
+        margin-top: 136px;
+    }
+
+    p {
+        @include font-style("title3");
+        margin-top: 10px;
+    }
+
+    .kakao-button {
+        width: 320px;
+        height: auto;
+        margin-top: 60px;
+    }
+
+    .naver-button {
+        width: 320px;
+        height: auto;
+        margin-top: 8px;
+    }
+
+    .diver {
+        width: 320px;
+        margin-top: 38px;
+        position: relative;
+
+        hr {
+            width: 100%;
+            height: 1px;
+            background-color: #D9D9D9;
+            border: none; 
+        }
+
+        span {
+            @include font-style("caption1");
+            padding: 8px 6px;
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+        }
+    }
+
+    .nesting-button {
+        width: 320px;
+        height: auto;
+        margin-top: 20px;
+    }
+}

@@ -1,0 +1,14 @@
+@import "./colors";
+@import "./typography";
+
+
+.custom-button {
+    width: 320px;
+    height: 48px;
+    border-radius: 8px;
+    border: none;
+    @include font-style("title4");
+    @include bg-color("bg-strong");
+    @include text-color("text-disabled");
+    box-sizing: border-box;
+}

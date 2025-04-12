@@ -35,8 +35,7 @@
 .product-image {
   width: 100%;
   height: auto;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border-radius: 8px;
   display: block;
 }
@@ -121,4 +120,4 @@
   .product-card {
     max-width: 280px; /* ✅ 모바일에서는 조금 더 작게 조정 */
   }
-}/*# sourceMappingURL=ProductCard.css.map */
+}
