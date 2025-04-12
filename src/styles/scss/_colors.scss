@@ -37,3 +37,7 @@ $colors: (
 @mixin bg-color($color-name) {
     background-color: map-get($colors , $color-name);
 }
+
+@mixin border-color($color-name) {
+    border-color: map-get($colors, $color-name);
+}
