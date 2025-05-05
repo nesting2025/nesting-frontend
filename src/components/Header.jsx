@@ -1,6 +1,6 @@
 import "../styles/css/Header.css";
 import SearchBar from "./SearchBar";
-import CharacterDialog from "./dialogs/CharacterDialog";
+import CharacterDialog from "./dialog/CharacterDialog";
 import { useState } from "react";
 
 const Header = ({screenSize}) => {
