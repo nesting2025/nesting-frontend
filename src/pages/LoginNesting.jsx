@@ -109,7 +109,7 @@ const LoginNesting = () => {
             <span>|</span>
             <p>회원가입</p>
         </div>
-        <CustomButton text="로그인" disabled={!isFormValid} />
+        <CustomButton text="로그인" isValid={isFormValid} />
         </div>
     )
 }

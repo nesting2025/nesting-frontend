@@ -1,0 +1,168 @@
+.signup-nesting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.signup-nesting .back-button {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 24px;
+  left: 12px;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .signup-nesting .back-button {
+    left: calc((100vw - 768px) / 2 + 12px);
+  }
+}
+.signup-nesting h2 {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -2.5%;
+  width: 320px;
+  justify-content: flex-start;
+  margin-top: 88px;
+  margin-bottom: 4px;
+}
+.signup-nesting h5 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  width: 320px;
+  margin-left: 4px;
+  margin-top: 16px;
+  margin-bottom: 4px;
+}
+.signup-nesting input {
+  border-radius: 8px;
+  border: 1px solid;
+  border-color: #E5E5EC;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  width: 320px;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+.signup-nesting input:focus {
+  outline: none;
+  border-color: #111111;
+}
+.signup-nesting .input-email-wrapper {
+  width: 320px;
+  position: relative;
+}
+.signup-nesting .input-email-wrapper .x-button {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.signup-nesting .input-pw-wrapper {
+  width: 320px;
+  position: relative;
+}
+.signup-nesting .input-pw-wrapper .show-pw-button {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.signup-nesting .email-error-message, .signup-nesting .pw-error-message, .signup-nesting .pw-confirm-error-message {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #FF9200;
+  width: 320px;
+  margin-left: 8px;
+  margin-top: 2px;
+}
+.signup-nesting .pw-confirm-error-message {
+  color: #FF4242;
+}
+.signup-nesting .agree-checkbox, .signup-nesting .agree-all-checkbox {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  width: 320px;
+  justify-content: flex-start;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  position: relative;
+  cursor: pointer;
+}
+.signup-nesting .agree-checkbox input, .signup-nesting .agree-all-checkbox input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+.signup-nesting .agree-checkbox .checkmark, .signup-nesting .agree-all-checkbox .checkmark {
+  height: 20px;
+  width: 20px;
+  border-radius: 4px;
+  border: 1px solid;
+  border-color: #E5E5EC;
+  background-color: #FFFFFF;
+  position: relative;
+  margin-right: 6px;
+}
+.signup-nesting .agree-checkbox .checkmark::after, .signup-nesting .agree-all-checkbox .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.signup-nesting .agree-checkbox input:checked ~ .checkmark, .signup-nesting .agree-all-checkbox input:checked ~ .checkmark {
+  background-color: #FFE788;
+  border-color: #F1F1F5;
+}
+.signup-nesting .agree-checkbox input:checked ~ .checkmark::after, .signup-nesting .agree-all-checkbox input:checked ~ .checkmark::after {
+  display: block;
+}
+.signup-nesting .agree-all-checkbox {
+  margin-top: 40px;
+  margin-bottom: 7px;
+  align-items: flex-start;
+}
+.signup-nesting .agree-all-checkbox .agree-text-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.signup-nesting .agree-all-checkbox .agree-text-wrapper .agree-text-main {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  margin-top: 2px;
+}
+.signup-nesting .agree-all-checkbox .agree-text-wrapper .agree-text-sub {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #767676;
+  margin-top: 2px;
+}
+.signup-nesting .signup-next-button {
+  margin-top: 40px;
+}
