@@ -14,6 +14,10 @@
         top: 24px;
         left: 12px;
         cursor: pointer;
+
+        @media (min-width: 768px) {
+            left: calc((100vw - 768px) / 2 + 12px);
+        }
     }
 
     .logo-img {
@@ -35,14 +39,59 @@
         width: 320px;
         padding: 12px 16px;
         box-sizing: border-box;
+
+        &:focus {
+            outline: none;
+            @include border-color("line-strong");
+        }
     }
 
-    .input-email {
+    .input-email-wrapper {
         margin-top: 60px;
+        width: 320px;
+        position: relative;
+
+        .input-email {
+            width: 100%;
+        }
+
+        .x_button {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
     }
 
-    .input-pw {
-        margin-top: 12px;
+    .input-pw-wrapper {
+        margin-top: 16px;
+        width: 320px;
+        position: relative;
+
+        .input-pw {
+            width: 100%;
+        }
+
+        .show_pw_button {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+    }
+    
+    .email-error-message, .pw-error-message {
+        @include font-style("caption2");
+        @include text-color("status-cautionary");
+        width: 320px;
+        margin-left: 8px;
+        margin-top: 2px;
     }
 
     .keep-login {

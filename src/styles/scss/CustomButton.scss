@@ -8,7 +8,14 @@
     border-radius: 8px;
     border: none;
     @include font-style("title4");
-    @include bg-color("bg-strong");
-    @include text-color("text-disabled");
+    @include bg-color("primary200");
+    @include text-color("");
     box-sizing: border-box;
+    cursor: pointer;
+
+    &.disabled {
+        @include bg-color("bg-strong");
+        @include text-color("text-disabled");
+        pointer-events: none;	
+    }
 }
