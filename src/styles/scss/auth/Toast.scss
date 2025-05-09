@@ -1,0 +1,19 @@
+.toast {
+    position: fixed;
+    bottom: 60px; // ✅ 하단에서 60px 고정
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  
+    background-color: #4B4B4B;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 400;
+  
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    white-space: pre-line;
+  
+    animation: toast-fadein 0.3s ease, toast-fadeout 0.3s ease 2.7s;
+  }

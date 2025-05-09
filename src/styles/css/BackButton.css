@@ -1,0 +1,12 @@
+.back-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-left: -8px;
+  margin-bottom: 32px;
+}
+.back-button__icon {
+  width: 32px;
+  height: 32px;
+}
