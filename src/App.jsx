@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import LoginNesting from "./pages/LoginNesting";
 import SignupNesting from "./pages/SignupNesting";
 import FindPassword from './pages/FindPassword';
+import AccountInfo from './pages/AccountInfo';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/login/nesting" element={<LoginNesting />} />
       <Route path="/signup/nesting" element={<SignupNesting /> } />
       <Route path="/login/find-password" element={<FindPassword /> } />
+      <Route path="/login/account-info" element={<AccountInfo />} />
     </Routes>
   );
 }

@@ -1,0 +1,78 @@
+.account-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.account-info .back-button {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  top: 24px;
+  left: 12px;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .account-info .back-button {
+    left: calc((100vw - 768px) / 2 + 12px);
+  }
+}
+.account-info h2 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  width: 320px;
+  margin-top: 88px;
+  margin-bottom: 0px;
+}
+.account-info .info-area {
+  background-color: #F7F7FB;
+  width: 320px;
+  border-radius: 12px;
+  padding: 10px 16px;
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+.account-info .info-area .profile-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+}
+.account-info .info-area .text-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.account-info .info-area .text-area .email-text {
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #767676;
+  margin: 0px;
+}
+.account-info .info-area .text-area .email {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin: 0px;
+}
+.account-info .next-button {
+  margin-top: 40px;
+}
+.account-info .find-pw-text {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #505050;
+  text-decoration: underline;
+  text-decoration-color: #505050;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
