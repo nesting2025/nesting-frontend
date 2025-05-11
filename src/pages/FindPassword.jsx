@@ -44,7 +44,7 @@ const FindPassword = () => {
             )}
         </div>
 
-        <CustomButton className='signup-next-button' text="이메일로 임시 비밀번호 받기" isValid={isValidEmail} />
+        <CustomButton className='next-button' text="이메일로 임시 비밀번호 받기" isValid={isValidEmail} />
         </div>
     )    
 }
