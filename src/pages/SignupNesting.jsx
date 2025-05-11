@@ -1,6 +1,6 @@
 import '../styles/css/SignupNesting.css';
 import CustomButton from "../components/CustomButton";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 const SignupNesting = () => {
     const [email, setEmail] = useState("");
@@ -13,14 +13,33 @@ const SignupNesting = () => {
     // 비번, 비번확인 visibility
     const [showPw, setShowPw] = useState(false);
     const [showPwConfirm, setShowPwConfirm] = useState(false);
+    // 이용약관
+    const [allChecked, setAllChecked] = useState(false);
+    const [agreements, setAgreements] = useState([
+        {id: 1, label: '[필수] 이용약관 동의', required: true, checked: false},
+        {id: 2, label: '[필수] 개인 정보 수집 및 이용 동의', required: true, checked: false},
+        {id: 3, label: '[선택] 개인 정보 수집 및 이용 동의', required: false, checked: false},
+        {id: 4, label: '[선택] 쇼핑 정보 수신 모두 동의', required:false, checked: false}
+    ])
+
+    // 댜음 버튼 활성화
+    const isFormValid = useMemo(() => {
+        const requiredChecked = agreements
+            .filter(item => item.required)
+            .every(item => item.checked);
+
+        return (
+            !showEmailError && !showPwError && !showPwConfirmError &&
+            email && pw && pwConfirm && requiredChecked
+        );
+    }, [showEmailError, showPwError, showPwConfirmError, email, pw, pwConfirm, agreements]);
+    
 
     useEffect(()=> {
         if(pwConfirm) {
             setPwConfirmError(pw !== pwConfirm);
         }
     }, [pw, pwConfirm]);
-
-    const isValid = false
 
 
     // 이메일 관련 함수
@@ -64,6 +83,29 @@ const SignupNesting = () => {
     }
     const togglePwVisibility = () => toggleVisibility(setShowPw)
     const togglePwConfirmVisibility = () => toggleVisibility(setShowPwConfirm)
+
+    // 이용약관 관련 함수
+    const handleAllChange = (e) => {
+        const checked = e.target.checked;;
+        setAllChecked(checked);
+        setAgreements(prev => 
+            prev.map(item => ({...item, checked: checked}))
+        );
+    };
+
+    const handleSingleChange = (id) => (e) => {
+        const checked = e.target.checked;
+        setAgreements(prev =>
+            prev.map(item => 
+                item.id === id ? {...item, checked: checked} : item
+            )
+        );
+    };
+
+    useEffect(() => {
+        const all = agreements.every(item => item.checked);
+        setAllChecked(all);
+    }, [agreements]);
 
 
     return (
@@ -134,35 +176,30 @@ const SignupNesting = () => {
         )}
 
         <label className='agree-all-checkbox'>
-            <input type="checkbox" />
+            <input 
+                type="checkbox"
+                checked={allChecked}
+                onChange={handleAllChange} 
+            />
             <span className='checkmark' />
             <div className='agree-text-wrapper'>
                 <span className='agree-text-main'>모두 동의합니다.</span>
                 <span className='agree-text-sub'>선택 동의 항목 포함</span>
             </div>
-        </label>        
-        <label className='agree-checkbox'>
-            <input type="checkbox" />
-            <span className='checkmark' />
-            [필수] 이용약관 동의
-        </label>
-        <label className='agree-checkbox'>
-            <input type="checkbox" />
-            <span className='checkmark' />
-            [필수] 개인 정보 수집 및 이용 동의
-        </label>
-        <label className='agree-checkbox'>
-            <input type="checkbox" />
-            <span className='checkmark' />
-            [선택] 개인 정보 수집 및 이용 동의
-        </label>
-        <label className='agree-checkbox'>
-            <input type="checkbox" />
-            <span className='checkmark' />
-            [선택] 쇼핑 정보 수신 모두 동의
-        </label>
+        </label>    
+        {agreements.map(item => (
+            <label key={item.key} className='agree-checkbox'>
+                <input
+                    type='checkbox'
+                    checked={item.checked}
+                    onChange={handleSingleChange(item.id)}
+                />
+                <span className='checkmark' />
+                {item.label}
+            </label>
+        ))}    
 
-        <CustomButton className='signup-next-button' text="다음" />
+        <CustomButton className='signup-next-button' text="다음" isValid={isFormValid} />
         </div>
     )
 }
