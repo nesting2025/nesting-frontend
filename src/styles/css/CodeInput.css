@@ -1,22 +1,20 @@
-* {
-  box-sizing: border-box;
-}
-
 .code-input {
   margin-bottom: 16px;
 }
-.code-input__wrapper {
+.code-input__row {
   display: flex;
   gap: 8px;
-  position: relative;
-  border-radius: 8px;
-  border: 1px solid #E5E5EC;
-  padding: 12px 16px;
-  width: 100%;
+  align-items: center;
 }
-.code-input__wrapper.focused {
-  border-color: #111111;
-  background-color: #FFFFFF;
+.code-input__wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid #E5E5EC;
+  border-radius: 8px;
+  padding: 12px 16px;
+  background-color: white;
 }
 .code-input__field {
   font-size: 15px;
@@ -25,20 +23,25 @@
   letter-spacing: -2.5%;
   color: #767676;
   flex: 1;
+  min-width: 0;
   border: none;
   outline: none;
+  padding-right: 40px;
 }
 .code-input__field.filled {
   color: #111111;
 }
 .code-input__clear-btn {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
   background: none;
   border: none;
-  padding: 0;
   cursor: pointer;
+  padding: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 .code-input__clear-btn-icon {
   width: 20px;
@@ -46,14 +49,44 @@
   pointer-events: none;
 }
 .code-input__timer {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: 8px;
   font-size: 12px;
   line-height: 18px;
   font-weight: 500;
   letter-spacing: -2.5%;
   color: #767676;
-  margin-top: 4px;
-  align-items: center;
-  justify-content: space-between;
+}
+.code-input__check-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+}
+.code-input__button {
+  background-color: #FFE788;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 12px;
+  white-space: nowrap;
+  min-width: 90px;
+  height: 48px;
+}
+.code-input__button:disabled {
+  opacity: 0.4;
+  background-color: #F1F1F5;
+  color: #767676;
+  cursor: not-allowed;
 }
 .code-input__error {
   font-size: 12px;
@@ -61,5 +94,6 @@
   font-weight: 500;
   letter-spacing: -2.5%;
   color: #FF4242;
-  margin: 2px 0 0 8px;
+  margin-top: 4px;
+  margin-left: 8px;
 }

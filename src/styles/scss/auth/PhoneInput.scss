@@ -57,10 +57,12 @@
         @include text-color("text-main");
     
         padding: 12px 15px;
+
         border: none;
         border-radius: 12px;
         cursor: pointer;
         white-space: nowrap;
+        min-width: 120px; 
     
         &:disabled {
             opacity: 0.4;

@@ -58,6 +58,7 @@
   border-radius: 12px;
   cursor: pointer;
   white-space: nowrap;
+  min-width: 120px;
 }
 .phone-input__button:disabled {
   opacity: 0.4;

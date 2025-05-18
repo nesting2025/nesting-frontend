@@ -34,8 +34,7 @@ export default function AuthVerify() {
     return () => clearInterval(timer);
   }, [isCodeSent, timeLeft]);
 
-  // 인증번호 자동 검증
-  useEffect(() => {
+  const handleCodeCheck = () => {
     if (code.length === 6) {
       if (code === "123123") {
         setIsCodeValid(true);
@@ -44,11 +43,8 @@ export default function AuthVerify() {
         setIsCodeValid(false);
         setIsCodeError(true);
       }
-    } else {
-      setIsCodeValid(false);
-      setIsCodeError(false);
     }
-  }, [code]);
+  };
 
   const handleSendCode = () => {
     if (resendCount > MAX_RESEND_COUNT) {
@@ -123,6 +119,7 @@ export default function AuthVerify() {
           timeLeft={timeLeft}
           isError={isCodeError}
           isValid={isCodeValid}
+          onCheckCode={handleCodeCheck}
         />
       )}
 
