@@ -14,6 +14,10 @@
         top: 24px;
         left: 12px;
         cursor: pointer;
+
+        @media (min-width: 768px) {
+            left: calc((100vw - 768px) / 2 + 12px);
+        }
     }
 
     .logo-img {
@@ -31,12 +35,14 @@
         width: 320px;
         height: auto;
         margin-top: 60px;
+        cursor: pointer;
     }
 
     .naver-button {
         width: 320px;
         height: auto;
-        margin-top: 8px;
+        margin-top: 16px;
+        cursor: pointer;
     }
 
     .diver {
@@ -48,7 +54,7 @@
             width: 100%;
             height: 1px;
             background-color: #D9D9D9;
-            border: none; 
+            border: none;
         }
 
         span {
@@ -66,6 +72,7 @@
     .nesting-button {
         width: 320px;
         height: auto;
-        margin-top: 20px;
+        margin-top: 35px;
+        cursor: pointer;
     }
 }

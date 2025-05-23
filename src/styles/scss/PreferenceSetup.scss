@@ -1,0 +1,130 @@
+@import "./colors";
+@import "./typography";
+
+.preference-setup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .back-button {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 24px;
+        left: 12px;
+        cursor: pointer;
+
+        @media (min-width: 768px) {
+            left: calc((100vw - 768px) / 2 + 12px);
+        }
+    }
+
+    h2 {
+        @include font-style("title2");
+        @include text-color("");
+        width: 320px;
+        justify-content: flex-start;
+        margin-top: 88px;
+        margin-bottom: 4px;
+    }
+
+    h5 {
+        @include font-style("title4");
+        @include text-color("");
+        width: 320px;
+        margin-left: 4px;
+        margin-top: 16px;
+        margin-bottom: 4px;
+    }
+
+    .input-nickname-container{
+        width: 320px;
+        display: flex;
+        gap: 6px;
+
+        .input-nickname-wrapper {
+            position: relative;
+            flex: 1;
+
+            .input-nickname {
+                border-radius: 8px;
+                border: 1px solid;
+                width: 100%;
+                @include border-color("line-medium");
+                @include font-style("body1");
+                padding: 12px 16px;
+                box-sizing: border-box;
+        
+                &:focus {
+                    outline: none;
+                    @include border-color("line-strong");
+                }
+            }
+
+            .x-button {
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+            }
+        }
+
+        .check-nickname-button {
+            border-radius: 8px;
+            border: none;
+            padding: 11px 21px;
+            @include bg-color("primary200");
+            @include text-color("text-main");
+            @include font-style("title4");
+            cursor: pointer;
+        }
+    }
+
+    .nickname-error-message {
+        @include font-style("caption2");
+        @include text-color("status-destructive");
+        width: 320px;
+        margin-left: 8px;
+        margin-top: 2px;
+    }
+
+    .input-category-wrapper {
+        position: relative;
+        width: 320px;
+
+        .input-category {
+            border-radius: 8px;
+            border: 1px solid;
+            width: 100%;
+            @include border-color("line-medium");
+            @include font-style("body1");
+            padding: 12px 16px;
+            box-sizing: border-box;
+            cursor: pointer;
+
+            &:focus {
+                outline: none;
+                @include border-color("line-medium");
+            }
+        }
+
+        .dropdown-button {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+    }
+
+    .next-button{
+        margin-top: 40px;
+    }
+
+}
