@@ -1,0 +1,16 @@
+@import "../colors";
+@import "../typography";
+
+.auth-header {
+  &__title {
+    @include font-style("title2");
+    @include text-color("text-main");
+    margin: 0 0 8px 0;
+  }
+
+  &__subtitle {
+    @include font-style("title4");
+    @include text-color("text-sub2");
+    margin: 0 0 32px 0;
+  }
+}
