@@ -1,9 +1,14 @@
 import "../styles/css/Header.css";
 import SearchBar from "./SearchBar";
+import CharacterDialog from "./dialog/CharacterDialog";
+import GoodsCategoryDialog from "./dialog/GoodsCategoryDialog";
+import WelcomeDialog from "./dialog/WelcomeDialog";
+
 import { useState } from "react";
 
 const Header = ({screenSize}) => {
   const [showSearchBar, setShowSearchBar] = useState(false)
+  const [isOpen, setIsOpen] = useState(false); // 다이얼로그 확인용
 
   const toggleSearchBar = () => {
     setShowSearchBar((showSearchBar) => !showSearchBar)
@@ -19,10 +24,13 @@ const Header = ({screenSize}) => {
         <img src="/assets/size=48, type=menu.svg" alt="Menu" className="icon" />
       </nav>
 
-      <div className="logo">
+      <div className="logo" onClick={() => setIsOpen(true)}>
         {/* 로고 */}
         <img src="/assets/logo.svg" alt="Nesting" className="icon" />
       </div>
+      <GoodsCategoryDialog open={isOpen} onOpenChange={setIsOpen} title="내 다이얼로그">
+        다이얼로그에 들어갈 콘텐츠입니다.
+      </GoodsCategoryDialog>
 
       <div className="icons">
         {/* 검색 아이콘 */}
