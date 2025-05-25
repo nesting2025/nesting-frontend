@@ -6,10 +6,12 @@
 
 .dialog-content {
   background: white;
-  padding: 1.5rem;
-  border-radius: 0.5rem;
+  padding: 16px;
+  border-radius: 20px;
   width: 340px;
-  height: 562px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  height: auto;
   max-width: 80%;
   overflow-y: auto;
   position: fixed;
@@ -17,10 +19,25 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.dialog-content .dialog-close-x {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  cursor: pointer;
+}
 .dialog-content .dialog-title {
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  margin-bottom: 4px;
+}
+.dialog-content .dialog-description {
+  margin-top: 0px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #505050;
+  text-align: center;
 }
 .dialog-content .dialog-close {
   background: #ccc;
@@ -29,15 +46,12 @@
 }
 .dialog-content .scroll-wrapper {
   position: relative;
-  height: 276px;
+  height: 235px;
   overflow-y: auto;
-  margin: 16px 0;
-  padding: 0px;
-  z-index: 1;
+  margin: 16px 0 0 0;
   background: linear-gradient(to top, white, rgba(255, 255, 255, 0));
 }
 .dialog-content .scroll-gradient {
-  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
@@ -50,7 +64,6 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px 6px;
-  margin: 16px 0;
 }
 .dialog-content .character-grid .character-card {
   border: 1px solid #eee;
@@ -63,27 +76,73 @@
   transition: 0.2s;
 }
 .dialog-content .character-grid .character-card .character-name {
-  font-size: 0.875rem;
-  margin-top: 5px;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  margin-top: 3px;
 }
 .dialog-content .character-grid .character-card img {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+}
+.dialog-content .character-grid .character-card.selected {
+  background-color: #F1F1F5;
+}
+.dialog-content .category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dialog-content .category-grid .category-button {
+  border: 1px solid #E5E5EC;
+  background-color: white;
+  border-radius: 8px;
+  padding: 6px 20px;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+}
+.dialog-content .category-grid .category-button.selected {
+  background-color: #F1F1F5;
 }
 .dialog-content .dialog-bottom-fieldset {
   all: unset;
   display: flex;
   flex-direction: column;
   gap: 6px;
-  align-items: center;
-  margin-top: 50px;
+  margin-top: 40px;
 }
-.dialog-content .dialog-bottom-fieldset .dialog-bottom-label {
+.dialog-content .dialog-bottom-fieldset .dialog-bottom-title {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  align-self: center;
+  text-align: center;
+}
+.dialog-content .dialog-bottom-fieldset .dialog-bottom-body {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #505050;
+  align-self: center;
+  text-align: center;
+}
+.dialog-content .dialog-bottom-fieldset .dialog-bottom-caption {
   font-size: 12px;
   line-height: 18px;
   font-weight: 500;
   letter-spacing: -2.5%;
   color: #767676;
+  align-self: flex-start;
+  margin-left: 4px;
 }
 .dialog-content .dialog-bottom-fieldset .dialog-bottom-input {
   all: unset;
@@ -101,6 +160,41 @@
   outline: none;
   border-color: #111111;
 }
+.dialog-content .character-grid-cross {
+  width: fit-content;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px 16px;
+  margin: 40px auto 0 auto;
+}
+.dialog-content .character-grid-cross .character-card {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #eee;
+  background-color: #F1F1F5;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+.dialog-content .character-grid-cross .character-card img {
+  width: 48px;
+  height: 48px;
+}
+.dialog-content .character-grid-cross .character-card:nth-of-type(1),
+.dialog-content .character-grid-cross .character-card:nth-of-type(2),
+.dialog-content .character-grid-cross .character-card:nth-of-type(3),
+.dialog-content .character-grid-cross .character-card:nth-of-type(4) {
+  transform: translateX(-10px);
+}
+.dialog-content .character-grid-cross .character-card:nth-of-type(5),
+.dialog-content .character-grid-cross .character-card:nth-of-type(6),
+.dialog-content .character-grid-cross .character-card:nth-of-type(7),
+.dialog-content .character-grid-cross .character-card:nth-of-type(8) {
+  transform: translateX(10px);
+}
 .dialog-content .dialog-close {
   all: unset;
   width: 100%;
@@ -109,9 +203,15 @@
   color: #111111;
   border-radius: 8px;
   margin-top: 28px;
+  margin-bottom: 10px;
   font-size: 1rem;
   font-weight: 500;
   text-align: center;
   line-height: 46px;
   cursor: pointer;
+}
+.dialog-content .dialog-close:disabled {
+  background-color: #F1F1F5;
+  color: #999999;
+  cursor: not-allowed;
 }

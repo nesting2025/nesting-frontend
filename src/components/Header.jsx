@@ -1,6 +1,9 @@
 import "../styles/css/Header.css";
 import SearchBar from "./SearchBar";
 import CharacterDialog from "./dialog/CharacterDialog";
+import GoodsCategoryDialog from "./dialog/GoodsCategoryDialog";
+import WelcomeDialog from "./dialog/WelcomeDialog";
+
 import { useState } from "react";
 
 const Header = ({screenSize}) => {
@@ -25,9 +28,9 @@ const Header = ({screenSize}) => {
         {/* 로고 */}
         <img src="/assets/logo.svg" alt="Nesting" className="icon" />
       </div>
-      <CharacterDialog open={isOpen} onOpenChange={setIsOpen} title="내 다이얼로그">
+      <GoodsCategoryDialog open={isOpen} onOpenChange={setIsOpen} title="내 다이얼로그">
         다이얼로그에 들어갈 콘텐츠입니다.
-      </CharacterDialog>
+      </GoodsCategoryDialog>
 
       <div className="icons">
         {/* 검색 아이콘 */}

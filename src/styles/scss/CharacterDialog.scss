@@ -10,10 +10,12 @@
   
   .dialog-content {
     background: white;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
+    padding: 16px;
+    border-radius: 20px;
     width: 340px;
-    height: 562px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    height: auto;
     max-width: 80%;
     overflow-y: auto;
   
@@ -22,10 +24,23 @@
     left: 50%;
     transform: translate(-50%, -50%);
   
+    .dialog-close-x{
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      cursor: pointer;
+    }
     .dialog-title {
       font-size: 1.25rem;
       font-weight: bold;
-      margin-bottom: 0.5rem;
+      margin-bottom: 4px;
+    }
+    .dialog-description{
+      margin-top: 0px;
+      @include font-style("body1");
+      @include text-color("text-sub2");
+      text-align: center;
+
     }
   
     .dialog-close {
@@ -35,16 +50,13 @@
     }
     .scroll-wrapper {
         position: relative;
-        height: 276px;
+        height: 235px;
         overflow-y: auto;
-        margin: 16px 0;
-        padding:0px;
-        z-index: 1;
+        margin: 16px 0 0 0;
         background: linear-gradient(to top, white, rgba(255, 255, 255, 0));
 
     }
     .scroll-gradient {
-        position: sticky;
         bottom: 0;
         left: 0;
         right: 0;
@@ -58,7 +70,6 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px 6px;
-      margin: 16px 0;
   
         .character-card {
             border: 1px solid #eee;
@@ -72,14 +83,37 @@
             transition: 0.2s;
 
             .character-name {
-                font-size: 0.875rem;
-                margin-top: 5px;
+                @include font-style("caption3");
+                margin-top: 3px;
             }
 
             img {
-                width: 44px;
-                height: 44px;
+                width: 48px;
+                height: 48px;
             }
+            
+        }
+        .character-card.selected {
+          background-color: #F1F1F5;
+        }
+        
+    }
+    .category-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      .category-button {
+        border: 1px solid #E5E5EC;
+        background-color: white;
+        border-radius: 8px;
+        padding: 6px 20px;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        @include font-style("body1");
+      }
+      .category-button.selected {
+        background-color: #F1F1F5;
       }
     }
     .dialog-bottom-fieldset {
@@ -87,12 +121,28 @@
         display: flex;
         flex-direction: column;
         gap: 6px;
-        align-items: center;
-        margin-top: 50px;
-        .dialog-bottom-label{
-            @include font-style("caption2");
-            @include text-color("text-sub1");
+        margin-top: 40px;
+        .dialog-bottom-title{
+          @include font-style("title4");
+          @include text-color("text-main");
+          align-self: center;
+          text-align: center;
+
         }
+        .dialog-bottom-body{
+            @include font-style("body1");
+            @include text-color("text-sub2");
+            align-self: center;
+            text-align: center;
+
+        }
+        .dialog-bottom-caption{
+          @include font-style("caption2");
+          @include text-color("text-sub1");
+          align-self: flex-start;
+          margin-left: 4px;
+
+       }
         .dialog-bottom-input{
             all: unset;
             width: 100%;
@@ -111,6 +161,42 @@
             }
         }
     }
+    .character-grid-cross{
+      width: fit-content;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px 16px;
+      margin: 40px auto 0 auto;
+      .character-card {
+        width: 60px;
+        height: 60px;
+        border: 1px solid #eee;
+        background-color: #F1F1F5;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        transition: 0.2s;
+        img {
+            width: 48px;
+            height: 48px;
+        }
+       }
+        .character-card:nth-of-type(1),
+        .character-card:nth-of-type(2),
+        .character-card:nth-of-type(3),
+        .character-card:nth-of-type(4) {
+          transform: translateX(-10px);
+        }
+        .character-card:nth-of-type(5),
+        .character-card:nth-of-type(6),
+        .character-card:nth-of-type(7),
+        .character-card:nth-of-type(8) {
+          transform: translateX(10px);
+        }
+    }
     .dialog-close{
         all: unset;
         width: 100%;
@@ -119,11 +205,18 @@
         color: #111111;
         border-radius: 8px;
         margin-top: 28px;
+        margin-bottom: 10px;
         font-size: 1rem;
         font-weight: 500;
         text-align: center;
         line-height: 46px;
         cursor: pointer;
+        
+    }
+    .dialog-close:disabled{
+      background-color: #F1F1F5;
+      color: #999999;
+      cursor: not-allowed;
     }
   }
   
