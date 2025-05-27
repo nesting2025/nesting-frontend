@@ -1,10 +1,15 @@
 import { useState } from "react";
 import '../styles/css/FindPassword.css';
 import CustomButton from "../components/CustomButton";
+import { useNavigate } from 'react-router-dom';
 
 const FindPassword = () => {
+    const nav = useNavigate();
     const [email, setEmail] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(false);
+
+    const goBack = () => nav(-1);
+    const gotoLoginNesting = () => nav("/login/nesting", { replace: true });
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
@@ -24,6 +29,7 @@ const FindPassword = () => {
         <img 
             className="back-button"
             src="/assets/button/btn_back.svg" 
+            onClick={goBack}
         />
         <h2>비밀번호 찾기</h2>
         <p>본인 인증 완료 후, 이메일로 임시 비밀번호를 발송해 드려요</p>
@@ -44,7 +50,12 @@ const FindPassword = () => {
             )}
         </div>
 
-        <CustomButton className='next-button' text="이메일로 임시 비밀번호 받기" isValid={isValidEmail} />
+        <CustomButton 
+            className='next-button' 
+            text="이메일로 임시 비밀번호 받기" 
+            isValid={isValidEmail}
+            onClick={gotoLoginNesting} 
+        />
         </div>
     )    
 }

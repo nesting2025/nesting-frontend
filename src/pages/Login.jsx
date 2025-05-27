@@ -1,11 +1,21 @@
 import '../styles/css/Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const nav = useNavigate();
+    
+    const goBack = () => nav("/");
+
+    const gotoLoginNesting = () => {
+        nav("/login/nesting");
+    }
+
     return (
         <div className='login'>
         <img 
             className="back-button"
             src="/assets/button/btn_back.svg" 
+            onClick={goBack}
         />
         <img 
             className="logo-img"
@@ -27,6 +37,7 @@ const Login = () => {
         <img 
             className="nesting-button"
             src="/assets/login/nesting_login.svg" 
+            onClick={gotoLoginNesting}
         />
         </div>
     )

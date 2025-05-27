@@ -1,8 +1,10 @@
 import '../styles/css/SignupNesting.css';
 import CustomButton from "../components/CustomButton";
 import { useState, useEffect, useMemo } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const SignupNesting = () => {
+    const nav = useNavigate();
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
     const [pwConfirm, setPwConfirm] = useState("");
@@ -21,6 +23,9 @@ const SignupNesting = () => {
         {id: 3, label: '[선택] 개인 정보 수집 및 이용 동의', required: false, checked: false},
         {id: 4, label: '[선택] 쇼핑 정보 수신 모두 동의', required:false, checked: false}
     ])
+
+    const goBack = () => nav(-1);
+    const gotoVerify = () => nav("/verify");
 
     // 댜음 버튼 활성화
     const isFormValid = useMemo(() => {
@@ -113,6 +118,7 @@ const SignupNesting = () => {
         <img 
             className="back-button"
             src="/assets/button/btn_back.svg" 
+            onClick={goBack}
         />
         <h2>회원가입</h2>
         <h5>이메일 주소</h5>
@@ -199,7 +205,12 @@ const SignupNesting = () => {
             </label>
         ))}    
 
-        <CustomButton className='signup-next-button' text="다음" isValid={isFormValid} />
+        <CustomButton 
+            className='signup-next-button' 
+            text="다음" 
+            isValid={isFormValid}
+            onClick={gotoVerify} 
+        />
         </div>
     )
 }

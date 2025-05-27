@@ -1,6 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import React, { useEffect, useState } from 'react';
 import '../../styles/css/CharacterDialog.css'; // 선택사항: 스타일 별도 분리 가능
+import { useNavigate } from 'react-router-dom';
 
 const characters = [
     { name: '한교동', image: "/assets/character=hangyodong, status=small.png" },
@@ -16,6 +17,7 @@ const characters = [
 export default function CharacterDialog({ open, onOpenChange, title, children }) {
   const [selected, setSelected] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const nav = useNavigate();
 
   useEffect(() => {
       if (open) {
@@ -23,6 +25,8 @@ export default function CharacterDialog({ open, onOpenChange, title, children })
         setInputValue('');
       }
     }, [open]);
+
+    const gotoPreferenceSetup = () => nav("/signup/preference");
 
 
   return (
@@ -47,7 +51,9 @@ export default function CharacterDialog({ open, onOpenChange, title, children })
           </fieldset>
           <div style={{ textAlign: 'center' }}>
             <Dialog.Close asChild>
-              <button className="dialog-close">다음으로</button>
+              <button 
+              onClick={gotoPreferenceSetup}
+              className="dialog-close">다음으로</button>
             </Dialog.Close>
           </div>
         </Dialog.Content>

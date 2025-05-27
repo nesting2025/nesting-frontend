@@ -1,14 +1,21 @@
 import '../styles/css/LoginNesting.css';
 import CustomButton from "../components/CustomButton";
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginNesting = () => {
+    const nav = useNavigate();
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
     const [showEmailError, setShowEmailError] = useState(false);
     const [showPwError, setShowPwError] = useState(false);
     const [showPw, seteShowPw] = useState(false);
     const isFormValid = email && pw && !showEmailError && !showPwError;
+
+    const goBack = () => nav("/login");
+    const gotoFindEmail = () => nav("/login/find-email");
+    const gotoFindPassword = () => nav("/login/find-password");
+    const gotoSignup = () => nav("/signup/nesting");
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
@@ -49,11 +56,17 @@ const LoginNesting = () => {
         seteShowPw(prevState => !prevState);
     }
 
+    const login = () => {
+        // API 통신
+        nav("/");
+    }
+
     return (
         <div className="login-nesting">
         <img 
             className="back-button"
             src="/assets/button/btn_back.svg" 
+            onClick={goBack}
         />
         <img 
             className="logo-img"
@@ -103,13 +116,19 @@ const LoginNesting = () => {
             로그인 상태 유지
         </label>
         <div className='link-group'>
-            <p>이메일 찾기</p>
+            <p
+            onClick={gotoFindEmail}>이메일 찾기</p>
             <span>|</span>
-            <p>비밀번호 찾기</p>
+            <p
+            onClick={gotoFindPassword}>비밀번호 찾기</p>
             <span>|</span>
-            <p>회원가입</p>
+            <p
+            onClick={gotoSignup}>회원가입</p>
         </div>
-        <CustomButton text="로그인" isValid={isFormValid} />
+        <CustomButton 
+        text="로그인" 
+        isValid={isFormValid}
+        onClick={login} />
         </div>
     )
 }
