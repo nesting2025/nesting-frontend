@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthHeader from "../components/auth/AuthHeader";
 import NameInput from "../components/auth/NameInput";
 import PhoneInput from "../components/auth/PhoneInput";
 import CodeInput from "../components/auth/CodeInput";
 import SubmitButton from "../components/auth/SubmitButton";
 import BackButton from "../components/auth/BackButton";
+import WelcomeDialog from "../components/dialog/WelcomeDialog";
+
 import "../styles/css/Toast.css";
 
 export default function AuthVerify() {
+  const nav = useNavigate();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
@@ -22,6 +26,8 @@ export default function AuthVerify() {
 
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);  // 다이얼로그
 
   // 타이머 작동
   useEffect(() => {
@@ -70,9 +76,17 @@ export default function AuthVerify() {
 
   const handleSubmit = () => {
     if (code === "123123") {
-      alert("인증 완료!");
       setIsCodeValid(true);
       setIsCodeError(false);
+
+      if(localStorage.getItem("returnTo") === "accountInfo") {
+        localStorage.removeItem("returnTo"); 
+        nav("/login/account-info?type=found"); // 이메일 찾기 완료화면
+      } else {
+        localStorage.removeItem("returnTo");
+        setIsOpen(true);  // 취향등록 화면으로
+      }
+
     } else {
       setIsCodeValid(false);
       setIsCodeError(true);
@@ -98,6 +112,7 @@ export default function AuthVerify() {
         overflow: "hidden",
       }}
     >
+      <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} />
       <BackButton onBack={() => window.history.back()} />
       <AuthHeader />
       <NameInput value={name} onChange={setName} />

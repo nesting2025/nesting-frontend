@@ -17,7 +17,7 @@ const characters = [
     { name: '쿠로미', image: "/assets/character=kuromi, status=small.png" },
     // ... 추가 캐릭터
   ];
-export default function CharacterDialog({ open, onOpenChange, title, children }) {
+export default function CharacterDialog({ open, onOpenChange, onComplete, title, children }) {
   const [selected, setSelected] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
@@ -36,6 +36,12 @@ export default function CharacterDialog({ open, onOpenChange, title, children })
     }
   };
   const isButtonEnabled = selected.length > 0 || inputValue.trim() !== '';
+
+  const handleComplete = () => {
+    const names = [...selected.map(c => c.name)];
+    if(inputValue.trim()) names.push(inputValue.trim());
+    onComplete?.(names);
+  }
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -78,7 +84,7 @@ export default function CharacterDialog({ open, onOpenChange, title, children })
           
 
             <Dialog.Close asChild>
-              <button className="dialog-close" disabled={!isButtonEnabled}>선택 완료</button>
+              <button className="dialog-close" disabled={!isButtonEnabled} onClick={handleComplete}>선택 완료</button>
             </Dialog.Close>
           </div>
         </Dialog.Content>

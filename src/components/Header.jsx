@@ -1,18 +1,18 @@
 import "../styles/css/Header.css";
 import SearchBar from "./SearchBar";
-import CharacterDialog from "./dialog/CharacterDialog";
-import GoodsCategoryDialog from "./dialog/GoodsCategoryDialog";
-import WelcomeDialog from "./dialog/WelcomeDialog";
+import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
 const Header = ({screenSize}) => {
-  const [showSearchBar, setShowSearchBar] = useState(false)
-  const [isOpen, setIsOpen] = useState(false); // 다이얼로그 확인용
+  const nav = useNavigate();
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const toggleSearchBar = () => {
     setShowSearchBar((showSearchBar) => !showSearchBar)
   }
+
+  const gotoUserPage = () => nav("/login");
 
   return (
     <>
@@ -24,14 +24,10 @@ const Header = ({screenSize}) => {
         <img src="/assets/size=48, type=menu.svg" alt="Menu" className="icon" />
       </nav>
 
-      <div className="logo" onClick={() => setIsOpen(true)}>
+      <div className="logo">
         {/* 로고 */}
         <img src="/assets/logo.svg" alt="Nesting" className="icon" />
       </div>
-      <GoodsCategoryDialog open={isOpen} onOpenChange={setIsOpen} title="내 다이얼로그">
-        다이얼로그에 들어갈 콘텐츠입니다.
-      </GoodsCategoryDialog>
-
       <div className="icons">
         {/* 검색 아이콘 */}
         <div className="search-icon" onClick={toggleSearchBar}>
@@ -44,7 +40,9 @@ const Header = ({screenSize}) => {
         
 
         {/* 사용자 아이콘 */}
-        <div className="user-icon">
+        <div 
+          className="user-icon"
+          onClick={gotoUserPage}>
           <img src="/assets/size=24, type=user.svg" alt="User" className="icon" />
         </div>
 
