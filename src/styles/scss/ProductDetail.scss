@@ -1,0 +1,101 @@
+@import "./colors";
+@import "./typography";
+
+.product-detail {
+    min-width: 360px;
+    max-width: 768px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .header {
+        width: 100%;
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
+
+        .left-button {
+            display: flex;
+            height: 24px;
+
+            .back-button {
+                width: 24px;
+                height: 24px;
+            }
+        }
+        .right-buttons {
+            display: flex;
+            gap: 12px;
+            height: 24px;
+
+            .cart-button {
+                width: 24px;
+                height: 24px;
+            }
+            .search-button {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+
+    .product-img-area {
+        width: 100%;
+        position: relative;
+
+        .product-img-scroll {
+            width: 100%;
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+
+            // 스크롤바 안보이게
+            scrollbar-width: none;  
+            -ms-overflow-style: none;  
+            &::-webkit-scrollbar {        
+                display: none;
+            }
+
+            .product-img {
+                flex-shrink: 0;
+                width: 100%;
+                height: auto;
+                scroll-snap-align: start;
+            }
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+         .scroll-button.left {
+            left: 8px;
+        }
+
+        .scroll-button.right {
+            right: 8px;
+        }
+
+        .img-indicator {
+            padding: 2px 8px;
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            border-radius: 11px;
+            background: rgba(0, 0, 0, 0.7);
+            @include text-color("text-disabled");
+            @include font-style("caption1");
+
+            .highlight {
+                @include text-color("white");
+            }
+        }
+    }
+
+}
