@@ -9,6 +9,8 @@ import AccountInfo from './pages/AccountInfo';
 import FindEmail from './pages/FindEmail';
 import PreferenceSetup from './pages/PreferenceSetup';
 import AuthVerify from "./pages/AuthVerify";
+import OrderPay from "./pages/OrderPay";
+
 
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
       <Route path="/login/find-email" element={<FindEmail />} />
       <Route path="/login/account-info" element={<AccountInfo />} />
       <Route path="/verify" element={<AuthVerify />} />
+      <Route path="/order" element={<OrderPay />} />
     </Routes>
   );
 }

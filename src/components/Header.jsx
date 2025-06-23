@@ -13,6 +13,8 @@ const Header = ({screenSize}) => {
   }
 
   const gotoUserPage = () => nav("/login");
+  const gotoOrderPage = () => nav("/order");
+
 
   return (
     <>
@@ -47,7 +49,9 @@ const Header = ({screenSize}) => {
         </div>
 
         {/* 장바구니 아이콘 */}
-        <div className="cart-icon">
+        <div 
+          className="cart-icon"
+          onClick={gotoOrderPage}>
           <img
             src="/assets/size=24, type=cart.svg"
             alt="Cart"
