@@ -1,5 +1,5 @@
 import '../styles/css/ProductDetail.css';
-import { useState, useRef, use } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   shippingPolicyText1,
   shippingPolicyText2,
@@ -12,9 +12,17 @@ const ProductDetail = () => {
         "/assets/product/dummy_product.svg",
         "/assets/product/dummy_product.svg"
     ]
+    const productDetialInfo = [
+        {label: '굿즈 유형', value: '피규어'},
+        {label: '상품 상태', value: '중고'},
+        {label: '수량', value: '1'},
+    ]
+    const translatedInfo = `완전 희귀한 레옹 짱구와 마틸다 흰둥이 피규어입니다.\n\n즉시 구매 가능\n상자 없음\n\n상품 상태는 사진으로 확인 바랍니다.`;
     const price = 10000;
     const discountRate = 20;
     const discountedPrice = 8000;
+    const reviewCounts = 1996;
+    const tabList = ['제품 상세', `리뷰 ${reviewCounts.toLocaleString()}`, '상품 구매 안내']
 
 
     const [isHovered, setIsHovered] = useState(false);
@@ -22,25 +30,60 @@ const ProductDetail = () => {
     const scrollRef = useRef(null);
     const [showMoreDeliveryInfo, setShowMoreDeliveryInfo] = useState(false);
 
-    const handleScroll = () => {
+    const [activeTab, setActiveTab] = useState(0);
+    const sectionRefs = [
+        useRef(null),
+        useRef(null),
+        useRef(null)
+    ]
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScrollTab);
+
+        return () => {
+            window.removeEventListener('scroll', handleScrollTab);
+        };
+    }, []);
+
+    const handleScrollImg = () => {
         const scrollX = scrollRef.current.scrollLeft;  // 얼마나 스크롤했는지
         const containerWidth = scrollRef.current.offsetWidth;  // 요소의 보이는 너비
         const index = Math.round(scrollX/containerWidth);
         setCurrentIndex(index);
     }
 
-    const handelScrollLeft = () => {
+    const handelScrollLeftImg = () => {
         if(scrollRef.current) {
             const containerWidth = scrollRef.current.offsetWidth;
             scrollRef.current.scrollBy({ left: -containerWidth, behavior: "smooth"});
         }
     }
 
-    const handelScrollRight = () => {
+    const handelScrollRightImg = () => {
         if(scrollRef.current) {
             const containerWidth = scrollRef.current.offsetWidth;
             scrollRef.current.scrollBy({ left: containerWidth, behavior: "smooth"});
         }
+    }
+
+    // 사용자가 탭을 클릭했을 때 해당 섹션으로 스크롤
+    const handleScrollToArea = (index) => {
+        sectionRefs[index].current.scrollIntoView({behavior:'smooth'});
+    }
+
+    // 사용자가 스크롤할 때 현재 탭을 업데이트
+    const handleScrollTab = () => {
+        const scrollY = window.scrollY;
+        
+        sectionRefs.forEach((ref, index) => {
+            const offsetTop = ref.current.offsetTop;
+            const offsetHeight = ref.current.offsetHeight;
+
+            if(scrollY >= offsetTop && scrollY < offsetTop + offsetHeight) {
+                // 스티키헤더 높이만큼 60이라면 60씩 빼줌
+                setActiveTab(index);
+            }
+        })
     }
 
     return (
@@ -73,7 +116,7 @@ const ProductDetail = () => {
                 <div
                     className="product-img-scroll"
                     ref={scrollRef}
-                    onScroll={handleScroll}
+                    onScroll={handleScrollImg}
                 >
                     {imgList.map((src, index) => (
                         <img
@@ -88,12 +131,12 @@ const ProductDetail = () => {
                     <img 
                         className='scroll-button left' 
                         src='/assets/button/btn_left_transparent.svg'
-                        onClick={handelScrollLeft} 
+                        onClick={handelScrollLeftImg} 
                     />
                     <img 
                         className='scroll-button right' 
                         src='/assets/button/btn_right_transparent.svg'
-                        onClick={handelScrollRight} 
+                        onClick={handelScrollRightImg} 
                     />
                     </>
                 )}
@@ -180,6 +223,65 @@ const ProductDetail = () => {
             </div>
 
             <div className='diving-area' />
+
+            {/* 탭 영역 */}
+            <div className='tap-wrapper'>
+                {tabList.map((tab, index) => (
+                    <button
+                    key={index}
+                    className={`tab ${activeTab===index ? 'active': ''}`}
+                    onClick={()=> {
+                        setActiveTab(index);
+                        handleScrollToArea(index);}}
+                    >
+                        {tab}
+                    </button>
+                ))}
+
+            </div>
+
+            {/* 제품상세 영역 */}
+            <div ref={sectionRefs[0]} className='product-detail-area'>
+                {productDetialInfo.map(({ label , value }) => (
+                    <div key={label} className='product-detail-row'>
+                        <p className='product-detail-label'>{label}</p>
+                        <p className='product-detail-value'>{value}</p>
+                    </div>
+                ))}
+            </div>
+            <div className='diving-line'/>
+            <div className='translated-area'>
+                <p className='translate-info'>*일본 메루카리 판매자가 작성한 글을 자동으로 번역했어요</p>
+                <p className='translated-product-info' style={{ whiteSpace: 'pre-line' }}>{translatedInfo}</p>
+            </div>
+
+            <div className='diving-area' />
+
+            {/* 리뷰 영역 */}
+            <div ref={sectionRefs[1]} className='review-area'>
+                <h3 className='review-title'>네스터들의 해외구매 리뷰</h3>
+                <div className='review-top-area'>
+                    <div>
+                        <p className='review-top-title'>평균 별점</p>
+                        <div className='rating-star-row'>
+                            <img className='star-img' src='/assets/icon/star.svg' />
+                            <p className='review-top-content'>4.8</p>
+                        </div>
+                    </div>
+                    <div className='diving-line3'></div>
+                    <div>
+                        <p className='review-top-title'>리뷰 건수</p>
+                        <p className='review-top-content'>{reviewCounts.toLocaleString()}건</p>
+                    </div>
+                </div>
+                {/* 리뷰 컴포넌트 */}
+                <button className='review-button'>네스터들의 리뷰 전체보기</button>
+            </div>
+
+            <div className='diving-area' />
+
+            {/* 상품구매안내 영역 */}
+            <div ref={sectionRefs[2]}>상품 구매 안내</div>
 
         </div>
     )
