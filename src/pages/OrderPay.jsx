@@ -8,14 +8,15 @@ const OrderPay = () => {
 
       {/* 배송지 */}
       <section className="order-section">
-        <div className="order-section-title">배송지</div>
+        <div className="order-section-title" style={{justifyContent:'space-between'}}>배송지
+            <span className="order-section-title register">등록</span>
+        </div>
         <div className="order-address-box">배송지를 등록해 주세요</div>
       </section>
 
       {/* 개인통관고유부호 */}
       <section className="order-section">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding:0 }}>
-            <div className="order-section-title">개인통관고유부호</div>
+        <div className="order-section-title" style={{justifyContent:'space-between'}}>개인통관고유부호
             <button className="order-lookup-btn">10초만에 조회하기</button>
         </div>
         <div className="order-customs-code">
@@ -33,7 +34,7 @@ const OrderPay = () => {
           <img src="https://via.placeholder.com/60" alt="order-product" />
           <div className="order-product-info" >
             <div className="order-product-title">상품명은 최대 1줄 노출상품명은 최대 1줄 노출상품명은 최대 1줄 노출asdfasdfasdfasdf</div>
-            <div className="order-product-price">
+            <div className="order-product-price" style={{display:'flex',alignItems:'center'}}> 
               <span className="order-origin-price">10,000원</span>
               <span className="order-sale-price">8,000원</span>
             </div>
@@ -61,16 +62,16 @@ const OrderPay = () => {
       {/* 결제 금액 */}
       <section className="order-section">
         <div className="order-section-title">결제 금액</div>
-        <div className="order-price-row"><span>상품 금액</span><span>10,000원</span></div>
-        <div className="order-price-row"><span>할인 금액</span><span className="red">-2,000원</span></div>
-        <div className="order-price-row"><span>배송비</span><span>-</span></div>
-        <div className="order-price-row total"><span>총 결제 금액</span><span>8,000원</span></div>
+        <div className="order-price-row"><span className="order-price-row left">상품 금액</span><span className="order-price-row right">10,000원</span></div>
+        <div className="order-price-row"><span className="order-price-row left">할인 금액</span><span className="order-price-row right red">-2,000원</span></div>
+        <div className="order-price-row"><span className="order-price-row left">배송비</span><span>-</span></div>
+        <div className="order-price-row-total"><span className="order-price-row-total left">총 결제 금액</span><span className="order-price-row-total right">8,000원</span></div>
       </section>
 
       {/* 동의 체크 */}
       <div className="order-agreement">
-        <input type="checkbox" />
-        <label>[필수] 주문한 상품의 결제, 배송, 주문정보를 확인하였으며 이에 동의합니다.</label>
+        <input className="order-checkbox" type="checkbox" />
+        <div>[필수] 주문한 상품의 결제, 배송, 주문정보를 확인하였으며 이에 동의합니다.</div>
       </div>
     </div>
   );
