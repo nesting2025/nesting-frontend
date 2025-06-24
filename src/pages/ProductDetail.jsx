@@ -1,9 +1,19 @@
 import '../styles/css/ProductDetail.css';
+import ProductReview from '../components/ProductReview';
 import { useState, useRef, useEffect } from 'react';
 import {
   shippingPolicyText1,
   shippingPolicyText2,
   shippingPolicyText3,
+
+  returnPolicyText1,
+  returnPolicyText2,
+  returnPolicyText3,
+  returnPolicyText4,
+  returnPolicyText5,
+
+  transactionInfoText1,
+  transactionInfoText2
 } from '../text';
 
 const ProductDetail = () => {
@@ -17,6 +27,26 @@ const ProductDetail = () => {
         {label: '상품 상태', value: '중고'},
         {label: '수량', value: '1'},
     ]
+    const reviews = [
+        {
+            rating: 2,
+            nickname: "닉네임뒤세글자***",
+            content: "흠냐..글쎄용.",
+            photo: "/assets/product/dummy_product2.svg"
+        },
+        {
+            rating: 5,
+            nickname: "닉네임뒤세글자***",
+            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 텍스트 영역은 마찬가지로 최대 3줄 노출합니다라라라라라",
+            photo: ""
+        },
+        {
+            rating: 5,
+            nickname: "닉네임뒤세글자***",
+            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 최대 3줄 노출합니다",
+            photo: "/assets/product/dummy_product2.svg"
+        },
+    ]
     const translatedInfo = `완전 희귀한 레옹 짱구와 마틸다 흰둥이 피규어입니다.\n\n즉시 구매 가능\n상자 없음\n\n상품 상태는 사진으로 확인 바랍니다.`;
     const price = 10000;
     const discountRate = 20;
@@ -29,6 +59,8 @@ const ProductDetail = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const scrollRef = useRef(null);
     const [showMoreDeliveryInfo, setShowMoreDeliveryInfo] = useState(false);
+    const [showReturnPolicy, setShowReturnPolicy] = useState(false);
+    const [showTransactionInfo, setShowTransactionInfo] = useState(false);
 
     const [activeTab, setActiveTab] = useState(0);
     const sectionRefs = [
@@ -193,18 +225,19 @@ const ProductDetail = () => {
                     {showMoreDeliveryInfo && (
                         <div className='show-more-area'>
                             <div className='diving-line2' />
-
-                            <div className='shipping-row'>
-                                <p className='show-more-shipping-title'>배송정보</p>
-                                <p className='show-more-shipping-contents'>{shippingPolicyText1}</p>
-                            </div>
-                            <div className='shipping-row'>
-                                <p className='show-more-shipping-title'>교환/반품</p>
-                                <p className='show-more-shipping-contents'>{shippingPolicyText2}</p>
-                            </div>
-                            <div className='shipping-row'>
-                                <p className='show-more-shipping-title'>확인사항</p>
-                                <p className='show-more-shipping-contents bottom'>{shippingPolicyText3}</p>
+                            <div className='shipping-rows'>
+                                <div className='shipping-row'>
+                                    <p className='show-more-shipping-title'>배송정보</p>
+                                    <p className='show-more-shipping-contents'>{shippingPolicyText1}</p>
+                                </div>
+                                <div className='shipping-row'>
+                                    <p className='show-more-shipping-title'>교환/반품</p>
+                                    <p className='show-more-shipping-contents'>{shippingPolicyText2}</p>
+                                </div>
+                                <div className='shipping-row'>
+                                    <p className='show-more-shipping-title'>확인사항</p>
+                                    <p className='show-more-shipping-contents'>{shippingPolicyText3}</p>
+                                </div>
                             </div>
                         </div>
                     )}
@@ -275,13 +308,118 @@ const ProductDetail = () => {
                     </div>
                 </div>
                 {/* 리뷰 컴포넌트 */}
+                <div className='reivew-components-area'>
+                    {reviews.map((review, index) => (
+                        <ProductReview
+                            key={index}
+                            rating={review.rating}
+                            nickname={review.nickname}
+                            content={review.content}
+                            photo={review.photo} 
+                        />
+                    ))}
+                </div>
                 <button className='review-button'>네스터들의 리뷰 전체보기</button>
             </div>
 
             <div className='diving-area' />
 
             {/* 상품구매안내 영역 */}
-            <div ref={sectionRefs[2]}>상품 구매 안내</div>
+            <div ref={sectionRefs[2]} className='buy-info-area'>
+                <div>
+                    <div className='buy-info-row'>
+                        <h4 className='buy-info-row-title'>취소/교환/반품 안내</h4>
+                        <img 
+                            className='buy-info-row-img' 
+                            src={showReturnPolicy ? '/assets/button/btn_dropup.svg' : '/assets/button/btn_dropdown.svg'}
+                            onClick={() => setShowReturnPolicy(prev => !prev)} 
+                        />
+                    </div>
+                    {showReturnPolicy && (
+                        <div className='buy-info-detail-area'>
+                            <div>
+                                <p className='buy-info-title'>취소 가능 시점</p>
+                                <p className='buy-info-content'>{returnPolicyText1}</p>
+                            </div>
+                            <div>
+                                <p className='buy-info-title'>취소 방법</p>
+                                <p className='buy-info-content'>{returnPolicyText2}</p>
+                            </div>
+                            <div>
+                                <p className='buy-info-title'>품절로 인한 자동 취소</p>
+                                <p className='buy-info-content'>{returnPolicyText3}</p>
+                            </div>
+                            <div>
+                                <p className='buy-info-title'>반품/교환 안내</p>
+                                <div className='shipping-rows ver2'>
+                                    <div className='shipping-row'>
+                                        <p className='show-more-shipping-title ver2'>판매자 지정 택배사</p>
+                                        <p className='show-more-shipping-contents ver2'>롯데 택배</p>
+                                    </div>
+                                    <div className='shipping-row'>
+                                        <p className='show-more-shipping-title ver2'>반품배송비</p>
+                                        <p className='show-more-shipping-contents ver2'>편도 20,000원 (최초 배송비 무료인 경우 40,000원 부과)</p>
+                                    </div>
+                                    <div className='shipping-row'>
+                                        <p className='show-more-shipping-title ver2'>교환배송비</p>
+                                        <p className='show-more-shipping-contents ver2'>40,000원</p>
+                                    </div>
+                                    <div className='shipping-row'>
+                                        <p className='show-more-shipping-title ver2'>보내실 곳</p>
+                                        <p className='show-more-shipping-contents ver2'>서울특별시 성북구 삼선교로6길 20 102호 (우: 02865)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p className='buy-info-title'>반품/교환 사유에 따른 요청 가능 시간</p>
+                                <p className='buy-info-content'>{returnPolicyText4}</p>
+                            </div>
+                            <div>
+                                <p className='buy-info-title'>반품/교환 불가능 사유</p>
+                                <p className='buy-info-content'>{returnPolicyText5}</p>
+                            </div>
+                        </div>
+                    )}
+                    
+                </div>
+                <div>
+                    <div className='buy-info-row'>
+                        <h4 className='buy-info-row-title'>거래조건에 관한 정보</h4>
+                        <img 
+                            className='buy-info-row-img' 
+                            src={showTransactionInfo ? '/assets/button/btn_dropup.svg' : '/assets/button/btn_dropdown.svg'}
+                            onClick={() => setShowTransactionInfo(prev => !prev)}  
+                        />
+                    </div>
+                    {showTransactionInfo && (
+                        <div className='buy-info-detail-area'>
+                            <div>
+                                <p className='buy-info-title'>A/S 안내</p>
+                                <div className='shipping-rows ver2'>
+                                    <div className='shipping-row'>
+                                        <p className='show-more-shipping-title ver2'>A/S 책임자와 전화번호</p>
+                                        <p className='show-more-shipping-contents ver2'>상품 상세 참조 (07079544117)</p>
+                                    </div>
+                                    <div className='shipping-row'>
+                                        <p className='show-more-shipping-title ver2'>재화 등의 A/S 관련 전화번호</p>
+                                        <p className='show-more-shipping-contents ver2'>07079544117</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <p className='buy-info-title'>청약 철회 안내</p>
+                                <p className='buy-info-content'>{transactionInfoText1}</p>
+                            </div>
+                            <div>
+                                <p className='buy-info-title'>그 외 안내</p>
+                                <p className='buy-info-content'>{transactionInfoText2}</p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            <div className='diving-area' />
 
         </div>
     )

@@ -1,0 +1,56 @@
+.product-review {
+  width: 280px;
+  flex-shrink: 0;
+  border: 1px solid;
+  border-color: #E5E5EC;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.product-review .review-row1 {
+  display: flex;
+  gap: 4px;
+}
+.product-review .review-row1 .star-row {
+  display: flex;
+  gap: 0;
+}
+.product-review .review-row1 .star-row .star-img {
+  width: 16px;
+  height: 16px;
+}
+.product-review .review-row1 .nickname {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #767676;
+  margin: 0;
+}
+.product-review .review-row2 {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.product-review .review-row2 .content {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #767676;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+.product-review .review-row2 .content.full-width {
+  flex: 0 0 100%;
+}
+.product-review .review-row2 .photo-img {
+  width: 60px;
+  height: 60px;
+}

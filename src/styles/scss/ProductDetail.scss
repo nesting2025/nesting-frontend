@@ -241,28 +241,46 @@
                 height: 1px;
                 @include bg-color("line-medium");
                 margin-top: 16px;
-                margin-bottom: 16px;
+                margin-bottom: 12px;
             }
+        }
+    }
 
-            .shipping-row {
-                display: flex;
-                gap: 8px;
+    .shipping-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 4px;
+
+        &.ver2 {
+            gap: 2px;
+        }
+
+        .shipping-row {
+            display: flex;
+            gap: 8px;
+
+            .show-more-shipping-title {
+                width: 50px;
+                margin: 0;
+                flex-shrink: 0;
                 @include font-style("caption1");
 
-                .show-more-shipping-title {
-                    width: 50px;
-                    margin: 0;
-                    flex-shrink: 0;
-                }
-
-                .show-more-shipping-contents {
+                &.ver2 {
+                    @include font-style("caption3");
                     @include text-color("text-sub2");
-                    margin-top: 0px;
-                    margin-bottom: 8px;
+                    width: 55px;
+                }
+            }
 
-                    &.bottom {
-                        margin-bottom: 0px;
-                    }
+            .show-more-shipping-contents {
+                @include text-color("text-sub2");
+                @include font-style("caption1");
+                margin: 0;
+
+                &.ver2 {
+                    @include font-style("caption3");
+                    @include text-color("text-sub1");
                 }
             }
         }
@@ -433,8 +451,23 @@
                 }
         }
 
+        .reivew-components-area {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-right: 16px;
+            margin-top: 16px;
+
+            // 스크롤바 숨김
+            scrollbar-width: none;      
+            -ms-overflow-style: none;     
+            &::-webkit-scrollbar {        
+                display: none;
+            }
+        }
+
         .review-button {
-            width: 100%;
+            width: calc(100% - 16px);
             padding-top: 8px;
             padding-bottom: 8px;
             border: none;
@@ -444,10 +477,59 @@
             @include bg-color("white");
             @include text-color("text-sub1");
             @include font-style("body1");
+            cursor: pointer;
 
+            box-sizing: border-box;
             margin-top: 16px;
+            margin-right: 16px;
+        }
+    }
+
+    .buy-info-area {
+        width: 100%;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .buy-info-row {
+            display: flex;
+            justify-content: space-between;
+
+            .buy-info-row-title {
+                @include font-style("headline6");
+                @include text-color("text-sub2");
+                margin: 0;
+            }
+
+            .buy-info-row-img {
+                width: 24px;
+                height: 24px;
+            }
         }
 
+        .buy-info-detail-area {
+            margin-top: 8px;
+            padding: 8px;
+            @include bg-color("bg-weak");
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .buy-info-title {
+            @include font-style("body1");
+            @include text-color();
+            margin: 0;
+        }
+
+        .buy-info-content {
+            @include font-style("caption3");
+            @include text-color("text-sub2");
+            white-space: pre-wrap;
+            margin: 0;
+            margin-top: 4px;
+        }
     }
 
 }
