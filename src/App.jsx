@@ -10,6 +10,7 @@ import FindEmail from './pages/FindEmail';
 import PreferenceSetup from './pages/PreferenceSetup';
 import AuthVerify from "./pages/AuthVerify";
 import OrderPay from "./pages/OrderPay";
+import AddressRegister from "./pages/AddressRegister";
 
 
 
@@ -26,6 +27,8 @@ function App() {
       <Route path="/login/account-info" element={<AccountInfo />} />
       <Route path="/verify" element={<AuthVerify />} />
       <Route path="/order" element={<OrderPay />} />
+      <Route path="/address-register" element={<AddressRegister />} />
+
     </Routes>
   );
 }

@@ -1,15 +1,21 @@
 import React from 'react';
 import '../styles/css/OrderPay.css';
 
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 const OrderPay = () => {
+    const nav = useNavigate();
+    const gotoAddressRegisterPage = () => nav("/address-register");
+
   return (
     <div className="order-page">
-      <h2 className="order-page-title">주문/결제</h2>
+      <div className="order-page-title">주문/결제</div>
 
       {/* 배송지 */}
       <section className="order-section">
         <div className="order-section-title" style={{justifyContent:'space-between'}}>배송지
-            <span className="order-section-title register">등록</span>
+            <span className="order-section-title register" onClick={gotoAddressRegisterPage}>등록</span>
         </div>
         <div className="order-address-box">배송지를 등록해 주세요</div>
       </section>
