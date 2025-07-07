@@ -2,11 +2,17 @@ import { useRef,useState } from "react";
 import '../styles/css/AuthCode.css';
 import CustomButton from "../components/CustomButton";
 import { useNavigate } from 'react-router-dom';
+import Timer from "../components/Timer";
+
 
 const AuthCode = () => {
     const nav = useNavigate();
     const [email, setEmail] = useState("");
     const [isValidCode, setIsValidCode] = useState(false);
+    const [timeOut, setTimeOut] = useState(false);
+    const [timerKey, setTimerKey] = useState(0);
+
+
 
     const goBack = () => nav(-1);
     const gotoLoginNesting = () => nav("/login/auth-code", { replace: true });
@@ -44,6 +50,14 @@ const AuthCode = () => {
           setIsValidCode(false);
         }
       };
+      const handleTimeout = () => {
+        setTimeOut(true);
+      };
+      const handleResend = () => {
+        console.log('📨 인증번호 재전송');
+        setTimeOut(false);
+        setTimerKey((prev) => prev + 1);
+      };
     
     return (
         <div className="auth-code">
@@ -76,9 +90,22 @@ const AuthCode = () => {
         <CustomButton
             className='next-button' 
             text="다음" 
-            isValid={isValidCode}
+            isValid={isValidCode && !timeOut}
             onClick={gotoLoginNesting}  
         />
+        <div className="timer-container">
+            <Timer className="timer" key={timerKey} initialSeconds={10} onTimeout={handleTimeout} />
+            
+            <span className={`resend-button ${timeOut ? 'active' : 'disabled'}`}
+                    onClick={timeOut ? handleResend : null}>
+            재전송
+            </span>
+        </div>
+        <p style={{ textAlign: 'center', marginTop:'80px'}}>*인증코드 확인 과정에 문제가 생기셨나요?
+            <span>문의하기</span>
+        </p>
+        
+      
         </div>
     )    
 }

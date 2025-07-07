@@ -42,7 +42,12 @@
         @include text-color("text-sub1");
         width: 320px;
         margin: 0;
-        
+        span{
+            @include text-color("text-main");
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 6px;
+        }
     }
 
     .code-input-container {
@@ -52,8 +57,6 @@
       }
       
       .code-input {
-
-        box-sizing: border-box; // 👈 패딩/보더 포함
         @include font-style("display4");
         @include text-color("black");
         @include bg-color("bg-strong");
@@ -72,5 +75,26 @@
 
     .next-button {
         margin-top: 40px;
-    } 
+    }
+    .timer-container {
+        @include font-style("body2");
+        @include text-color("text-sub1");
+        display: flex;
+        align-items: baseline;
+        justify-content: baseline;
+        gap: 8px;
+        margin-top: 16px;
+        .resend-button {
+            @include text-color("text-disabled"); 
+            cursor: not-allowed; // 기본 비활성화
+            text-decoration: underline;
+            &.active {
+              cursor: pointer;
+              @include text-color("text-main"); // 활성화 시 색상
+            }
+            &.disabled {
+              pointer-events: none; // 클릭 아예 막기
+            }
+        }
+    }
 }

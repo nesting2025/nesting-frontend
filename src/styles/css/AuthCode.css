@@ -46,13 +46,18 @@
   width: 320px;
   margin: 0;
 }
+.auth-code p span {
+  color: #111111;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 6px;
+}
 .auth-code .code-input-container {
   margin-top: 40px;
   display: flex;
   gap: 10px;
 }
 .auth-code .code-input {
-  box-sizing: border-box;
   font-size: 36px;
   line-height: 48px;
   font-weight: 600;
@@ -72,4 +77,28 @@
 }
 .auth-code .next-button {
   margin-top: 40px;
+}
+.auth-code .timer-container {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #767676;
+  display: flex;
+  align-items: baseline;
+  justify-content: baseline;
+  gap: 8px;
+  margin-top: 16px;
+}
+.auth-code .timer-container .resend-button {
+  color: #999999;
+  cursor: not-allowed;
+  text-decoration: underline;
+}
+.auth-code .timer-container .resend-button.active {
+  cursor: pointer;
+  color: #111111;
+}
+.auth-code .timer-container .resend-button.disabled {
+  pointer-events: none;
 }
