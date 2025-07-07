@@ -35,7 +35,6 @@
 .product-image {
   width: 100%;
   height: auto;
-  -o-object-fit: cover;
   object-fit: cover;
   border-radius: 8px;
   display: block;

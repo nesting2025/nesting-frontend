@@ -9,7 +9,7 @@ const FindPassword = () => {
     const [isValidEmail, setIsValidEmail] = useState(false);
 
     const goBack = () => nav(-1);
-    const gotoLoginNesting = () => nav("/login/nesting", { replace: true });
+    const gotoLoginNesting = () => nav("/login/auth-code", { replace: true });
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
@@ -32,7 +32,7 @@ const FindPassword = () => {
             onClick={goBack}
         />
         <h2>비밀번호 찾기</h2>
-        <p>본인 인증 완료 후, 이메일로 임시 비밀번호를 발송해 드려요</p>
+        <p>이메일로 인증코드를 발송해 드려요</p>
         <h5>이메일 주소</h5>
         <div className='input-email-wrapper'>
             <input
@@ -52,7 +52,7 @@ const FindPassword = () => {
 
         <CustomButton 
             className='next-button' 
-            text="이메일로 임시 비밀번호 받기" 
+            text="이메일로 인증코드 받기" 
             isValid={isValidEmail}
             onClick={gotoLoginNesting} 
         />
