@@ -1,0 +1,74 @@
+.filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 12px 20px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.filter-bar::-webkit-scrollbar {
+  display: none;
+}
+.filter-bar > * {
+  flex-shrink: 0;
+}
+
+.filter-bar .filter-btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 17px;
+  cursor: pointer;
+}
+.filter-bar .filter-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+.filter-bar .divider {
+  width: 1px;
+  height: 24px;
+  background-color: #E5E5EC;
+  flex-shrink: 0;
+}
+
+.filter-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.filter-options .option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #767676;
+  border: 1px solid #E5E5EC;
+  background: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.filter-options .option svg {
+  margin-left: 2px;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  stroke: #767676;
+}
+.filter-options .option.active {
+  background: none;
+  color: inherit;
+  border-color: #E5E5EC;
+}
+.filter-options .option.active svg {
+  stroke: #767676;
+}

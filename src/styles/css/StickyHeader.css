@@ -1,0 +1,119 @@
+@charset "UTF-8";
+/* 헤더 - small 버전만 */
+.header.small {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 100%;
+  height: 48px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  background-color: white;
+  border-bottom: 2px solid black;
+  flex-shrink: 0;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* 중앙 로고 */
+.header.small .logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+.header.small .logo img {
+  height: 100%;
+  max-height: 48px;
+}
+
+/* 아이콘 영역 */
+.header.small .icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header.small .icons > * {
+  flex-shrink: 0;
+}
+
+/* 메뉴 아이콘 (왼쪽) */
+.header.small .menu-icon {
+  display: flex;
+  align-items: center;
+}
+.header.small .menu-icon img {
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.header.small .search-icon,
+.header.small .user-icon,
+.header.small .cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.header.small .search-icon img,
+.header.small .user-icon img,
+.header.small .cart-icon img {
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* 장바구니 뱃지 */
+.header.small .cart-icon .cart-badge {
+  position: absolute;
+  top: 4px;
+  left: 17px;
+  width: 8px;
+  height: 8px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+}
+
+/* 네비게이션 메뉴 (현재 숨김) */
+.header.small .navbar {
+  display: flex;
+  gap: 60px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  text-transform: uppercase;
+  height: 32px;
+  align-items: center;
+  margin: 29px 0;
+}
+.header.small .navbar a {
+  display: none;
+  text-decoration: none;
+  color: black;
+  transition: color 0.2s ease-in-out;
+}
+
+/* 검색 오버레이 & 바 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 17, 17, 0.6);
+  z-index: 1001;
+}
+
+.searchbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1002;
+}
