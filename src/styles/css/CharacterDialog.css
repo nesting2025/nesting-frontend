@@ -161,6 +161,7 @@
   border-color: #111111;
 }
 .dialog-content .character-grid-cross {
+  width: -moz-fit-content;
   width: fit-content;
   display: grid;
   grid-template-columns: repeat(4, 1fr);

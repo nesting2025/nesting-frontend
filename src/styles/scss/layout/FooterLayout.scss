@@ -1,0 +1,60 @@
+@import "../colors";
+@import "../typography";
+
+.footer {
+    padding: 20px;
+    @include bg-color("bg-weak");
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+
+    .nesting-info {
+        .img-banner {
+            width: 149px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        p {
+            @include font-style("body2");
+            @include text-color();
+            margin-bottom: 9px;
+
+            span {
+                @include text-color("line-medium");
+            }
+        }
+
+        .goto-info {
+            margin-bottom: 27px;
+        }
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 12px;
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+    &.large {
+        gap: 20px;
+        img {
+            width: 48px;
+            height: 48px;
+        }
+    }
+
+    &.medium {
+        padding: 40px 20px;
+    }
+
+    &.small {
+        p {
+            @include font-style("body3");
+        }
+        padding: 20px 20px;   
+    }
+}

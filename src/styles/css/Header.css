@@ -238,16 +238,6 @@
   height: 50px;
 }
 
-/* 아이콘 그룹 (오른쪽 정렬) */
-.header.small .icons {
-  display: flex;
-  align-items: center;
-  gap: 60px;
-}
-.header.small .icons .search-icon, .header.small .icons .user-icon {
-  display: none;
-}
-
 /* 아이콘 공통 스타일 */
 .header.small .icon {
   width: 24px;
@@ -285,4 +275,11 @@
   position: fixed;
   width: 100%;
   z-index: 11;
+}
+
+@media (max-width: 480px) {
+  .header.small .icons .search-icon,
+  .header.small .icons .user-icon {
+    display: none;
+  }
 }

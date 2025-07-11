@@ -1,5 +1,5 @@
-import "../styles/css/Footer.css";
-import Divider from "./Divider";
+import "../../styles/css/FooterLayout.css";
+import Divider from "../Divider";
 
 const Footer = ({ screenSize }) => {
   return (
@@ -12,13 +12,13 @@ const Footer = ({ screenSize }) => {
           이용 안내
         </p>
         <p>
-          사업자등록번호: 102-18-66318 <Divider screenSize={screenSize} /> 
-          통신판매업신고번호: 2024-서울성북-0983 <Divider screenSize={screenSize} /> 
+          사업자등록번호: 102-18-66318 <Divider screenSize={screenSize} />
+          통신판매업신고번호: 2024-서울성북-0983{" "}
+          <Divider screenSize={screenSize} />
           고객센터 : 070-7954-4117
         </p>
         <p>
-          대표: 남윤수 <Divider screenSize={screenSize} /> 
-          @ Busyboyshop
+          대표: 남윤수 <Divider screenSize={screenSize} />@ Busyboyshop
         </p>
       </div>
       <div className="social-icons">

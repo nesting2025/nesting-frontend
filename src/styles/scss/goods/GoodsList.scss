@@ -1,0 +1,39 @@
+/* GoodsList.scss */
+
+.page-bg {
+    background: #ffffff; // 예: 양 옆 배경색
+    min-height: 100vh;
+  }
+  
+  .container {
+    max-width: 768px;
+    margin: 0 auto;
+    background: #ffffff;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .category-tabs {
+    position: sticky;
+    top: 60px; // header 높이만큼!
+    z-index: 10;
+    background: #fff;
+    box-shadow: 0 1px 0 #eee;
+  }
+  
+  .product-list {
+    flex: 1;
+    padding: 16px;
+    background: #fff;
+  }
+  
+  .footer {
+    flex-shrink: 0;
+  }
