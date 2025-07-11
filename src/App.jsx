@@ -9,7 +9,9 @@ import AccountInfo from "./pages/AccountInfo";
 import FindEmail from "./pages/FindEmail";
 import PreferenceSetup from "./pages/PreferenceSetup";
 import AuthVerify from "./pages/AuthVerify";
+import ProductDetail from "./pages/ProductDetail";
 import GoodsList from "./pages/GoodsList";
+
 
 function App() {
   return (
@@ -23,7 +25,7 @@ function App() {
       <Route path="/login/find-email" element={<FindEmail />} />
       <Route path="/login/account-info" element={<AccountInfo />} />
       <Route path="/verify" element={<AuthVerify />} />
-
+      <Route path="/product/detail" element={<ProductDetail />} />
       <Route path="/goods" element={<GoodsList />} />
       {/* <Route path="/goods/:id" element={<GoodsDetail />} /> */}
     </Routes>

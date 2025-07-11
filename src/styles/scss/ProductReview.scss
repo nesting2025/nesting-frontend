@@ -1,0 +1,60 @@
+@import "./colors";
+@import "./typography";
+
+.product-review {
+    width: 280px;
+    flex-shrink: 0;
+    border: 1px solid;
+    @include border-color("line-medium");
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .review-row1 {
+        display: flex;
+        gap: 4px;
+
+        .star-row {
+            display: flex;
+            gap: 0;
+            .star-img {
+                width: 16px;
+                height: 16px;
+            }
+        }
+
+        .nickname {
+            @include font-style("caption2");
+            @include text-color("text-sub1");
+            margin: 0;
+        }
+    }
+
+    .review-row2 {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+
+        .content {
+            @include font-style("body2");
+            @include text-color("text-sub1");
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+
+            &.full-width {
+                flex: 0 0 100%;
+            }
+        }
+
+        .photo-img {
+            width: 60px;
+            height: 60px;
+        }
+    }
+}
