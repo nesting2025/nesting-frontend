@@ -1,5 +1,7 @@
 import '../styles/css/ProductDetail.css';
 import ProductReview from '../components/ProductReview';
+import ProductCardPrev from '../components/goods/ProductCardPrev';
+import Footer from '../components/layout/Footer';
 import { useState, useRef, useEffect } from 'react';
 import {
   shippingPolicyText1,
@@ -18,9 +20,9 @@ import {
 
 const ProductDetail = () => {
     const imgList = [
-        "/assets/product/dummy_product.svg",
-        "/assets/product/dummy_product.svg",
-        "/assets/product/dummy_product.svg"
+        "/assets/sample/dummy_product.svg",
+        "/assets/sample/dummy_product.svg",
+        "/assets/sample/dummy_product.svg"
     ]
     const productDetialInfo = [
         {label: '굿즈 유형', value: '피규어'},
@@ -32,7 +34,7 @@ const ProductDetail = () => {
             rating: 2,
             nickname: "닉네임뒤세글자***",
             content: "흠냐..글쎄용.",
-            photo: "/assets/product/dummy_product2.svg"
+            photo: "/assets/sample/dummy_product2.svg"
         },
         {
             rating: 5,
@@ -44,7 +46,7 @@ const ProductDetail = () => {
             rating: 5,
             nickname: "닉네임뒤세글자***",
             content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 최대 3줄 노출합니다",
-            photo: "/assets/product/dummy_product2.svg"
+            photo: "/assets/sample/dummy_product2.svg"
         },
     ]
     const translatedInfo = `완전 희귀한 레옹 짱구와 마틸다 흰둥이 피규어입니다.\n\n즉시 구매 가능\n상자 없음\n\n상품 상태는 사진으로 확인 바랍니다.`;
@@ -54,10 +56,197 @@ const ProductDetail = () => {
     const reviewCounts = 1996;
     const tabList = ['제품 상세', `리뷰 ${reviewCounts.toLocaleString()}`, '상품 구매 안내']
 
+    const RecommendedProducts = [
+        {
+        id: 1,
+        title: "레옹 짱구와 마틸다 힌둥",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: false,
+        imageUrl: "/assets/sample/dummy_product2.svg",
+        },
+        {
+        id: 2,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: false,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product3.svg",
+        },
+        {
+        id: 3,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product4.svg",
+        },
+        {
+        id: 4,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product5.svg",
+        },
+        {
+        id: 5,
+        title: "상품명 최대 1줄 노출 길이 테스트",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product6.svg",
+        },
+        {
+        id: 6,
+        title: "상품명 최대 1줄 노출 길이 테스트",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product7.svg",
+        },
+        {
+        id: 7,
+        title: "레옹 짱구와 마틸다 힌둥",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: false,
+        imageUrl: "/assets/sample/dummy_product2.svg",
+        },
+        {
+        id: 8,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: false,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product3.svg",
+        },
+        {
+        id: 9,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product4.svg",
+        },
+        {
+        id: 10,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product5.svg",
+        },
+        {
+        id: 11,
+        title: "상품명 최대 1줄 노출 길이 테스트",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product6.svg",
+        },
+        {
+        id: 12,
+        title: "상품명 최대 1줄 노출 길이 테스트",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product7.svg",
+        },
+        {
+        id: 13,
+        title: "레옹 짱구와 마틸다 힌둥",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: false,
+        imageUrl: "/assets/sample/dummy_product2.svg",
+        },
+        {
+        id: 14,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: false,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product3.svg",
+        },
+        {
+        id: 15,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product4.svg",
+        },
+        {
+        id: 16,
+        title: "짱구2-상품명은무조건한줄처리",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product5.svg",
+        },
+        {
+        id: 17,
+        title: "상품명 최대 1줄 노출 길이 테스트",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product6.svg",
+        },
+        {
+        id: 18,
+        title: "상품명 최대 1줄 노출 길이 테스트",
+        price: 8000,
+        discount: 0,
+        isOverseas: true,
+        isSoldOut: false,
+        isLiked: true,
+        imageUrl: "/assets/sample/dummy_product7.svg",
+        },
+    ];
+
 
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const scrollRef = useRef(null);
+
+    const [currentProductIndex, setCurrentProductIndex] = useState(0);
+    const productScrollRef = useRef(null);
+
     const [showMoreDeliveryInfo, setShowMoreDeliveryInfo] = useState(false);
     const [showReturnPolicy, setShowReturnPolicy] = useState(false);
     const [showTransactionInfo, setShowTransactionInfo] = useState(false);
@@ -96,6 +285,28 @@ const ProductDetail = () => {
             const containerWidth = scrollRef.current.offsetWidth;
             scrollRef.current.scrollBy({ left: containerWidth, behavior: "smooth"});
         }
+    }
+
+    const handleScrollProduct = () => {
+        const scrollX = productScrollRef.current.scrollLeft;  // 얼마나 스크롤했는지
+        const containerWidth = productScrollRef.current.offsetWidth;  // 요소의 보이는 너비
+        const index = Math.round(scrollX/containerWidth);
+        setCurrentProductIndex(index);
+    }
+
+    const goToProductSlide = (index) => {
+        if(!productScrollRef.current) return;
+
+        const containerWidth = productScrollRef.current.offsetWidth;
+
+        productScrollRef.current.scrollTo({
+            left: index * containerWidth,
+            behavior: "smooth"
+        });
+
+        setTimeout(() => {
+            setCurrentProductIndex(index);
+        }, 300);
     }
 
     // 사용자가 탭을 클릭했을 때 해당 섹션으로 스크롤
@@ -420,6 +631,64 @@ const ProductDetail = () => {
             </div>
 
             <div className='diving-area' />
+
+            {/* 연관상품 추천 영역 */}
+            <div className='product-recommend-area'>
+                <p className='recommend-title'><span className='title-highlight'>짱구</span> 러버들의 Pick</p>
+                <div 
+                className='recommned-product-list-slide'
+                ref={productScrollRef}
+                onScroll={handleScrollProduct}
+                >
+                    <div className='recommned-product-list'>
+                        {RecommendedProducts.slice(0,6).map((product) => (
+                            <ProductCardPrev
+                                key={product.id}
+                                product={product}
+                                isRecommend={true}
+                            />
+                        )) }
+                    </div>
+                    <div className='recommned-product-list'>
+                        {RecommendedProducts.slice(6,12).map((product) => (
+                            <ProductCardPrev
+                                key={product.id}
+                                product={product}
+                                isRecommend={true}
+                            />
+                        )) }
+                    </div>
+                    <div className='recommned-product-list'>
+                        {RecommendedProducts.slice(12,18).map((product) => (
+                            <ProductCardPrev
+                                key={product.id}
+                                product={product}
+                                isRecommend={true}
+                            />
+                        )) }
+                    </div>
+                </div>
+
+                <div className='btn-indicator'> 
+                    {[0,1,2].map((index) => (
+                        <button
+                            key={index} 
+                            className={`recommend-indicator ${currentProductIndex===index ? 'active' : ''}`}
+                            onClick={() => goToProductSlide(index)}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            <div className='diving-area' />
+
+            {/* 문의하기 영역 */}
+            <div className='inquiry-area'>
+                <p>1:1 문의하기</p>
+                <img src='/assets/button/inquiry_btn.svg' />
+            </div>
+
+            <Footer className='footer' />
 
         </div>
     )

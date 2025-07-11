@@ -13,7 +13,7 @@ export default function ProductList() {
       isOverseas: true,
       isSoldOut: false,
       isLiked: false,
-      imageUrl: "/assets/sample1.png",
+      imageUrl: "/assets/sample/sample1.svg",
     },
     {
       id: 2,
@@ -24,7 +24,7 @@ export default function ProductList() {
       isOverseas: false,
       isSoldOut: true,
       isLiked: true,
-      imageUrl: "/assets/sample1.png",
+      imageUrl: "/assets/sample/sample1.svg",
     },
   ];
 

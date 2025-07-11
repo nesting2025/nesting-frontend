@@ -1,0 +1,117 @@
+@import "../typography";
+@import "../colors";
+
+.product-card {
+    position: relative;
+    padding: 8px 8px 16px 8px;
+    border: 0px;
+    min-width: 112px;
+  
+    .image-wrapper {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+  
+      img {
+        width: 100%;
+        display: block;
+      }
+  
+      .tag {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        @include bg-color("primary200");
+        @include text-color("text-main");
+        @include font-style("caption1");
+        padding: 5px 10px;
+        border-radius: 8px 0px;
+      }
+  
+      .soldout-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.60);
+        @include text-color("white");
+        @include font-style("title3");
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 16px;
+        z-index: 10; // like-btn 보다 높게 설정
+        pointer-events: all; // 클릭 이벤트 수신
+      }
+  
+      .like-btn {
+        position: absolute;
+        bottom: 6px;
+        right: 6px;
+        border: none;
+        border-radius: 50%;
+        width: 42px;
+        height: 36px;
+        font-size: 16px;
+        cursor: pointer;
+  
+      }
+    }
+  
+    .info {
+      margin-top: 8px;
+      text-align: left;
+  
+      .title {
+        @include text-color("text-sub2");
+        @include font-style("body2");
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+        &.recommend {
+            @include font-style("body1");
+        }
+      }
+  
+      .price-info {
+        margin-top: 4px;
+        display: flex;
+        gap: 4px;
+        align-items: baseline;
+  
+        .discount {
+          @include text-color("primary500");
+          @include font-style("title4");
+        }
+  
+        .price {
+          @include text-color("text-main");
+          @include font-style("title3");
+          line-height: normal;
+
+          &.recommend {
+            @include font-style("title3");
+          }
+        }
+      }
+  
+      .likes {
+        display: inline-flex;    
+        align-items: center; 
+        gap: 4px;
+      
+        img {
+          width: 16px;         
+          height: 16px;
+        }
+        
+      
+        @include text-color("text-sub1");
+        @include font-style("title4");  
+
+        
+    }
+    }
+}
