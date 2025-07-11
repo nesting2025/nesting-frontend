@@ -1,0 +1,82 @@
+    @import "../typography";
+    @import "../colors";
+
+    .category-tabs {
+        width: 100%;
+    }
+    
+    /* 상위 탭 */
+    .category-tabs .main-tabs {
+        display: flex;
+        border-bottom: 1px solid #eee;
+        overflow-x: auto;
+        padding: 0 12px; 
+    
+        /* ✅ 스크롤바 숨기기 추가 */
+        -ms-overflow-style: none;  /* IE, Edge */
+        scrollbar-width: none;     /* Firefox */
+    }
+
+    .category-tabs .main-tabs::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .category-tabs .main-tabs button {
+        background: none;
+        border: none;
+        padding: 12px 18px;
+        flex-shrink: 0;
+        @include font-style("title4");
+        @include text-color("text-sub1");
+        white-space: nowrap;
+        overflow-x: auto;
+        cursor: pointer;
+    }
+    
+    .category-tabs .main-tabs button.active {
+        @include text-color("text-main");
+        border-bottom: 2px solid #111;
+        padding: 12px 18px 10px 18px;
+
+    }
+    
+    /* 하위 탭 */
+    .category-tabs .sub-tabs {
+        display: flex;
+        overflow-x: auto;
+        gap: 6px;
+        padding: 12px 20px;
+        
+        -ms-overflow-style: none;  // IE, Edge
+        scrollbar-width: none;     // Firefox
+    }
+    
+    .category-tabs .sub-tabs::-webkit-scrollbar {
+        display: none;  // Chrome, Safari, Opera
+    }
+    
+    .category-tabs .sub-tabs button {
+        padding: 6px 12px;
+        @include font-style("body1");
+        @include text-color("text-sub2");
+        @include bg-color("white");
+        border: 1px solid #F1F1F5;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        white-space: nowrap;
+
+    }
+    
+    .category-tabs .sub-tabs button.selected {
+        @include text-color("text-main");
+        @include bg-color("bg-strong");
+        @include border-color("bg-strong");
+    }
+
+    .sub-tabs-bar {
+        width: 100%;
+        height: 8px;
+        @include bg-color("bg-strong");
+      }
+    

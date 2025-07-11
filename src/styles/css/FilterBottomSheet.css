@@ -1,0 +1,216 @@
+@charset "UTF-8";
+/* === 바텀시트 === */
+.filter-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80vh;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* === 헤더 === */
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sheet-header .title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+.sheet-header .title .filter-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.sheet-header .close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* === 탭 === */
+.sheet-tabs {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0;
+}
+.sheet-tabs button {
+  background: none;
+  border: none;
+  padding: 6px 12px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #767676;
+}
+.sheet-tabs button.active {
+  border-color: #111;
+  color: #111111;
+}
+
+/* === 콘텐츠 === */
+.sheet-content {
+  flex: 1;
+  overflow-y: auto;
+  /* 옵션 버튼 */
+  /* === 가격 인풋 영역 === */
+}
+.sheet-content h3 {
+  margin: 16px 0 12px 0;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+}
+.sheet-content .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sheet-content .options button {
+  border: 1px solid #E5E5EC;
+  border-radius: 8px;
+  background: white;
+  padding: 6px 12px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #505050;
+  cursor: pointer;
+}
+.sheet-content .options button.selected {
+  color: #111111;
+  background: #F1F1F5;
+}
+.sheet-content .price-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.sheet-content .price-inputs .price-box {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid #807878;
+  border-radius: 12px;
+  padding: 20px 12px 8px;
+}
+.sheet-content .price-inputs .price-box .label {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #999;
+}
+.sheet-content .price-inputs .price-box input {
+  border: none;
+  outline: none;
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%;
+  padding-left: 0;
+  -moz-appearance: textfield;
+}
+.sheet-content .price-inputs .price-box input::-webkit-inner-spin-button, .sheet-content .price-inputs .price-box input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.sheet-content .price-inputs .price-box .unit {
+  margin-left: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #999;
+}
+.sheet-content .price-inputs .tilde {
+  font-size: 20px;
+  color: #aaa;
+}
+
+/* === 선택된 태그 === */
+.sheet-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 20px;
+  margin: 0 -30px;
+  border-top: 1px solid #eee;
+  background: #f7f7fb;
+}
+.sheet-tags .tag {
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e5e5ec;
+  background: white;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+.sheet-tags .tag .remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding-left: 4px;
+}
+.sheet-tags .tag .remove-btn img {
+  width: 16px;
+  height: 16px;
+}
+
+/* === 하단 버튼 === */
+.sheet-actions {
+  display: flex;
+  gap: 8px;
+}
+.sheet-actions button {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+}
+.sheet-actions button.reset-btn {
+  background: #f5f5f7;
+  color: #111;
+}
+.sheet-actions button.apply-btn {
+  background: #ffd400;
+  color: #111;
+}

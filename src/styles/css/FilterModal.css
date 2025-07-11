@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* 모달 Wrapper */
+.filter-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+/* 상단 헤더 영역 */
+.filter-modal .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.filter-modal .header .title {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+}
+.filter-modal .header .close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 탭 메뉴 */
+.filter-modal .tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.filter-modal .tabs button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  padding: 6px 12px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+.filter-modal .tabs button.active {
+  border-color: #111;
+  font-weight: bold;
+}
+
+/* 필터 옵션 그룹 */
+.filter-modal .options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.filter-modal .options button {
+  background: #f5f5f7;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  cursor: pointer;
+}
+.filter-modal .options button.selected {
+  background: #111;
+  color: #fff;
+}
+
+/* 선택된 옵션 표시 */
+.filter-modal .selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 0;
+}
+.filter-modal .selected-tags span {
+  background: #f5f5f7;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+}
+.filter-modal .selected-tags span button {
+  margin-left: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* 하단 초기화/적용 버튼 */
+.filter-modal .actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+.filter-modal .actions button {
+  flex: 1;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+}
+.filter-modal .actions button.reset {
+  background: #f5f5f7;
+  color: #111;
+}
+.filter-modal .actions button.apply {
+  background: #FFD400;
+  color: #111;
+}
