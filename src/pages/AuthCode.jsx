@@ -15,7 +15,7 @@ const AuthCode = () => {
 
 
     const goBack = () => nav(-1);
-    const gotoLoginNesting = () => nav("/login/auth-code", { replace: true });
+    const gotoLoginNesting = () => nav("/login/reset-password", { replace: true });
     const length = 6;
     const [values, setValues] = useState(Array(length).fill(''));
     const inputs = useRef([]);
