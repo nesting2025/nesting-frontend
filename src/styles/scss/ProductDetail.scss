@@ -122,6 +122,7 @@
         .product-price {
             margin-top: 6px;
             margin-left: 0;
+            margin-bottom: 0;
 
             &.big {
                 @include font-style("title1");
@@ -163,6 +164,7 @@
         width: calc(100% - 32px); 
         height: 1px;
         @include bg-color("line-medium");
+        margin: 0;
     }
 
     .delivery-area {
@@ -206,7 +208,7 @@
                 display: flex;
                 gap: 4px;
 
-                .plane-icon {
+                .icon {
                     width: 18px;
                     height: 18px;
                 }
@@ -214,6 +216,10 @@
                 .overseas-shipping-title {
                     @include font-style("caption1");
                     margin: 0;
+
+                    span {
+                        @include text-color("status-positive");
+                    }
                 }
             }
 
@@ -319,13 +325,24 @@
         }
     }
 
-    .tap-wrapper {
+    .tab-wrapper {
         width: 100%;
         display: flex;
         padding-left: 12px;
         padding-right: 12px;
         justify-content: space-around;
         border-bottom: 1px solid #E5E5EC;
+
+        &.sticky {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 10;
+        }
+
+        &.static {
+            position: static;
+        }
 
         .tab {
             flex: 1;
@@ -355,34 +372,38 @@
 
     .product-detail-area {
         width: 100%;
-        padding: 20px 16px 16px 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        position: relative;
-
-        .product-detail-row {
+        padding: 20px 16px 20px 16px;
+        
+        .product-detail-info {
+            padding-bottom: 16px;
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
 
-            .product-detail-label {
-                @include font-style("body1");
-                @include text-color("text-sub1");
-                margin: 0;
-            }
+            .product-detail-row {
+                display: flex;
 
-            .product-detail-value {
-                @include font-style("body1");
-                @include text-color();
-                margin: 0;
-                position: absolute;
-                left: 84px;
+                .product-detail-label {
+                    @include font-style("body1");
+                    @include text-color("text-sub1");
+                    margin: 0;
+                }
+
+                .product-detail-value {
+                    @include font-style("body1");
+                    @include text-color();
+                    margin: 0;
+                    position: absolute;
+                    left: 84px;
+                }
             }
         }
     }
 
     .translated-area {
         width: 100%;
-        padding: 16px 16px 20px 16px;
+        padding: 16px 0 0 0;
 
         .translate-info {
             @include font-style("body2");

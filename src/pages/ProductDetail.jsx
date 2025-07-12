@@ -239,7 +239,6 @@ const ProductDetail = () => {
         },
     ];
 
-
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const scrollRef = useRef(null);
@@ -257,8 +256,44 @@ const ProductDetail = () => {
         useRef(null),
         useRef(null)
     ]
+    const tabRef = useRef(null);
+    const stopStickyRef = useRef(null);
+    const [isStickyOff, setIsStickyOff] = useState(false);
+    const isStickyOffRef = useRef(false);
+
 
     useEffect(() => {
+        // 사용자가 스크롤할 때 현재 탭을 업데이트
+        const handleScrollTab = () => {
+            const scrollY = window.scrollY;
+            
+            sectionRefs.forEach((ref, index) => {
+                const offsetTop = ref.current.offsetTop;
+                const offsetHeight = ref.current.offsetHeight;
+
+                if(scrollY >= offsetTop - 48 && scrollY < offsetTop + offsetHeight - 48) {
+                    setActiveTab(index);
+                }
+            })
+
+            
+            // 스티키 해제 관련 코드
+            if(!tabRef.current || !stopStickyRef.current) return;
+
+            const stopOffsetTop = stopStickyRef.current.offsetTop;
+            const threshold = 4;
+            const scrollPlusHeader = window.scrollY + 48; // 헤더 높이 보정값
+            const scrolly = window.scrollY;
+
+            const shouldBeOff = scrolly >= stopOffsetTop - threshold;
+
+            if (shouldBeOff !== isStickyOffRef.current) {
+                setIsStickyOff(shouldBeOff);
+                isStickyOffRef.current = shouldBeOff;
+                console.log(`스티키 ${shouldBeOff ? 'off' : 'on'}`);
+            }
+        }
+
         window.addEventListener('scroll', handleScrollTab);
 
         return () => {
@@ -311,22 +346,12 @@ const ProductDetail = () => {
 
     // 사용자가 탭을 클릭했을 때 해당 섹션으로 스크롤
     const handleScrollToArea = (index) => {
-        sectionRefs[index].current.scrollIntoView({behavior:'smooth'});
-    }
-
-    // 사용자가 스크롤할 때 현재 탭을 업데이트
-    const handleScrollTab = () => {
-        const scrollY = window.scrollY;
+        const offsetTop = sectionRefs[index].current.offsetTop;
         
-        sectionRefs.forEach((ref, index) => {
-            const offsetTop = ref.current.offsetTop;
-            const offsetHeight = ref.current.offsetHeight;
-
-            if(scrollY >= offsetTop && scrollY < offsetTop + offsetHeight) {
-                // 스티키헤더 높이만큼 60이라면 60씩 빼줌
-                setActiveTab(index);
-            }
-        })
+        window.scrollTo({
+            top: offsetTop - 48,
+            behavior: 'smooth'
+        });
     }
 
     return (
@@ -424,7 +449,7 @@ const ProductDetail = () => {
 
                 <div className='overseas-shipping-info-area'>
                     <div className='overseas-shipping-top-row'>
-                        <img className='plane-icon' src='/assets/icon/plane.svg' />
+                        <img className='icon' src='/assets/icon/plane.svg' />
                         <h4 className='overseas-shipping-title'>해외직배송 상품 안내 필독</h4>
                     </div>
                     <p className='overseas-shipping-info'>이 상품은 해외에서 국내로 배송되는 상품으로 배송・반품・교환이 일반적인 국내 배송 상품과 다를 수 있습니다.</p>
@@ -453,6 +478,13 @@ const ProductDetail = () => {
                         </div>
                     )}
                 </div>
+                <div className='overseas-shipping-info-area'>
+                    <div className='overseas-shipping-top-row'>
+                        <img className='icon' src='/assets/icon/package.svg' />
+                        <h4 className='overseas-shipping-title'>네스팅의 평균 해외배송 기간은 <span>9일 이내</span>입니다.</h4>
+                    </div>
+                    <p className='overseas-shipping-info'>주말/공휴일 제외한 영업일 기준</p>
+                </div>
             </div>
 
             <div className='diving-area' />
@@ -469,7 +501,10 @@ const ProductDetail = () => {
             <div className='diving-area' />
 
             {/* 탭 영역 */}
-            <div className='tap-wrapper'>
+            <div 
+                ref={tabRef}
+                className={`tab-wrapper ${isStickyOff ? 'static' : 'sticky'}`}
+            >
                 {tabList.map((tab, index) => (
                     <button
                     key={index}
@@ -486,17 +521,19 @@ const ProductDetail = () => {
 
             {/* 제품상세 영역 */}
             <div ref={sectionRefs[0]} className='product-detail-area'>
-                {productDetialInfo.map(({ label , value }) => (
-                    <div key={label} className='product-detail-row'>
-                        <p className='product-detail-label'>{label}</p>
-                        <p className='product-detail-value'>{value}</p>
-                    </div>
-                ))}
-            </div>
-            <div className='diving-line'/>
-            <div className='translated-area'>
-                <p className='translate-info'>*일본 메루카리 판매자가 작성한 글을 자동으로 번역했어요</p>
-                <p className='translated-product-info' style={{ whiteSpace: 'pre-line' }}>{translatedInfo}</p>
+                <div className='product-detail-info'>
+                    {productDetialInfo.map(({ label , value }) => (
+                        <div key={label} className='product-detail-row'>
+                            <p className='product-detail-label'>{label}</p>
+                            <p className='product-detail-value'>{value}</p>
+                        </div>
+                    ))}
+                </div>
+                <div className='diving-line'/>
+                <div className='translated-area'>
+                    <p className='translate-info'>*일본 메루카리 판매자가 작성한 글을 자동으로 번역했어요</p>
+                    <p className='translated-product-info' style={{ whiteSpace: 'pre-line' }}>{translatedInfo}</p>
+                </div>
             </div>
 
             <div className='diving-area' />
@@ -631,6 +668,7 @@ const ProductDetail = () => {
             </div>
 
             <div className='diving-area' />
+            <div ref={stopStickyRef}></div>
 
             {/* 연관상품 추천 영역 */}
             <div className='product-recommend-area'>
