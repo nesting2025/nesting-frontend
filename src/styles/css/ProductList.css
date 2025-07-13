@@ -25,9 +25,7 @@
   height: 16px;
   border-radius: 50%;
   border: 1px solid #999;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  appearance: none;
   cursor: pointer;
   position: relative;
 }
@@ -50,111 +48,4 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   padding: 20px 12px;
-}
-
-.product-card {
-  position: relative;
-  padding: 8px 8px 16px 8px;
-  border: 0px;
-}
-.product-card .image-wrapper {
-  position: relative;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.product-card .image-wrapper img {
-  width: 100%;
-  display: block;
-}
-.product-card .image-wrapper .tag {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  background-color: #FFE788;
-  color: #111111;
-  font-size: 13px;
-  line-height: 18px;
-  font-weight: 500;
-  letter-spacing: -2.5%;
-  padding: 5px 10px;
-  border-radius: 8px 0px;
-}
-.product-card .image-wrapper .soldout-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  color: #FFFFFF;
-  font-size: 18px;
-  line-height: 26px;
-  font-weight: 500;
-  letter-spacing: -2.5%;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 16px;
-}
-.product-card .image-wrapper .like-btn {
-  position: absolute;
-  bottom: 6px;
-  right: 6px;
-  border: none;
-  border-radius: 50%;
-  width: 42px;
-  height: 36px;
-  font-size: 16px;
-  cursor: pointer;
-}
-.product-card .info {
-  margin-top: 8px;
-  text-align: left;
-}
-.product-card .info .title {
-  color: #505050;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 400;
-  letter-spacing: -2.5%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.product-card .info .price-info {
-  margin-top: 4px;
-  display: flex;
-  gap: 4px;
-  align-items: baseline;
-}
-.product-card .info .price-info .discount {
-  color: #FAAC25;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  letter-spacing: -2.5%;
-}
-.product-card .info .price-info .price {
-  color: #111111;
-  font-size: 18px;
-  line-height: 26px;
-  font-weight: 500;
-  letter-spacing: -2.5%;
-  line-height: normal;
-}
-.product-card .info .likes {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #767676;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  letter-spacing: -2.5%;
-}
-.product-card .info .likes img {
-  width: 16px;
-  height: 16px;
 }

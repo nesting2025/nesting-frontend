@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import "../../styles/css/ProductCard.css";
 
-export default function ProductCardPrev({ product, toggleLike }) {
+export default function ProductCardPrev({ product, toggleLike, isRecommend = false }) {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLikeClick = (e) => {
@@ -34,17 +35,19 @@ export default function ProductCardPrev({ product, toggleLike }) {
       </div>
 
       <div className="info">
-        <div className="title">{product.title}</div>
+        <div className={isRecommend ? "title recommend" : "title"}>{product.title}</div>
         <div className="price-info">
           {product.discount > 0 && (
             <span className="discount">{product.discount}%</span>
           )}
-          <span className="price">{product.price.toLocaleString()}원</span>
+          <span className={isRecommend ? "price recommend" : "price"}>{product.price.toLocaleString()}원</span>
         </div>
-        <div className="likes">
+        {!isRecommend && (
+          <div className="likes">
           <img src="/assets/button/icon_like.svg"></img>
           {product.likes}
         </div>
+        )}
       </div>
     </div>
   );

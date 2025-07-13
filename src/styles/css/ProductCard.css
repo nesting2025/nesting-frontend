@@ -1,124 +1,121 @@
-@charset "UTF-8";
 .product-card {
-  min-width: 220px;
-  max-width: 340px;
-  height: auto;
-  max-height: 564px;
-  border: 2px solid black;
-  border-radius: 12px;
-  padding: 20px 20px 24px 20px;
-  text-align: center;
-  background-color: white;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 0;
   position: relative;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+  padding: 8px 8px 16px 8px;
+  border: 0px;
+  min-width: 112px;
 }
-.product-card.medium {
-  width: 256px; /* 패딩, 보더라인 뺀 값 */
-  height: auto;
-}
-.product-card.small {
-  width: 116px;
-  height: auto;
-}
-
-.product-card .image-container {
+.product-card .image-wrapper {
   position: relative;
-  width: 100%;
-}
-
-/* 상품 이미지 */
-.product-image {
-  width: 100%;
-  height: auto;
-  -o-object-fit: cover;
-     object-fit: cover;
   border-radius: 8px;
+  overflow: hidden;
+}
+.product-card .image-wrapper img {
+  width: 100%;
   display: block;
 }
-
-.product-card .image-container .like-btn {
+.product-card .image-wrapper .tag {
   position: absolute;
-  bottom: 16px;
-  right: 16px;
-  cursor: pointer;
-  z-index: 1;
+  top: 0px;
+  left: 0px;
+  background-color: #FFE788;
+  color: #111111;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  padding: 5px 10px;
+  border-radius: 8px 0px;
 }
-
-.like-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  flex-shrink: 0; /* 버튼 크기 유지 */
-  position: relative;
-  border-radius: 50%;
+.product-card .image-wrapper .soldout-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #FFFFFF;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s ease-in-out;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 10;
+  pointer-events: all;
 }
-
-.like_btn:active {
-  box-shadow: 0 0 0 1px #111111;
+.product-card .image-wrapper .like-btn {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 36px;
+  font-size: 16px;
+  cursor: pointer;
 }
-
-/* SVG 아이콘 스타일 */
-.like-icon {
-  width: 52px;
-  height: 44px;
-}
-
-/* 상품 정보 */
-.product-info {
-  display: flex;
-  align-items: flex-start;
-  margin: 20px 0 0 8px;
-  justify-content: space-between;
+.product-card .info {
+  margin-top: 8px;
   text-align: left;
-  width: 100%;
 }
-
-.product-name {
-  height: 60px;
-  width: 100%;
-  max-width: 100%;
+.product-card .info .title {
+  color: #505050;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  white-space: nowrap;
   overflow: hidden;
-  word-break: break-word;
-  flex: 1;
-  display: -webkit-box; /* 두 줄 제한을 위한 추가 속성 */
-  -webkit-line-clamp: 2; /* 두 줄로 제한 */
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis; /* 넘치는 텍스트는 말줄임표로 표시 */
-  white-space: normal;
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: 600;
+  text-overflow: ellipsis;
+}
+.product-card .info .title.recommend {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
   letter-spacing: -2.5%;
 }
-
-.product-price {
-  margin: 6px 0 0 8px;
-  text-align: left;
-  width: 100%;
-  font-size: 24px;
-  line-height: 32px;
-  font-weight: 600;
+.product-card .info .price-info {
+  margin-top: 4px;
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+}
+.product-card .info .price-info .discount {
+  color: #FAAC25;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
   letter-spacing: -2.5%;
+}
+.product-card .info .price-info .price {
   color: #111111;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  line-height: normal;
 }
-
-@media (max-width: 1024px) {
-  .product-card {
-    max-width: 320px; /* ✅ 화면이 작아지면 최대 너비 조정 */
-  }
+.product-card .info .price-info .price.recommend {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
 }
-@media (max-width: 768px) {
-  .product-card {
-    max-width: 280px; /* ✅ 모바일에서는 조금 더 작게 조정 */
-  }
+.product-card .info .likes {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #767676;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+}
+.product-card .info .likes img {
+  width: 16px;
+  height: 16px;
 }
