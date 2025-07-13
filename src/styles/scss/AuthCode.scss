@@ -1,0 +1,100 @@
+@import "./colors";
+@import "./typography";
+
+.auth-code {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+
+    .back-button {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        top: 24px;
+        left: 12px;
+        cursor: pointer;
+
+        @media (min-width: 768px) {
+            left: calc((100vw - 768px) / 2 + 12px);
+        }
+    }
+
+    h2 {
+        @include font-style("title2");
+        @include text-color("");
+        width: 320px;
+        justify-content: flex-start;
+        margin-top: 88px;
+        margin-bottom: 0px;
+    }
+
+    h3 {
+        @include font-style("title4");
+        @include text-color("text-sub2");
+        width: 320px;
+        margin-top: 8px;
+        margin-bottom: 0px;
+    }
+
+    p {
+        @include font-style("body2");
+        @include text-color("text-sub1");
+        width: 320px;
+        margin: 0;
+        span{
+            @include text-color("text-main");
+            text-decoration: underline;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+    }
+
+    .code-input-container {
+        margin-top: 40px;
+        display: flex;
+        gap: 10px;
+      }
+      
+      .code-input {
+        @include font-style("display4");
+        @include text-color("black");
+        @include bg-color("bg-strong");
+        width: 46px;
+        height: 66px;
+        border-radius: 8px;
+        transition: border 0.2s;
+        text-align: center;
+        padding: 16px 0; // 상하 패딩 추가
+      
+        &:focus {
+          border: 2px solid #4A90E2; // 포커스 시 색상
+          outline: none;
+        }
+      }
+
+    .next-button {
+        margin-top: 40px;
+    }
+    .timer-container {
+        @include font-style("body2");
+        @include text-color("text-sub1");
+        display: flex;
+        align-items: baseline;
+        justify-content: baseline;
+        gap: 8px;
+        margin-top: 16px;
+        .resend-button {
+            @include text-color("text-disabled"); 
+            cursor: not-allowed; // 기본 비활성화
+            text-decoration: underline;
+            &.active {
+              cursor: pointer;
+              @include text-color("text-main"); // 활성화 시 색상
+            }
+            &.disabled {
+              pointer-events: none; // 클릭 아예 막기
+            }
+        }
+    }
+}

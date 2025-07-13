@@ -1,0 +1,216 @@
+@import "./colors";
+@import "./typography";
+
+.order-page {
+    max-width: 480px;
+    margin: 0 auto;
+    font-family: sans-serif;
+    padding: 16px;
+  }
+  
+  .order-page-title {
+    @include font-style("title3");
+    @include text-color("text-main");
+    position: relative; 
+    border-bottom: #E5E5EC 1px solid;
+    padding: 11px;
+    text-align: center;
+  }
+  
+  .order-section {
+    border-bottom: 8px solid #F1F1F5;
+    padding : 16px;
+  }
+  
+  .order-section-title {
+    @include font-style("headline4");
+    @include text-color("text-main");
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 16px;
+    .count {
+        
+        margin: 0 0 0 6px;
+        @include font-style("headline6");
+        @include text-color("text-sub1");
+    }
+    .register{
+        margin: 0 0 0 6px;
+        text-decoration: underline;
+        cursor: pointer;
+        @include font-style("headline6");
+        @include text-color("text-sub1");
+    }
+  }
+  
+  .order-address-box {
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 21px;
+    border-radius: 6px;
+    color: #888;
+  }
+  
+  .order-customs-code {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .order-customs-code input {
+    flex: 1;
+    padding: 13px 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    
+  }
+  .order-customs-code input::placeholder{
+    @include font-style("body1");
+    color: #767676;
+  }
+  
+  .order-lookup-btn {
+    background-color: #FFE788;
+    vertical-align: middle;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    
+    @include font-style("title4");
+    @include text-color("text-main");
+  }
+  .order-count {
+    margin-left: 6px;
+    @include font-style("headline6");
+    @include text-color("text-sub1");
+  }
+  
+  .order-product {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .order-product img {
+    width: 60px;
+    height: 60px;
+    border: #F1F1F5 1px solid;
+  }
+  
+  .order-product-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .order-product-title {
+    margin-bottom: 4px;
+    display: -webkit-box;
+    -webkit-line-clamp : 1;
+    -webkit-box-orient:vertical; 
+    overflow: hidden;
+    @include font-style("body2");
+    @include text-color("text-main");
+  }
+  
+  .order-origin-price {
+    text-decoration: line-through;
+    margin-right: 8px;
+    @include font-style("caption1");
+    @include text-color("text-sub1");
+  }
+  
+  .order-sale-price {
+    font-weight: bold;
+    color: #000;
+    @include font-style("title3");
+    @include text-color("text-main");
+  }
+  
+  .order-quantity {
+    vertical-align: middle;
+    padding: 4px 12px;
+    border-radius: 4px;
+    @include font-style("caption1");
+    @include text-color("text-main"); 
+    @include bg-color("bg-weak");
+    margin-top: 16px;
+    .count {
+        padding: 0;
+        @include text-color("text-sub1"); 
+    }
+  }
+  
+  .order-payment-methods {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .order-payment-methods button {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    @include font-style("title4");
+    @include text-color("text-main"); 
+  }
+  
+  .order-price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0 4px 0;
+    
+    .left{
+        padding: 0;
+        @include font-style("body1");
+        @include text-color("text-sub2");
+    }
+    .right {
+        padding: 0;
+        @include font-style("title4");
+        @include text-color("text-main");
+        
+    }
+    .right.red{
+        @include text-color("status-destructive");
+    }
+    
+  }
+  .order-price-row-total {  
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 12px 6px 12px;
+    margin-top: 4px;
+    @include font-style("title2");
+    @include bg-color("bg-weak");
+    .left{
+        padding: 0;
+        @include text-color("text-sub2");
+    }
+    .right {
+        padding: 0;
+        @include text-color("text-main");
+    }
+}
+  
+  .order-agreement {
+    padding : 20px 16px;
+    display: flex;
+    align-items:flex-start;
+    @include font-style("body2");
+    @include text-color("black");
+  }
+  .order-checkbox {
+    //appearance: none;              // 브라우저 기본 제거
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    border: 1px solid #E5E5EC;        // 원하는 테두리 색
+    border-radius: 4px;
+    position: relative;
+    margin-right: 8px;
+    cursor: pointer;
+    &:checked {
+        border-color: #00c471;       // 체크되었을 때 테두리 색
+        background-color: #00c471;
+    }
+  }
+  
