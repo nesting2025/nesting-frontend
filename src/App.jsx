@@ -14,6 +14,7 @@ import AuthVerify from "./pages/AuthVerify";
 import OrderPay from "./pages/OrderPay";
 import ProductDetail from "./pages/ProductDetail";
 import GoodsList from "./pages/GoodsList";
+import AddressRegister from "./pages/AddressRegister";
 
 
 function App() {
