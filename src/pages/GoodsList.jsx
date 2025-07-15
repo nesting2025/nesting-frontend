@@ -4,9 +4,12 @@ import CategoryTabs from "../components/goods/CategoryTabs.jsx";
 import FilterBar from "../components/goods/FilterBars";
 import ProductList from "../components/goods/ProductList";
 import Footer from "../components/layout/Footer";
+import useScreenSize from "../hooks/useScreensize.jsx";
 import "../styles/css/GoodsList.css";
 
 export default function GoodsList() {
+  const {screenSize} = useScreenSize();
+
   return (
     <div className="page-bg">
       <div className="container">
@@ -29,7 +32,7 @@ export default function GoodsList() {
         </div>
 
         {/* ✅ 푸터 */}
-        <Footer />
+        <Footer screenSize={screenSize} />
       </div>
     </div>
   );

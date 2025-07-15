@@ -9,24 +9,37 @@
     justify-content: space-between;
 
     .nesting-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
         .img-banner {
-            width: 149px;
+            width: 110px;
             height: auto;
-            margin-bottom: 20px;
         }
 
         p {
-            @include font-style("body2");
+            @include font-style("body3");
             @include text-color();
-            margin-bottom: 9px;
+            margin: 0;
 
             span {
                 @include text-color("line-medium");
             }
         }
 
+        .highlight {
+            @include font-style("caption1");
+        }
+
         .goto-info {
-            margin-bottom: 27px;
+            margin: 0;
+        }
+
+        .info-detail {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
     }
 
@@ -40,21 +53,14 @@
     }
 
     &.large {
-        gap: 20px;
-        img {
-            width: 48px;
-            height: 48px;
-        }
+        padding: 40px 160px;
     }
 
-    &.medium {
-        padding: 40px 20px;
-    }
-
-    &.small {
-        p {
-            @include font-style("body3");
+    &.small, &.extra-small {
+        display: flex;
+        flex-direction: column;
+        .social-icons {
+            margin-top: 20px;
         }
-        padding: 20px 20px;   
     }
 }

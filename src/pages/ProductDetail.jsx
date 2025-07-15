@@ -1,6 +1,7 @@
 import '../styles/css/ProductDetail.css';
 import ProductReview from '../components/ProductReview';
 import ProductCardPrev from '../components/goods/ProductCardPrev';
+import useScreenSize from '../hooks/useScreensize';
 import Footer from '../components/layout/Footer';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
@@ -21,6 +22,8 @@ import {
 
 const ProductDetail = ( {type='no-overseas'} ) => {
     const isOverseas = type === 'overseas';
+    
+    const {screenSize} = useScreenSize();
 
     const imgList = [
         "/assets/sample/dummy_product.svg",
@@ -844,7 +847,7 @@ const ProductDetail = ( {type='no-overseas'} ) => {
                 <img src='/assets/button/inquiry_btn.svg' />
             </div>
 
-            <Footer className='footer' />
+            <Footer className='footer' screenSize={screenSize} />
 
         </div>
     )

@@ -7,6 +7,7 @@ import WhyNesting from "../components/WhyNesting";
 import Footer from "../components/layout/Footer";
 import Reviews from "../components/Reviews";
 import FloatingButton from "../components/FloatingButton";
+import useScreenSize from "../hooks/useScreensize";
 
 const mockProducts = [
   {
@@ -83,22 +84,7 @@ const mockReviews = [
 ];
 
 function Home() {
-  const [screenSize, setScreenSize] = useState(getScreenSize());
-
-  function getScreenSize() {
-    if (window.innerWidth < 768) return "small";
-    else if (window.innerWidth < 1439) return "medium";
-    else return "large";
-  }
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenSize(getScreenSize());
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const {screenSize} = useScreenSize();
 
   return (
     <div>
