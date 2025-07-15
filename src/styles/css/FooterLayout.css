@@ -47,9 +47,6 @@
   width: 32px;
   height: 32px;
 }
-.footer.large {
-  padding: 40px 160px;
-}
 .footer.small, .footer.extra-small {
   display: flex;
   flex-direction: column;

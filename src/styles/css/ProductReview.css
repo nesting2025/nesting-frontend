@@ -2,7 +2,7 @@
   width: 280px;
   flex-shrink: 0;
   border: 1px solid;
-  border-color: #E5E5EC;
+  border: 1px solid #E5E5EC;
   border-radius: 12px;
   padding: 12px;
   display: flex;

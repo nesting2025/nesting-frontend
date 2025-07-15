@@ -40,7 +40,7 @@
 .signup-nesting input {
   border-radius: 8px;
   border: 1px solid;
-  border-color: #E5E5EC;
+  border: 1px solid #E5E5EC;
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;
@@ -51,7 +51,7 @@
 }
 .signup-nesting input:focus {
   outline: none;
-  border-color: #111111;
+  border: 1px solid #111111;
 }
 .signup-nesting .input-email-wrapper {
   width: 320px;
@@ -116,7 +116,7 @@
   width: 20px;
   border-radius: 4px;
   border: 1px solid;
-  border-color: #E5E5EC;
+  border: 1px solid #E5E5EC;
   background-color: #FFFFFF;
   position: relative;
   margin-right: 6px;
@@ -134,7 +134,7 @@
 }
 .signup-nesting .agree-checkbox input:checked ~ .checkmark, .signup-nesting .agree-all-checkbox input:checked ~ .checkmark {
   background-color: #FFE788;
-  border-color: #F1F1F5;
+  border: 1px solid #F1F1F5;
 }
 .signup-nesting .agree-checkbox input:checked ~ .checkmark::after, .signup-nesting .agree-all-checkbox input:checked ~ .checkmark::after {
   display: block;
