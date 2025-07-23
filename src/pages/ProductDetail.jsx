@@ -1,7 +1,9 @@
 import '../styles/css/ProductDetail.css';
 import ProductReview from '../components/ProductReview';
 import ProductCardPrev from '../components/goods/ProductCardPrev';
+import useScreenSize from '../hooks/useScreensize';
 import Footer from '../components/layout/Footer';
+import CTAButton from '../components/CTAButton';
 import { useState, useRef, useEffect } from 'react';
 import React from 'react';
 import {
@@ -21,6 +23,9 @@ import {
 
 const ProductDetail = ( {type='no-overseas'} ) => {
     const isOverseas = type === 'overseas';
+    const isSoldOut = false;
+    
+    const {screenSize} = useScreenSize();
 
     const imgList = [
         "/assets/sample/dummy_product.svg",
@@ -435,6 +440,11 @@ const ProductDetail = ( {type='no-overseas'} ) => {
                     />
                     </>
                 )}
+                {isSoldOut && (
+                <div className="soldout-overlay">
+                    <span>품절</span>
+                </div>
+                )}
                 <div
                     className='img-indicator'>
                     <span className='highlight'>{currentIndex + 1}</span> | {imgList.length}
@@ -844,7 +854,9 @@ const ProductDetail = ( {type='no-overseas'} ) => {
                 <img src='/assets/button/inquiry_btn.svg' />
             </div>
 
-            <Footer className='footer' />
+            <Footer className='footer' screenSize={screenSize} />
+
+            <CTAButton className='cta-button-area' isSoldout={isSoldOut} />
 
         </div>
     )

@@ -71,7 +71,7 @@
 .category-tabs .sub-tabs button.selected {
   color: #111111;
   background-color: #F1F1F5;
-  border-color: #F1F1F5;
+  border: 1px solid #F1F1F5;
 }
 
 .sub-tabs-bar {

@@ -50,7 +50,7 @@
   border-radius: 8px;
   border: 1px solid;
   width: 100%;
-  border-color: #E5E5EC;
+  border: 1px solid #E5E5EC;
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;
@@ -60,7 +60,7 @@
 }
 .preference-setup .input-nickname-container .input-nickname-wrapper .input-nickname:focus {
   outline: none;
-  border-color: #111111;
+  border: 1px solid #111111;
 }
 .preference-setup .input-nickname-container .input-nickname-wrapper .x-button {
   position: absolute;
@@ -101,7 +101,7 @@
   border-radius: 8px;
   border: 1px solid;
   width: 100%;
-  border-color: #E5E5EC;
+  border: 1px solid #E5E5EC;
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;
@@ -112,7 +112,7 @@
 }
 .preference-setup .input-category-wrapper .input-category:focus {
   outline: none;
-  border-color: #E5E5EC;
+  border: 1px solid #E5E5EC;
 }
 .preference-setup .input-category-wrapper .dropdown-button {
   position: absolute;

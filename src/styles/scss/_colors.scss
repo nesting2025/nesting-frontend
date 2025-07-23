@@ -39,5 +39,6 @@ $colors: (
 }
 
 @mixin border-color($color-name) {
-    border-color: map-get($colors, $color-name);
+    // border-color: map-get($colors, $color-name);
+    border: 1px solid map-get($colors, $color-name);
 }

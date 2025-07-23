@@ -1,0 +1,32 @@
+@import "../typography";
+@import "../colors";
+
+.toast-area {
+    width: calc(100% - 40px);
+    max-width: 728px;
+    margin: 0 auto;
+    padding: 12px;
+    background-color: rgba($color: #111111, $alpha: 0.6);
+    border-radius: 8px;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+
+    .toast-row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    p {
+        @include font-style("body2");
+        @include text-color("white");
+        margin: 0;
+    }
+
+    .goto-cart {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

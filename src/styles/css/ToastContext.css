@@ -1,0 +1,29 @@
+.toast-area {
+  width: calc(100% - 40px);
+  max-width: 728px;
+  margin: 0 auto;
+  padding: 12px;
+  background-color: rgba(17, 17, 17, 0.6);
+  border-radius: 8px;
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+.toast-area .toast-row {
+  display: flex;
+  justify-content: space-between;
+}
+.toast-area p {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #FFFFFF;
+  margin: 0;
+}
+.toast-area .goto-cart {
+  text-decoration: underline;
+  cursor: pointer;
+}

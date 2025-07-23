@@ -1,0 +1,65 @@
+.select-quantity-area {
+  background-color: #F7F7FB;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.select-quantity-area .title-row {
+  display: flex;
+  justify-content: space-between;
+}
+.select-quantity-area .title-row .delete-btn {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.select-quantity-area .title-row .title-quantity {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.select-quantity-area .select-quantity-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.select-quantity-area .select-quantity-row .select-quantity {
+  display: flex;
+  gap: 0;
+  height: 30px;
+}
+.select-quantity-area .select-quantity-row .select-quantity .select-quantity-button {
+  width: 30px;
+  height: 30px;
+  background-color: #F1F1F5;
+  border: 1px solid #E5E5EC;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #999999;
+  cursor: default;
+}
+.select-quantity-area .select-quantity-row .select-quantity .select-quantity-button.active {
+  background-color: #FFFFFF;
+  color: #505050;
+  cursor: pointer;
+}
+.select-quantity-area .select-quantity-row .select-quantity .quantity {
+  width: 45px;
+  height: 30px;
+  background-color: #FFFFFF;
+  border: 1px solid #E5E5EC;
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #505050;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

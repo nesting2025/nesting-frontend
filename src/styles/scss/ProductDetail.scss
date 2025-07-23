@@ -101,6 +101,19 @@
                 @include text-color("white");
             }
         }
+
+        .soldout-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.60);
+        @include text-color("white");
+        @include font-style("title1");
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;  // 품절이어도 이미지 넘겨볼수있도록
+      }
     }
 
     .title-area {
@@ -711,5 +724,13 @@
 
     .footer {
         width: 100%;
+    }
+
+    .cta-button-area {
+        position: sticky;
+        bottom: 0;
+        width: 100%;
+        background-color: white;
+        z-index: 10;
     }
 }
