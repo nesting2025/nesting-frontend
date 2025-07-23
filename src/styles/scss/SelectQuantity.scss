@@ -1,0 +1,68 @@
+@import "./typography";
+@import "./colors";
+
+.select-quantity-area {
+    @include bg-color("bg-weak");
+    border-radius: 8px;
+    padding: 8px 12px;
+
+    .title-row {
+        display: flex;
+        justify-content: space-between;
+
+        .delete-btn {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .title-quantity {
+            @include font-style("title3");
+            @include text-color();
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+    }
+
+    .select-quantity-row {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        
+        .select-quantity {
+            display: flex;
+            gap: 0;
+            height: 30px;
+
+            .select-quantity-button {
+                width: 30px;
+                height: 30px;
+                @include bg-color("bg-strong");
+                @include border-color("line-medium");
+                @include font-style("title3");
+                @include text-color("text-disabled");
+                cursor: default;
+
+                &.active {
+                    @include bg-color("white");
+                    @include text-color("text-sub2");
+                    cursor: pointer;
+                }
+            }
+
+            .quantity {
+                width: 45px;
+                height: 30px;
+                @include bg-color("white");
+                @include border-color("line-medium");
+                @include font-style("headline5");
+                @include text-color("text-sub2");
+                margin: 0;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+}

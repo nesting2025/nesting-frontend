@@ -1,7 +1,7 @@
 @import "./typography";
 @import "./colors";
 
-.cta-button-area {
+.default-show-cta {
     width: 100%;
     height: auto;
     padding: 12px 16px;
@@ -30,22 +30,182 @@
             }
         }
     }
+}
 
-    .show-buy-bottomsheet {
+.bottom-sheet-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+}
+
+.bottom-sheet {
+    max-width: 768px;    
+    width: 100%;
+    padding: 8px 16px 20px 16px;
+    background-color: white;
+    position: fixed;
+    z-index: 1000;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    .bottom-sheet-down-button {
+        width: 52px;
+        height: 30px;
+        cursor: pointer;
+        margin: 0 auto;
+        display: block;
+        margin-bottom: 16px;
+    }
+
+    .buy-info {
+        @include font-style("body2");
+        @include text-color("text-sub1");
+        margin-top: 0;
+        margin-bottom: 8px;
+    }
+
+    .option-header {
         width: 100%;
         height: 48px;
         border-radius: 8px;
-        @include bg-color("primary200");
-        border: none;
-        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        padding-left: 16px;
+        padding-right: 16px;
 
-        @include font-style("title4");
-        @include text-color();
+        @include border-color("line-medium");
+        @include bg-color("white");
 
-        &.soldout{
-            @include bg-color("bg-weak");
-            @include text-color("text-disabled");
-            cursor: default;
+        &.isDropDown {
+            @include bg-color("bg-strong");
         }
+
+        .option-title {
+            @include font-style("body1");
+            @include text-color("");
+
+            &.isDropDown {
+                @include text-color("text-sub1");
+            }
+        }
+
+        .right-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+
+            .select-all-options {
+                width: auto;
+                height: 34px;
+                border-radius: 8px;
+                @include border-color("line-medium");
+                @include bg-color("white");
+
+                @include font-style("caption1");
+                @include text-color("text-sub1");
+            }
+
+            .drop-btn {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    }
+
+    .option-list-area {
+        border-radius: 8px;
+        @include border-color("line-medium");
+        @include bg-color("white");
+        max-height: 208px;
+        overflow-y: auto;
+
+        .dropdown-option {
+            @include font-style("body1");
+            @include text-color("");
+            padding: 12px 16px;
+            cursor: pointer;
+
+            &.sold-out {
+                @include text-color("text-disabled");
+            }
+        }
+    }
+
+    .selected-area {
+        width: 100%;
+        max-height: 600px;
+        overflow-y: auto;
+
+        &.list {
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+
+    .price {
+        @include font-style("headline3");
+        @include text-color("");
+        margin: 0;
+    }
+
+    .show-price-row {
+        padding: 0 12px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        margin-bottom: 16px;
+
+        .title-price {
+            @include font-style("title3");
+            @include text-color("text-sub1");
+            margin: 0;
+        }
+    }
+
+    hr {
+        height: 1px;
+        border: none;
+        margin: 0;
+        @include bg-color("line-medium");
+    }
+
+    .bottom-sheet-button-row {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+    }
+}
+
+.show-buy-bottomsheet {
+    width: 100%;
+    height: 48px;
+    border-radius: 8px;
+    @include bg-color("primary200");
+    border: none;
+    cursor: pointer;
+
+    @include font-style("title4");
+    @include text-color();
+
+    &.soldout{
+        @include bg-color("bg-weak");
+        @include text-color("text-disabled");
+        cursor: default;
+    }
+
+    &.cart {
+        @include bg-color("white");
+        @include border-color("line-medium");
+        @include text-color("text-sub1");
     }
 }
