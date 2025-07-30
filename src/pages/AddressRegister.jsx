@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import '../styles/css/AddressRegister.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import CustomCheckbox from '../components/common/CustomCheckbox';
 
 const AddressRegister = () => {
@@ -62,6 +62,13 @@ const AddressRegister = () => {
   const handleSubmit = () => {
     navigate('/order', {state: form});    
   }
+
+  const loacation = useLocation();
+  useEffect(()=> {
+    if(loacation.state) {
+      setForm(loacation.state);
+    }
+  }, [loacation.state]);
 
   return (
     <div className="address-register-page">

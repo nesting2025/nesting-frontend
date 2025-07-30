@@ -9,10 +9,12 @@
         display: flex;
         justify-content: space-between;
         margin-bottom: 8px;
+        align-items: center;
         
         .left-group {
             display: flex;
             gap: 6px;
+            align-items: center;
 
             .destination {
                 @include font-style("title3");

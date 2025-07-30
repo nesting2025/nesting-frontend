@@ -1,11 +1,18 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../styles/css/AddressChange.css';
 import CustomRadioButton from "./common/CustomRadioButton";
 
-const AddressCard = ( { destination, isDefaultAdd, receiver, phone, address, selected, onSelect } ) => {
+const AddressCard = ( { addressData, selected, onSelect } ) => {
+    const { destination, isDefaultAdd, receiver, phone, address } = addressData;
+    const navigate = useNavigate();
 
     const handleChange = () => {
         onSelect(destination);
+    }
+
+    const handleEdit = () => {
+        navigate("/address-register", {state: addressData})
     }
 
     return (
@@ -21,7 +28,7 @@ const AddressCard = ( { destination, isDefaultAdd, receiver, phone, address, sel
                     />
                     {isDefaultAdd && <span className='chip'>기본</span> }
                 </div>
-                <p className="register-btn">수정</p>
+                <p className="register-btn" onClick={handleEdit}>수정</p>
             </div>
             <div className="content-area">
                 <p>{receiver}</p>
@@ -44,8 +51,8 @@ const AddressChange = ( { onClose, onSelect, selectedDestination } ) => {
             detailAdd: 'B205',
             postalCode: '02000',
             isDefaultAdd: true,
-            selectedOption: '',
-            customDetailRequest: ''
+            selectedOption: '직접 입력',
+            customDetailRequest: '빨리 와주세요오'
         },
         {
             destination: '친구네',
@@ -92,11 +99,7 @@ const AddressChange = ( { onClose, onSelect, selectedDestination } ) => {
                 {addressList.map((address, index) => (
                         <AddressCard
                             key={index}
-                            destination={address.destination}
-                            isDefaultAdd={address.isDefaultAdd}
-                            receiver={address.receiver}
-                            phone={address.phone}
-                            address={address.address}
+                            addressData={address}
                             selected={selectedDestination}
                             onSelect={handleSelect}
                         />

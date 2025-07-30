@@ -6,10 +6,12 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
+  align-items: center;
 }
 .address-card .title .left-group {
   display: flex;
   gap: 6px;
+  align-items: center;
 }
 .address-card .title .left-group .destination {
   font-size: 18px;
