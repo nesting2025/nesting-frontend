@@ -97,15 +97,17 @@ const OrderPay = () => {
 
   return (
     <div className="order-page">
-      <div className="order-page-title">주문/결제</div>
-{/* {form.isDefaultAdd ? "기본" : "최근"} */}
+      <div className="order-page-title">
+        <img src='assets/button/btn_x2.svg' />
+        <p>주문/결제</p>
+      </div>
 
       {/* 배송지 */}
       <section className="order-section">
         <div className="order-section-title destination">
           <div className='left-group'>
             <span className='title'>배송지</span>
-            <span className='chip'>기본</span>
+            <span className='chip'>{form.isDefaultAdd ? "기본" : "최근"} </span>
           </div>
             <span className="order-section-title register" onClick={handleAddress}>{isFormEmpty ? '등록' : '변경'}</span>
         </div>
@@ -127,7 +129,7 @@ const OrderPay = () => {
               </div>
               <div className='address-row'>
                 <p className='address-title'>주소</p>
-                <p className='address-content'>{`[${form.postalCode}] ${form.address}, ${form.detailAdd}`}</p>
+                <p className='address-content'>{`[${form.postalCode}] ${form.address}${form.detailAdd ? `, ${form.detailAdd}` : ''}`}</p>
               </div>
             </div>
             <div className={`custom-select ${isOpen ? 'open' : ''}`}>

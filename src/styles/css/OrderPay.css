@@ -6,15 +6,28 @@
 }
 
 .order-page-title {
+  display: flex;
+  position: relative;
+  border-bottom: #E5E5EC 1px solid;
+  padding: 11px 12px;
+  text-align: center;
+  align-items: center;
+}
+.order-page-title img {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.order-page-title p {
   font-size: 18px;
   line-height: 26px;
   font-weight: 500;
   letter-spacing: -2.5%;
   color: #111111;
-  position: relative;
-  border-bottom: #E5E5EC 1px solid;
-  padding: 11px;
-  text-align: center;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .order-section {

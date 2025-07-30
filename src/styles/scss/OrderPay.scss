@@ -9,12 +9,27 @@
   }
   
   .order-page-title {
-    @include font-style("title3");
-    @include text-color("text-main");
+    display: flex;
     position: relative; 
     border-bottom: #E5E5EC 1px solid;
-    padding: 11px;
+    padding: 11px 12px;
     text-align: center;
+    align-items: center;
+
+    img {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    p {
+      @include font-style("title3");
+      @include text-color("text-main");
+      margin: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
   
   .order-section {
