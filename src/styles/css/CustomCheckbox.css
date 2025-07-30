@@ -1,7 +1,7 @@
 .checkbox {
   all: unset;
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   width: fit-content;
   justify-content: flex-start;
   font-size: 14px;

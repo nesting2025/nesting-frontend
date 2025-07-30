@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import '../styles/css/OrderPay.css';
 import AddressChange from '../components/AddressChange';
+import OrderProductCard from '../components/goods/OrderProductCard';
+import CustomCheckbox from '../components/common/CustomCheckbox';
+import CTAButtonOrderPay from '../components/CTAButtonOrderPay';
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useMemo } from "react";
 
@@ -25,6 +28,29 @@ const OrderPay = () => {
     // selectedOption: '',
     // customDetailRequest: ''
   });
+  const [orderProductList, setOrderProductList] = useState([
+    {
+      imgSrc: "/assets/sample/dummy_product10.svg",
+      title: "상품명1",
+      originPrice: 10000,
+      discountedPrice: 8000,
+      quantity: 1,
+      option: "선택지 A/선택지 ①",
+    },
+    {
+      imgSrc: "/assets/sample/dummy_product8.svg",
+      title: "상품명2",
+      originPrice: 0,
+      discountedPrice: 8000,
+      quantity: 3,
+      option: "",
+    },
+  ])
+
+  const paymentOptions = ["신용카드", "체크카드", "무통장 입금", "네이버페이", "카카오페이"];
+  const [selectedMethod, setSelectedMethod] = useState("신용카드");
+  const [isCheckbox, setIsCheckbox] = useState(false);
+
   const isFormEmpty = useMemo(() => {
     const isAnyEmpty = !form.destination || !form.receiver || !form.phone || !form.address || !form.postalCode;
     return isAnyEmpty;
@@ -60,6 +86,15 @@ const OrderPay = () => {
     }
   }, [location.state]);
 
+  const getCustomNumber = () => {
+    window.open('https://unipass.customs.go.kr/csp/persIndexRectOnslCrtf.do?qryIssTp=1');
+  }
+  const [customNum, setCustomNum] = useState("");
+
+  const isEnabled = useMemo(()=> {
+    return !isFormEmpty && !!customNum && orderProductList.length > 0 && isCheckbox;
+  }, [isFormEmpty, customNum, orderProductList, isCheckbox])
+
   return (
     <div className="order-page">
       <div className="order-page-title">주문/결제</div>
@@ -67,7 +102,7 @@ const OrderPay = () => {
 
       {/* 배송지 */}
       <section className="order-section">
-        <div className="order-section-title">
+        <div className="order-section-title destination">
           <div className='left-group'>
             <span className='title'>배송지</span>
             <span className='chip'>기본</span>
@@ -128,45 +163,46 @@ const OrderPay = () => {
       {/* 개인통관고유부호 */}
       <section className="order-section">
         <div className="order-section-title" style={{justifyContent:'space-between'}}>개인통관고유부호
-            <button className="order-lookup-btn">10초만에 조회하기</button>
+            <button className="order-lookup-btn" onClick={getCustomNumber}>10초만에 조회하기</button>
         </div>
         <div className="order-customs-code">
-          <input type="text" placeholder="P로 시작하는 13자리" maxLength={13}/>
+          <input 
+            type="text" 
+            placeholder="P로 시작하는 13자리" 
+            maxLength={13}
+            value={customNum}
+            onChange={(e)=>setCustomNum(e.target.value)}
+          />
         </div>
       </section>
 
       {/* 주문 상품 */}
       <section className="order-section">
         <div className="order-section-title">주문 상품
-            <span className="order-section-title count">1건</span>
-        </div>
-    
-        <div className="order-product">
-          <img src="https://via.placeholder.com/60" alt="order-product" />
-          <div className="order-product-info" >
-            <div className="order-product-title">상품명은 최대 1줄 노출상품명은 최대 1줄 노출상품명은 최대 1줄 노출asdfasdfasdfasdf</div>
-            <div className="order-product-price" style={{display:'flex',alignItems:'center'}}> 
-              <span className="order-origin-price">10,000원</span>
-              <span className="order-sale-price">8,000원</span>
-            </div>
-          </div>
-        </div>
-        <div className="order-quantity">
-            수량:&nbsp;
-            <span className="order-quantity count">1개</span>
+            <span className="order-section-title count">{orderProductList.length}건</span>
         </div>
 
+        <div className='order-list-area'>
+          {orderProductList.map((item, index) => 
+            <OrderProductCard
+              key={index} 
+              productData={item}
+            />
+          )}
+        </div>
       </section>
 
       {/* 결제 수단 */}
       <section className="order-section">
         <div className="order-section-title">결제 수단</div>
         <div className="order-payment-methods">
-          <button>신용카드</button>
-          <button>체크카드</button>
-          <button>무통장 입금</button>
-          <button>네이버페이</button>
-          <button>카카오페이</button>
+          {paymentOptions.map((method) =>
+            <button
+              key={method}
+              onClick={() => setSelectedMethod(method)}
+              className={selectedMethod === method ? "selected" : ""}
+            >{method}</button>
+          )}
         </div>
       </section>
 
@@ -181,14 +217,20 @@ const OrderPay = () => {
 
       {/* 동의 체크 */}
       <div className="order-agreement">
-        <input className="order-checkbox" type="checkbox" />
-        <div>[필수] 주문한 상품의 결제, 배송, 주문정보를 확인하였으며 이에 동의합니다.</div>
+        <CustomCheckbox 
+          label="[필수] 주문한 상품의 결제, 배송, 주문정보를 확인하였으며 이에 동의합니다."
+          checked={isCheckbox}
+          onChange={()=>setIsCheckbox(prev => !prev)}
+        />
       </div>
+      
       {showAddBottomSheet && 
-      <AddressChange 
-      onClose={()=>SetShowAddBottomSheet(false)}
-      onSelect={handleSlectAddress}
-      selectedDestination={form.destination} />}
+        <AddressChange 
+        onClose={()=>SetShowAddBottomSheet(false)}
+        onSelect={handleSlectAddress}
+        selectedDestination={form.destination} />}
+
+      <CTAButtonOrderPay totalPrice={8000} productNum={orderProductList.length} isEnabled={isEnabled}/>
     </div>
   );
 };
