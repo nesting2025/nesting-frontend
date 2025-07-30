@@ -23,13 +23,9 @@
 }
 
 .order-section-title {
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: 500;
-  letter-spacing: -2.5%;
-  color: #111111;
   display: flex;
-  align-items: baseline;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 16px;
 }
 .order-section-title .count {
@@ -41,14 +37,41 @@
   color: #767676;
 }
 .order-section-title .register {
-  margin: 0 0 0 6px;
   text-decoration: underline;
   cursor: pointer;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
   letter-spacing: -2.5%;
   color: #767676;
+  margin: 0;
+}
+.order-section-title .left-group {
+  display: flex;
+  gap: 6px;
+  color: #111111;
+  height: auto;
+  align-items: center;
+}
+.order-section-title .left-group .title {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  margin: 0;
+}
+.order-section-title .left-group .chip {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  background-color: #F1F1F5;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 100%;
 }
 
 .order-address-box {
@@ -57,6 +80,33 @@
   padding: 21px;
   border-radius: 6px;
   color: #888;
+}
+
+.address-area1 {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.address-row {
+  display: flex;
+}
+.address-row p {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  margin: 0;
+}
+.address-row .address-title {
+  width: 60px;
+  color: #767676;
+}
+.address-row .address-content {
+  color: #111111;
 }
 
 .order-customs-code {

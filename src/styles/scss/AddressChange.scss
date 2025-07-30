@@ -1,0 +1,102 @@
+@import "./colors";
+@import "./typography";
+
+.address-card {
+    padding: 20px 16px;
+    @include text-color("text-main");
+
+    .title {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        
+        .left-group {
+            display: flex;
+            gap: 6px;
+
+            .destination {
+                @include font-style("title3");
+                margin: 0
+            }
+
+            .chip {
+                @include font-style("caption1");
+                @include bg-color("bg-strong");
+                border-radius: 4px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 35px;
+                height: 22px;
+                margin: 0;
+            }
+        }
+
+        .register-btn {
+            text-decoration: underline;
+            @include font-style("body1");
+            cursor: pointer;
+            margin: 0;
+        }
+
+    }
+
+    .content-area {
+        display: flex;
+        flex-direction: column;
+        padding-left: 24px;
+
+        p {
+            margin: 0;
+            @include font-style("title4");
+        }
+    }
+}
+
+.address-change {
+    .bottom-sheet-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+    }
+
+    .address-bottom-sheet {
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        max-width: 768px;    
+        width: 100%;
+        background-color: white;
+        position: fixed;
+        z-index: 1000;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            padding: 11px 16px;
+
+            p {
+                margin: 0;
+                @include font-style("title3");
+                @include text-color("");
+            }
+
+            img {
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+            }
+        }
+
+        hr {
+            margin: 0;
+            @include border-color("line-medium");
+        }
+    }
+}

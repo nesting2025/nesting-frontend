@@ -11,10 +11,11 @@ const AddressRegister = () => {
     phone: '',
     address: '',
     detailAdd: '',
+    postalCode: '',
     isDefaultAdd: false,
     selectedOption: '',
     customDetailRequest: ''
-  })
+  });
   // 커스텀 드롭다운 상태 관리
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,8 +24,8 @@ const AddressRegister = () => {
       !!form.destination.trim() && 
       !!form.receiver.trim() && 
       !!form.phone.trim() && 
-      !!form.address.trim()  && 
-      !!form.detailAdd.trim();
+      !!form.address.trim() &&
+      !!form.postalCode.trim();
 
     return isVallid;
   }, [form]);
@@ -51,14 +52,15 @@ const AddressRegister = () => {
       oncomplete: function (data) {
         setForm(prevForm => ({
           ...prevForm,
-          address: data.roadAddress
+          address: data.roadAddress,
+          postalCode: data.zonecode
         }));
       }
     }).open();
   };
 
   const handleSubmit = () => {
-    console.log(form);
+    navigate('/order', {state: form});    
   }
 
   return (
