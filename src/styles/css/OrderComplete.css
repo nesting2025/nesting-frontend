@@ -1,0 +1,221 @@
+.order-complete {
+  width: 360px;
+  margin: 0 auto;
+}
+.order-complete .header {
+  width: 100%;
+  height: 48px;
+  padding: 11px 12px;
+  display: flex;
+  position: relative;
+  border-bottom: #E5E5EC 1px solid;
+}
+.order-complete .header p {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.order-complete .header img {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+}
+.order-complete .order-complete-info-area {
+  width: 100%;
+  height: auto;
+  padding: 20px 16px;
+}
+.order-complete .order-complete-info-area p {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  text-align: center;
+  margin: 0;
+}
+.order-complete .order-complete-info-area p span {
+  color: #FFCC4C;
+}
+.order-complete .order-complete-info-area img {
+  width: 308px;
+  height: 308px;
+  margin: 16px auto 0;
+  display: block;
+}
+.order-complete .order-complete-info-area .button-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 20px;
+}
+.order-complete .order-complete-info-area .button-row button {
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  flex: 1;
+  border: none;
+  cursor: pointer;
+}
+.order-complete .order-complete-info-area .button-row button.button1 {
+  border: 1px solid #E5E5EC;
+  color: #767676;
+  background-color: #FFFFFF;
+}
+.order-complete .order-complete-info-area .button-row button.button2 {
+  color: #111111;
+  background-color: #FFE788;
+}
+.order-complete .didver {
+  width: 100%;
+  height: 8px;
+  background-color: #F1F1F5;
+}
+.order-complete .oreder-detail {
+  width: 100%;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-bottom: #E5E5EC 1px solid;
+}
+.order-complete .oreder-detail p {
+  margin: 0;
+}
+.order-complete .oreder-detail .detail-content1 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #767676;
+}
+.order-complete .oreder-detail .detail-content2 {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+.order-complete .order-section {
+  padding: 16px;
+  border-bottom: none;
+  display: flex;
+  flex-direction: column;
+}
+.order-complete .order-section .order-section-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+.order-complete .order-section .order-section-title.destination {
+  justify-content: space-between;
+  margin-top: 4px;
+}
+.order-complete .order-section .order-section-title .register {
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin: 0;
+}
+.order-complete .order-section .order-section-title .count {
+  margin: 0 0 0 6px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #767676;
+}
+.order-complete .address-area1 {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 4px;
+}
+.order-complete .address-area1 .address-row {
+  padding: 4px 0 4px 0;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+.order-complete .address-area1 .address-row .address-title {
+  color: #767676;
+}
+.order-complete .pay-row {
+  display: flex;
+  justify-content: space-between;
+}
+.order-complete .pay-row p {
+  margin: 0;
+}
+.order-complete .pay-row .pay-title {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #505050;
+}
+.order-complete .pay-row .pay-content {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+.order-complete .order-price-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0 5px 0;
+}
+.order-complete .order-price-row .order-price-title {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #505050;
+}
+.order-complete .order-price-row .order-price-content {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+}
+.order-complete .order-price-row .order-price-content.red {
+  color: #FF4242;
+}
+.order-complete .price-total {
+  margin-top: 4px;
+  background-color: #F7F7FB;
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -2.5%;
+  color: #111111;
+  padding: 6px 12px;
+  margin-bottom: 25px;
+}
+.order-complete .price-total .price-total-title {
+  color: #505050;
+}

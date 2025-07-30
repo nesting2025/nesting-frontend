@@ -2,10 +2,9 @@
 @import "./typography";
 
 .order-page {
-    max-width: 480px;
+    width: 480px;
     margin: 0 auto;
     font-family: sans-serif;
-    padding: 16px;
   }
   
   .order-page-title {
@@ -20,6 +19,7 @@
       width: 24px;
       height: 24px;
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     p {
@@ -42,7 +42,7 @@
     align-items: center;
     margin-bottom: 16px;
     @include font-style("headline4");
-    @include text-color("");
+    @include text-color();
 
     &.destination {
       justify-content: space-between;
@@ -229,6 +229,6 @@
     align-items:flex-start;
     @include font-style("body2");
     @include text-color("black");
-    padding-bottom: 68px;
+    padding-bottom: 88px;
   }
   

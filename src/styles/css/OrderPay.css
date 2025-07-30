@@ -1,8 +1,7 @@
 .order-page {
-  max-width: 480px;
+  width: 480px;
   margin: 0 auto;
   font-family: sans-serif;
-  padding: 16px;
 }
 
 .order-page-title {
@@ -17,6 +16,7 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  cursor: pointer;
 }
 .order-page-title p {
   font-size: 18px;
@@ -43,6 +43,7 @@
   line-height: 28px;
   font-weight: 500;
   letter-spacing: -2.5%;
+  color: #111111;
 }
 .order-section-title.destination {
   justify-content: space-between;
@@ -254,5 +255,5 @@
   font-weight: 400;
   letter-spacing: -2.5%;
   color: #000000;
-  padding-bottom: 68px;
+  padding-bottom: 88px;
 }

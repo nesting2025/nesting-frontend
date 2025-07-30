@@ -98,7 +98,7 @@ const OrderPay = () => {
   return (
     <div className="order-page">
       <div className="order-page-title">
-        <img src='assets/button/btn_x2.svg' />
+        <img src='assets/button/btn_back2.svg' />
         <p>주문/결제</p>
       </div>
 
@@ -158,8 +158,6 @@ const OrderPay = () => {
 
           </div>
         )}
-        
-        
       </section>
 
       {/* 개인통관고유부호 */}
