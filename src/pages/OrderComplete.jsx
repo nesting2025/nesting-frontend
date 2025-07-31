@@ -1,9 +1,15 @@
 import { useState, useMemo } from "react";
 import OrderProductCard from "../components/goods/OrderProductCard";
+import AddressChange from "../components/AddressChange";
 import '../styles/css/OrderComplete.css';
 
 const OrderComplete = () => {
     const nickname = "쫀득물만두"
+    const [showAddBottomSheet, SetShowAddBottomSheet] = useState(false);
+    const handleSlectAddress = (selectedAddress) => {
+        setForm(selectedAddress);
+        SetShowAddBottomSheet(false);
+    }
 
     const [form, setForm] = useState({
         destination: '집',
@@ -96,8 +102,7 @@ const OrderComplete = () => {
             <section className="order-section">
                 <div className="order-section-title destination">
                     <span className='title'>배송지</span>
-                   
-                    <span className="order-section-title register">변경</span>
+                    <span className="order-section-title register" onClick={()=>SetShowAddBottomSheet(true)}>변경</span>
                 </div>
     
                 <div className='address-area1'>
@@ -168,6 +173,12 @@ const OrderComplete = () => {
                     <span className="price-total-content">{priceSummary.totalPrice.toLocaleString()}원</span>
                 </div>
             </section>
+
+            {showAddBottomSheet && 
+                <AddressChange 
+                onClose={()=>SetShowAddBottomSheet(false)}
+                onSelect={handleSlectAddress}
+                selectedDestination={form.destination} />}
 
         </div>
     )
