@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import OrderProductCard from "../components/goods/OrderProductCard";
 import '../styles/css/OrderComplete.css';
 
@@ -21,20 +21,53 @@ const OrderComplete = () => {
         {
           imgSrc: "/assets/sample/dummy_product10.svg",
           title: "상품명1",
-          originPrice: 10000,
-          discountedPrice: 8000,
+          originPrice: 10000,  // 수량 포함된 가격
+          discountedPrice: 8000,  // 수량 포함된 가격
           quantity: 1,
           option: "선택지 A/선택지 ①",
+          deliveryFee: 0,
         },
         {
           imgSrc: "/assets/sample/dummy_product8.svg",
           title: "상품명2",
-          originPrice: 0,
+          originPrice: 8000,
           discountedPrice: 8000,
           quantity: 3,
           option: "",
+          deliveryFee: 0,
+        },
+         {
+          imgSrc: "/assets/sample/dummy_product4.svg",
+          title: "상품명3",
+          originPrice: 20000,
+          discountedPrice: 16000,
+          quantity: 3,
+          option: "",
+          deliveryFee: 3000,
         },
     ])
+
+    const priceSummary = useMemo(() => {
+        const summary = orderProductList.reduce(
+            (acc, product) => {
+                acc.totalOriginPrice += product.originPrice;
+                acc.totalDiscountedPrice += product.discountedPrice;
+                acc.totalDeliveryFee += product.deliveryFee;            
+                return acc;
+            },
+            {
+                totalOriginPrice: 0,
+                totalDiscountedPrice: 0,
+                totalDeliveryFee: 0
+            }
+        );
+        const result = {
+            ...summary,
+            totalDiscount: summary.totalOriginPrice - summary.totalDiscountedPrice,
+            totalPrice: summary.totalDiscountedPrice + summary.totalDeliveryFee
+        };
+        return result;
+    }, [orderProductList]);
 
     return (
         <div className="order-complete">
@@ -120,19 +153,19 @@ const OrderComplete = () => {
                 <div className="order-section-title">결제 금액</div>
                 <div className="order-price-row">
                     <span className="order-price-title">상품 금액</span>
-                    <span className="order-price-content">10,000원</span>
+                    <span className="order-price-content">{priceSummary.totalOriginPrice.toLocaleString()}원</span>
                 </div>
                 <div className="order-price-row">
                     <span className="order-price-title">할인 금액</span>
-                    <span className="order-price-content red">-2,000원</span>
+                    <span className="order-price-content red">-{priceSummary.totalDiscount.toLocaleString()}원</span>
                 </div>
                 <div className="order-price-row">
                     <span className="order-price-title">배송비</span>
-                    <span className="order-price-content">무료배송</span>
+                    <span className="order-price-content">{priceSummary.totalDeliveryFee === 0 ? "무료배송": `${priceSummary.totalDeliveryFee.toLocaleString()}원`}</span>
                 </div>
                 <div className="price-total">
                     <span className="price-total-title">총 결제 금액</span>
-                    <span className="price-total-content">8,000원</span>
+                    <span className="price-total-content">{priceSummary.totalPrice.toLocaleString()}원</span>
                 </div>
             </section>
 

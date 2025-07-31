@@ -2,6 +2,8 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import CustomCheckbox from '../components/common/CustomCheckbox';
 import OrderProductCard from "../components/goods/OrderProductCard";
 import ProductCardPrev from "../components/goods/ProductCardPrev";
+import CTAButton from "../components/CTAButton";
+import CTAButtonOrderPay from "../components/CTAButtonOrderPay";
 import '../styles/css/Cart.css';
 
 const Cart = () => {
@@ -9,8 +11,8 @@ const Cart = () => {
         {
           imgSrc: "/assets/sample/dummy_product10.svg",
           title: "상품명1",
-          originPrice: 10000,
-          discountedPrice: 8000,
+          originPrice: 10000,  // 수량 포함된 가격
+          discountedPrice: 8000,  // 수량 포함된 가격
           quantity: 1,
           option: "선택지 A/선택지 ①",
           isSoldout: true,
@@ -20,7 +22,7 @@ const Cart = () => {
         {
           imgSrc: "/assets/sample/dummy_product8.svg",
           title: "상품명2",
-          originPrice: 0,
+          originPrice: 8000,
           discountedPrice: 8000,
           quantity: 3,
           option: "",
@@ -247,6 +249,8 @@ const Cart = () => {
                         label=""
                         checked={productData.isChecked}
                         onChange={onCheckChange}
+                        disabled={productData.isSoldOut}
+                        
                     />
                     <img src="/assets/button/btn_x2.svg" onClick={onRemove} />
                 </div>
@@ -275,24 +279,36 @@ const Cart = () => {
     // 상품 선택하기
     const toggleDomesitcCheck = (index) => {
         setOrderProductList(prev =>
-            prev.map((item, i) =>
-            i===index ? {...item, isChecked: !item.isChecked} : item)
-        )
+            prev.map((item, i) => {
+                if(i===index && !item.isSoldout) {
+                    return {...item, isChecked: !item.isChecked};
+                }
+                return item;
+            })
+        );
     }
     const toggleOverseasCheck = (index) => {
         setOrderProductOverseasList(prev =>
-            prev.map((item, i) =>
-            i===index ? {...item, isChecked: !item.isChecked} : item)
+            prev.map((item, i) => {
+                if(i===index && !item.isSoldout) {
+                    return {...item, isChecked: !item.isChecked};
+                }
+                return item;
+            })
         )
     }
 
     // 전체 선택 체크박스
     const toggleAllCheck = (checked) => {
         setOrderProductList(prev=>
-            prev.map(item=> ({...item, isChecked: checked}))
+            prev.map(item=> 
+                item.isSoldout ? item : {...item, isChecked: checked}
+            )
         )
         setOrderProductOverseasList(prev=>
-            prev.map(item=> ({...item, isChecked: checked}))
+            prev.map(item=> 
+                item.isSoldout ? item : {...item, isChecked: checked}
+            )
         )
 
         setIsCheckbox(checked)
@@ -300,7 +316,9 @@ const Cart = () => {
 
     // 전체 선택 체크박스 업데이트
     useEffect(()=> {
-        const allChecked = [...orderProductList, ...orderProductOverseasList].every(item => item.isChecked);
+        const allChecked = [...orderProductList, ...orderProductOverseasList]
+        .filter(item => !item.isSoldout)
+        .every(item => item.isChecked);
         setIsCheckbox(allChecked);
     }, [orderProductList, orderProductOverseasList])
 
@@ -311,6 +329,29 @@ const Cart = () => {
         orderProductOverseasList.filter(item => item.isChecked), [orderProductOverseasList]);
     const checkedAllProducts = useMemo(()=>
         [...checkedDomesticProducts, ...checkedOverseasProducts], [checkedDomesticProducts, checkedOverseasProducts]);
+
+    // 선택된 상품 가격
+    const priceSummary = useMemo(() => {
+        const summary = checkedAllProducts.reduce(
+            (acc, product) => {
+                acc.totalOriginPrice += product.originPrice;
+                acc.totalDiscountedPrice += product.discountedPrice;
+                acc.totalDeliveryFee += product.deliveryFee;            
+                return acc;
+            },
+            {
+                totalOriginPrice: 0,
+                totalDiscountedPrice: 0,
+                totalDeliveryFee: 0
+            }
+        );
+        const result = {
+            ...summary,
+            totalDiscount: summary.totalOriginPrice - summary.totalDiscountedPrice,
+            totalPrice: summary.totalDiscountedPrice + summary.totalDeliveryFee
+        };
+        return result;
+    }, [checkedAllProducts]);
 
     // 선택 상품 삭제
     const handleRemoveSelectedProducts = () => {
@@ -450,19 +491,19 @@ const Cart = () => {
                         <div className="order-section-title">결제 금액</div>
                         <div className="order-price-row">
                             <span className="order-price-title">상품 금액</span>
-                            <span className="order-price-content">10,000원</span>
+                            <span className="order-price-content">{priceSummary.totalOriginPrice.toLocaleString()}원</span>
                         </div>
                         <div className="order-price-row">
                             <span className="order-price-title">할인 금액</span>
-                            <span className="order-price-content red">-2,000원</span>
+                            <span className="order-price-content red">-{priceSummary.totalDiscount.toLocaleString()}원</span>
                         </div>
                         <div className="order-price-row">
                             <span className="order-price-title">배송비</span>
-                            <span className="order-price-content">무료배송</span>
+                            <span className="order-price-content">{priceSummary.totalDeliveryFee === 0 ? "무료배송": `${priceSummary.totalDeliveryFee.toLocaleString()}원`}</span>
                         </div>
                         <div className="price-total">
                             <span className="price-total-title">총 결제 금액</span>
-                            <span className="price-total-content">8,000원</span>
+                            <span className="price-total-content">{priceSummary.totalPrice.toLocaleString()}원</span>
                         </div>
                     </section>
                 </div>
@@ -567,7 +608,12 @@ const Cart = () => {
                     ))}
                 </div>
             </div>
-
+            
+            <CTAButtonOrderPay
+                totalPrice={priceSummary.totalPrice}
+                productNum={checkedAllProducts.length}
+                isEnabled={checkedAllProducts.length > 0}
+            />
         </div>
     )
 }

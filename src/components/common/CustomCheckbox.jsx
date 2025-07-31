@@ -1,6 +1,6 @@
 import '../../styles/css/CustomCheckbox.css';
 
-const CustomCheckbox = ({ label, checked, onChange, name}) => {
+const CustomCheckbox = ({ label, checked, onChange, name, disabled=false }) => {
     return(
         <label className={`checkbox ${name}`}>
             <input
@@ -8,6 +8,7 @@ const CustomCheckbox = ({ label, checked, onChange, name}) => {
                 checked={checked}
                 onChange={onChange}
                 name={name}
+                disabled={disabled}
              />
             <span className='checkmark' />
             {label}

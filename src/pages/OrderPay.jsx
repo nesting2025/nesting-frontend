@@ -32,18 +32,29 @@ const OrderPay = () => {
     {
       imgSrc: "/assets/sample/dummy_product10.svg",
       title: "상품명1",
-      originPrice: 10000,
-      discountedPrice: 8000,
+      originPrice: 10000,  // 수량 포함된 가격
+      discountedPrice: 8000,  // 수량 포함된 가격
       quantity: 1,
       option: "선택지 A/선택지 ①",
+      deliveryFee: 0,
     },
     {
       imgSrc: "/assets/sample/dummy_product8.svg",
       title: "상품명2",
-      originPrice: 0,
+      originPrice: 8000,
       discountedPrice: 8000,
       quantity: 3,
       option: "",
+      deliveryFee: 0,
+    },
+      {
+      imgSrc: "/assets/sample/dummy_product4.svg",
+      title: "상품명3",
+      originPrice: 20000,
+      discountedPrice: 16000,
+      quantity: 3,
+      option: "",
+      deliveryFee: 3000,
     },
   ])
 
@@ -94,6 +105,28 @@ const OrderPay = () => {
   const isEnabled = useMemo(()=> {
     return !isFormEmpty && !!customNum && orderProductList.length > 0 && isCheckbox;
   }, [isFormEmpty, customNum, orderProductList, isCheckbox])
+
+  const priceSummary = useMemo(() => {
+        const summary = orderProductList.reduce(
+            (acc, product) => {
+                acc.totalOriginPrice += product.originPrice;
+                acc.totalDiscountedPrice += product.discountedPrice;
+                acc.totalDeliveryFee += product.deliveryFee;            
+                return acc;
+            },
+            {
+                totalOriginPrice: 0,
+                totalDiscountedPrice: 0,
+                totalDeliveryFee: 0
+            }
+        );
+        const result = {
+            ...summary,
+            totalDiscount: summary.totalOriginPrice - summary.totalDiscountedPrice,
+            totalPrice: summary.totalDiscountedPrice + summary.totalDeliveryFee
+        };
+        return result;
+    }, [orderProductList]);
 
   return (
     <div className="order-page">
@@ -209,10 +242,22 @@ const OrderPay = () => {
       {/* 결제 금액 */}
       <section className="order-section">
         <div className="order-section-title">결제 금액</div>
-        <div className="order-price-row"><span className="order-price-row left">상품 금액</span><span className="order-price-row right">10,000원</span></div>
-        <div className="order-price-row"><span className="order-price-row left">할인 금액</span><span className="order-price-row right red">-2,000원</span></div>
-        <div className="order-price-row"><span className="order-price-row left">배송비</span><span>-</span></div>
-        <div className="order-price-row-total"><span className="order-price-row-total left">총 결제 금액</span><span className="order-price-row-total right">8,000원</span></div>
+        <div className="order-price-row">
+          <span className="order-price-row left">상품 금액</span>
+          <span className="order-price-row right">{priceSummary.totalOriginPrice.toLocaleString()}원</span>
+        </div>
+        <div className="order-price-row">
+          <span className="order-price-row left">할인 금액</span>
+          <span className="order-price-row right red">-{priceSummary.totalDiscount.toLocaleString()}원</span>
+        </div>
+        <div className="order-price-row">
+          <span className="order-price-row left">배송비</span>
+          <span>{priceSummary.totalDeliveryFee === 0 ? "무료배송": `${priceSummary.totalDeliveryFee.toLocaleString()}원`}</span>
+        </div>
+        <div className="order-price-row-total">
+          <span className="order-price-row-total left">총 결제 금액</span>
+          <span className="order-price-row-total right">{priceSummary.totalPrice.toLocaleString()}원</span>
+        </div>
       </section>
 
       {/* 동의 체크 */}
@@ -230,7 +275,7 @@ const OrderPay = () => {
         onSelect={handleSlectAddress}
         selectedDestination={form.destination} />}
 
-      <CTAButtonOrderPay totalPrice={8000} productNum={orderProductList.length} isEnabled={isEnabled}/>
+      <CTAButtonOrderPay totalPrice={priceSummary.totalPrice} productNum={orderProductList.length} isEnabled={isEnabled}/>
     </div>
   );
 };

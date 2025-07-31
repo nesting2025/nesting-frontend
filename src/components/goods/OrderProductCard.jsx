@@ -13,7 +13,7 @@ const OrderProductCard = ({ productData }) => {
                 <div className="order-product-info" >
                     <div className="order-product-title">{title}</div>
                     <div className="order-product-price" style={{display:'flex',alignItems:'center'}}> 
-                    {originPrice !==0 && <span className="order-origin-price">{originPrice?.toLocaleString()}원</span>}
+                    {originPrice !== discountedPrice && <span className="order-origin-price">{originPrice?.toLocaleString()}원</span>}
                     <span className="order-sale-price">{discountedPrice?.toLocaleString()}원</span>
                     </div>
                 </div>
