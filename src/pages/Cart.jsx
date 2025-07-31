@@ -240,6 +240,7 @@ const Cart = () => {
     const [activeTab, setActiveTab] = useState(0);
 
     const [isCheckbox, setIsCheckbox] = useState(false);  // 전체 선택
+    const [isOpenBottomSheet, SetIsOpenBottomSheet] = useState(false);
 
     const OrderCartProductCard = ( {productData, onCheckChange, onRemove} ) => {
         return(
@@ -255,8 +256,15 @@ const Cart = () => {
                 </div>
                 <OrderProductCard productData={productData} />
                 <div className="button-row">
-                    <button>옵션 변경</button>
-                    <button>바로 구매하기</button>
+                    <button className={`${productData.isSoldout || productData.isOverseas ? "soldout" : ""}`}
+                    disabled={productData.isSoldout || productData.isOverseas}
+                    onClick={() => SetIsOpenBottomSheet(prev => !prev)}>
+                        옵션 변경
+                    </button>
+                    <button className={`${productData.isSoldout ? "soldout" : ""}`}
+                    disabled={productData.isSoldout}>
+                        바로 구매하기
+                    </button>
                 </div>
                 <p className="total-price-area">
                     {productData.isSoldout ? (
@@ -443,7 +451,7 @@ const Cart = () => {
                                     {orderProductOverseasList.map((item, index) => (
                                         <div key={index} >
                                             <OrderCartProductCard
-                                                productData={item}
+                                                productData={{...item, isOverseas: true}}
                                                 onCheckChange={()=>toggleOverseasCheck(index)}
                                                 onRemove={()=>handleRemvoeProduct(index, true)}
                                             />
@@ -488,8 +496,7 @@ const Cart = () => {
             <ProductSlider 
                 productList={RecommendedProducts}
                 title1="내가 찜한"
-                title2="상품"
-            />
+                title2="상품" />
 
             <div className="diver" />
 
@@ -498,13 +505,19 @@ const Cart = () => {
                 productList={RecommendedProducts}
                 title1="최근 본"
                 title2="상품"
-            />
+                className="bottom" />
             
             <CTAButtonOrderPay
                 totalPrice={priceSummary.totalPrice}
                 productNum={checkedAllProducts.length}
-                isEnabled={checkedAllProducts.length > 0}
-            />
+                isEnabled={checkedAllProducts.length > 0} />
+
+            {isOpenBottomSheet && 
+                <CTAButton
+                    isSoldout={false}
+                    isOpenBottomSheet={true} 
+                    onCloseBottomSheet={()=>SetIsOpenBottomSheet(false)}
+            />}
         </div>
     )
 }

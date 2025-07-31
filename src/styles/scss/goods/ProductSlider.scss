@@ -10,6 +10,10 @@
             @include bg-color("white");
         }
 
+        &.bottom {
+            padding-bottom: 104px;
+        }
+
         .recommend-title {
             @include font-style("headline4");
             @include text-color("");

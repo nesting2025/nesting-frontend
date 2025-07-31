@@ -6,6 +6,9 @@
 .product-recommend-area.white {
   background-color: #FFFFFF;
 }
+.product-recommend-area.bottom {
+  padding-bottom: 104px;
+}
 .product-recommend-area .recommend-title {
   font-size: 20px;
   line-height: 28px;

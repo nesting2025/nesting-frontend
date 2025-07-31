@@ -2,9 +2,8 @@
 @import "./typography";
 
 .cart-area {
-    // min-width: 360px;
-    // max-width: 768px;
-    width: 360px;
+    min-width: 360px;
+    max-width: 768px;
     margin: 0 auto;
 
     .header {
@@ -264,6 +263,12 @@
             @include text-color("text-sub2");
             @include bg-color("white");
             cursor: pointer;
+        }
+
+        .soldout {
+            cursor: default;
+            @include border-color("line-weak");
+            @include text-color("text-disabled");
         }
     }
 
