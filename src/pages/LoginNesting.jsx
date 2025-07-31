@@ -1,5 +1,6 @@
 import '../styles/css/LoginNesting.css';
 import CustomButton from "../components/CustomButton";
+import CustomCheckbox from '../components/common/CustomCheckbox';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +12,7 @@ const LoginNesting = () => {
     const [showPwError, setShowPwError] = useState(false);
     const [showPw, seteShowPw] = useState(false);
     const isFormValid = email && pw && !showEmailError && !showPwError;
+    const [keepLogin, setKeepLogin] = useState(false);
 
     const goBack = () => nav("/login");
     const gotoFindEmail = () => nav("/login/find-email");
@@ -110,11 +112,16 @@ const LoginNesting = () => {
         {showPwError && (
             <div className='pw-error-message'>영문 포함,숫자 포함, 8-16자 이내</div>
         )}
-        <label className='keep-login'>
-            <input type="checkbox" />
-            <span className='checkmark' />
-            로그인 상태 유지
-        </label>
+
+        <div className='checkbox-area'>
+            <CustomCheckbox
+                label="로그인 상태 유지"
+                checked={keepLogin}
+                onChange={(e) => setKeepLogin(e.target.checked)}
+                name="keep-login"
+            />
+        </div>
+        
         <div className='link-group'>
             <p
             onClick={gotoFindEmail}>이메일 찾기</p>

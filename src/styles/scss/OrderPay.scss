@@ -2,19 +2,35 @@
 @import "./typography";
 
 .order-page {
-    max-width: 480px;
+    min-width: 360px;
+    max-width: 768px;
     margin: 0 auto;
     font-family: sans-serif;
-    padding: 16px;
   }
   
   .order-page-title {
-    @include font-style("title3");
-    @include text-color("text-main");
+    display: flex;
     position: relative; 
     border-bottom: #E5E5EC 1px solid;
-    padding: 11px;
+    padding: 11px 12px;
     text-align: center;
+    align-items: center;
+
+    img {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    p {
+      @include font-style("title3");
+      @include text-color("text-main");
+      margin: 0;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
   
   .order-section {
@@ -23,23 +39,52 @@
   }
   
   .order-section-title {
-    @include font-style("headline4");
-    @include text-color("text-main");
     display: flex;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 16px;
+    @include font-style("headline4");
+    @include text-color();
+
+    &.destination {
+      justify-content: space-between;
+    }
+
     .count {
-        
         margin: 0 0 0 6px;
         @include font-style("headline6");
         @include text-color("text-sub1");
     }
+
     .register{
-        margin: 0 0 0 6px;
         text-decoration: underline;
         cursor: pointer;
-        @include font-style("headline6");
+        @include font-style("body1");
         @include text-color("text-sub1");
+        margin: 0;
+    }
+
+    .left-group {
+      display: flex;
+      gap: 6px;
+      @include text-color("text-main");
+      height: auto;
+      align-items: center;
+
+      .title {
+        @include font-style("headline4");
+        margin: 0;
+      }
+
+      .chip {
+        @include font-style("caption1");
+        @include bg-color("bg-strong");
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 35px;
+        height: 100%;
+      }
     }
   }
   
@@ -50,6 +95,35 @@
     border-radius: 6px;
     color: #888;
   }
+
+  
+  .address-area1 {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 16px;
+  }
+
+  .address-row {
+    display: flex;
+
+    p {
+      @include font-style("body1");
+      margin: 0;
+    }
+
+    .address-title {
+      width: 60px;
+      @include text-color("text-sub1");
+    }
+
+    .address-content {
+      @include text-color("text-main");
+    }
+  }
+  
   
   .order-customs-code {
     display: flex;
@@ -74,6 +148,7 @@
     border: none;
     padding: 8px 12px;
     border-radius: 8px;
+    cursor: pointer;
     
     @include font-style("title4");
     @include text-color("text-main");
@@ -83,59 +158,11 @@
     @include font-style("headline6");
     @include text-color("text-sub1");
   }
-  
-  .order-product {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .order-product img {
-    width: 60px;
-    height: 60px;
-    border: #F1F1F5 1px solid;
-  }
-  
-  .order-product-info {
+
+  .order-list-area {
     display: flex;
     flex-direction: column;
-  }
-  
-  .order-product-title {
-    margin-bottom: 4px;
-    display: -webkit-box;
-    -webkit-line-clamp : 1;
-    -webkit-box-orient:vertical; 
-    overflow: hidden;
-    @include font-style("body2");
-    @include text-color("text-main");
-  }
-  
-  .order-origin-price {
-    text-decoration: line-through;
-    margin-right: 8px;
-    @include font-style("caption1");
-    @include text-color("text-sub1");
-  }
-  
-  .order-sale-price {
-    font-weight: bold;
-    color: #000;
-    @include font-style("title3");
-    @include text-color("text-main");
-  }
-  
-  .order-quantity {
-    vertical-align: middle;
-    padding: 4px 12px;
-    border-radius: 4px;
-    @include font-style("caption1");
-    @include text-color("text-main"); 
-    @include bg-color("bg-weak");
-    margin-top: 16px;
-    .count {
-        padding: 0;
-        @include text-color("text-sub1"); 
-    }
+    gap: 24px;
   }
   
   .order-payment-methods {
@@ -146,17 +173,23 @@
   
   .order-payment-methods button {
     padding: 12px 16px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #f9f9f9;
+    @include border-color("line-medium");
+    border-radius: 8px;
+    background-color: white;
     @include font-style("title4");
-    @include text-color("text-main"); 
+    @include text-color("text-sub2"); 
+    cursor: pointer;
+
+    &.selected {
+       @include text-color("text-main"); 
+       @include bg-color("bg-strong");
+    }
   }
   
   .order-price-row {
     display: flex;
     justify-content: space-between;
-    padding: 4px 0 4px 0;
+    padding: 5px 0 5px 0;
     
     .left{
         padding: 0;
@@ -197,20 +230,6 @@
     align-items:flex-start;
     @include font-style("body2");
     @include text-color("black");
-  }
-  .order-checkbox {
-    //appearance: none;              // 브라우저 기본 제거
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    border: 1px solid #E5E5EC;        // 원하는 테두리 색
-    border-radius: 4px;
-    position: relative;
-    margin-right: 8px;
-    cursor: pointer;
-    &:checked {
-        border-color: #00c471;       // 체크되었을 때 테두리 색
-        background-color: #00c471;
-    }
+    padding-bottom: 88px;
   }
   

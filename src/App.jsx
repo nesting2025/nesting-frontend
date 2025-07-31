@@ -15,6 +15,8 @@ import OrderPay from "./pages/OrderPay";
 import ProductDetail from "./pages/ProductDetail";
 import GoodsList from "./pages/GoodsList";
 import AddressRegister from "./pages/AddressRegister";
+import OrderComplete from "./pages/OrderComplete";
+import Cart from "./pages/Cart";
 
 
 function App() {
@@ -33,9 +35,11 @@ function App() {
       <Route path="/login/account-info" element={<AccountInfo />} />
       <Route path="/verify" element={<AuthVerify />} />
       <Route path="/order" element={<OrderPay />} />
+      <Route path="order/complete" element={<OrderComplete />} />
       <Route path="/address-register" element={<AddressRegister />} />
       <Route path="/product/detail" element={<ProductDetail />} />
       <Route path="/goods" element={<GoodsList />} />
+      <Route path="cart" element={<Cart />} />
       {/* <Route path="/goods/:id" element={<GoodsDetail />} /> */}
     </Routes>
   );

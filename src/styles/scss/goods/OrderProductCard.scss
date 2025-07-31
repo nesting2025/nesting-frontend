@@ -1,0 +1,91 @@
+@import "../colors";
+@import "../typography";
+
+.order-product-card {
+    .order-product {
+    display: flex;
+    gap: 8px;
+  }
+
+  .img-wrapper {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    display: inline-block;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border: #F1F1F5 1px solid;
+      display: block;
+    }
+
+    .soldout-overlay {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include text-color("white");
+      @include font-style("caption1");
+    }
+  }
+  
+  .order-product-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .order-product-title {
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp : 1;
+    -webkit-box-orient:vertical; 
+    overflow: hidden;
+    @include font-style("body2");
+    @include text-color("text-main");
+  }
+  
+  .order-origin-price {
+    text-decoration: line-through;
+    margin-right: 8px;
+    @include font-style("caption1");
+    @include text-color("text-sub1");
+  }
+  
+  .order-sale-price {
+    font-weight: bold;
+    color: #000;
+    @include font-style("title3");
+    @include text-color("text-main");
+  }
+  
+  .order-quantity {
+    display: flex;
+    gap: 10px;
+    vertical-align: middle;
+    padding: 4px 12px;
+    border-radius: 4px;
+    @include font-style("caption1");
+    @include text-color("text-main"); 
+    @include bg-color("bg-weak");
+    margin-top: 8px;
+
+    .order-quantity-count {
+        @include text-color("text-sub1"); 
+        margin-left: 2px;
+    }
+
+    .line {
+        @include text-color("line-medium");
+    }
+
+    p {
+        margin: 0;
+    }
+  }
+}

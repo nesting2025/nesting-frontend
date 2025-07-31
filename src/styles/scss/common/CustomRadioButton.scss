@@ -1,0 +1,39 @@
+@import "../colors";
+@import "../typography";
+
+.custom-radio {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    input {
+        display: none;
+    }
+
+    .radio-mark {
+        width: 20px;
+        height: 20px;
+        border: 1px solid;
+        @include border-color("line-medium");
+        border-radius: 50%;
+        margin-right: 4px;
+        box-sizing: border-box;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    input:checked + .radio-mark::after {
+        content: '';
+        width: 10px;
+        height: 10px;
+        @include bg-color("primary200");
+        border-radius: 50%;
+    }
+
+    .label-text {
+        @include font-style("title3");
+        @include text-color("");
+    }
+}

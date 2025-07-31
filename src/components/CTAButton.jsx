@@ -3,10 +3,10 @@ import { useState, useMemo } from "react";
 import SelectQuantity from "./SelectQuantity";
 import { useToast } from "./common/ToastContext";
 
-const CTAButton =( {isSoldout} ) => {
+const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet} ) => {
     const { showToast } = useToast();
     const [isLike, setIsLiked] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(isOpenBottomSheet);
     const [isDropDownOption, SetIsDropDownOption] = useState(true);
     const [optionList, setOptionList] = useState([
         {
@@ -55,6 +55,7 @@ const CTAButton =( {isSoldout} ) => {
         setIsOpen(false);
         setOptionList(prev => prev.map(item => ({...item, quantity:0})));
         SetIsDropDownOption(true);
+        onCloseBottomSheet?.();
     }
 
     const handleOptionClick = (index) => {

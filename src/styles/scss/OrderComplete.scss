@@ -1,0 +1,208 @@
+@import "./colors";
+@import "./typography";
+
+.order-complete {
+    min-width: 360px;
+    max-width: 768px;
+    margin: 0 auto;
+
+    .header {
+        width: 100%;
+        height: 48px;
+        padding: 11px 12px;
+        display: flex;
+        position: relative;
+        border-bottom: #E5E5EC 1px solid;
+
+        p {
+            @include font-style("title3");
+            @include text-color();
+            margin: 0;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        img {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            right: 12px;
+            cursor: pointer;
+        }
+    }
+
+    .order-complete-info-area {
+        width: 100%;
+        height: auto;
+        padding: 20px 16px;
+
+        p {
+            @include font-style("headline4");
+            @include text-color();
+            text-align: center;
+            margin: 0;
+
+            span {
+                @include text-color("primary400");
+            }
+        }
+
+        img {
+            width: 308px;
+            height: 308px;
+            margin: 16px auto 0;
+            display: block;
+        }
+
+        .button-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 20px;
+
+            button {
+                padding: 12px;
+                border-radius: 12px;
+                @include font-style("title4");
+                flex: 1;
+                border: none;
+                cursor: pointer;
+
+                &.button1 {
+                    @include border-color("line-medium");
+                    @include text-color("text-sub1");
+                    @include bg-color("white");
+                }
+
+                &.button2 {
+                    @include text-color();
+                    @include bg-color("primary200");
+                }
+            }
+        }
+    }
+
+    .diver {
+        width: 100%;
+        height: 8px;
+        @include bg-color("bg-strong");
+    }
+
+    .oreder-detail {
+        width: 100%;
+        padding: 12px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        border-bottom: #E5E5EC 1px solid;
+        p { margin: 0}
+
+        .detail-content1 {
+            @include font-style("headline5");
+            @include text-color("text-sub1");
+        }
+
+        .detail-content2 {
+            @include font-style("body2");
+            @include text-color();
+        }
+    }
+
+    .order-section {
+        padding : 16px;
+        border-bottom: none;
+        display: flex;
+        flex-direction: column;
+
+        .order-section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            @include font-style("headline4");
+            @include text-color();
+
+            &.destination {
+                justify-content: space-between;
+                margin-top: 4px;
+            }
+
+            .register {
+                text-decoration: underline;
+                cursor: pointer;
+                @include font-style("body1");
+                @include text-color();
+                margin: 0;
+            }
+
+            .count {
+                margin: 0 0 0 6px;
+                @include font-style("headline6");
+                @include text-color("text-sub1");
+            }
+        }
+    }
+
+    .address-area1 {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin-bottom: 4px;
+        .address-row {
+            padding: 4px 0 4px 0;
+            @include font-style("body1");
+            @include text-color();
+
+            .address-title {
+                @include text-color("text-sub1");
+            }
+        }
+    }
+
+    .pay-row {
+        display: flex;
+        justify-content: space-between;
+        p { margin: 0 }
+        .pay-title {
+            @include font-style("body1");
+            @include text-color("text-sub2");
+        }
+
+        .pay-content {
+            @include font-style("title4");
+            @include text-color();
+        }
+    }
+
+    .order-price-row {
+        display: flex;
+        justify-content: space-between;        
+        padding: 5px 0 5px 0;
+
+        .order-price-title {
+            @include font-style("body1");
+            @include text-color("text-sub2");
+        }
+
+        .order-price-content {
+            @include font-style("title4");
+            @include text-color();
+
+            &.red { @include text-color("status-destructive"); }
+        }
+    }
+
+    .price-total {
+        margin-top: 4px;
+        @include bg-color("bg-weak");
+        display: flex;
+        justify-content: space-between;
+        @include font-style("title2");
+        @include text-color();
+        padding: 6px 12px;
+        margin-bottom: 25px;
+
+        .price-total-title {
+            @include text-color("text-sub2");
+        }
+    }
+}
