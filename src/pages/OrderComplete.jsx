@@ -52,7 +52,7 @@ const OrderComplete = () => {
                 </div>
             </div>
 
-            <div className="didver" />
+            <div className="diver" />
 
             <div className="oreder-detail">
                 <p className="detail-content1">주문 상세 내역 - 25.07.25</p>
@@ -83,7 +83,7 @@ const OrderComplete = () => {
                 </div>
             </section>
 
-            <div className="didver" />
+            <div className="diver" />
 
             {/* 주문 상품 */}
             <section className="order-section">
@@ -101,7 +101,7 @@ const OrderComplete = () => {
                 </div>
             </section>
 
-            <div className="didver" />
+            <div className="diver" />
 
             {/* 결제 수단 */}
             <section className="order-section">
@@ -113,7 +113,7 @@ const OrderComplete = () => {
                 </div>
             </section>
 
-            <div className="didver" />
+            <div className="diver" />
 
             {/* 결제 금액 */}
             <section className="order-section">

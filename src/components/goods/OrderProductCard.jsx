@@ -1,17 +1,20 @@
 import '../../styles/css/OrderProductCard.css';
 
 const OrderProductCard = ({ productData }) => {
-    const { imgSrc, title, originPrice, discountedPrice, quantity, option } = productData;
+    const { imgSrc, title, originPrice, discountedPrice, quantity, option, isSoldout=false } = productData;
     
     return (
         <div className="order-product-card">
             <div className="order-product">
-                <img src={imgSrc} alt="order-product" />
+                <div className='img-wrapper'>
+                    <img src={imgSrc} />
+                    {isSoldout && <div className='soldout-overlay'><span>품절</span></div>}
+                </div>
                 <div className="order-product-info" >
                     <div className="order-product-title">{title}</div>
                     <div className="order-product-price" style={{display:'flex',alignItems:'center'}}> 
-                    {originPrice !==0 && <span className="order-origin-price">{originPrice.toLocaleString()}원</span>}
-                    <span className="order-sale-price">{discountedPrice.toLocaleString()}원</span>
+                    {originPrice !==0 && <span className="order-origin-price">{originPrice?.toLocaleString()}원</span>}
+                    <span className="order-sale-price">{discountedPrice?.toLocaleString()}원</span>
                     </div>
                 </div>
             </div>
