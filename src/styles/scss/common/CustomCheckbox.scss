@@ -11,6 +11,10 @@
     position: relative;
     cursor: pointer;
 
+    &.disabled {
+        cursor: default;
+    }
+
     input {
         position: absolute;
         opacity: 0;

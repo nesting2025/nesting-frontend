@@ -1,0 +1,60 @@
+.product-recommend-area {
+  width: 100%;
+  padding: 16px 12px;
+  background-color: #F7F7FB;
+}
+.product-recommend-area.white {
+  background-color: #FFFFFF;
+}
+.product-recommend-area .recommend-title {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  margin-left: 4px;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+.product-recommend-area .recommend-title .title-highlight {
+  color: #FAAC25;
+}
+.product-recommend-area .recommned-product-list-slide {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.product-recommend-area .recommned-product-list-slide::-webkit-scrollbar {
+  display: none;
+}
+.product-recommend-area .recommned-product-list-slide .recommned-product-list {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+}
+.product-recommend-area .btn-indicator {
+  display: flex;
+  width: 48px;
+  gap: 6px;
+  margin: 0 auto;
+  margin-top: 4px;
+}
+.product-recommend-area .btn-indicator .recommend-indicator {
+  all: unset;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(17, 17, 17, 0.2);
+  display: inline-block;
+}
+.product-recommend-area .btn-indicator .recommend-indicator.active {
+  width: 20px;
+  border-radius: 4px;
+  background-color: black;
+}

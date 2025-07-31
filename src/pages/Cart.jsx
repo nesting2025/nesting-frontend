@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import CustomCheckbox from '../components/common/CustomCheckbox';
 import OrderProductCard from "../components/goods/OrderProductCard";
-import ProductCardPrev from "../components/goods/ProductCardPrev";
 import CTAButton from "../components/CTAButton";
 import CTAButtonOrderPay from "../components/CTAButtonOrderPay";
+import ProductSlider from "../components/goods/ProductSlider";
 import '../styles/css/Cart.css';
 
 const Cart = () => {
@@ -249,8 +249,7 @@ const Cart = () => {
                         label=""
                         checked={productData.isChecked}
                         onChange={onCheckChange}
-                        disabled={productData.isSoldOut}
-                        
+                        disabled={productData.isSoldout}
                     />
                     <img src="/assets/button/btn_x2.svg" onClick={onRemove} />
                 </div>
@@ -375,32 +374,6 @@ const Cart = () => {
         }
     }
 
-    const [currentProductIndex, setCurrentProductIndex] = useState(0);
-    const productScrollRef = useRef(null);
-
-    const handleScrollProduct = () => {
-        const scrollX = productScrollRef.current.scrollLeft;  // 얼마나 스크롤했는지
-        const containerWidth = productScrollRef.current.offsetWidth;  // 요소의 보이는 너비
-        const index = Math.round(scrollX/containerWidth);
-        setCurrentProductIndex(index);
-    }
-
-    const goToProductSlide = (index) => {
-        if(!productScrollRef.current) return;
-
-        const containerWidth = productScrollRef.current.offsetWidth;
-
-        productScrollRef.current.scrollTo({
-            left: index * containerWidth,
-            behavior: "smooth"
-        });
-
-        setTimeout(() => {
-            setCurrentProductIndex(index);
-        }, 300);
-    }
-
-
     return (
         <div className="cart-area">
             <div className="header">
@@ -512,102 +485,20 @@ const Cart = () => {
             <div className="diver" />
 
             {/* 내가 찜한 상품 */}
-            <div className='product-recommend-area'>
-                <p className='recommend-title'><span className='title-highlight'>내가 찜한</span> 상품</p>
-                <div 
-                className='recommned-product-list-slide'
-                ref={productScrollRef}
-                onScroll={handleScrollProduct}
-                >
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(0,6).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(6,12).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(12,18).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                </div>
-
-                <div className='btn-indicator'> 
-                    {[0,1,2].map((index) => (
-                        <button
-                            key={index} 
-                            className={`recommend-indicator ${currentProductIndex===index ? 'active' : ''}`}
-                            onClick={() => goToProductSlide(index)}
-                        />
-                    ))}
-                </div>
-            </div>
+            <ProductSlider 
+                productList={RecommendedProducts}
+                title1="내가 찜한"
+                title2="상품"
+            />
 
             <div className="diver" />
 
             {/* 최근 본 상품 */}
-            <div className='product-recommend-area'>
-                <p className='recommend-title'><span className='title-highlight'>최근 본</span> 상품</p>
-                <div 
-                className='recommned-product-list-slide'
-                ref={productScrollRef}
-                onScroll={handleScrollProduct}
-                >
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(0,6).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(6,12).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(12,18).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                </div>
-
-                <div className='btn-indicator'> 
-                    {[0,1,2].map((index) => (
-                        <button
-                            key={index} 
-                            className={`recommend-indicator ${currentProductIndex===index ? 'active' : ''}`}
-                            onClick={() => goToProductSlide(index)}
-                        />
-                    ))}
-                </div>
-            </div>
+            <ProductSlider 
+                productList={RecommendedProducts}
+                title1="최근 본"
+                title2="상품"
+            />
             
             <CTAButtonOrderPay
                 totalPrice={priceSummary.totalPrice}

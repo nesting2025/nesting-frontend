@@ -11,6 +11,9 @@
   position: relative;
   cursor: pointer;
 }
+.checkbox.disabled {
+  cursor: default;
+}
 .checkbox input {
   position: absolute;
   opacity: 0;

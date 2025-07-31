@@ -1,6 +1,6 @@
 import '../styles/css/ProductDetail.css';
 import ProductReview from '../components/ProductReview';
-import ProductCardPrev from '../components/goods/ProductCardPrev';
+import ProductSlider from '../components/goods/ProductSlider';
 import useScreenSize from '../hooks/useScreensize';
 import Footer from '../components/layout/Footer';
 import CTAButton from '../components/CTAButton';
@@ -799,52 +799,12 @@ const ProductDetail = ( {type='no-overseas'} ) => {
             <div ref={stopStickyRef}></div>
 
             {/* 연관상품 추천 영역 */}
-            <div className='product-recommend-area'>
-                <p className='recommend-title'><span className='title-highlight'>짱구</span> 러버들의 Pick</p>
-                <div 
-                className='recommned-product-list-slide'
-                ref={productScrollRef}
-                onScroll={handleScrollProduct}
-                >
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(0,6).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(6,12).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                    <div className='recommned-product-list'>
-                        {RecommendedProducts.slice(12,18).map((product) => (
-                            <ProductCardPrev
-                                key={product.id}
-                                product={product}
-                                isRecommend={true}
-                            />
-                        )) }
-                    </div>
-                </div>
-
-                <div className='btn-indicator'> 
-                    {[0,1,2].map((index) => (
-                        <button
-                            key={index} 
-                            className={`recommend-indicator ${currentProductIndex===index ? 'active' : ''}`}
-                            onClick={() => goToProductSlide(index)}
-                        />
-                    ))}
-                </div>
-            </div>
+            <ProductSlider
+                className='white'
+                productList={RecommendedProducts}
+                title1="짱구"
+                title2=" 러버들의 Pick"
+            />
 
             <div className='diving-area' />
 

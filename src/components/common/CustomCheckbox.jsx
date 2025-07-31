@@ -2,7 +2,7 @@ import '../../styles/css/CustomCheckbox.css';
 
 const CustomCheckbox = ({ label, checked, onChange, name, disabled=false }) => {
     return(
-        <label className={`checkbox ${name}`}>
+        <label className={`checkbox ${name ?? ''} ${disabled ? "disabled" : ""}`}>
             <input
                 type="checkbox"
                 checked={checked}
