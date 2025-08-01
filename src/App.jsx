@@ -35,11 +35,11 @@ function App() {
       <Route path="/login/account-info" element={<AccountInfo />} />
       <Route path="/verify" element={<AuthVerify />} />
       <Route path="/order" element={<OrderPay />} />
-      <Route path="order/complete" element={<OrderComplete />} />
+      <Route path="/order/complete" element={<OrderComplete />} />
       <Route path="/address-register" element={<AddressRegister />} />
       <Route path="/product/detail" element={<ProductDetail />} />
       <Route path="/goods" element={<GoodsList />} />
-      <Route path="cart" element={<Cart />} />
+      <Route path="/cart" element={<Cart />} />
       {/* <Route path="/goods/:id" element={<GoodsDetail />} /> */}
     </Routes>
   );

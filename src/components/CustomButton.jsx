@@ -4,7 +4,7 @@ const CustomButton = ({ text, className="", isValid=false, onClick }) => {
     return (
         <button 
             className={`custom-button ${className}  ${isValid ? 'isValid' : ''}`}
-            isValid={isValid}
+            disabled={!isValid}
             onClick={onClick}>
             {text}
         </button>

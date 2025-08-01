@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthHeader from "../components/auth/AuthHeader";
-import NameInput from "../components/auth/NameInput";
-import PhoneInput from "../components/auth/PhoneInput";
-import CodeInput from "../components/auth/CodeInput";
-import SubmitButton from "../components/auth/SubmitButton";
-import BackButton from "../components/auth/BackButton";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
-
+import CustomButton from "../components/CustomButton";
+// import { useVerifyPhoneSend } from "../hooks/useAuth";
 import "../styles/css/Toast.css";
+import "../styles/css/AuthVerify.css";
 
 export default function AuthVerify() {
+  // const { sendVerifyPhone, loading, error, data } = useVerifyPhoneSend();
+  // const [verifyPhoneSendDto, setVerifyPhoneSendDto] = useState({
+  //   phone: '01012345678',
+  //   purpose: 'signup',
+  // });
+
   const nav = useNavigate();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -20,7 +22,7 @@ export default function AuthVerify() {
   const [timeLeft, setTimeLeft] = useState(180);
   const [isCodeValid, setIsCodeValid] = useState(false);
   const [isCodeError, setIsCodeError] = useState(false);
-  const isSubmitEnabled = code.length === 6 && isCodeValid;
+  const isSubmitEnabled = name && phone && code && isCodeValid;
   const MAX_RESEND_COUNT = 3;
   const [resendCount, setResendCount] = useState(0);
 
@@ -40,8 +42,14 @@ export default function AuthVerify() {
     return () => clearInterval(timer);
   }, [isCodeSent, timeLeft]);
 
-  const handleCodeCheck = () => {
-    if (code.length === 6) {
+  const formatTime = (sec) => {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return `${m}:${s < 10 ? "0" : ""}${s}`;
+  };
+
+
+  const handleCodeCheck = () => { 
       if (code === "123123") {
         setIsCodeValid(true);
         setIsCodeError(false);
@@ -49,15 +57,14 @@ export default function AuthVerify() {
         setIsCodeValid(false);
         setIsCodeError(true);
       }
-    }
+    
   };
 
-  const handleSendCode = () => {
+  const handleSendCode = async () => {
     if (resendCount > MAX_RESEND_COUNT) {
       showToastMessage("인증번호 전송 가능 횟수를 초과했어요.");
       return;
     }
-
     setIsCodeSent(true);
     setTimeLeft(180);
     setIsCodeValid(false);
@@ -72,10 +79,18 @@ export default function AuthVerify() {
         }번 더 재전송이 가능해요.`
       );
     }
+
+    // API 연결 부분
+    // try {
+    //   await sendVerifyPhone(verifyPhoneSendDto);
+    // } catch (e) {
+    //   // 에러 처리
+    //   console.error(e);
+    // }
   };
 
   const handleSubmit = () => {
-    if (code === "123123") {
+
       setIsCodeValid(true);
       setIsCodeError(false);
 
@@ -87,10 +102,7 @@ export default function AuthVerify() {
         setIsOpen(true);  // 취향등록 화면으로
       }
 
-    } else {
-      setIsCodeValid(false);
-      setIsCodeError(true);
-    }
+
   };
 
   const showToastMessage = (message) => {
@@ -103,43 +115,87 @@ export default function AuthVerify() {
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "400px",
-        margin: "0 auto",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-    >
+    <div className='auth-verify'>
       <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} />
-      <BackButton onBack={() => window.history.back()} />
-      <AuthHeader />
-      <NameInput value={name} onChange={setName} />
-      <PhoneInput
-        value={phone}
-        onChange={setPhone}
-        onSend={handleSendCode}
-        isCodeSent={isCodeSent}
-        resendCount={resendCount}
-      />
+
+      <img 
+            className="back-button"
+            src="/assets/button/btn_back.svg" 
+        />
+      <h2>본인 인증</h2>
+      <h5>계정 연결을 위해 본인 인증이 필요해요</h5>
+      <div className='input-name-wrapper'>
+          <input
+              className="input-name"
+              placeholder="이름"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+          />
+          {name && (
+            <img
+              className='x-button'
+              src='/assets/button/btn_x2.svg' 
+              onClick={() => setName("")}
+            />
+          )}
+      </div>
+      
+      <div className="phone-row">
+        <div className='input-phone-wrapper'>
+          <input
+              className="input-phone"
+              placeholder="휴대폰 번호"
+              maxLength={11}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+          />
+          {phone && (
+            <img
+              className='x-button'
+              src='/assets/button/btn_x2.svg' 
+              onClick={() => setPhone("")}
+            />
+          )}
+        </div>
+
+        <button 
+        disabled={!phone} className={phone !== "" ? "active" : ""}
+        onClick={handleSendCode}>인증번호 받기</button>
+      </div>
 
       {isCodeSent && (
-        <CodeInput
-          value={code}
-          onChange={(val) => {
-            setCode(val);
-            setIsCodeError(false);
-          }}
-          timeLeft={timeLeft}
-          isError={isCodeError}
-          isValid={isCodeValid}
-          onCheckCode={handleCodeCheck}
-        />
+        <div className="code-row">
+          <div className='input-code-wrapper'>
+            <input
+                className="input-code"
+                placeholder="인증번호"
+                maxLength={11}
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+            />
+            {code && (
+              <img
+                className='x-button'
+                src='/assets/button/btn_x2.svg' 
+                onClick={() => setCode("")}
+              />
+            )}
+            <p className="timer">{timeLeft > 0 ? `${formatTime(timeLeft)}` : "0:00"}</p>
+          </div>
+          <button
+          disabled={!code} 
+          className={code !== "" ? "active" : ""}
+          onClick={handleCodeCheck}>확인</button>
+        </div>
       )}
 
-      <SubmitButton onClick={handleSubmit} disabled={!isSubmitEnabled} />
+      {isCodeError && (
+        <div className="code-input-error">인증번호를 다시 확인해 주세요.</div>
+      )}
+
+      <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={handleSubmit}/>
       {showToast && <div className="toast">{toastMessage}</div>}
+
     </div>
   );
 }
