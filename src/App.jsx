@@ -17,6 +17,7 @@ import GoodsList from "./pages/GoodsList";
 import AddressRegister from "./pages/AddressRegister";
 import OrderComplete from "./pages/OrderComplete";
 import Cart from "./pages/Cart";
+import Agreement from "./pages/Agreement";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Route path="/login/nesting" element={<LoginNesting />} />
       <Route path="/signup/nesting" element={<SignupNesting />} />
       <Route path="/signup/preference" element={<PreferenceSetup />} />
+      <Route path="/signup/nesting/agreement" element={<Agreement />} />
 
       <Route path="/login/find-password" element={<FindPassword />} />
       <Route path="/login/auth-code" element={<AuthCode /> } />

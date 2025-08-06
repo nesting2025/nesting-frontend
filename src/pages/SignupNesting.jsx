@@ -19,9 +19,12 @@ const SignupNesting = () => {
     // 이용약관
     const [allChecked, setAllChecked] = useState(false);
     const [agreements, setAgreements] = useState([
-        {id: 1, label: (<>만 14세 이상, <span className='underline'>이용약관</span> 동의 (필수)</>), required: true, checked: false},
-        {id: 2, label: (<><span className='underline'>전자상거래 이용 약관</span> 동의 (필수)</>), required: true, checked: false},
-        {id: 3, label: (<><span className='underline'>개인정보 수집 및 이용</span> 동의 (필수)</>), required: true, checked: false},
+        {id: 1, label: (<>만 14세 이상, <span className='underline' onClick={() => nav("/signup/nesting/agreement", { state: { type: "nesting" } })}>이용약관</span> 동의 (필수)</>), 
+        required: true, checked: false},
+        {id: 2, label: (<><span className='underline' onClick={() => nav("/signup/nesting/agreement", { state: { type: "terms" } })}>전자상거래 이용 약관</span> 동의 (필수)</>), 
+            required: true, checked: false},
+        {id: 3, label: (<><span className='underline' onClick={() => nav("/signup/nesting/agreement", { state: { type: "privacy" } })}>개인정보 수집 및 이용</span> 동의 (필수)</>), 
+            required: true, checked: false},
         {id: 4, label: (<>마케팅 수신 동의 (선택)</>), required:false, checked: false}
     ])
 
