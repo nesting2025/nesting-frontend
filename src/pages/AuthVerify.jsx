@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
 import CustomButton from "../components/CustomButton";
-// import { useVerifyPhoneSend } from "../hooks/useAuth";
+import { useVerifyPhoneSend } from "../hooks/useAuth";
 import "../styles/css/Toast.css";
 import "../styles/css/AuthVerify.css";
 
 export default function AuthVerify() {
-  // const { sendVerifyPhone, loading, error, data } = useVerifyPhoneSend();
-  // const [verifyPhoneSendDto, setVerifyPhoneSendDto] = useState({
-  //   phone: '01012345678',
-  //   purpose: 'signup',
-  // });
+  const { sendVerifyPhone, loading, error, data } = useVerifyPhoneSend();
+  const [verifyPhoneSendDto, setVerifyPhoneSendDto] = useState({
+    phone: "",
+    purpose: 'SIGN_UP',
+  });
 
   const nav = useNavigate();
   const [name, setName] = useState("");
@@ -30,6 +30,12 @@ export default function AuthVerify() {
   const [showToast, setShowToast] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);  // 다이얼로그
+
+  useEffect(() => {
+    setVerifyPhoneSendDto((prev) => ({
+      ...prev, phone: phone
+    }));
+  }, [phone])
 
   // 타이머 작동
   useEffect(() => {
@@ -81,12 +87,12 @@ export default function AuthVerify() {
     }
 
     // API 연결 부분
-    // try {
-    //   await sendVerifyPhone(verifyPhoneSendDto);
-    // } catch (e) {
-    //   // 에러 처리
-    //   console.error(e);
-    // }
+    try {
+      await sendVerifyPhone(verifyPhoneSendDto);
+    } catch (e) {
+      // 에러 처리
+      console.error(e);
+    }
   };
 
   const handleSubmit = () => {

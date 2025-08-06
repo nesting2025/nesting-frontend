@@ -4,6 +4,7 @@ import CustomButton from "../components/CustomButton";
 import { useNavigate } from "react-router-dom";
 import CharacterDialog from "../components/dialog/CharacterDialog";
 import GoodsCategoryDialog from "../components/dialog/GoodsCategoryDialog";
+import { useCheckNickname } from "../hooks/useAuth";
 
 const PreferenceSetup = () => {
     const nav = useNavigate();
@@ -41,15 +42,6 @@ const PreferenceSetup = () => {
         setIsNickNameValid(false);
     }
 
-    const checkNickname = () => {
-        // 닉네임 중복 API 통신
-
-        if(!showNicknameError) {
-            // 가능한 경우
-            setIsNickNameValid(true);
-        }
-    }
-
     const handleCharacterComplete = (names) => {
         setSelectedCharacters(names);
     }
@@ -57,6 +49,22 @@ const PreferenceSetup = () => {
     const handleGoodsComplete = (names) => {
         setSelectedGoods(names);
     }
+
+    const { checkNickname, loading, error, data } = useCheckNickname();
+
+    // 컴포넌트 내 함수 이름 변경
+    const handleCheckNickname = async () => {
+        try {
+        await checkNickname(nickname);
+        if (!showNicknameError) {
+            setIsNickNameValid(true);
+        }
+        } catch (e) {
+        // 에러 처리
+        console.error(e);
+        }
+    };
+
 
     return (
         <div className="preference-setup">
@@ -90,7 +98,7 @@ const PreferenceSetup = () => {
             </div>
             <button 
                 className="check-nickname-button"
-                onClick={checkNickname}>
+                onClick={handleCheckNickname}>
                 중복 확인
             </button>
         </div>
