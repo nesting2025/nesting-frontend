@@ -8,6 +8,7 @@
     width: fit-content;
     justify-content: flex-start;
     @include font-style("body2");
+    @include text-color();
     position: relative;
     cursor: pointer;
 
@@ -51,6 +52,24 @@
     
         &::after {
             display: block;
+        }
+    }
+
+    .checkbox-label {
+        &.agree-all, &.agree-checkbox {
+            @include font-style("body1");
+
+            .text-light {
+                @include font-style("caption1");
+                @include text-color("text-sub1");
+            }
+
+            .underline {
+                @include text-color("text-sub1");
+                text-decoration: underline;
+                text-decoration-thickness: 1px;   
+                text-underline-offset: 3px; 
+            }
         }
     }
 }

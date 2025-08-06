@@ -1,5 +1,6 @@
 import '../styles/css/SignupNesting.css';
 import CustomButton from "../components/CustomButton";
+import CustomCheckbox from '../components/common/CustomCheckbox';
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from 'react-router-dom';
 
@@ -18,10 +19,10 @@ const SignupNesting = () => {
     // 이용약관
     const [allChecked, setAllChecked] = useState(false);
     const [agreements, setAgreements] = useState([
-        {id: 1, label: '[필수] 이용약관 동의', required: true, checked: false},
-        {id: 2, label: '[필수] 개인 정보 수집 및 이용 동의', required: true, checked: false},
-        {id: 3, label: '[선택] 개인 정보 수집 및 이용 동의', required: false, checked: false},
-        {id: 4, label: '[선택] 쇼핑 정보 수신 모두 동의', required:false, checked: false}
+        {id: 1, label: (<>만 14세 이상, <span className='underline'>이용약관</span> 동의 (필수)</>), required: true, checked: false},
+        {id: 2, label: (<><span className='underline'>전자상거래 이용 약관</span> 동의 (필수)</>), required: true, checked: false},
+        {id: 3, label: (<><span className='underline'>개인정보 수집 및 이용</span> 동의 (필수)</>), required: true, checked: false},
+        {id: 4, label: (<>마케팅 수신 동의 (선택)</>), required:false, checked: false}
     ])
 
     const goBack = () => nav(-1);
@@ -120,97 +121,95 @@ const SignupNesting = () => {
             src="/assets/button/btn_back.svg" 
             onClick={goBack}
         />
-        <h2>회원가입</h2>
-        <h5>이메일 주소</h5>
-        <div className='input-email-wrapper'>
-            <input
-                className="input-email"
-                placeholder="ex) nesting@nesting.co.kr"
-                value={email}
-                onChange={handleEmailChange}
-            />
-            {email && (
-                 <img
-                    className='x-button'
-                    src='/assets/button/btn_x2.svg' 
-                    onClick={clearInput}
-                 />
-            )}
-        </div>
-        {showEmailError && (
-                <div className='email-error-message'>이메일 형식으로 입력해주세요.</div>
-            )}
-        <h5>비밀번호</h5>
-        <div className='input-pw-wrapper'>
-            <input
-                className="input-pw"
-                placeholder="영문, 숫자 조합 8-16자"
-                type={showPw ? "text" : "password"}
-                value={pw}
-                onChange={handlePwChange}
-            />
-            {pw && (
-                <img
-                    className='show-pw-button'
-                    src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
-                    onClick={togglePwVisibility} 
-                />
-            )}
-        </div>
-        {showPwError && (
-            <div className='pw-error-message'>영문 포함,숫자 포함, 8-16자 이내</div>
-        )}
-        <h5>비밀번호 확인</h5>
-        <div className="input-pw-wrapper">
-            <input
-                className="input-pw-confirm"
-                placeholder="영문, 숫자 조합 8-16자"
-                type={showPwConfirm ? "text" : "password"}
-                value={pwConfirm}
-                onChange={handlePwConfirmChange}
-            />
-            {pwConfirm && (
-                <img
-                    className='show-pw-button'
-                    src={showPwConfirm ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
-                    onClick={togglePwConfirmVisibility}
-                />
-            )}
-        </div>
-        {showPwConfirmError && (
-            <div className="pw-confirm-error-message">비밀번호를 다시 확인해 주세요.</div>
-        )}
-
-        <label className='agree-all-checkbox'>
-            <input 
-                type="checkbox"
-                checked={allChecked}
-                onChange={handleAllChange} 
-            />
-            <span className='checkmark' />
-            <div className='agree-text-wrapper'>
-                <span className='agree-text-main'>모두 동의합니다.</span>
-                <span className='agree-text-sub'>선택 동의 항목 포함</span>
-            </div>
-        </label>    
-        {agreements.map(item => (
-            <label key={item.key} className='agree-checkbox'>
+        <div className='content-area'>
+            <h2>회원가입</h2>
+            <h5>이메일 주소</h5>
+            <div className='input-wrapper'>
                 <input
-                    type='checkbox'
+                    className="input-email"
+                    placeholder="ex) nesting@nesting.co.kr"
+                    value={email}
+                    onChange={handleEmailChange}
+                />
+                {email && (
+                    <img
+                        className='input-button'
+                        src='/assets/button/btn_x2.svg' 
+                        onClick={clearInput}
+                    />
+                )}
+            </div>
+            {showEmailError && (
+                    <div className='email-error-message'>이메일 형식으로 입력해주세요.</div>
+                )}
+            <h5>비밀번호</h5>
+            <div className='input-wrapper'>
+                <input
+                    className="input-pw"
+                    placeholder="영문, 숫자 조합 8-16자"
+                    type={showPw ? "text" : "password"}
+                    value={pw}
+                    onChange={handlePwChange}
+                />
+                {pw && (
+                    <img
+                        className='input-button'
+                        src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+                        onClick={togglePwVisibility} 
+                    />
+                )}
+            </div>
+            {showPwError && (
+                <div className='pw-error-message'>영문 포함,숫자 포함, 8-16자 이내</div>
+            )}
+            <h5>비밀번호 확인</h5>
+            <div className="input-wrapper">
+                <input
+                    className="input-pw-confirm"
+                    placeholder="영문, 숫자 조합 8-16자"
+                    type={showPwConfirm ? "text" : "password"}
+                    value={pwConfirm}
+                    onChange={handlePwConfirmChange}
+                />
+                {pwConfirm && (
+                    <img
+                        className='input-button'
+                        src={showPwConfirm ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+                        onClick={togglePwConfirmVisibility}
+                    />
+                )}
+            </div>
+            {showPwConfirmError && (
+                <div className="pw-confirm-error-message">비밀번호를 다시 확인해 주세요.</div>
+            )}
+
+            <div className='agree-all-checkbox'>
+                <CustomCheckbox 
+                    label={<>모두 동의합니다.<br/><span className='text-light'>선택 동의 항목 포함</span></>}
+                    checked={allChecked}
+                    onChange={handleAllChange}
+                    className='agree-all' 
+                    />
+            </div>
+
+            <div className='agree-list'>
+                {agreements.map((item, index) => (
+                    <CustomCheckbox
+                    label={item.label}
                     checked={item.checked}
                     onChange={handleSingleChange(item.id)}
-                />
-                <span className='checkmark' />
-                {item.label}
-            </label>
-        ))}    
+                    className='agree-checkbox' 
+                    />
+                ))}
+            </div>
 
-        <CustomButton 
-            className='signup-next-button' 
-            text="다음" 
-            isValid={isFormValid}
-            onClick={gotoVerify} 
-        />
+            <CustomButton 
+                className='signup-next-button' 
+                text="다음" 
+                isValid={isFormValid}
+                onClick={gotoVerify} 
+            />
+        </div>
         </div>
     )
 }
