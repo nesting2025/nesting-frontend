@@ -16,17 +16,24 @@ export const checkValidEmail = async (email: string): Promise<BaseResponseDto<bo
     return response.data;
 };
 
+export const checkValidPhone = async (phone: string): Promise<BaseResponseDto<boolean>> => {
+    const response = await client.post<BaseResponseDto<boolean>>("auth/valid/phone",
+        { phone }
+    );
+    return response.data;
+};
+
 export const verifyPhoneSend = async (verifyPhoneSendDto: VerifyPhoneSendDto): Promise<BaseResponseDto<number>> => {
     const response = await client.post<BaseResponseDto<number>>("/auth/verify/phone/send",
         verifyPhoneSendDto
     );
 
     return response.data;
-}
+};
 
 export const verifyCodeCheck = async (authId: string, code: string): Promise<BaseResponseDto<boolean>> => {
     const response = await client.post<BaseResponseDto<boolean>>(`/auth/verify/${authId}/check`,
         { code }
     );
     return response.data;
-}
+};

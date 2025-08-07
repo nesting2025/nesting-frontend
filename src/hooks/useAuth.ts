@@ -22,7 +22,19 @@ export const useCheckValidEmail = () => {
         reset
     } = useAsync<BaseResponseDto<boolean>>(AuthRepository.checkValidEmail);
 
-    return {checkValidEmail, loading, error, data, reset };
+    return { checkValidEmail, loading, error, data, reset };
+};
+
+export const useCheckValidPhone = () => {
+    const {
+        execute: checkValidPhone,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<boolean>>(AuthRepository.checkValidPhone);
+
+    return { checkValidPhone, loading, error, data, reset };
 };
 
 export const useVerifyPhoneSend = () => {
@@ -42,7 +54,8 @@ export const useVerifyCodeCheck = () => {
         loading,
         error,
         data,
+        reset
     } = useAsync<BaseResponseDto<boolean>>(AuthRepository.verifyCodeCheck);
 
-    return { verifyCodeCheck, loading, error, data }
+    return { verifyCodeCheck, loading, error, data, reset }
 };

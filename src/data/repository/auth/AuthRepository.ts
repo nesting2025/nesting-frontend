@@ -1,5 +1,5 @@
 import { BaseResponseDto } from "../../dto/common/BaseResponseDto";
-import { checkValidEmail, nicknameCheck, verifyCodeCheck, verifyPhoneSend } from "../../../api/authApi";
+import { checkValidEmail, checkValidPhone, nicknameCheck, verifyCodeCheck, verifyPhoneSend } from "../../../api/authApi";
 import { VerifyPhoneSendDto } from "../../dto/Request/VerifyPhoneSendDto";
 
 export const AuthRepository = {
@@ -9,6 +9,10 @@ export const AuthRepository = {
 
     checkValidEmail: async (email: string): Promise<BaseResponseDto<boolean>> => {
         return await checkValidEmail(email);
+    },
+
+    checkValidPhone: async (phone: string): Promise<BaseResponseDto<boolean>> => {
+        return await checkValidPhone(phone);
     },
     
     verifyPhoneSend: async (verifyPhoneSendDto: VerifyPhoneSendDto): Promise<BaseResponseDto<number>> => {
