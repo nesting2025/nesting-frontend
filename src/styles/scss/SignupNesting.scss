@@ -71,6 +71,10 @@
         @include text-color("status-cautionary");
         margin-left: 8px;
         margin-top: 2px;
+
+        &.duplicate {
+            @include text-color("status-destructive");
+        }
     }
 
     .pw-confirm-error-message {

@@ -9,6 +9,13 @@ export const nicknameCheck = async (nickname: string): Promise<BaseResponseDto<b
     return response.data;
 };
 
+export const checkValidEmail = async (email: string): Promise<BaseResponseDto<boolean>> => {
+    const response = await client.post<BaseResponseDto<boolean>>("auth/valid/email",
+        { email }
+    );
+    return response.data;
+};
+
 export const verifyPhoneSend = async (verifyPhoneSendDto: VerifyPhoneSendDto): Promise<BaseResponseDto<number>> => {
     const response = await client.post<BaseResponseDto<number>>("/auth/verify/phone/send",
         verifyPhoneSendDto

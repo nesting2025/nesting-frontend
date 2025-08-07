@@ -73,6 +73,9 @@
   margin-left: 8px;
   margin-top: 2px;
 }
+.signup-nesting .email-error-message.duplicate, .signup-nesting .pw-error-message.duplicate, .signup-nesting .pw-confirm-error-message.duplicate {
+  color: #FF4242;
+}
 .signup-nesting .pw-confirm-error-message {
   color: #FF4242;
 }

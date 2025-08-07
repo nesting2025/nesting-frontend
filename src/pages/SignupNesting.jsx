@@ -1,21 +1,29 @@
 import '../styles/css/SignupNesting.css';
 import CustomButton from "../components/CustomButton";
 import CustomCheckbox from '../components/common/CustomCheckbox';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import { useCheckValidEmail } from '../hooks/useAuth';
+import debounce from 'lodash.debounce';
 
 const SignupNesting = () => {
+    const { checkValidEmail, data: checkValidEmailData, reset } = useCheckValidEmail();
+
     const nav = useNavigate();
     const [email, setEmail] = useState("");
+    const prevEmail = useRef("");
     const [pw, setPw] = useState("");
     const [pwConfirm, setPwConfirm] = useState("");
+    
     // 이메일, 비번, 비번확인 error
     const [showEmailError, setShowEmailError] = useState(false);
     const [showPwError, setShowPwError] = useState(false);
     const [showPwConfirmError, setPwConfirmError] = useState(false);
+
     // 비번, 비번확인 visibility
     const [showPw, setShowPw] = useState(false);
     const [showPwConfirm, setShowPwConfirm] = useState(false);
+
     // 이용약관
     const [allChecked, setAllChecked] = useState(false);
     const [agreements, setAgreements] = useState([
@@ -31,6 +39,34 @@ const SignupNesting = () => {
     const goBack = () => nav(-1);
     const gotoVerify = () => nav("/verify");
 
+    // 이메일 중복 체크 API
+    const checkEmailDuplicate = async (email) => {
+        try {
+            await checkValidEmail(email);
+        } catch (e) {console.log(e);}
+    }
+
+    const debouncedCheck = useCallback(
+        debounce((email) => {
+            if(email.includes("@") && email.includes(".com") && !showEmailError) {
+                checkEmailDuplicate(email);
+            }
+        }, 500), [checkEmailDuplicate]
+    );
+
+    useEffect(() => {
+        reset(); 
+        if(!email) return;
+        if(prevEmail.current === email) return;
+
+        debouncedCheck(email);
+        prevEmail.current = email;
+
+        return () => {
+            debouncedCheck.cancel();
+        };
+    }, [email]);
+
     // 댜음 버튼 활성화
     const isFormValid = useMemo(() => {
         const requiredChecked = agreements
@@ -39,9 +75,9 @@ const SignupNesting = () => {
 
         return (
             !showEmailError && !showPwError && !showPwConfirmError &&
-            email && pw && pwConfirm && requiredChecked
+            email && pw && pwConfirm && requiredChecked && checkValidEmailData
         );
-    }, [showEmailError, showPwError, showPwConfirmError, email, pw, pwConfirm, agreements]);
+    }, [showEmailError, showPwError, showPwConfirmError, email, pw, pwConfirm, agreements, checkValidEmailData]);
     
 
     useEffect(()=> {
@@ -69,6 +105,7 @@ const SignupNesting = () => {
     const clearInput = () => {
         setEmail("");
         setShowEmailError(false);
+        reset();
     }
 
     // pw 관련 함수
@@ -145,6 +182,9 @@ const SignupNesting = () => {
             {showEmailError && (
                     <div className='email-error-message'>이메일 형식으로 입력해주세요.</div>
                 )}
+            {email && checkValidEmailData === false && (
+                <div className='email-error-message duplicate'>이미 가입한 계정입니다. 로그인을 진행해 주세요.</div>
+            )}
             <h5>비밀번호</h5>
             <div className='input-wrapper'>
                 <input
@@ -198,6 +238,7 @@ const SignupNesting = () => {
             <div className='agree-list'>
                 {agreements.map((item, index) => (
                     <CustomCheckbox
+                    key={index}
                     label={item.label}
                     checked={item.checked}
                     onChange={handleSingleChange(item.id)}

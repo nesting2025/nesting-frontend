@@ -13,6 +13,18 @@ export const useCheckNickname = () => {
     return { checkNickname, loading, error, data };
 };
 
+export const useCheckValidEmail = () => {
+    const {
+        execute: checkValidEmail,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<boolean>>(AuthRepository.checkValidEmail);
+
+    return {checkValidEmail, loading, error, data, reset };
+};
+
 export const useVerifyPhoneSend = () => {
     const {
         execute: sendVerifyPhone,

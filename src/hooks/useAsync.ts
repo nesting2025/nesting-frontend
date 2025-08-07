@@ -21,5 +21,10 @@ export function useAsync<T>(asyncFunction: (...args: any[]) => Promise<T>) {
     }
   }, [asyncFunction]);
 
-  return { execute, loading, error, data };
+  const reset = () => {
+        setData(null);
+        setError(null);
+    };
+
+  return { execute, loading, error, data, reset };
 }
