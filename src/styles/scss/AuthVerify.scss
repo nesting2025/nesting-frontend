@@ -4,19 +4,22 @@
 .auth-verify {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin: 0 auto;
+    min-width: 360px;
+    max-width: 600px;
+    padding: 24px 12px;
 
     .back-button {
         width: 32px;
         height: 32px;
-        position: absolute;
-        top: 24px;
-        left: 12px;
         cursor: pointer;
+    }
 
-        @media (min-width: 768px) {
-            left: calc((100vw - 768px) / 2 + 12px);
-        }
+    .content-area {
+        width: 100%;
+        padding: 0 8px;
+        margin-top: 32px;
+        box-sizing: border-box;
     }
 
     h2 {
@@ -24,7 +27,6 @@
         @include text-color();
         width: 320px;
         justify-content: flex-start;
-        margin-top: 88px;
         margin-bottom: 8px;
     }
 
@@ -39,7 +41,7 @@
         border-radius: 8px;
         @include border-color("line-medium");
         @include font-style("body1");
-        width: 320px;
+        width: 100%;
         padding: 12px 16px;
         box-sizing: border-box;
 
@@ -65,7 +67,7 @@
     }
 
     .phone-row {
-        width: 320px;
+        width: 100%;
         margin-top: 16px;
         display: flex;
         gap: 8px;
@@ -108,7 +110,7 @@
     }
 
     .code-row {
-        width: 320px;
+        width: 100%;
         margin-top: 16px;
         display: flex;
         gap: 8px;
@@ -142,6 +144,16 @@
                 @include font-style("caption2");
             }
 
+            .ic-check {
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                margin-right: 16px;
+            }
+
         }
     }
 
@@ -155,6 +167,6 @@
 
     .btn-complete {
         margin-top: 40px;
-        width: 320px;
+        width: 100%;
     }
 }

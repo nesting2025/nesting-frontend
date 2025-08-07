@@ -17,8 +17,10 @@
     }
 
     .content-area {
+        width: 100%;
         padding: 0 8px;
-        margin-top: 32px
+        margin-top: 32px;
+        box-sizing: border-box;
     }
 
     h2 {

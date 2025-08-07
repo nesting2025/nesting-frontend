@@ -13,8 +13,10 @@
   cursor: pointer;
 }
 .signup-nesting .content-area {
+  width: 100%;
   padding: 0 8px;
   margin-top: 32px;
+  box-sizing: border-box;
 }
 .signup-nesting h2 {
   font-size: 20px;

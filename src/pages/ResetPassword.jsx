@@ -20,7 +20,7 @@ const ResetPassword = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+{}\[\]:;<>,.?~/-]{8,16}$/;
+    const regex = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()_+{}\\[\\]:;<>,.?~/-]{8,16}$");
 
     if (name === "pw") {
       setPw(value);
@@ -59,58 +59,62 @@ const ResetPassword = () => {
         src="/assets/button/btn_back.svg"
         onClick={goBack}
       />
-      <h2>비밀번호 재설정</h2>
+      <div className='content-area'>
+        <h2>비밀번호 재설정</h2>
 
-      <div className='input-pw-wrapper'>
-        <input
-          name="pw"
-          className="input-pw"
-          placeholder="비밀번호"
-          type={showPw ? "text" : "password"}
-          value={pw}
-          onChange={handleChange}
-        />
-        {pw && (
-          <img
-            className='show_pw_button'
-            src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
-            onClick={togglePwVisibility}
+        <h5>비밀번호</h5>
+        <div className='input-pw-wrapper'>
+          <input
+            name="pw"
+            className="input-pw"
+            placeholder="비밀번호"
+            type={showPw ? "text" : "password"}
+            value={pw}
+            onChange={handleChange}
           />
+          {pw && (
+            <img
+              className='show_pw_button'
+              src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+              onClick={togglePwVisibility}
+            />
+          )}
+        </div>
+
+        {showPwError && (
+          <div className='pw-error-message'>영문 포함, 숫자 포함, 8-16자 이내</div>
         )}
-      </div>
 
-      {showPwError && (
-        <div className='pw-error-message'>영문 포함, 숫자 포함, 8-16자 이내</div>
-      )}
-
-      <div className='input-pw-wrapper'>
-        <input
-          name="pwCheck"
-          className="input-pw-check"
-          placeholder="비밀번호 확인"
-          type={showPwCheck ? "text" : "password"}
-          value={pwCheck}
-          onChange={handleChange}
-        />
-        {pwCheck && (
-          <img
-            className='show_pw_button'
-            src={showPwCheck ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
-            onClick={togglePwCheckVisibility}
+        <h5>비밀번호 확인</h5>
+        <div className='input-pw-wrapper'>
+          <input
+            name="pwCheck"
+            className="input-pw-check"
+            placeholder="비밀번호 확인"
+            type={showPwCheck ? "text" : "password"}
+            value={pwCheck}
+            onChange={handleChange}
           />
+          {pwCheck && (
+            <img
+              className='show_pw_button'
+              src={showPwCheck ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+              onClick={togglePwCheckVisibility}
+            />
+          )}
+        </div>
+
+        {showPwMatchError && (
+          <div className='pw-check-error-message'>비밀번호가 일치하지 않습니다</div>
         )}
+
+        <CustomButton
+          className='reset-button'
+          text="설정 완료"
+          isValid={isFormValid}
+          onClick={handleSubmit}
+        />
       </div>
-
-      {showPwMatchError && (
-        <div className='pw-check-error-message'>비밀번호가 일치하지 않습니다</div>
-      )}
-
-      <CustomButton
-        className='reset-button'
-        text="비밀번호 재설정"
-        isValid={isFormValid}
-        onClick={handleSubmit}
-      />
     </div>
   );
 };

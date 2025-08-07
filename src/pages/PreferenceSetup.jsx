@@ -73,78 +73,80 @@ const PreferenceSetup = () => {
             src="/assets/button/btn_back.svg" 
             onClick={goBack}
         />
-        <h2>취향을 알려주시면<br />맞춰서 추천해드릴게요</h2>
-        <h5>닉네임*</h5>
-        <div className="input-nickname-container">
-            <div className='input-nickname-wrapper'>
-                <input
-                    className="input-nickname"
-                    placeholder="한글, 영문, 숫자 10자 이내"
-                    value={nickname}
-                    onChange={onChangeNickName}
-                    maxLength={10}
-                />
-                {nickname && (
-                    <img
-                        className='x-button'
-                        src={
-                            isNickNameValid
-                            ? '/assets/icon_check.svg'
-                            : '/assets/button/btn_x2.svg' 
-                        }
-                        onClick={clearInput}
+        <div className="content-area">
+            <h2>취향을 알려주시면<br />맞춰서 추천해드릴게요</h2>
+            <h5>닉네임*</h5>
+            <div className="input-nickname-container">
+                <div className='input-nickname-wrapper'>
+                    <input
+                        className="input-nickname"
+                        placeholder="한글, 영문, 숫자 10자 이내"
+                        value={nickname}
+                        onChange={onChangeNickName}
+                        maxLength={10}
                     />
-                )}
+                    {nickname && (
+                        <img
+                            className='x-button'
+                            src={
+                                isNickNameValid
+                                ? '/assets/icon/icon_check.svg'
+                                : '/assets/button/btn_x2.svg' 
+                            }
+                            onClick={clearInput}
+                        />
+                    )}
+                </div>
+                <button 
+                    className="check-nickname-button"
+                    onClick={handleCheckNickname}>
+                    중복 확인
+                </button>
             </div>
-            <button 
-                className="check-nickname-button"
-                onClick={handleCheckNickname}>
-                중복 확인
-            </button>
+            {showNicknameError && (
+                    <div className='nickname-error-message'>띄어쓰기 없이 10자 이내 (한글,영문,숫자)</div>
+                )}
+            <h5>좋아하는 캐릭터</h5>
+            <div className='input-category-wrapper'
+                onClick={() => setIsCharcterOpen(true)}>
+                    <input
+                        className="input-category"
+                        placeholder="선택하세요"
+                        value={selectedCharacters.join(', ')}
+                        readOnly
+                    />
+                    <img
+                        className='dropdown-button'
+                        src='/assets/button/btn_dropdown.svg' 
+                    />
+            </div>
+            <CharacterDialog  
+                open={isCharcterOpen} 
+                onOpenChange={setIsCharcterOpen}
+                onComplete={handleCharacterComplete} 
+            />
+            <h5>좋아하는 굿즈 유형</h5>
+            <div className='input-category-wrapper'
+                onClick={() => setIsGoodsOpen(true)}>
+                    <input
+                        className="input-category"
+                        placeholder="선택하세요"
+                        value={selectedGoods.join(', ')}
+                        readOnly
+                    />
+                    <img
+                        className='dropdown-button'
+                        src='/assets/button/btn_dropdown.svg' 
+                    />
+            </div>
+            <GoodsCategoryDialog 
+                open={isGoodsOpen} 
+                onOpenChange={setIsGoodsOpen}
+                onComplete={handleGoodsComplete} 
+            />
+            <CustomButton className='next-button' text="저장하고 네스팅 시작하기" isValid={isNickNameValid} 
+            onClick={gotoHome}/>
         </div>
-        {showNicknameError && (
-                <div className='nickname-error-message'>띄어쓰기 없이 10자 이내 (한글,영문,숫자)</div>
-            )}
-        <h5>좋아하는 캐릭터</h5>
-        <div className='input-category-wrapper'
-            onClick={() => setIsCharcterOpen(true)}>
-                <input
-                    className="input-category"
-                    placeholder="선택하세요"
-                    value={selectedCharacters.join(', ')}
-                    readOnly
-                />
-                <img
-                    className='dropdown-button'
-                    src='/assets/button/btn_dropdown.svg' 
-                />
-        </div>
-        <CharacterDialog  
-            open={isCharcterOpen} 
-            onOpenChange={setIsCharcterOpen}
-            onComplete={handleCharacterComplete} 
-        />
-        <h5>좋아하는 굿즈 유형</h5>
-        <div className='input-category-wrapper'
-            onClick={() => setIsGoodsOpen(true)}>
-                <input
-                    className="input-category"
-                    placeholder="선택하세요"
-                    value={selectedGoods.join(', ')}
-                    readOnly
-                />
-                <img
-                    className='dropdown-button'
-                    src='/assets/button/btn_dropdown.svg' 
-                />
-        </div>
-        <GoodsCategoryDialog 
-            open={isGoodsOpen} 
-            onOpenChange={setIsGoodsOpen}
-            onComplete={handleGoodsComplete} 
-        />
-        <CustomButton className='next-button' text="저장하고 네스팅 시작하기" isValid={isNickNameValid} 
-        onClick={gotoHome}/>
         </div>
     )
 }

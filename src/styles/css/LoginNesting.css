@@ -3,6 +3,10 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  min-width: 360px;
+  max-width: 600px;
+  padding: 24px 12px;
+  margin: 0 auto;
 }
 .login-nesting .back-button {
   width: 32px;
@@ -11,11 +15,6 @@
   top: 24px;
   left: 12px;
   cursor: pointer;
-}
-@media (min-width: 768px) {
-  .login-nesting .back-button {
-    left: calc((100vw - 768px) / 2 + 12px);
-  }
 }
 .login-nesting .logo-img {
   width: 128px;
@@ -28,6 +27,12 @@
   font-weight: 500;
   letter-spacing: -2.5%;
   margin-top: 10px;
+}
+.login-nesting .content-area {
+  width: 100%;
+  padding: 0 8px;
+  margin-top: 60px;
+  box-sizing: border-box;
 }
 .login-nesting input {
   border-radius: 8px;
@@ -46,8 +51,7 @@
   border: 1px solid #111111;
 }
 .login-nesting .input-email-wrapper {
-  margin-top: 60px;
-  width: 320px;
+  width: 100%;
   position: relative;
 }
 .login-nesting .input-email-wrapper .input-email {
@@ -64,7 +68,7 @@
 }
 .login-nesting .input-pw-wrapper {
   margin-top: 16px;
-  width: 320px;
+  width: 100%;
   position: relative;
 }
 .login-nesting .input-pw-wrapper .input-pw {
@@ -94,16 +98,16 @@
   margin-top: 20px;
 }
 .login-nesting .link-group {
-  margin-top: 28px;
-  width: 280px;
+  margin: 28px 0 40px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 40px;
+  box-sizing: border-box;
 }
-.login-nesting .link-group p, .login-nesting .link-group span {
-  display: inline-block;
-  margin: 0px;
-  padding: 0px;
+.login-nesting .link-group .link-item, .login-nesting .link-group span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
@@ -112,6 +116,10 @@
 .login-nesting .link-group span {
   color: #E5E5EC;
 }
-.login-nesting .link-group p {
+.login-nesting .link-group .link-item {
   cursor: pointer;
+  flex: 1;
+}
+.login-nesting .login-btn {
+  width: 100%;
 }

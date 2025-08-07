@@ -96,7 +96,6 @@ export default function AuthVerify() {
   };
 
   const handleSubmit = () => {
-
       setIsCodeValid(true);
       setIsCodeError(false);
 
@@ -125,82 +124,91 @@ export default function AuthVerify() {
       <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} />
 
       <img 
-            className="back-button"
-            src="/assets/button/btn_back.svg" 
-        />
-      <h2>본인 인증</h2>
-      <h5>계정 연결을 위해 본인 인증이 필요해요</h5>
-      <div className='input-name-wrapper'>
-          <input
-              className="input-name"
-              placeholder="이름"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-          />
-          {name && (
-            <img
-              className='x-button'
-              src='/assets/button/btn_x2.svg' 
-              onClick={() => setName("")}
-            />
-          )}
-      </div>
-      
-      <div className="phone-row">
-        <div className='input-phone-wrapper'>
-          <input
-              className="input-phone"
-              placeholder="휴대폰 번호"
-              maxLength={11}
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-          />
-          {phone && (
-            <img
-              className='x-button'
-              src='/assets/button/btn_x2.svg' 
-              onClick={() => setPhone("")}
-            />
-          )}
-        </div>
-
-        <button 
-        disabled={!phone} className={phone !== "" ? "active" : ""}
-        onClick={handleSendCode}>인증번호 받기</button>
-      </div>
-
-      {isCodeSent && (
-        <div className="code-row">
-          <div className='input-code-wrapper'>
+          className="back-button"
+          src="/assets/button/btn_back.svg" 
+      />
+      <div className="content-area">
+        <h2>본인 인증</h2>
+        <h5>계정 연결을 위해 본인 인증이 필요해요</h5>
+        <div className='input-name-wrapper'>
             <input
-                className="input-code"
-                placeholder="인증번호"
-                maxLength={11}
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
+                className="input-name"
+                placeholder="이름"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
             />
-            {code && (
+            {name && (
               <img
                 className='x-button'
                 src='/assets/button/btn_x2.svg' 
-                onClick={() => setCode("")}
+                onClick={() => setName("")}
               />
             )}
-            <p className="timer">{timeLeft > 0 ? `${formatTime(timeLeft)}` : "0:00"}</p>
-          </div>
-          <button
-          disabled={!code} 
-          className={code !== "" ? "active" : ""}
-          onClick={handleCodeCheck}>확인</button>
         </div>
-      )}
+        
+        <div className="phone-row">
+          <div className='input-phone-wrapper'>
+            <input
+                className="input-phone"
+                placeholder="휴대폰 번호"
+                maxLength={11}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+            />
+            {phone && (
+              <img
+                className='x-button'
+                src='/assets/button/btn_x2.svg' 
+                onClick={() => setPhone("")}
+              />
+            )}
+          </div>
 
-      {isCodeError && (
-        <div className="code-input-error">인증번호를 다시 확인해 주세요.</div>
-      )}
+          <button 
+          disabled={!phone} className={phone !== "" ? "active" : ""}
+          onClick={handleSendCode}>인증번호 받기</button>
+        </div>
 
-      <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={handleSubmit}/>
-      {showToast && <div className="toast">{toastMessage}</div>}
+        {isCodeSent && (
+          <div className="code-row">
+            <div className='input-code-wrapper'>
+              <input
+                  className="input-code"
+                  placeholder="인증번호"
+                  maxLength={6}
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+              />
+              {isCodeValid ? (
+                <img src="/assets/icon/icon_check.svg" className="ic-check" />
+              ) : (
+                <>
+                  {code && (
+                    <img
+                      className='x-button'
+                      src='/assets/button/btn_x2.svg' 
+                      onClick={() => setCode("")}
+                    />
+                  )}
+                  <p className="timer">{timeLeft > 0 ? `${formatTime(timeLeft)}` : "0:00"}</p>
+                </>
+              )}
+              
+            </div>
+            <button
+            disabled={!code} 
+            className={code !== "" ? "active" : ""}
+            onClick={handleCodeCheck}>확인</button>
+          </div>
+        )}
+
+        {isCodeError && (
+          <div className="code-input-error">인증번호를 다시 확인해 주세요.</div>
+        )}
+
+        <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={handleSubmit} />
+        {showToast && <div className="toast">{toastMessage}</div>}
+      </div>
 
     </div>
   );

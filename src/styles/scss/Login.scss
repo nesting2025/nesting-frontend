@@ -6,6 +6,10 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    min-width: 360px;
+    max-width: 600px;
+    padding: 24px 12px;
+    margin: 0 auto;
 
     .back-button {
         width: 32px;
@@ -14,10 +18,6 @@
         top: 24px;
         left: 12px;
         cursor: pointer;
-
-        @media (min-width: 768px) {
-            left: calc((100vw - 768px) / 2 + 12px);
-        }
     }
 
     .logo-img {
@@ -32,21 +32,25 @@
     }
 
     .kakao-button {
-        width: 320px;
-        height: auto;
+        width: 100%;
+        height: 48px;
         margin-top: 60px;
         cursor: pointer;
+        background-color: #FEE500;
+        border-radius: 8px;
     }
 
     .naver-button {
-        width: 320px;
-        height: auto;
+        width: 100%;
+        height: 48px;
         margin-top: 16px;
         cursor: pointer;
+        background-color: #03C75A;
+        border-radius: 8px;
     }
 
     .diver {
-        width: 320px;
+        width: 100%;
         margin-top: 38px;
         position: relative;
 
@@ -70,9 +74,26 @@
     }
 
     .nesting-button {
-        width: 320px;
-        height: auto;
+        width: 100%;
+        height: 48px;
         margin-top: 35px;
         cursor: pointer;
+        @include border-color("line-medium");
+        border-radius: 8px;
+        display: flex;
+        gap: 6px;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 24px;
+            height: 24px;
+        }
+
+        p {
+            @include text-color();
+            @include font-style("title4");
+            margin: 0;
+        }
     }
 }
