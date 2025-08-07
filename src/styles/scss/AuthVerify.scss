@@ -20,12 +20,17 @@
         padding: 0 8px;
         margin-top: 32px;
         box-sizing: border-box;
+
+        .toast {
+            width: 100%;
+            min-width: 320px;
+            max-width: 560px;
+        }
     }
 
     h2 {
         @include font-style("title2");
         @include text-color();
-        width: 320px;
         justify-content: flex-start;
         margin-bottom: 8px;
     }
@@ -33,7 +38,6 @@
     h5 {
         @include font-style("title4");
         @include text-color("text-sub2");
-        width: 320px;
         margin-bottom: 32px;
     }
 

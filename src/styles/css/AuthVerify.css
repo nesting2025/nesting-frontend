@@ -17,13 +17,17 @@
   margin-top: 32px;
   box-sizing: border-box;
 }
+.auth-verify .content-area .toast {
+  width: 100%;
+  min-width: 320px;
+  max-width: 560px;
+}
 .auth-verify h2 {
   font-size: 20px;
   line-height: 28px;
   font-weight: 600;
   letter-spacing: -2.5%;
   color: #111111;
-  width: 320px;
   justify-content: flex-start;
   margin-bottom: 8px;
 }
@@ -33,7 +37,6 @@
   font-weight: 500;
   letter-spacing: -2.5%;
   color: #505050;
-  width: 320px;
   margin-bottom: 32px;
 }
 .auth-verify input {

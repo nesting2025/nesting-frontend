@@ -11,7 +11,7 @@ export const useCheckNickname = () => {
     } = useAsync<BaseResponseDto<boolean>>(AuthRepository.nicknameCheck);
 
     return { checkNickname, loading, error, data };
-}
+};
 
 export const useVerifyPhoneSend = () => {
     const {
@@ -22,4 +22,15 @@ export const useVerifyPhoneSend = () => {
     } = useAsync<BaseResponseDto<number>>(AuthRepository.verifyPhoneSend);
 
     return { sendVerifyPhone, loading, error, data };
+};
+
+export const useVerifyCodeCheck = () => {
+    const {
+        execute: verifyCodeCheck,
+        loading,
+        error,
+        data,
+    } = useAsync<BaseResponseDto<boolean>>(AuthRepository.verifyCodeCheck);
+
+    return { verifyCodeCheck, loading, error, data }
 };

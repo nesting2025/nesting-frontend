@@ -2,26 +2,42 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
 import CustomButton from "../components/CustomButton";
-import { useVerifyPhoneSend } from "../hooks/useAuth";
+import { useVerifyPhoneSend, useVerifyCodeCheck } from "../hooks/useAuth";
 import "../styles/css/Toast.css";
 import "../styles/css/AuthVerify.css";
 
 export default function AuthVerify() {
-  const { sendVerifyPhone, loading, error, data } = useVerifyPhoneSend();
+  const { sendVerifyPhone, data: verifyPhoneSendData } = useVerifyPhoneSend();
   const [verifyPhoneSendDto, setVerifyPhoneSendDto] = useState({
     phone: "",
     purpose: 'SIGN_UP',
   });
+  const { verifyCodeCheck, data: verifyCodeCheckData } = useVerifyCodeCheck();
+
+  // API 응답 data
+  useEffect(() => {
+    if(verifyPhoneSendData != null) {
+      console.log("인증 요청 성공, 받은 authId:", verifyPhoneSendData);
+      setAuthId(verifyPhoneSendData)
+    }
+
+    if(verifyCodeCheckData != null) {
+      console.log("인증번호 동일여부: ", verifyCodeCheckData)
+      setIsCodeValid(verifyCodeCheckData)
+      setIsCodeError(!verifyCodeCheckData)
+    }
+  }, [verifyPhoneSendData, verifyCodeCheckData]);
 
   const nav = useNavigate();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
+  const [authId, setAuthId] = useState(null);
 
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180);
-  const [isCodeValid, setIsCodeValid] = useState(false);
-  const [isCodeError, setIsCodeError] = useState(false);
+  const [isCodeValid, setIsCodeValid] = useState(null);
+  const [isCodeError, setIsCodeError] = useState(null);
   const isSubmitEnabled = name && phone && code && isCodeValid;
   const MAX_RESEND_COUNT = 3;
   const [resendCount, setResendCount] = useState(0);
@@ -54,16 +70,10 @@ export default function AuthVerify() {
     return `${m}:${s < 10 ? "0" : ""}${s}`;
   };
 
-
-  const handleCodeCheck = () => { 
-      if (code === "123123") {
-        setIsCodeValid(true);
-        setIsCodeError(false);
-      } else {
-        setIsCodeValid(false);
-        setIsCodeError(true);
-      }
-    
+  const handleCodeCheck = async () => { 
+    try {
+      await verifyCodeCheck(authId, code);
+    } catch (e) {console.log(e);}
   };
 
   const handleSendCode = async () => {
@@ -71,34 +81,28 @@ export default function AuthVerify() {
       showToastMessage("인증번호 전송 가능 횟수를 초과했어요.");
       return;
     }
+
     setIsCodeSent(true);
     setTimeLeft(180);
     setIsCodeValid(false);
     setIsCodeError(false);
     setResendCount((prev) => prev + 1);
+
     if (resendCount == 0) {
       showToastMessage("인증번호가 전송되었어요.");
     } else {
       showToastMessage(
-        `인증번호가 재전송되었어요. ${
-          MAX_RESEND_COUNT - resendCount
-        }번 더 재전송이 가능해요.`
+        `인증번호가 재전송되었어요. ${MAX_RESEND_COUNT - resendCount}번 더 재전송이 가능해요.`
       );
     }
 
-    // API 연결 부분
+    // API 연결
     try {
       await sendVerifyPhone(verifyPhoneSendDto);
-    } catch (e) {
-      // 에러 처리
-      console.error(e);
-    }
+    } catch (e) {console.log(e);}
   };
 
   const handleSubmit = () => {
-      setIsCodeValid(true);
-      setIsCodeError(false);
-
       if(localStorage.getItem("returnTo") === "accountInfo") {
         localStorage.removeItem("returnTo"); 
         nav("/login/account-info?type=found"); // 이메일 찾기 완료화면
@@ -106,8 +110,6 @@ export default function AuthVerify() {
         localStorage.removeItem("returnTo");
         setIsOpen(true);  // 취향등록 화면으로
       }
-
-
   };
 
   const showToastMessage = (message) => {
