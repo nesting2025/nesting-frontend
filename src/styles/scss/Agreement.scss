@@ -67,5 +67,17 @@
             @include font-style("headline6");
             @include text-color();
         }
+
+        h5 {
+            @include font-style("title4");
+            @include text-color();
+            margin: 0;
+        }
+
+        .marketing-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
     }
 }

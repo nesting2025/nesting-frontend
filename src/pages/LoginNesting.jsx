@@ -73,8 +73,7 @@ const LoginNesting = () => {
         // nav("/");
 
         try {
-            const response = await loginEmail(form);
-            console.log(response);
+            await loginEmail(form);
         } catch (error) {
             console.log(error);
         }

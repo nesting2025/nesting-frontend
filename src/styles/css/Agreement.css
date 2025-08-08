@@ -64,3 +64,16 @@
   letter-spacing: -2.5%;
   color: #111111;
 }
+.agreement .content-area h5 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #111111;
+  margin: 0;
+}
+.agreement .content-area .marketing-area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

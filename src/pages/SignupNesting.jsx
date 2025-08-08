@@ -1,6 +1,7 @@
 import '../styles/css/SignupNesting.css';
 import CustomButton from "../components/CustomButton";
 import CustomCheckbox from '../components/common/CustomCheckbox';
+import CustomCheckOnly from '../components/common/CustomCheckOnly';
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useCheckValidEmail } from '../hooks/useAuth';
@@ -33,7 +34,16 @@ const SignupNesting = () => {
             required: true, checked: false},
         {id: 3, label: (<><span className='underline' onClick={() => nav("/signup/nesting/agreement", { state: { type: "privacy" } })}>개인정보 수집 및 이용</span> 동의 (필수)</>), 
             required: true, checked: false},
-        {id: 4, label: (<>마케팅 수신 동의 (선택)</>), required:false, checked: false}
+        {id: 4, label: (<><span className='underline' onClick={() => nav("/signup/nesting/agreement", { state: { type: "marketing" } })}>마케팅 목적의 개인정보 수집 및 이용</span> 동의 (선택)</>)
+            ,required:false, checked: false
+        },
+        {id: 5, label: (<><span className='underline' onClick={() => nav("/signup/nesting/agreement", { state: { type: "marketingReceiveInfo" } })}>마케팅 수신</span> 동의 (선택)</>), 
+            required:false, checked: false,
+            children: [
+                {type: "sms", label: "SMS", checked: false},
+                {type: "email", label: "이메일", checked: false}
+            ]
+        }
     ])
 
     const goBack = () => nav(-1);
@@ -135,18 +145,61 @@ const SignupNesting = () => {
         const checked = e.target.checked;;
         setAllChecked(checked);
         setAgreements(prev => 
-            prev.map(item => ({...item, checked: checked}))
+            prev.map(item => ({
+            ...item,
+            checked: checked,
+            children: item.children
+                ? item.children.map(child => ({
+                    ...child,
+                    checked: checked
+                }))
+                : undefined
+        }))
         );
     };
 
     const handleSingleChange = (id) => (e) => {
         const checked = e.target.checked;
         setAgreements(prev =>
-            prev.map(item => 
-                item.id === id ? {...item, checked: checked} : item
-            )
+            prev.map(item => {
+                if(item.id === id) {
+                    if(item.children) {
+                        return {
+                            ...item,
+                            checked: checked,
+                            children: item.children.map(child =>({...child, checked: checked}))
+                        };
+                    }
+                    return {
+                        ...item, checked: checked
+                    };
+                }
+                return item;
+            })
         );
     };
+
+    const handleChildChange = (type) => (e) => {
+        const isChecked = e.target.checked;
+
+        setAgreements(prev =>
+            prev.map(item => {
+                if(item.id !== 5) return item;
+
+                const updatedChildren = item.children.map(c =>
+                    c.type === type ? {...c, checked: isChecked} : c
+                );
+
+                const hasAnyChecked = updatedChildren?.some(c => c.checked);
+
+                return {
+                    ...item,
+                    checked: hasAnyChecked,
+                    children: updatedChildren
+                }
+            })
+        )
+    }
 
     useEffect(() => {
         const all = agreements.every(item => item.checked);
@@ -246,7 +299,19 @@ const SignupNesting = () => {
                     />
                 ))}
             </div>
-
+            <div className='marketing-receive-area'>
+                <CustomCheckOnly 
+                    label={agreements[4].children[0].label}
+                    checked={agreements[4].children[0].checked}
+                    onChange={handleChildChange("sms")} 
+                />
+                <CustomCheckOnly 
+                    label={agreements[4].children[1].label}
+                    checked={agreements[4].children[1].checked}
+                    onChange={handleChildChange("email")} 
+                />
+            </div>
+            
             <CustomButton 
                 className='signup-next-button' 
                 text="다음" 
