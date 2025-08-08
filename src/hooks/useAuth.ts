@@ -1,6 +1,7 @@
 import { AuthRepository } from "../data/repository/auth/authRepository";
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { useAsync } from "./useAsync";
+import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailResponseDto";
 
 export const useCheckNickname = () => {
     const {
@@ -58,4 +59,16 @@ export const useVerifyCodeCheck = () => {
     } = useAsync<BaseResponseDto<boolean>>(AuthRepository.verifyCodeCheck);
 
     return { verifyCodeCheck, loading, error, data, reset }
+};
+
+export const useLoginEmail = () => {
+    const {
+        execute: loginEmail,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<LoginEmailResponseDto | null>>(AuthRepository.loginEmail);
+
+    return { loginEmail, loading, error, data, reset }
 };

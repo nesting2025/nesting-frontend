@@ -1,17 +1,21 @@
 import '../styles/css/LoginNesting.css';
 import CustomButton from "../components/CustomButton";
 import CustomCheckbox from '../components/common/CustomCheckbox';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLoginEmail } from '../hooks/useAuth';
 
 const LoginNesting = () => {
+    const { loginEmail, data: loginEmailData } = useLoginEmail(); 
     const nav = useNavigate();
-    const [email, setEmail] = useState("");
-    const [pw, setPw] = useState("");
+    const [form, setForm] = useState({
+        email: "",
+        password: ""
+    })
     const [showEmailError, setShowEmailError] = useState(false);
     const [showPwError, setShowPwError] = useState(false);
     const [showPw, seteShowPw] = useState(false);
-    const isFormValid = email && pw && !showEmailError && !showPwError;
+    const isFormValid = form.email && form.password && !showEmailError && !showPwError;
     const [keepLogin, setKeepLogin] = useState(false);
 
     const goBack = () => nav("/login");
@@ -21,7 +25,9 @@ const LoginNesting = () => {
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
-        setEmail(value);
+        setForm((prev) => ({
+            ...prev, email: value
+        }));
 
         const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
@@ -34,13 +40,17 @@ const LoginNesting = () => {
     }
 
     const clearInput = () => {
-        setEmail("");
+        setForm((prev) => ({
+            ...prev, email: ""
+        }));
         setShowEmailError(false);
     }
 
     const handlePwChange = (e) => {
         const value = e.target.value;
-        setPw(value);
+        setForm((prev) => ({
+            ...prev, password: value
+        }));
 
         const regex = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()_+{}\\[\\]:;<>,.?~/-]{8,16}$");
         const isValidPw = regex.test(value);
@@ -58,10 +68,23 @@ const LoginNesting = () => {
         seteShowPw(prevState => !prevState);
     }
 
-    const login = () => {
+    const login = async () => {
         // API 통신
-        nav("/");
+        // nav("/");
+
+        try {
+            const response = await loginEmail(form);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
     }
+
+    useEffect(() => {
+        if(loginEmailData != null) {
+            console.log(loginEmailData);
+        }
+    }, [loginEmailData])
 
     return (
         <div className="login-nesting">
@@ -80,10 +103,10 @@ const LoginNesting = () => {
             <input
                 className="input-email"
                 placeholder="이메일"
-                value={email}
+                value={form.email}
                 onChange={handleEmailChange}
             />
-            {email && (
+            {form.email && (
                  <img
                     className='x_button'
                     src='/assets/button/btn_x2.svg' 
@@ -99,10 +122,10 @@ const LoginNesting = () => {
                     className="input-pw"
                     placeholder="비밀번호"
                     type={showPw ? "text" : "password"}
-                    value={pw}
+                    value={form.password}
                     onChange={handlePwChange}
                 />
-                {pw && (
+                {form.password && (
                     <img
                         className='show_pw_button'
                         src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}

@@ -32,11 +32,17 @@ client.interceptors.response.use(
     (error) => {
         if(error.response) {
             console.log("API Error Response:", error.response.data);
+            return Promise.reject({
+                ...error,
+                message: error.response.data.message || error.message,
+                data: error.response.data,
+                status: error.response.status,
+            });
         }
         else {
             console.error("API Error:", error);
+            return Promise.reject(error);
         }
-        return Promise.reject(error);
     }
 );
 
