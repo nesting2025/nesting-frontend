@@ -9,7 +9,10 @@ const FindPassword = () => {
     const [isValidEmail, setIsValidEmail] = useState(false);
 
     const goBack = () => nav(-1);
-    const gotoLoginNesting = () => nav("/login/auth-code", { replace: true });
+    const gotoAuthCode = () => nav("/login/auth-code", { 
+        replace: true,
+        state: {email: email}
+    });
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
@@ -55,7 +58,7 @@ const FindPassword = () => {
                 className='next-button' 
                 text="이메일로 인증코드 받기" 
                 isValid={isValidEmail}
-                onClick={gotoLoginNesting} 
+                onClick={gotoAuthCode} 
             />
         </div>
         </div>

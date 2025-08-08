@@ -5,6 +5,7 @@ import { VerifyPhoneSendDto } from "../data/dto/Request/auth/VerifyPhoneSendDto"
 import { LoginEmailDto } from "../data/dto/Request/auth/LoginEmailDto";
 import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailResponseDto";
 import { SignupDto } from "../data/dto/Request/auth/SignUpDto";
+import { VerifyEamilSendDto } from "../data/dto/Request/auth/VerifyEmailSendDto";
 
 export const nicknameCheck = async (nickname: string): Promise<BaseResponseDto<boolean>> => {
     const response = await client.post<BaseResponseDto<boolean>>("/auth/valid/nickname", 
@@ -34,6 +35,14 @@ export const verifyPhoneSend = async (verifyPhoneSendDto: VerifyPhoneSendDto): P
 
     return response.data;
 };
+
+export const verifyEmailSend = async (verifyEmailSendDto: VerifyEamilSendDto): Promise<BaseResponseDto<number>> => {
+  const response = await client.post<BaseResponseDto<number>>("/auth/verify/email/send",
+    verifyEmailSendDto
+  );
+
+  return response.data;
+}
 
 export const verifyCodeCheck = async (authId: string, code: string): Promise<BaseResponseDto<boolean>> => {
     const response = await client.post<BaseResponseDto<boolean>>(`/auth/verify/${authId}/check`,

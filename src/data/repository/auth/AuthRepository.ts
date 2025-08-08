@@ -1,9 +1,10 @@
 import { BaseResponseDto } from "../../dto/common/BaseResponseDto";
-import { checkValidEmail, checkValidPhone, loginEmail, nicknameCheck, signup, verifyCodeCheck, verifyPhoneSend } from "../../../api/authApi";
+import { checkValidEmail, checkValidPhone, loginEmail, nicknameCheck, signup, verifyCodeCheck, verifyPhoneSend, verifyEmailSend } from "../../../api/authApi";
 import { VerifyPhoneSendDto } from "../../dto/Request/auth/VerifyPhoneSendDto";
 import { LoginEmailDto } from "../../dto/Request/auth/LoginEmailDto";
 import { LoginEmailResponseDto } from "../../dto/Response/auth/LoginEmailResponseDto";
 import { SignupDto } from "../../dto/Request/auth/SignUpDto";
+import { VerifyEamilSendDto } from "../../dto/Request/auth/VerifyEmailSendDto";
 
 export const AuthRepository = {
     nicknameCheck: async (nickname: string): Promise<BaseResponseDto<boolean>> => {
@@ -20,6 +21,10 @@ export const AuthRepository = {
     
     verifyPhoneSend: async (verifyPhoneSendDto: VerifyPhoneSendDto): Promise<BaseResponseDto<number>> => {
         return await verifyPhoneSend(verifyPhoneSendDto);
+    },
+
+    verifyEmailSend: async (verifyEmailSendDto: VerifyEamilSendDto): Promise<BaseResponseDto<number>> => {
+        return await verifyEmailSend(verifyEmailSendDto);
     },
 
     verifyCodeCheck: async (authId: string, code: string): Promise<BaseResponseDto<boolean>> => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Timer({ initialSeconds = 180, onTimeout }) {
+export default function Timer({ initialSeconds = 180, onTimeout, className }) {
   const [seconds, setSeconds] = useState(initialSeconds);
 
   useEffect(() => {
@@ -22,5 +22,5 @@ export default function Timer({ initialSeconds = 180, onTimeout }) {
     return `${min}:${s}`;
   };
 
-  return <div className="timer">{formatTime(seconds)}</div>;
+  return <div className={`timer ${className}`}>{formatTime(seconds)}</div>;
 }

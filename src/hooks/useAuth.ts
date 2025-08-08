@@ -49,6 +49,17 @@ export const useVerifyPhoneSend = () => {
     return { sendVerifyPhone, loading, error, data };
 };
 
+export const useVerifyEmailSend =() => {
+    const {
+        execute: sendVerifyEmail,
+        loading,
+        error,
+        data,
+    } = useAsync<BaseResponseDto<number>>(AuthRepository.verifyEmailSend);
+
+    return { sendVerifyEmail, loading, error, data };
+}
+
 export const useVerifyCodeCheck = () => {
     const {
         execute: verifyCodeCheck,
