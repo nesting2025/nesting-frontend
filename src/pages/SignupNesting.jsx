@@ -47,7 +47,23 @@ const SignupNesting = () => {
     ])
 
     const goBack = () => nav(-1);
-    const gotoVerify = () => nav("/verify");
+    const gotoVerify = () => {
+        const data = {
+            email: email,
+            password: pw,
+            termAgreement: {
+                ageAgreement: agreements[0].checked,
+                personalInfoAgreement: agreements[2].checked,
+                marketingAgreement: agreements[3].checked,
+                ecommerceAgreement: agreements[1].checked
+            },
+            marketingReceiveInfo: {
+                email: agreements[4].children[1].checked,
+                sms: agreements[4].children[0].checked
+            }
+        }
+        nav("/verify",{ state: data });
+    }
 
     // 이메일 중복 체크 API
     const checkEmailDuplicate = async (email) => {
@@ -58,7 +74,7 @@ const SignupNesting = () => {
 
     const debouncedCheck = useCallback(
         debounce((email) => {
-            if(email.includes("@") && email.includes(".com") && !showEmailError) {
+            if(email.includes("@") && !showEmailError) {
                 checkEmailDuplicate(email);
             }
         }, 500), [checkEmailDuplicate]

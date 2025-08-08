@@ -58,7 +58,7 @@ export const useVerifyCodeCheck = () => {
         reset
     } = useAsync<BaseResponseDto<boolean>>(AuthRepository.verifyCodeCheck);
 
-    return { verifyCodeCheck, loading, error, data, reset }
+    return { verifyCodeCheck, loading, error, data, reset };
 };
 
 export const useLoginEmail = () => {
@@ -70,5 +70,17 @@ export const useLoginEmail = () => {
         reset
     } = useAsync<BaseResponseDto<LoginEmailResponseDto | null>>(AuthRepository.loginEmail);
 
-    return { loginEmail, loading, error, data, reset }
+    return { loginEmail, loading, error, data, reset };
+};
+
+export const useSignup = () => {
+    const {
+        execute: signup,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<LoginEmailResponseDto>>(AuthRepository.signup);
+
+    return { signup, loading, error, data, reset  };
 };

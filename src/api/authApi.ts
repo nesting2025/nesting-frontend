@@ -4,6 +4,7 @@ import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { VerifyPhoneSendDto } from "../data/dto/Request/auth/VerifyPhoneSendDto";
 import { LoginEmailDto } from "../data/dto/Request/auth/LoginEmailDto";
 import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailResponseDto";
+import { SignupDto } from "../data/dto/Request/auth/SignUpDto";
 
 export const nicknameCheck = async (nickname: string): Promise<BaseResponseDto<boolean>> => {
     const response = await client.post<BaseResponseDto<boolean>>("/auth/valid/nickname", 
@@ -76,3 +77,10 @@ export const loginEmail = async (
     throw error; // 기타 에러는 다시 throw
   }
 };
+
+export const signup = async(signupDto: SignupDto): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
+  const response = await client.post<BaseResponseDto<LoginEmailResponseDto>>("/auth/sign-up",
+    signupDto
+  );
+  return response.data;
+}

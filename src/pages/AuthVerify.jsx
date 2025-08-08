@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef, use } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
 import CustomButton from "../components/CustomButton";
-import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone } from "../hooks/useAuth";
+import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup } from "../hooks/useAuth";
 import "../styles/css/Toast.css";
 import "../styles/css/AuthVerify.css";
 
@@ -14,20 +14,21 @@ export default function AuthVerify() {
     purpose: 'SIGN_UP',
   });
   const { verifyCodeCheck, data: verifyCodeCheckData, reset: resetCodeCheck } = useVerifyCodeCheck();
+  const { signup, data: signupData } = useSignup();
 
   // API 응답 data
   useEffect(() => {
     if(verifyPhoneSendData != null) {
       console.log("인증 요청 성공, 받은 authId:", verifyPhoneSendData);
-      setAuthId(verifyPhoneSendData)
+      setForm(prev => ({
+        ...prev, authId: verifyPhoneSendData
+      }))
     }
   }, [verifyPhoneSendData])
-
   useEffect(() => {
     if(verifyCodeCheckData != null) {
       console.log("인증번호 동일여부: ", verifyCodeCheckData)
       setIsCodeValid(verifyCodeCheckData)
-      setIsCodeError(!verifyCodeCheckData)
 
       if(!verifyCodeCheckData) {
         setIsSendButtonDisabled(false);
@@ -37,42 +38,64 @@ export default function AuthVerify() {
       }
     }
   }, [verifyCodeCheckData])
-
   useEffect(() => {
     if(checkValidPhoneData === true) {
       handleSendCode();
     }
   }, [checkValidPhoneData])
+  useEffect(() => {
+    if(signupData != null) {
+      console.log("회원가입 성공!", signupData)
+    }
+  }, [signupData])
 
   const nav = useNavigate();
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const location = useLocation();
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    loginType: "EMAIL",
+    termAgreement: {},
+    marketingReceiveInfo: {},
+    authId: null
+  });
   const [code, setCode] = useState("");
-  const [authId, setAuthId] = useState(null);
   const [isSendButtonDisabled, setIsSendButtonDisabled] = useState(false);
 
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [hasSentCodeOnce, setHasSentCodeOnce] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180);
   const [isCodeValid, setIsCodeValid] = useState(null);
-  const [isCodeError, setIsCodeError] = useState(null);
-  const isSubmitEnabled = name && phone && code && isCodeValid;
+  const isSubmitEnabled = form.name && form.phone && code && isCodeValid;
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);  // 다이얼로그
 
-  const goBack = () => nav(-1);
+  const goBack = () => nav(-1); 
+
+  // 이전 페이지 email, password, agreements 데이터
+  useEffect(() => {
+    if(location.state) {
+      setForm(prev => ({
+        ...prev, 
+        ...location.state
+      }));
+    }
+  }, []);
+
 
   useEffect(() => {
     setVerifyPhoneSendDto((prev) => ({
-      ...prev, phone: phone
+      ...prev, phone: form.phone
     }));
     reset();
     setIsCodeSent(false);
     setHasSentCodeOnce(false);
     setIsSendButtonDisabled(false);
-  }, [phone])
+  }, [form.phone])
 
   useEffect(() => {
     resetCodeCheck();
@@ -98,7 +121,7 @@ export default function AuthVerify() {
   // 휴대폰 인증번호 검증 API
   const handleCodeCheck = async () => { 
     try {
-      await verifyCodeCheck(authId, code);
+      await verifyCodeCheck(form.authId, code);
     } catch (e) {console.log(e);}
   };
 
@@ -110,7 +133,6 @@ export default function AuthVerify() {
     setIsCodeSent(true);
     setTimeLeft(180);
     setIsCodeValid(false);
-    setIsCodeError(false);
     showToastMessage("인증번호가 전송되었어요.");
 
     // 휴대폰 인증번호 전송 API
@@ -123,19 +145,26 @@ export default function AuthVerify() {
   const handleCheckValidPhone = async () => {
     try {
       setHasSentCodeOnce(false);
-      await checkValidPhone(phone);
+      await checkValidPhone(form.phone);
       setIsSendButtonDisabled(true);
     } catch (e) {console.log(e);}
   }
 
+  // 회원가입 API
+  const signupEmail = async () => {
+    try {
+      await signup(form);
+    } catch (e) {console.log(e);}
+  };
+
   const handleSubmit = () => {
-      if(localStorage.getItem("returnTo") === "accountInfo") {
-        localStorage.removeItem("returnTo"); 
-        nav("/login/account-info?type=found"); // 이메일 찾기 완료화면
-      } else {
-        localStorage.removeItem("returnTo");
-        setIsOpen(true);  // 취향등록 화면으로
-      }
+      // if(localStorage.getItem("returnTo") === "accountInfo") {
+      //   localStorage.removeItem("returnTo"); 
+      //   nav("/login/account-info?type=found"); // 이메일 찾기 완료화면
+      // } else {
+      //   localStorage.removeItem("returnTo");
+      //   setIsOpen(true);  // 취향등록 화면으로
+      // }
   };
 
   const showToastMessage = (message) => {
@@ -163,14 +192,20 @@ export default function AuthVerify() {
             <input
                 className="input-name"
                 placeholder="이름"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={form.name}
+                onChange={(e) => setForm(prev => ({
+                  ...prev, name: e.target.value
+                  }))
+                }
             />
-            {name && (
+            {form.name && (
               <img
                 className='x-button'
                 src='/assets/button/btn_x2.svg' 
-                onClick={() => setName("")}
+                onClick={() => setForm(prev => ({
+                  ...prev, name: ""
+                  }))
+                }
               />
             )}
         </div>
@@ -181,21 +216,27 @@ export default function AuthVerify() {
                 className="input-phone"
                 placeholder="휴대폰 번호"
                 maxLength={11}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                value={form.phone}
+                onChange={(e) => setForm(prev => ({
+                  ...prev, phone: e.target.value
+                  }))
+                }
             />
-            {phone && (
+            {form.phone && (
               <img
                 className='x-button'
                 src='/assets/button/btn_x2.svg' 
-                onClick={() => setPhone("")}
+                onClick={() => setForm(prev => ({
+                  ...prev, phone: ""
+                  }))
+                }
               />
             )}
           </div>
 
           <button 
-            disabled={isSendButtonDisabled || phone.length !== 11} 
-            className={phone.length === 11 && !isSendButtonDisabled ? "active" : ""}
+            disabled={isSendButtonDisabled || form.phone.length !== 11} 
+            className={form.phone.length === 11 && !isSendButtonDisabled ? "active" : ""}
             onClick={handleCheckValidPhone}
           >
             {verifyCodeCheckData===false || hasSentCodeOnce ? "재전송" : "인증번호 받기"}
@@ -244,7 +285,7 @@ export default function AuthVerify() {
           </>
         )}
 
-        <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={handleSubmit} />
+        <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={signupEmail} />
         {showToast && <div className="toast">{toastMessage}</div>}
       </div>
 
