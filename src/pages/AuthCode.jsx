@@ -20,7 +20,9 @@ const AuthCode = () => {
     useEffect(() => {
       if(verifyCodeCheckData === true) {
         console.log("인증번호 동일여부: ", verifyCodeCheckData)
-        nav("/login/reset-password", { replace: true });
+        nav("/login/reset-password", { 
+          state: { email: sendVerifyEmailDto.email, authId: authId }
+        });
       }
     }, [verifyCodeCheckData])
 

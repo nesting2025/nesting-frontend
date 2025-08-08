@@ -1,12 +1,20 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import CustomButton from "../components/CustomButton";
 import '../styles/css/ResetPassword.css';
+import { useResetPassword } from "../hooks/useAuth";
 
 const ResetPassword = () => {
   const nav = useNavigate();
+  const location = useLocation();
+  const { resetPassword } = useResetPassword();
   
-  const [pw, setPw] = useState("");
+  const [passwordResetDto, setPasswordResetDto] = useState({
+    authId: null,
+    email: "",
+    password: "",
+    keyValue: ""
+  })
   const [pwCheck, setPwCheck] = useState("");
   
   const [showPwError, setShowPwError] = useState(false);
@@ -15,22 +23,37 @@ const ResetPassword = () => {
   const [showPw, setShowPw] = useState(false);
   const [showPwCheck, setShowPwCheck] = useState(false);
 
-  const isFormValid = pw && pwCheck && !showPwError && !showPwMatchError;
+  const isFormValid = passwordResetDto.password && pwCheck && !showPwError && !showPwMatchError;
+
+    // 이전화면에서 email, authId 받아옴
+    useEffect(() => {
+      if(location.state) {
+        const { email, authId } = location.state;
+
+        setPasswordResetDto(prev => ({
+          ...prev, email: email, authId: authId
+        }));
+      }
+      else {
+        console.log("location.state 없음", location);
+      }
+    }, [location.state]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     const regex = new RegExp("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d!@#$%^&*()_+{}\\[\\]:;<>,.?~/-]{8,16}$");
 
     if (name === "pw") {
-      setPw(value);
+      setPasswordResetDto(prev => ({
+        ...prev, password: value
+      }))
       setShowPwError(value && !regex.test(value));
       setShowPwMatchError(value && pwCheck && value !== pwCheck);
     }
 
     if (name === "pwCheck") {
       setPwCheck(value);
-      setShowPwMatchError(pw && value && pw !== value);
+      setShowPwMatchError(passwordResetDto.password && value && passwordResetDto.password !== value);
     }
   };
 
@@ -44,13 +67,15 @@ const ResetPassword = () => {
 
   const goBack = () => nav("/login");
   
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isFormValid) return;
 
     // 비밀번호 재설정 API 통신
-    console.log('비밀번호 재설정 완료');
-    nav("/");
+    try {
+      await resetPassword(passwordResetDto);
+    } catch (e) {console.log(e);}
   };
+
 
   return (
     <div className="reset-password">
@@ -69,10 +94,10 @@ const ResetPassword = () => {
             className="input-pw"
             placeholder="비밀번호"
             type={showPw ? "text" : "password"}
-            value={pw}
+            value={passwordResetDto.password}
             onChange={handleChange}
           />
-          {pw && (
+          {passwordResetDto.password && (
             <img
               className='show_pw_button'
               src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}

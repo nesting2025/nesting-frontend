@@ -95,3 +95,15 @@ export const useSignup = () => {
 
     return { signup, loading, error, data, reset  };
 };
+
+export const useResetPassword = () => {
+    const {
+        execute: resetPassword,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<null>>(AuthRepository.resetPassword);
+
+    return {resetPassword, loading, error, data, reset };
+};

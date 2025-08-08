@@ -6,6 +6,7 @@ import { LoginEmailDto } from "../data/dto/Request/auth/LoginEmailDto";
 import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailResponseDto";
 import { SignupDto } from "../data/dto/Request/auth/SignUpDto";
 import { VerifyEamilSendDto } from "../data/dto/Request/auth/VerifyEmailSendDto";
+import { ResetPasswordDto } from "../data/dto/Request/auth/ResetPasswordDto";
 
 export const nicknameCheck = async (nickname: string): Promise<BaseResponseDto<boolean>> => {
     const response = await client.post<BaseResponseDto<boolean>>("/auth/valid/nickname", 
@@ -90,6 +91,13 @@ export const loginEmail = async (
 export const signup = async(signupDto: SignupDto): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
   const response = await client.post<BaseResponseDto<LoginEmailResponseDto>>("/auth/sign-up",
     signupDto
+  );
+  return response.data;
+}
+
+export const resetPassword = async(resetPasswordDto: ResetPasswordDto): Promise<BaseResponseDto<null>> => {
+  const response = await client.patch<BaseResponseDto<null>>("/auth/password/reset",
+    resetPasswordDto
   );
   return response.data;
 }
