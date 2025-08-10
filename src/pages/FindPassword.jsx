@@ -1,18 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import '../styles/css/FindPassword.css';
 import CustomButton from "../components/CustomButton";
 import { useNavigate } from 'react-router-dom';
+import { useCheckValidEmail } from "../hooks/useAuth";
+import { useToast } from "../components/common/ToastContext";
 
 const FindPassword = () => {
+    const { checkValidEmail, data: checkValidEmailData, reset } = useCheckValidEmail();
+    const { showToast } = useToast();
+
+    // 이메일 중복체크 API
+    const checkEmailValid = async () => {
+        try {
+            await checkValidEmail(email);
+        }   catch (e) {console.log(e);}
+    }
+
+    // API data
+    useEffect(() => {
+        if(checkValidEmailData != null) {
+            if(checkValidEmailData === true) {
+                showToast("계정을 찾을 수 없습니다. 다시 확인해 주세요.");
+                setIsValidEmail(false);
+            } else {
+                nav("/login/auth-code", { 
+                    replace: true,
+                    state: {email: email}});
+            }
+            
+        }
+    }, [checkValidEmailData])
+    
     const nav = useNavigate();
     const [email, setEmail] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(false);
 
     const goBack = () => nav(-1);
-    const gotoAuthCode = () => nav("/login/auth-code", { 
-        replace: true,
-        state: {email: email}
-    });
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
@@ -58,7 +81,7 @@ const FindPassword = () => {
                 className='next-button' 
                 text="이메일로 인증코드 받기" 
                 isValid={isValidEmail}
-                onClick={gotoAuthCode} 
+                onClick={checkEmailValid} 
             />
         </div>
         </div>
