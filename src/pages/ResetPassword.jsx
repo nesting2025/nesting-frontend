@@ -12,8 +12,7 @@ const ResetPassword = () => {
   const [passwordResetDto, setPasswordResetDto] = useState({
     authId: null,
     email: "",
-    password: "",
-    keyValue: ""
+    password: ""
   })
   const [pwCheck, setPwCheck] = useState("");
   

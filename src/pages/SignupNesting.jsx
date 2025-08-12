@@ -55,6 +55,7 @@ const SignupNesting = () => {
                 ageAgreement: agreements[0].checked,
                 personalInfoAgreement: agreements[2].checked,
                 marketingAgreement: agreements[3].checked,
+                marketingReceiveAgreement: agreements[4].checked,
                 ecommerceAgreement: agreements[1].checked
             },
             marketingReceiveInfo: {

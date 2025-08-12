@@ -52,40 +52,11 @@ export const verifyCodeCheck = async (authId: string, code: string): Promise<Bas
     return response.data;
 };
 
-// export const loginEmail = async (loginEmailDto: LoginEmailDto): Promise<BaseResponseDto<LoginEmailResponseDto | null>> => {
-//   const response = await client.post<BaseResponseDto<LoginEmailResponseDto | null>>("/auth/login/email",
-//     loginEmailDto
-//   );
-//   return response.data;
-// };
-
-export const loginEmail = async (
-  loginEmailDto: LoginEmailDto
-): Promise<BaseResponseDto<LoginEmailResponseDto | null>> => {
-  try {
-    const response = await client.post<BaseResponseDto<LoginEmailResponseDto | null>>(
-      "/auth/login/email",
-      loginEmailDto
-    );
-    return response.data;
-  } catch (error) {
-    // AxiosError 타입 확인
-    if (error instanceof AxiosError) {
-      // 서버가 JSON 응답 바디를 내려주면 (BaseResponseDto 형태)
-      if (error.response && error.response.data) {
-        // 그대로 반환 (data 키가 없는 경우도 커버)
-        return error.response.data;
-      }
-      // 만약 서버에서 바디가 없거나 AxiosError만 있을 때 예시값 반환
-      return {
-        code: 'FAIL',
-        message: error.message,
-        data: null,
-        localDateTime: new Date().toISOString(),
-      };
-    }
-    throw error; // 기타 에러는 다시 throw
-  }
+export const loginEmail = async (loginEmailDto: LoginEmailDto): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
+  const response = await client.post<BaseResponseDto<LoginEmailResponseDto>>("/auth/login/email",
+    loginEmailDto
+  );
+  return response.data;
 };
 
 export const signup = async(signupDto: SignupDto): Promise<BaseResponseDto<LoginEmailResponseDto>> => {

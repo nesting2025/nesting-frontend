@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
 import CustomButton from "../components/CustomButton";
 import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup } from "../hooks/useAuth";
-import "../styles/css/Toast.css";
+import { useToast } from "../components/common/ToastContext";
 import "../styles/css/AuthVerify.css";
 
 export default function AuthVerify() {
@@ -45,11 +45,23 @@ export default function AuthVerify() {
   }, [checkValidPhoneData])
   useEffect(() => {
     if(signupData != null) {
-      console.log("회원가입 성공!", signupData)
+      // 회원가입 진행중인 경우
+      localStorage.setItem("accessToken", signupData.tokenInfo.accessToken);
+      localStorage.setItem("refreshToken", signupData.tokenInfo.refreshToken);
+      setIsOpen(true); 
+
+      // if(localStorage.getItem("returnTo") === "accountInfo") {
+      //   localStorage.removeItem("returnTo"); 
+      //   nav("/login/account-info?type=found"); // 이메일 찾기 완료화면
+      // } else {
+      //   localStorage.removeItem("returnTo");
+      //   setIsOpen(true);  // 취향등록 화면으로
+      // }
     }
   }, [signupData])
 
   const nav = useNavigate();
+  const { showToast } = useToast();
   const location = useLocation();
   const [form, setForm] = useState({
     name: "",
@@ -69,8 +81,6 @@ export default function AuthVerify() {
   const [timeLeft, setTimeLeft] = useState(180);
   const [isCodeValid, setIsCodeValid] = useState(null);
   const isSubmitEnabled = form.name && form.phone && code && isCodeValid;
-  const [toastMessage, setToastMessage] = useState("");
-  const [showToast, setShowToast] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);  // 다이얼로그
 
@@ -84,7 +94,7 @@ export default function AuthVerify() {
         ...location.state
       }));
     }
-  }, []);
+  }, [location.state]);
 
 
   useEffect(() => {
@@ -133,7 +143,7 @@ export default function AuthVerify() {
     setIsCodeSent(true);
     setTimeLeft(180);
     setIsCodeValid(false);
-    showToastMessage("인증번호가 전송되었어요.");
+    showToast("인증번호가 전송되었어요.")
 
     // 휴대폰 인증번호 전송 API
     try {
@@ -165,15 +175,6 @@ export default function AuthVerify() {
       //   localStorage.removeItem("returnTo");
       //   setIsOpen(true);  // 취향등록 화면으로
       // }
-  };
-
-  const showToastMessage = (message) => {
-    setToastMessage(message);
-    setShowToast(true);
-
-    setTimeout(() => {
-      setShowToast(false);
-    }, 3000);
   };
 
   return (
@@ -286,7 +287,6 @@ export default function AuthVerify() {
         )}
 
         <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={signupEmail} />
-        {showToast && <div className="toast">{toastMessage}</div>}
       </div>
 
     </div>

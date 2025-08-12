@@ -4,10 +4,12 @@ import CustomCheckbox from '../components/common/CustomCheckbox';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLoginEmail } from '../hooks/useAuth';
+import { useToast } from '../components/common/ToastContext';
 
 const LoginNesting = () => {
     const { loginEmail, data: loginEmailData } = useLoginEmail(); 
     const nav = useNavigate();
+    const { showToast } = useToast();
     const [form, setForm] = useState({
         email: "",
         password: ""
@@ -68,20 +70,23 @@ const LoginNesting = () => {
         seteShowPw(prevState => !prevState);
     }
 
+    // 이메일 로그인 API
     const login = async () => {
-        // API 통신
-        // nav("/");
-
         try {
             await loginEmail(form);
         } catch (error) {
             console.log(error);
+            if(error.message === "유효하지 않은 이메일/패스워드 값입니다.") {
+                showToast("아이디 또는 비밀번호를 다시 확인해 주세요.");
+            }
         }
     }
-
+    // API 응답
     useEffect(() => {
         if(loginEmailData != null) {
-            console.log(loginEmailData);
+            localStorage.setItem("accessToken", loginEmailData.tokenInfo.accessToken);
+            localStorage.setItem("refreshToken", loginEmailData.tokenInfo.refreshToken);
+            nav("/");
         }
     }, [loginEmailData])
 
