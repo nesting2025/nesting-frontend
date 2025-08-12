@@ -4,25 +4,30 @@ import CustomButton from "../components/CustomButton";
 import { useNavigate } from "react-router-dom";
 import CharacterDialog from "../components/dialog/CharacterDialog";
 import GoodsCategoryDialog from "../components/dialog/GoodsCategoryDialog";
-import { useCheckNickname } from "../hooks/useAuth";
+import { useCheckNickname, useSetPreference } from "../hooks/useAuth";
 
 const PreferenceSetup = () => {
     const nav = useNavigate();
-    const [nickname, setNickName] = useState("");
     const [showNicknameError, SetShowNicknameError] = useState(false); 
     const [isNickNameValid, setIsNickNameValid] = useState(false);  
 
     const [isCharcterOpen, setIsCharcterOpen] = useState(false);  // 캐릭터 다이얼로그
-    const [selectedCharacters, setSelectedCharacters] = useState([]);
     const [isGoodsOpen, setIsGoodsOpen] = useState(false);  // 굿즈 다이얼로그
-    const [selectedGoods, setSelectedGoods] = useState([]);
+
+    const [form, setForm] = useState({
+        nickname: "",
+        profileImg: null,
+        characters: [],
+        goods: [],
+        myCharacters: null,
+        myGoods: null
+    })
 
     const goBack = () => nav(-1);
-    const gotoHome = () => nav("/");
 
     const onChangeNickName = (e) => {
         const value = e.target.value;
-        setNickName(value);
+        setForm(prev => ({...prev, nickname: value}));
         setIsNickNameValid(false);
 
         const nicknameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{1,10}$/;
@@ -37,34 +42,57 @@ const PreferenceSetup = () => {
     }
 
     const clearInput = () => {
-        setNickName("");
+        setForm(prev => ({...prev, nickname: ""}));
         SetShowNicknameError(false);
         setIsNickNameValid(false);
     }
 
-    const handleCharacterComplete = (names) => {
-        setSelectedCharacters(names);
+    const handleCharacterComplete = ({ characters, myCharacters }) => {
+        setForm(prev => ({...prev, characters: characters, myCharacters: myCharacters}));
     }
 
-    const handleGoodsComplete = (names) => {
-        setSelectedGoods(names);
+    const handleGoodsComplete = ({ goods, myGoods }) => {
+        setForm(prev => ({...prev, goods: goods, myGoods: myGoods}));
     }
 
-    const { checkNickname, loading, error, data } = useCheckNickname();
+    const { checkNickname, data: checkNicknameData, reset } = useCheckNickname();
+    const { setPreference, data: setPreferenceData} = useSetPreference();
 
-    // 컴포넌트 내 함수 이름 변경
+    // 닉네임 중복체크 API
     const handleCheckNickname = async () => {
         try {
-        await checkNickname(nickname);
-        if (!showNicknameError) {
-            setIsNickNameValid(true);
-        }
-        } catch (e) {
-        // 에러 처리
-        console.error(e);
-        }
+            await checkNickname(form.nickname);
+        } catch (e) { console.error(e);}
     };
 
+    // 취향등록 API
+    const handleSetPreference = async () => {
+        try {
+            setPreference(form)
+        } catch (e) { console.error(e);}
+    };
+
+
+    // API response data
+    useEffect(() => {
+        if(checkNicknameData != null) {
+            if(checkNicknameData == true) {
+                setIsNickNameValid(true);
+            } else {
+                setIsNickNameValid(false);
+            }
+        }
+    }, [checkNicknameData]);
+
+    useEffect(() => {
+        if(setPreferenceData?.code === "SUCCESS") {
+            nav("/");
+        }
+    }, [setPreferenceData])
+
+    useEffect(() => {
+        reset();
+    }, [form.nickname]);
 
     return (
         <div className="preference-setup">
@@ -81,11 +109,11 @@ const PreferenceSetup = () => {
                     <input
                         className="input-nickname"
                         placeholder="한글, 영문, 숫자 10자 이내"
-                        value={nickname}
+                        value={form.nickname}
                         onChange={onChangeNickName}
                         maxLength={10}
                     />
-                    {nickname && (
+                    {form.nickname && (
                         <img
                             className='x-button'
                             src={
@@ -104,15 +132,23 @@ const PreferenceSetup = () => {
                 </button>
             </div>
             {showNicknameError && (
-                    <div className='nickname-error-message'>띄어쓰기 없이 10자 이내 (한글,영문,숫자)</div>
-                )}
+                <div className='nickname-error-message'>띄어쓰기 없이 10자 이내 (한글,영문,숫자)</div>
+            )}
+            {checkNicknameData === false && (
+                <div className='nickname-error-message'>이미 사용 중인 닉네임이에요.</div>
+            )}
             <h5>좋아하는 캐릭터</h5>
             <div className='input-category-wrapper'
                 onClick={() => setIsCharcterOpen(true)}>
                     <input
                         className="input-category"
                         placeholder="선택하세요"
-                        value={selectedCharacters.join(', ')}
+                        value={[
+                            form.characters?.join(', '), 
+                            form.myCharacters ? String(form.myCharacters) : null
+                        ]
+                        .filter(Boolean) 
+                        .join(', ')}
                         readOnly
                     />
                     <img
@@ -131,7 +167,12 @@ const PreferenceSetup = () => {
                     <input
                         className="input-category"
                         placeholder="선택하세요"
-                        value={selectedGoods.join(', ')}
+                        value={[
+                            form.goods?.join(', '), 
+                            form.myGoods ? String(form.myGoods) : null
+                        ]
+                        .filter(Boolean) 
+                        .join(', ')}
                         readOnly
                     />
                     <img
@@ -145,7 +186,7 @@ const PreferenceSetup = () => {
                 onComplete={handleGoodsComplete} 
             />
             <CustomButton className='next-button' text="저장하고 네스팅 시작하기" isValid={isNickNameValid} 
-            onClick={gotoHome}/>
+            onClick={handleSetPreference}/>
         </div>
         </div>
     )

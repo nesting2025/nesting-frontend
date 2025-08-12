@@ -26,8 +26,8 @@ export default function CharacterDialog({ open, onOpenChange, onComplete, title,
 
   const handleComplete = () => {
     const names = [...selected];
-    if(inputValue.trim()) names.push(inputValue.trim());
-    onComplete?.(names);
+    const input = inputValue.trim();
+    onComplete?.({goods: names, myGoods: input});
   }
 
   return (

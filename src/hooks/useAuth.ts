@@ -10,9 +10,10 @@ export const useCheckNickname = () => {
         loading,
         error,
         data,
+        reset
     } = useAsync<BaseResponseDto<boolean>>(AuthRepository.nicknameCheck);
 
-    return { checkNickname, loading, error, data };
+    return { checkNickname, loading, error, data, reset };
 };
 
 export const useCheckValidEmail = () => {
@@ -59,7 +60,7 @@ export const useVerifyEmailSend =() => {
     } = useAsync<BaseResponseDto<number>>(AuthRepository.verifyEmailSend);
 
     return { sendVerifyEmail, loading, error, data };
-}
+};
 
 export const useVerifyCodeCheck = () => {
     const {
@@ -119,4 +120,16 @@ export const useFindEmail = () => {
     } = useAsync<BaseResponseDto<FindEmailResponseDto>>(AuthRepository.findEmail);
 
     return { findEmail, loading, error, data, reset };
+};
+
+export const useSetPreference = () => {
+    const {
+        execute: setPreference,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<null>>(AuthRepository.setPreference);
+
+    return { setPreference, loading, error, data, reset };
 };

@@ -61,6 +61,7 @@ export default function AuthVerify() {
     }
   }, [findEmailData])
 
+  const returnTo = localStorage.getItem("returnTo");
   const nav = useNavigate();
   const { showToast } = useToast();
   const location = useLocation();
@@ -100,10 +101,9 @@ export default function AuthVerify() {
 
   // returnTo 값에 따라 purpose 설정
   useEffect(() => {
-    const returnTo = localStorage.getItem("returnTo");
     if (returnTo === "accountInfo") {
       setPurpose("FIND_EMAIL");
-    } else {
+    } else if (returnTo === "setupPreference") {
       setPurpose("SIGN_UP");
     }
   }, []);
@@ -179,20 +179,21 @@ export default function AuthVerify() {
   }
 
   const handleGetVerification = () => {
+    
     // 이메일 찾기
-    if(localStorage.getItem("returnTo") === "accountInfo") {
+    if(returnTo === "accountInfo") {
       handleSendCode(true);
       setIsSendButtonDisabled(true);
     }
     // 회원가입인 경우 휴대폰 중복체크
-     else {
+     else if (returnTo === "setupPreference") {
       handleCheckValidPhone();
      }
   }
 
   const handleSubmit = async () => {
     // 이메일 찾기
-    if(localStorage.getItem("returnTo") === "accountInfo") {
+    if(returnTo === "accountInfo") {
 
       try {
         await findEmail({
@@ -203,7 +204,7 @@ export default function AuthVerify() {
       } catch (e) {console.log(e);}
       
     // 회원가입
-    } else {
+    } else if (returnTo === "setupPreference") {
 
       try {
       await signup(form);

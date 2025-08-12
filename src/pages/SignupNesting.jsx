@@ -48,6 +48,7 @@ const SignupNesting = () => {
 
     const goBack = () => nav(-1);
     const gotoVerify = () => {
+        localStorage.setItem("returnTo", "setupPreference");
         const data = {
             email: email,
             password: pw,
