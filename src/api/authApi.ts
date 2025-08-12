@@ -7,6 +7,8 @@ import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailRespo
 import { SignupDto } from "../data/dto/Request/auth/SignUpDto";
 import { VerifyEamilSendDto } from "../data/dto/Request/auth/VerifyEmailSendDto";
 import { ResetPasswordDto } from "../data/dto/Request/auth/ResetPasswordDto";
+import { findEmailDto } from "../data/dto/Request/auth/FindEmailDto";
+import { FindEmailResponseDto } from "../data/dto/Response/auth/FindEmailResponseDto";
 
 export const nicknameCheck = async (nickname: string): Promise<BaseResponseDto<boolean>> => {
     const response = await client.post<BaseResponseDto<boolean>>("/auth/valid/nickname", 
@@ -67,8 +69,11 @@ export const signup = async(signupDto: SignupDto): Promise<BaseResponseDto<Login
 }
 
 export const resetPassword = async(resetPasswordDto: ResetPasswordDto): Promise<BaseResponseDto<null>> => {
-  const response = await client.patch<BaseResponseDto<null>>("/auth/password/reset",
-    resetPasswordDto
-  );
-  return response.data;
+  const response = await client.patch("/auth/password/reset", resetPasswordDto) as BaseResponseDto<null>;
+
+  return response;
 }
+
+// export const findEmail = async(findEmailDto: findEmailDto): Promise<BaseResponseDto<FindEmailResponseDto>> => {
+//   const response = await client.post<BaseResponseDto<FindEmailResponseDto>>("/auth/")
+// }

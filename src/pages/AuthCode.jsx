@@ -32,7 +32,7 @@ const AuthCode = () => {
 
     const [sendVerifyEmailDto, setSendVerifyEmailDto] = useState({
       email: "",
-      purpose: 'SIGN_UP',
+      purpose: 'FIND_PW',
     })
     const [authId, setAuthId] = useState();
     const [isFilledCode, setIsFilledCode] = useState(false);

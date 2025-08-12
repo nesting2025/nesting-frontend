@@ -7,7 +7,7 @@ import { useResetPassword } from "../hooks/useAuth";
 const ResetPassword = () => {
   const nav = useNavigate();
   const location = useLocation();
-  const { resetPassword } = useResetPassword();
+  const { resetPassword, data } = useResetPassword();
   
   const [passwordResetDto, setPasswordResetDto] = useState({
     authId: null,
@@ -74,6 +74,13 @@ const ResetPassword = () => {
       await resetPassword(passwordResetDto);
     } catch (e) {console.log(e);}
   };
+
+  // API 응답
+  useEffect(() => {
+    if(data?.code === "SUCCESS") {
+      nav("/");
+    }
+  }, [data])
 
 
   return (

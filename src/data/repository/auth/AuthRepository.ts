@@ -32,7 +32,7 @@ export const AuthRepository = {
         return await verifyCodeCheck(authId, code);
     },
 
-    loginEmail: async (loginEmailDto: LoginEmailDto): Promise<BaseResponseDto<LoginEmailResponseDto | null>> => {
+    loginEmail: async (loginEmailDto: LoginEmailDto): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
         return await loginEmail(loginEmailDto);
     },
 
