@@ -2,6 +2,7 @@ import { AuthRepository } from "../data/repository/auth/authRepository";
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { useAsync } from "./useAsync";
 import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailResponseDto";
+import { FindEmailResponseDto } from "../data/dto/Response/auth/FindEmailResponseDto";
 
 export const useCheckNickname = () => {
     const {
@@ -105,5 +106,17 @@ export const useResetPassword = () => {
         reset
     } = useAsync<BaseResponseDto<null>>(AuthRepository.resetPassword);
 
-    return {resetPassword, loading, error, data, reset };
+    return { resetPassword, loading, error, data, reset };
+};
+
+export const useFindEmail = () => {
+    const {
+        execute: findEmail,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<FindEmailResponseDto>>(AuthRepository.findEmail);
+
+    return { findEmail, loading, error, data, reset };
 };

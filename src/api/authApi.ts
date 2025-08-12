@@ -74,6 +74,8 @@ export const resetPassword = async(resetPasswordDto: ResetPasswordDto): Promise<
   return response;
 }
 
-// export const findEmail = async(findEmailDto: findEmailDto): Promise<BaseResponseDto<FindEmailResponseDto>> => {
-//   const response = await client.post<BaseResponseDto<FindEmailResponseDto>>("/auth/")
-// }
+export const findEmail = async(findEmailDto: findEmailDto): Promise<BaseResponseDto<FindEmailResponseDto>> => {
+  const response = await client.post<BaseResponseDto<FindEmailResponseDto>>("/auth/find/email", findEmailDto);
+
+  return response.data;
+}

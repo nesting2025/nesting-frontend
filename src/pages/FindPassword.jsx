@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import '../styles/css/FindPassword.css';
 import CustomButton from "../components/CustomButton";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCheckValidEmail } from "../hooks/useAuth";
 import { useToast } from "../components/common/ToastContext";
 
@@ -31,18 +31,27 @@ const FindPassword = () => {
         }
     }, [checkValidEmailData])
     
+    const location = useLocation();
     const nav = useNavigate();
     const [email, setEmail] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(false);
+    
+    useEffect(() => {
+        if (location.state?.email) {
+            setEmail(location.state.email);
+        }
+    }, [location.state]);
 
     const goBack = () => nav(-1);
+
+    useEffect(() => {
+        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        setIsValidEmail(isValid);
+    }, [email]);
 
     const handleEmailChange = (e) => {
         const value = e.target.value;
         setEmail(value);
-
-        const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-        setIsValidEmail(isValid);
     }
 
     const clearInput = () => {

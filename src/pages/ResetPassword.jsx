@@ -78,7 +78,7 @@ const ResetPassword = () => {
   // API 응답
   useEffect(() => {
     if(data?.code === "SUCCESS") {
-      nav("/");
+      nav("/login/nesting");
     }
   }, [data])
 

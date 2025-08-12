@@ -1,8 +1,10 @@
 import CustomButton from "../components/CustomButton";
 import '../styles/css/AccountInfo.css';
-import { useSearchParams, useNavigate, replace } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 
 const AccountInfo = () => {
+    const location = useLocation();
+    const email = location.state?.email ?? "";
     const nav = useNavigate();
     // type == "connect" or "found"
     const [searchParam] = useSearchParams();
@@ -18,7 +20,7 @@ const AccountInfo = () => {
             nav("/login/nesting", {replace: true});
         }
     }
-    const gotoFindPassword = () => nav("/login/find-password");
+    const gotoFindPassword = () => nav("/login/find-password", { state: { email: email } });
 
     return (
         <div className="account-info">
@@ -36,7 +38,7 @@ const AccountInfo = () => {
                 />
                 <div className="text-area">
                     <p className="email-text">이메일 아이디</p>
-                    <p className="email">nesting@nesting.co.kr</p>
+                    <p className="email">{email}</p>
                 </div>
             </div>
 

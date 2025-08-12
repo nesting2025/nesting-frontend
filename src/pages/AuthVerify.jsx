@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
 import CustomButton from "../components/CustomButton";
-import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup } from "../hooks/useAuth";
+import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup, useFindEmail } from "../hooks/useAuth";
 import { useToast } from "../components/common/ToastContext";
 import "../styles/css/AuthVerify.css";
 
@@ -11,10 +11,11 @@ export default function AuthVerify() {
   const { sendVerifyPhone, data: verifyPhoneSendData } = useVerifyPhoneSend();
   const [verifyPhoneSendDto, setVerifyPhoneSendDto] = useState({
     phone: "",
-    purpose: 'SIGN_UP',
+    purpose: ""
   });
   const { verifyCodeCheck, data: verifyCodeCheckData, reset: resetCodeCheck } = useVerifyCodeCheck();
   const { signup, data: signupData } = useSignup();
+  const { findEmail, data: findEmailData } = useFindEmail();
 
   // API 응답 data
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function AuthVerify() {
       }))
     }
   }, [verifyPhoneSendData])
+
   useEffect(() => {
     if(verifyCodeCheckData != null) {
       console.log("인증번호 동일여부: ", verifyCodeCheckData)
@@ -38,27 +40,26 @@ export default function AuthVerify() {
       }
     }
   }, [verifyCodeCheckData])
+
   useEffect(() => {
     if(checkValidPhoneData === true) {
       handleSendCode();
     }
   }, [checkValidPhoneData])
+
   useEffect(() => {
     if(signupData != null) {
-      // 회원가입 진행중인 경우
       localStorage.setItem("accessToken", signupData.tokenInfo.accessToken);
       localStorage.setItem("refreshToken", signupData.tokenInfo.refreshToken);
       setIsOpen(true); 
-
-      // if(localStorage.getItem("returnTo") === "accountInfo") {
-      //   localStorage.removeItem("returnTo"); 
-      //   nav("/login/account-info?type=found"); // 이메일 찾기 완료화면
-      // } else {
-      //   localStorage.removeItem("returnTo");
-      //   setIsOpen(true);  // 취향등록 화면으로
-      // }
     }
   }, [signupData])
+  
+  useEffect(() => {
+    if(findEmailData != null) {
+      nav("/login/account-info?type=found", { state: { email: findEmailData.email } }); 
+    }
+  }, [findEmailData])
 
   const nav = useNavigate();
   const { showToast } = useToast();
@@ -73,6 +74,7 @@ export default function AuthVerify() {
     marketingReceiveInfo: {},
     authId: null
   });
+  const [purpose, setPurpose] = useState("");
   const [code, setCode] = useState("");
   const [isSendButtonDisabled, setIsSendButtonDisabled] = useState(false);
 
@@ -96,6 +98,22 @@ export default function AuthVerify() {
     }
   }, [location.state]);
 
+  // returnTo 값에 따라 purpose 설정
+  useEffect(() => {
+    const returnTo = localStorage.getItem("returnTo");
+    if (returnTo === "accountInfo") {
+      setPurpose("FIND_EMAIL");
+    } else {
+      setPurpose("SIGN_UP");
+    }
+  }, []);
+
+  useEffect(() => {
+    setVerifyPhoneSendDto(prev => ({
+      ...prev,
+      purpose
+    }));
+  }, [purpose]);
 
   useEffect(() => {
     setVerifyPhoneSendDto((prev) => ({
@@ -135,8 +153,8 @@ export default function AuthVerify() {
     } catch (e) {console.log(e);}
   };
 
-  const handleSendCode = async () => {
-    if (hasSentCodeOnce) return;
+  const handleSendCode = async (ignore = false) => {
+    if (!ignore && hasSentCodeOnce) return;
 
     setCode("");
     setHasSentCodeOnce(true)
@@ -160,21 +178,37 @@ export default function AuthVerify() {
     } catch (e) {console.log(e);}
   }
 
-  // 회원가입 API
-  const signupEmail = async () => {
-    try {
+  const handleGetVerification = () => {
+    // 이메일 찾기
+    if(localStorage.getItem("returnTo") === "accountInfo") {
+      handleSendCode(true);
+      setIsSendButtonDisabled(true);
+    }
+    // 회원가입인 경우 휴대폰 중복체크
+     else {
+      handleCheckValidPhone();
+     }
+  }
+
+  const handleSubmit = async () => {
+    // 이메일 찾기
+    if(localStorage.getItem("returnTo") === "accountInfo") {
+
+      try {
+        await findEmail({
+          authId: form.authId,
+          name: form.name,
+          phone: form.phone
+        })
+      } catch (e) {console.log(e);}
+      
+    // 회원가입
+    } else {
+
+      try {
       await signup(form);
     } catch (e) {console.log(e);}
-  };
-
-  const handleSubmit = () => {
-      // if(localStorage.getItem("returnTo") === "accountInfo") {
-      //   localStorage.removeItem("returnTo"); 
-      //   nav("/login/account-info?type=found"); // 이메일 찾기 완료화면
-      // } else {
-      //   localStorage.removeItem("returnTo");
-      //   setIsOpen(true);  // 취향등록 화면으로
-      // }
+      }
   };
 
   return (
@@ -238,7 +272,7 @@ export default function AuthVerify() {
           <button 
             disabled={isSendButtonDisabled || form.phone.length !== 11} 
             className={form.phone.length === 11 && !isSendButtonDisabled ? "active" : ""}
-            onClick={handleCheckValidPhone}
+            onClick={handleGetVerification}
           >
             {verifyCodeCheckData===false || hasSentCodeOnce ? "재전송" : "인증번호 받기"}
           </button>
@@ -286,7 +320,7 @@ export default function AuthVerify() {
           </>
         )}
 
-        <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={signupEmail} />
+        <CustomButton className="btn-complete" text="인증 완료" isValid={isSubmitEnabled} onClick={handleSubmit} />
       </div>
 
     </div>

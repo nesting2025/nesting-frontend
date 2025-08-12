@@ -1,11 +1,13 @@
 import { BaseResponseDto } from "../../dto/common/BaseResponseDto";
-import { checkValidEmail, checkValidPhone, loginEmail, nicknameCheck, signup, verifyCodeCheck, verifyPhoneSend, verifyEmailSend, resetPassword } from "../../../api/authApi";
+import { checkValidEmail, checkValidPhone, loginEmail, nicknameCheck, signup, verifyCodeCheck, verifyPhoneSend, verifyEmailSend, resetPassword, findEmail } from "../../../api/authApi";
 import { VerifyPhoneSendDto } from "../../dto/Request/auth/VerifyPhoneSendDto";
 import { LoginEmailDto } from "../../dto/Request/auth/LoginEmailDto";
 import { LoginEmailResponseDto } from "../../dto/Response/auth/LoginEmailResponseDto";
 import { SignupDto } from "../../dto/Request/auth/SignUpDto";
 import { VerifyEamilSendDto } from "../../dto/Request/auth/VerifyEmailSendDto";
 import { ResetPasswordDto } from "../../dto/Request/auth/ResetPasswordDto";
+import { findEmailDto } from "../../dto/Request/auth/FindEmailDto";
+import { FindEmailResponseDto } from "../../dto/Response/auth/FindEmailResponseDto";
 
 export const AuthRepository = {
     nicknameCheck: async (nickname: string): Promise<BaseResponseDto<boolean>> => {
@@ -42,5 +44,9 @@ export const AuthRepository = {
 
     resetPassword: async (resetPasswordDto: ResetPasswordDto): Promise<BaseResponseDto<null>> => {
         return await resetPassword(resetPasswordDto);
+    },
+
+    findEmail: async (findEmailDto: findEmailDto): Promise<BaseResponseDto<FindEmailResponseDto>> => {
+        return await findEmail(findEmailDto);
     },
 }
