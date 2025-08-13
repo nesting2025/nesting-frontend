@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function useScreensize () {
+export default function useScreenSize () {
     const getScreenSize = () => {
         if (window.innerWidth <= 360) return "extra-small";
         else if (window.innerWidth < 768) return "small";

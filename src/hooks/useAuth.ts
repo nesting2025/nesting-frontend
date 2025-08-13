@@ -1,4 +1,4 @@
-import { AuthRepository } from "../data/repository/auth/authRepository";
+import { AuthRepository } from "../data/repository/auth/AuthRepository";
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { useAsync } from "./useAsync";
 import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailResponseDto";
