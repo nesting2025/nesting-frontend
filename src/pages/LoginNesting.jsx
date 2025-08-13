@@ -2,13 +2,14 @@ import '../styles/css/LoginNesting.css';
 import CustomButton from "../components/CustomButton";
 import CustomCheckbox from '../components/common/CustomCheckbox';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLoginEmail } from '../hooks/useAuth';
 import { useToast } from '../components/common/ToastContext';
 
 const LoginNesting = () => {
     const { loginEmail, data: loginEmailData } = useLoginEmail(); 
     const nav = useNavigate();
+    const location = useLocation();
     const { showToast } = useToast();
     const [form, setForm] = useState({
         email: "",
@@ -88,7 +89,13 @@ const LoginNesting = () => {
             localStorage.setItem("refreshToken", loginEmailData.tokenInfo.refreshToken);
             nav("/");
         }
-    }, [loginEmailData])
+    }, [loginEmailData]);
+
+    useEffect(() => {
+        if(location.state?.from === "reset-password") {
+            showToast("비밀번호가 변경됐어요. 로그인해 주세요.")
+        }
+    }, [location.state]);
 
     return (
         <div className="login-nesting">
