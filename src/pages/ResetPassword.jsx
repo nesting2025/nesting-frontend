@@ -106,7 +106,7 @@ const ResetPassword = () => {
           {passwordResetDto.password && (
             <img
               className='show_pw_button'
-              src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+              src={showPw ? '/assets/button/btn_eye.svg' : '/assets/button/btn_eye_off.svg'}
               onClick={togglePwVisibility}
             />
           )}
@@ -129,7 +129,7 @@ const ResetPassword = () => {
           {pwCheck && (
             <img
               className='show_pw_button'
-              src={showPwCheck ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+              src={showPwCheck ? '/assets/button/btn_eye.svg' : '/assets/button/btn_eye_off.svg'}
               onClick={togglePwCheckVisibility}
             />
           )}

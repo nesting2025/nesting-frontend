@@ -268,7 +268,7 @@ const SignupNesting = () => {
                 {pw && (
                     <img
                         className='input-button'
-                        src={showPw ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+                        src={showPw ? '/assets/button/btn_eye.svg' : '/assets/button/btn_eye_off.svg'}
                         onClick={togglePwVisibility} 
                     />
                 )}
@@ -288,7 +288,7 @@ const SignupNesting = () => {
                 {pwConfirm && (
                     <img
                         className='input-button'
-                        src={showPwConfirm ? '/assets/button/btn_eye_off.svg' : '/assets/button/btn_eye.svg'}
+                        src={showPwConfirm ? '/assets/button/btn_eye.svg' : '/assets/button/btn_eye_off.svg'}
                         onClick={togglePwConfirmVisibility}
                     />
                 )}
@@ -305,6 +305,8 @@ const SignupNesting = () => {
                     className='agree-all' 
                     />
             </div>
+
+            <div className='diver' />
 
             <div className='agree-list'>
                 {agreements.map((item, index) => (
