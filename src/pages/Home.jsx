@@ -7,7 +7,7 @@ import WhyNesting from "../components/WhyNesting";
 import Footer from "../components/layout/Footer";
 import Reviews from "../components/Reviews";
 import FloatingButton from "../components/FloatingButton";
-import useScreenSize from "../hooks/useScreensize";
+import useScreensize from "../hooks/useScreensize";
 
 const mockProducts = [
   {
@@ -84,7 +84,7 @@ const mockReviews = [
 ];
 
 function Home() {
-  const {screenSize} = useScreenSize();
+  const {screenSize} = useScreensize();
 
   return (
     <div>
