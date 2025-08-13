@@ -1,7 +1,7 @@
 import '../styles/css/ProductDetail.css';
 import ProductReview from '../components/ProductReview';
 import ProductSlider from '../components/goods/ProductSlider';
-import useScreenSize from '../hooks/useScreensize';
+import useScreensize from '../hooks/useScreensize';
 import Footer from '../components/layout/Footer';
 import CTAButton from '../components/CTAButton';
 import { useState, useRef, useEffect } from 'react';
@@ -25,7 +25,7 @@ const ProductDetail = ( {type='no-overseas'} ) => {
     const isOverseas = type === 'overseas';
     const isSoldOut = false;
     
-    const {screenSize} = useScreenSize();
+    const {screenSize} = useScreensize();
 
     const imgList = [
         "/assets/sample/dummy_product.svg",
