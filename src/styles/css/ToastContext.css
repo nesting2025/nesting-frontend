@@ -1,6 +1,7 @@
 .toast-area {
   width: calc(100% - 40px);
-  max-width: 728px;
+  max-width: 560px;
+  min-width: 320px;
   margin: 0 auto;
   padding: 12px;
   background-color: rgba(17, 17, 17, 0.6);

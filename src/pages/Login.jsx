@@ -34,11 +34,10 @@ const Login = () => {
             <hr/>
             <span>또는</span>
         </div>
-        <img 
-            className="nesting-button"
-            src="/assets/login/nesting_login.svg" 
-            onClick={gotoLoginNesting}
-        />
+        <div className='nesting-button' onClick={gotoLoginNesting}>
+            <img src='/assets/logo.svg '/>
+            <p>네스팅 이메일 계정으로 시작하기</p>
+        </div>
         </div>
     )
 }

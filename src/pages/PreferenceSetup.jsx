@@ -4,24 +4,30 @@ import CustomButton from "../components/CustomButton";
 import { useNavigate } from "react-router-dom";
 import CharacterDialog from "../components/dialog/CharacterDialog";
 import GoodsCategoryDialog from "../components/dialog/GoodsCategoryDialog";
+import { useCheckNickname, useSetPreference } from "../hooks/useAuth";
 
 const PreferenceSetup = () => {
     const nav = useNavigate();
-    const [nickname, setNickName] = useState("");
     const [showNicknameError, SetShowNicknameError] = useState(false); 
     const [isNickNameValid, setIsNickNameValid] = useState(false);  
 
     const [isCharcterOpen, setIsCharcterOpen] = useState(false);  // 캐릭터 다이얼로그
-    const [selectedCharacters, setSelectedCharacters] = useState([]);
     const [isGoodsOpen, setIsGoodsOpen] = useState(false);  // 굿즈 다이얼로그
-    const [selectedGoods, setSelectedGoods] = useState([]);
+
+    const [form, setForm] = useState({
+        nickname: "",
+        profileImg: null,
+        characters: [],
+        goods: [],
+        myCharacters: null,
+        myGoods: null
+    })
 
     const goBack = () => nav(-1);
-    const gotoHome = () => nav("/");
 
     const onChangeNickName = (e) => {
         const value = e.target.value;
-        setNickName(value);
+        setForm(prev => ({...prev, nickname: value}));
         setIsNickNameValid(false);
 
         const nicknameRegex = /^[ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{1,10}$/;
@@ -36,27 +42,57 @@ const PreferenceSetup = () => {
     }
 
     const clearInput = () => {
-        setNickName("");
+        setForm(prev => ({...prev, nickname: ""}));
         SetShowNicknameError(false);
         setIsNickNameValid(false);
     }
 
-    const checkNickname = () => {
-        // 닉네임 중복 API 통신
+    const handleCharacterComplete = ({ characters, myCharacters }) => {
+        setForm(prev => ({...prev, characters: characters, myCharacters: myCharacters}));
+    }
 
-        if(!showNicknameError) {
-            // 가능한 경우
-            setIsNickNameValid(true);
+    const handleGoodsComplete = ({ goods, myGoods }) => {
+        setForm(prev => ({...prev, goods: goods, myGoods: myGoods}));
+    }
+
+    const { checkNickname, data: checkNicknameData, reset } = useCheckNickname();
+    const { setPreference, data: setPreferenceData} = useSetPreference();
+
+    // 닉네임 중복체크 API
+    const handleCheckNickname = async () => {
+        try {
+            await checkNickname(form.nickname);
+        } catch (e) { console.error(e);}
+    };
+
+    // 취향등록 API
+    const handleSetPreference = async () => {
+        try {
+            setPreference(form)
+        } catch (e) { console.error(e);}
+    };
+
+
+    // API response data
+    useEffect(() => {
+        if(checkNicknameData != null) {
+            if(checkNicknameData == true) {
+                setIsNickNameValid(true);
+            } else {
+                setIsNickNameValid(false);
+            }
         }
-    }
+    }, [checkNicknameData]);
 
-    const handleCharacterComplete = (names) => {
-        setSelectedCharacters(names);
-    }
+    useEffect(() => {
+        if(setPreferenceData?.code === "SUCCESS") {
+            nav("/");
+        }
+    }, [setPreferenceData])
 
-    const handleGoodsComplete = (names) => {
-        setSelectedGoods(names);
-    }
+    useEffect(() => {
+        reset();
+    }, [form.nickname]);
 
     return (
         <div className="preference-setup">
@@ -65,78 +101,93 @@ const PreferenceSetup = () => {
             src="/assets/button/btn_back.svg" 
             onClick={goBack}
         />
-        <h2>취향을 알려주시면<br />맞춰서 추천해드릴게요</h2>
-        <h5>닉네임*</h5>
-        <div className="input-nickname-container">
-            <div className='input-nickname-wrapper'>
-                <input
-                    className="input-nickname"
-                    placeholder="한글, 영문, 숫자 10자 이내"
-                    value={nickname}
-                    onChange={onChangeNickName}
-                    maxLength={10}
-                />
-                {nickname && (
-                    <img
-                        className='x-button'
-                        src={
-                            isNickNameValid
-                            ? '/assets/icon_check.svg'
-                            : '/assets/button/btn_x2.svg' 
-                        }
-                        onClick={clearInput}
+        <div className="content-area">
+            <h2>취향을 알려주시면<br />맞춰서 추천해드릴게요</h2>
+            <h5>닉네임*</h5>
+            <div className="input-nickname-container">
+                <div className='input-nickname-wrapper'>
+                    <input
+                        className="input-nickname"
+                        placeholder="한글, 영문, 숫자 10자 이내"
+                        value={form.nickname}
+                        onChange={onChangeNickName}
+                        maxLength={10}
                     />
-                )}
+                    {form.nickname && (
+                        <img
+                            className='x-button'
+                            src={
+                                isNickNameValid
+                                ? '/assets/icon/icon_check.svg'
+                                : '/assets/button/btn_x2.svg' 
+                            }
+                            onClick={clearInput}
+                        />
+                    )}
+                </div>
+                <button 
+                    className="check-nickname-button"
+                    onClick={handleCheckNickname}>
+                    중복 확인
+                </button>
             </div>
-            <button 
-                className="check-nickname-button"
-                onClick={checkNickname}>
-                중복 확인
-            </button>
-        </div>
-        {showNicknameError && (
+            {showNicknameError && (
                 <div className='nickname-error-message'>띄어쓰기 없이 10자 이내 (한글,영문,숫자)</div>
             )}
-        <h5>좋아하는 캐릭터</h5>
-        <div className='input-category-wrapper'
-            onClick={() => setIsCharcterOpen(true)}>
-                <input
-                    className="input-category"
-                    placeholder="선택하세요"
-                    value={selectedCharacters.join(', ')}
-                    readOnly
-                />
-                <img
-                    className='dropdown-button'
-                    src='/assets/button/btn_dropdown.svg' 
-                />
+            {checkNicknameData === false && (
+                <div className='nickname-error-message'>이미 사용 중인 닉네임이에요.</div>
+            )}
+            <h5>좋아하는 캐릭터</h5>
+            <div className='input-category-wrapper'
+                onClick={() => setIsCharcterOpen(true)}>
+                    <input
+                        className="input-category"
+                        placeholder="선택하세요"
+                        value={[
+                            form.characters?.join(', '), 
+                            form.myCharacters ? String(form.myCharacters) : null
+                        ]
+                        .filter(Boolean) 
+                        .join(', ')}
+                        readOnly
+                    />
+                    <img
+                        className='dropdown-button'
+                        src='/assets/button/btn_dropdown.svg' 
+                    />
+            </div>
+            <CharacterDialog  
+                open={isCharcterOpen} 
+                onOpenChange={setIsCharcterOpen}
+                onComplete={handleCharacterComplete} 
+            />
+            <h5>좋아하는 굿즈 유형</h5>
+            <div className='input-category-wrapper'
+                onClick={() => setIsGoodsOpen(true)}>
+                    <input
+                        className="input-category"
+                        placeholder="선택하세요"
+                        value={[
+                            form.goods?.join(', '), 
+                            form.myGoods ? String(form.myGoods) : null
+                        ]
+                        .filter(Boolean) 
+                        .join(', ')}
+                        readOnly
+                    />
+                    <img
+                        className='dropdown-button'
+                        src='/assets/button/btn_dropdown.svg' 
+                    />
+            </div>
+            <GoodsCategoryDialog 
+                open={isGoodsOpen} 
+                onOpenChange={setIsGoodsOpen}
+                onComplete={handleGoodsComplete} 
+            />
+            <CustomButton className='next-button' text="저장하고 네스팅 시작하기" isValid={isNickNameValid} 
+            onClick={handleSetPreference}/>
         </div>
-        <CharacterDialog  
-            open={isCharcterOpen} 
-            onOpenChange={setIsCharcterOpen}
-            onComplete={handleCharacterComplete} 
-        />
-        <h5>좋아하는 굿즈 유형</h5>
-        <div className='input-category-wrapper'
-            onClick={() => setIsGoodsOpen(true)}>
-                <input
-                    className="input-category"
-                    placeholder="선택하세요"
-                    value={selectedGoods.join(', ')}
-                    readOnly
-                />
-                <img
-                    className='dropdown-button'
-                    src='/assets/button/btn_dropdown.svg' 
-                />
-        </div>
-        <GoodsCategoryDialog 
-            open={isGoodsOpen} 
-            onOpenChange={setIsGoodsOpen}
-            onComplete={handleGoodsComplete} 
-        />
-        <CustomButton className='next-button' text="저장하고 네스팅 시작하기" isValid={isNickNameValid} 
-        onClick={gotoHome}/>
         </div>
     )
 }

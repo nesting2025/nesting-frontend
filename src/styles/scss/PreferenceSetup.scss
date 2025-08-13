@@ -4,42 +4,42 @@
 .preference-setup {
     display: flex;
     flex-direction: column;
-    align-items: center;
     position: relative;
+    min-width: 360px;
+    max-width: 600px;
+    padding: 24px 12px;
+    margin: 0 auto;
+
 
     .back-button {
         width: 32px;
         height: 32px;
-        position: absolute;
-        top: 24px;
-        left: 12px;
         cursor: pointer;
+    }
 
-        @media (min-width: 768px) {
-            left: calc((100vw - 768px) / 2 + 12px);
-        }
+    .content-area {
+        width: 100%;
+        padding: 0 8px;
+        margin-top: 32px;
+        box-sizing: border-box;
+        margin-top: 32px;
     }
 
     h2 {
         @include font-style("title2");
         @include text-color("");
-        width: 320px;
         justify-content: flex-start;
-        margin-top: 88px;
-        margin-bottom: 4px;
+        margin: 0 0 4px 0;
     }
 
     h5 {
         @include font-style("title4");
         @include text-color("");
-        width: 320px;
-        margin-left: 4px;
-        margin-top: 16px;
-        margin-bottom: 4px;
+        margin: 16px 0 4px 0;
     }
 
     .input-nickname-container{
-        width: 320px;
+        width: 100%;
         display: flex;
         gap: 6px;
 
@@ -87,14 +87,13 @@
     .nickname-error-message {
         @include font-style("caption2");
         @include text-color("status-destructive");
-        width: 320px;
         margin-left: 8px;
         margin-top: 2px;
     }
 
     .input-category-wrapper {
         position: relative;
-        width: 320px;
+        width: 100%;
 
         .input-category {
             border-radius: 8px;
@@ -124,7 +123,7 @@
     }
 
     .next-button{
+        width: 100%;
         margin-top: 40px;
     }
-
 }

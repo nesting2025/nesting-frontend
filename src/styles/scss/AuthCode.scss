@@ -4,44 +4,44 @@
 .auth-code {
     display: flex;
     flex-direction: column;
-    align-items: center;
     position: relative;
+    min-width: 360px;
+    max-width: 600px;
+    padding: 24px 12px;
+    margin: 0 auto;
 
     .back-button {
         width: 32px;
         height: 32px;
-        position: absolute;
-        top: 24px;
-        left: 12px;
         cursor: pointer;
+    }
 
-        @media (min-width: 768px) {
-            left: calc((100vw - 768px) / 2 + 12px);
-        }
+    .content-area {
+        width: 100%;
+        padding: 0 8px;
+        margin-top: 32px;
+        box-sizing: border-box;
+        margin-top: 32px;
     }
 
     h2 {
         @include font-style("title2");
         @include text-color("");
-        width: 320px;
         justify-content: flex-start;
-        margin-top: 88px;
-        margin-bottom: 0px;
+        margin: 0;
     }
 
     h3 {
         @include font-style("title4");
         @include text-color("text-sub2");
-        width: 320px;
-        margin-top: 8px;
-        margin-bottom: 0px;
+        margin: 8px 0 0 0;
     }
 
     p {
         @include font-style("body2");
         @include text-color("text-sub1");
-        width: 320px;
         margin: 0;
+
         span{
             @include text-color("text-main");
             text-decoration: underline;
@@ -51,16 +51,16 @@
     }
 
     .code-input-container {
+        width: 100%;
         margin-top: 40px;
         display: flex;
         gap: 10px;
       }
       
-      .code-input {
+    .code-input {
         @include font-style("display4");
         @include text-color("black");
         @include bg-color("bg-strong");
-        width: 46px;
         height: 66px;
         border-radius: 8px;
         transition: border 0.2s;
@@ -71,19 +71,33 @@
           border: 2px solid #4A90E2; // 포커스 시 색상
           outline: none;
         }
-      }
+    }
+
+    .content-info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        margin-top: 16px;
+
+        .code-error {
+            @include text-color("status-destructive");
+        }
+    }
 
     .next-button {
         margin-top: 40px;
+        width: 100%;
     }
+
     .timer-container {
         @include font-style("body2");
         @include text-color("text-sub1");
         display: flex;
         align-items: baseline;
-        justify-content: baseline;
+        justify-content: center;
         gap: 8px;
         margin-top: 16px;
+
         .resend-button {
             @include text-color("text-disabled"); 
             cursor: not-allowed; // 기본 비활성화
@@ -96,5 +110,9 @@
               pointer-events: none; // 클릭 아예 막기
             }
         }
+    }
+
+    .hidden-timer {
+        display: none;
     }
 }

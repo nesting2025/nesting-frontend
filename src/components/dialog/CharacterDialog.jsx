@@ -39,8 +39,8 @@ export default function CharacterDialog({ open, onOpenChange, onComplete, title,
 
   const handleComplete = () => {
     const names = [...selected.map(c => c.name)];
-    if(inputValue.trim()) names.push(inputValue.trim());
-    onComplete?.(names);
+    const input = inputValue.trim();
+    onComplete?.({characters: names, myCharacters: input});
   }
 
   return (
@@ -70,7 +70,6 @@ export default function CharacterDialog({ open, onOpenChange, onComplete, title,
                   ))}
             </div>
           </div >
-          {/* <div className="scroll-gradient"></div> */}
           <fieldset className="dialog-bottom-fieldset">
             <label className="dialog-bottom-caption">좋아하는 캐릭터가 없다면 알려주세요. 그럼 네스팅에 생길지도?!</label>
             <input className="dialog-bottom-input" 

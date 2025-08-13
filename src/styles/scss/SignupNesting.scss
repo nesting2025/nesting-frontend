@@ -4,46 +4,45 @@
 .signup-nesting {
     display: flex;
     flex-direction: column;
-    align-items: center;
     position: relative;
+    margin: 0 auto;
+    min-width: 360px;
+    max-width: 600px;
+    padding: 24px 12px;
 
     .back-button {
         width: 32px;
         height: 32px;
-        position: absolute;
-        top: 24px;
-        left: 12px;
         cursor: pointer;
+    }
 
-        @media (min-width: 768px) {
-            left: calc((100vw - 768px) / 2 + 12px);
-        }
+    .content-area {
+        width: 100%;
+        padding: 0 8px;
+        margin-top: 32px;
+        box-sizing: border-box;
     }
 
     h2 {
         @include font-style("title2");
-        @include text-color("");
-        width: 320px;
+        @include text-color();
         justify-content: flex-start;
-        margin-top: 88px;
+        margin-top: 0;
         margin-bottom: 4px;
     }
 
     h5 {
         @include font-style("title4");
-        @include text-color("");
-        width: 320px;
-        margin-left: 4px;
+        @include text-color();
         margin-top: 16px;
         margin-bottom: 4px;
     }
 
     input {
+        width: 100%;
         border-radius: 8px;
-        border: 1px solid;
         @include border-color("line-medium");
         @include font-style("body1");
-        width: 320px;
         padding: 12px 16px;
         box-sizing: border-box;
 
@@ -53,26 +52,10 @@
         }
     }
 
-    .input-email-wrapper {
-        width: 320px;
+    .input-wrapper {
         position: relative;
 
-        .x-button {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-    }
-
-    .input-pw-wrapper {
-        width: 320px;
-        position: relative;
-
-        .show-pw-button{
+        .input-button {
             position: absolute;
             right: 16px;
             top: 50%;
@@ -86,90 +69,45 @@
     .email-error-message, .pw-error-message, .pw-confirm-error-message {
         @include font-style("caption2");
         @include text-color("status-cautionary");
-        width: 320px;
         margin-left: 8px;
         margin-top: 2px;
+
+        &.duplicate {
+            @include text-color("status-destructive");
+        }
     }
 
     .pw-confirm-error-message {
         @include text-color("status-destructive");
     }
 
-    .agree-checkbox, .agree-all-checkbox {
-        margin-top: 6px;
-        display: inline-flex;
-        align-items: center;
-        width: 320px;
-        justify-content: flex-start;
-        @include font-style("body4");
-        @include text-color("");
-        position: relative;
-        cursor: pointer;
-
-        input {
-            position: absolute;
-            opacity: 0;
-            height: 0;
-            width: 0;
-          }
-        
-          .checkmark {
-            height: 20px;
-            width: 20px;
-            border-radius: 4px;
-            border: 1px solid;
-            @include border-color("line-medium");
-            @include bg-color("white");
-            position: relative;
-            margin-right: 6px;
-        
-            &::after {
-              content: "";
-              position: absolute;
-              left: 6px;
-              top: 2px;
-              width: 5px;
-              height: 10px;
-              border: solid white;
-              border-width: 0 2px 2px 0;
-              transform: rotate(45deg);
-            }
-          }
-
-          input:checked ~ .checkmark {
-            @include bg-color("primary200");
-            @include border-color("line-weak");
-        
-            &::after {
-              display: block;
-            }
-        }
+    .agree-all-checkbox {
+        margin-top: 60px;
+        align-items: flex-start;
     }
 
-    .agree-all-checkbox {
-        margin-top: 40px;
-        margin-bottom: 7px;
+    .agree-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
         align-items: flex-start;
+    }
 
-        .agree-text-wrapper {
-            display: flex;
-            flex-direction: column;
-
-            .agree-text-main {
-                @include font-style("caption1");
-                @include text-color("");
-                margin-top: 2px;
-            }
-
-            .agree-text-sub {
-                @include font-style("body4");
-                @include text-color("text-sub1");
-                margin-top: 2px;
-            }
-        }
+    .marketing-receive-area {
+        margin-top: 10px;
+        margin-left: 26px;
+        display: flex;
+        gap: 20px;
     }
 
     .signup-next-button {
+        width: 100%;
         margin-top: 40px;
+    }
+
+    .diver {
+        margin: 16px 0;
+        @include border-color("line-medium");
+        border-bottom: none;
     }
 }

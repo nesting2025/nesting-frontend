@@ -1,0 +1,46 @@
+.checkbox-only {
+  all: unset;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  position: relative;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #505050;
+}
+.checkbox-only.disabled {
+  cursor: default;
+}
+.checkbox-only input {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+.checkbox-only .checkmark-only {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  margin-right: 6px;
+}
+.checkbox-only .checkmark-only::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 6px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid;
+  border-color: #E5E5EC;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.checkbox-only input:checked ~ .checkmark-only::after {
+  display: block;
+  border-color: #FFCC4C;
+}

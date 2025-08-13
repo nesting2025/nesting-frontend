@@ -1,0 +1,51 @@
+@import "../colors";
+@import "../typography";
+
+.checkbox-only {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    position: relative;
+    cursor: pointer;
+    @include font-style("caption1");
+    @include text-color("text-sub2");
+
+    &.disabled {
+        cursor: default;
+    }
+
+    input {
+        position: absolute;
+        opacity: 0;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark-only {
+        width: 16px;
+        height: 16px;
+        position: relative;
+        margin-right: 6px;
+
+        &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            left: 6px;
+            top: 0px;
+            width: 5px;
+            height: 10px;
+            border: solid;
+            border-color: map-get($colors, "line-medium"); 
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+    }
+
+    input:checked ~ .checkmark-only::after {
+        display: block;
+          border-color: map-get($colors, "primary400");
+    }
+}
