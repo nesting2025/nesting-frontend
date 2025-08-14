@@ -175,7 +175,7 @@ const AuthCode = () => {
               </span>
           </div>
           <p style={{ textAlign: 'center', marginTop:'80px'}}>*인증코드 확인 과정에 문제가 생기셨나요?
-              <span>문의하기</span>
+              <span onClick={() => window.open("http://pf.kakao.com/_Xexkxen", "_blank")}>문의하기</span>
           </p>
           <Timer className="hidden-timer" key={codeTimerKey} initialSeconds={180} onTimeout={() => setCodeTimeOut(true)} />
         </div>
