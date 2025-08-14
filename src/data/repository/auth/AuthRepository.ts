@@ -1,5 +1,5 @@
 import { BaseResponseDto } from "../../dto/common/BaseResponseDto";
-import { checkValidEmail, checkValidPhone, loginEmail, nicknameCheck, signup, verifyCodeCheck, verifyPhoneSend, verifyEmailSend, resetPassword, findEmail, setPreference } from "../../../api/authApi";
+import { checkValidEmail, checkValidPhone, loginEmail, nicknameCheck, signup, verifyCodeCheck, verifyPhoneSend, verifyEmailSend, resetPassword, findEmail, setPreference, loginKakao, loginNaver } from "../../../api/authApi";
 import { VerifyPhoneSendDto } from "../../dto/Request/auth/VerifyPhoneSendDto";
 import { LoginEmailDto } from "../../dto/Request/auth/LoginEmailDto";
 import { LoginEmailResponseDto } from "../../dto/Response/auth/LoginEmailResponseDto";
@@ -53,5 +53,13 @@ export const AuthRepository = {
 
     setPreference: async (setPreferenceDto: setPreferenceDto): Promise<BaseResponseDto<null>> => {
         return await setPreference(setPreferenceDto);
+    },
+
+    loginKakao: async (code: string): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
+        return await loginKakao(code);
+    },
+
+    loginNaver: async (code: string, state: string): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
+        return await loginNaver(code, state);
     },
 }

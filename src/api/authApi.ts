@@ -86,3 +86,13 @@ export const setPreference = async (setPreferenceDto: setPreferenceDto): Promise
 
   return response;
 };
+
+export const loginKakao = async (code: string): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
+  const response = await publicClient.post(`/auth/login/kakao?code=${code}`) as BaseResponseDto<LoginEmailResponseDto>;
+  return response;
+};
+
+export const loginNaver = async (code: string, state: string): Promise<BaseResponseDto<LoginEmailResponseDto>> => {
+  const response = await publicClient.post(`/auth/login/naver?code=${code}&state=${state}`) as BaseResponseDto<LoginEmailResponseDto>;
+  return response;
+}

@@ -133,3 +133,27 @@ export const useSetPreference = () => {
 
     return { setPreference, loading, error, data, reset };
 };
+
+export const useLoginKakao = () => {
+    const {
+        execute: loginKakao,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<LoginEmailResponseDto>>(AuthRepository.loginKakao);
+
+    return { loginKakao, loading, error, data, reset };
+};
+
+export const useLoginNaver = () => {
+    const {
+        execute: loginNaver,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<LoginEmailResponseDto>>(AuthRepository.loginNaver);
+
+    return { loginNaver, loading, error, data, reset };
+};
