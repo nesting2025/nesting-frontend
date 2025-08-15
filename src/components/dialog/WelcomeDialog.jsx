@@ -2,21 +2,10 @@ import * as Dialog from '@radix-ui/react-dialog';
 import React, { useEffect, useState } from 'react';
 import '../../styles/css/CharacterDialog.css'; // 선택사항: 스타일 별도 분리 가능
 import { useNavigate } from 'react-router-dom';
-import { socialLink } from '../../api/authApi';
 import { useTokenReissue } from '../../hooks/useAuth';
 import { useToast } from '../common/ToastContext';
+import { characters } from '../../constants/characters';
 
-const characters = [
-    { name: '한교동', image: "/assets/character=hangyodong, status=small.png" },
-    { name: '헬로키티', image: "/assets/character=hellokitty, status=small.png" },
-    { name: '쿠로미', image: "/assets/character=kuromi, status=small.png" },
-    { name: '짱구', image: "/assets/character=shinchan, status=small.png" },
-    { name: '짱구', image: "/assets/character=shinchan, status=small.png" },
-    { name: '쿠로미', image: "/assets/character=kuromi, status=small.png" },
-    { name: '헬로키티', image: "/assets/character=hellokitty, status=small.png" },
-    { name: '한교동', image: "/assets/character=hangyodong, status=small.png" }
-    // ... 추가 캐릭터
-  ];
 export default function CharacterDialog({ open, onOpenChange, isSocialLink = false }) {
   const { tokenReissue, data: tokenReissueData } = useTokenReissue();
   const [selected, setSelected] = useState([]);
@@ -30,7 +19,7 @@ export default function CharacterDialog({ open, onOpenChange, isSocialLink = fal
     }, [open]);
 
   const handleSubmit = async () => { 
-    if(socialLink) {
+    if(isSocialLink) {
       // 토큰 재발급 API
       const accessToken = localStorage.getItem("accessToken");
       try {

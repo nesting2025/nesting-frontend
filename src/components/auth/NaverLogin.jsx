@@ -1,11 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLoginNaver } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import WelcomeDialog from "../../components/dialog/WelcomeDialog";
 
 const NaverLogin = () => {
     const NAVER_CLIENT_ID = 'bFykTJoiCevWHDXtcnwH';
     const REDIRECT_URI = `${window.location.origin}/login?platform=naver`;
     const nav = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);  // 다이얼로그
     
     const { loginNaver, data: loginNaverData } = useLoginNaver();
     
@@ -70,7 +72,8 @@ const NaverLogin = () => {
                 localStorage.setItem("refreshToken", loginNaverData.data?.tokenInfo.refreshToken);
 
                 if(loginNaverData.data?.userInfo.nickname === null) {
-                    nav("/signup/preference");  // 취향등록
+                    //nav("/signup/preference");  // 취향등록
+                    setIsOpen(true);
                 }
                 else {
                     nav("/");  // 홈화면
@@ -92,11 +95,14 @@ const NaverLogin = () => {
     }, [loginNaverData]);
 
     return (
+        <>
         <img 
             className="naver-button"
             src="/assets/login/naver_login.svg" 
             onClick={handleNaverLogin}
         />
+        <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} />
+        </>
     )
     
 }

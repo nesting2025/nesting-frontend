@@ -1,0 +1,17 @@
+export const characters = [
+    { name: '한교동', image: "/assets/character/character_hangyodong_default.svg" },
+    { name: '짱구', image: "/assets/character/character_shinchan_default.svg" },
+    { name: '헬로키티', image: "/assets/character/character_hellokitty_default.svg" },
+    { name: '쿠로미', image: "/assets/character/character_kuromi_default.svg" },
+    { name: '포차코', image: "/assets/character/character_pochaco_default.svg" },
+    { name: '시나모롤', image: "/assets/character/character_cinamoroll_default.svg" },
+    { name: '마이멜로디', image: "/assets/character/character_mymelody_default.svg" },
+    { name: '폼폼푸린', image: "/assets/character/character_pompompurin_default.svg" },
+    { name: '배드바츠마루', image: "/assets/character/character_badbadtzmaru_default.svg" },
+    { name: '리틀트윈스타', image: "/assets/character/character_littletwinstar_default.svg" },
+    { name: '턱시도샘', image: "/assets/character/character_tuxedosam_default.svg" },
+    { name: '우사하나', image: "/assets/character/character_usahana_default.svg" },
+    { name: '리락쿠마', image: "/assets/character/character_rilakkuma_default.svg" },
+    { name: '포켓몬', image: "/assets/character/character_pikachu_default.svg" },
+    { name: '치이카와', image: "/assets/character/character_chiikawa_default.svg" },
+];

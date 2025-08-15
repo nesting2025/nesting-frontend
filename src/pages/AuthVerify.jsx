@@ -238,7 +238,7 @@ export default function AuthVerify() {
 
   return (
     <div className='auth-verify'>
-      <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} isSocialLink={true} />
+      <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} isSocialLink={returnTo === "home" ? true : false} />
 
       <img 
           className="back-button"

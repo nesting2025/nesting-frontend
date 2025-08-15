@@ -1,10 +1,12 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useLoginKakao } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import WelcomeDialog from "../../components/dialog/WelcomeDialog";
 
 const KakaoLogin = () => {
     const nav = useNavigate();
     const { loginKakao, data: loginKakaoData } = useLoginKakao();
+    const [isOpen, setIsOpen] = useState(false);  // 다이얼로그
 
     useEffect(() => {
         if(window.Kakao && !window.Kakao.isInitialized()) {
@@ -50,7 +52,8 @@ const KakaoLogin = () => {
                 localStorage.setItem("refreshToken", loginKakaoData.data?.tokenInfo.refreshToken);
 
                 if(loginKakaoData.data?.userInfo.nickname === null) {
-                    nav("/signup/preference");  // 취향등록
+                    //nav("/signup/preference");  // 취향등록
+                    setIsOpen(true);
                 }
                 else {
                     nav("/");  // 홈화면
@@ -73,11 +76,14 @@ const KakaoLogin = () => {
 
     
     return (
+        <>
         <img 
             className="kakao-button"
             src="/assets/login/kakao_login.svg" 
             onClick={handleKakaoLogin}
         />
+        <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} />
+        </>
     )
 }
 
