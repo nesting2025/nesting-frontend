@@ -40,8 +40,7 @@ const AuthCode = () => {
 
     const [timeOut, setTimeOut] = useState(false);
     const [timerKey, setTimerKey] = useState(0);
-    const [codeTimeOut, setCodeTimeOut] = useState(false);
-    const [codeTimerKey, setCodeTimerKey] = useState(0);
+    const [isResendAvaliable, setIsResendAvailable] = useState(false);
 
     const goBack = () => nav(-1);
     const length = 6;
@@ -75,7 +74,7 @@ const AuthCode = () => {
 
     // 이메일 인증번호 확인 API
     const checkEmail = async () => {
-      if(codeTimeOut === false) {
+      if(timeOut === false) {
         try {
           await verifyCodeCheck(authId, code)
         } catch (e) {console.log(e);}
@@ -118,13 +117,13 @@ const AuthCode = () => {
         }
       };
 
-
       const handleResend = () => {
-        setTimeOut(false);
-        setTimerKey((prev) => prev + 1);
-        sendEmail();
-        setCodeTimeOut(false);
-        setCodeTimerKey((prev) => prev + 1);
+        if(isResendAvaliable) {
+          setTimeOut(false);
+          setTimerKey((prev) => prev + 1);
+          sendEmail();
+          setIsResendAvailable(false);
+        }
       };
     
     return (
@@ -167,17 +166,19 @@ const AuthCode = () => {
               onClick={checkEmail}  
           />
           <div className="timer-container">
-              <Timer className="timer" key={timerKey} initialSeconds={30} onTimeout={() => setTimeOut(true)} />
+              <Timer className="timer" key={timerKey} initialSeconds={180} onTimeout={() => setTimeOut(true)}
+              onTick={(remainingSec) => {
+                if(remainingSec === 150) setIsResendAvailable(true);
+              }} />
               
-              <span className={`resend-button ${timeOut ? 'active' : 'disabled'}`}
-                      onClick={timeOut ? handleResend : null}>
+              <span className={`resend-button ${isResendAvaliable ? 'active' : 'disabled'}`}
+                      onClick={isResendAvaliable ? handleResend : null}>
               재전송
               </span>
           </div>
           <p style={{ textAlign: 'center', marginTop:'80px'}}>*인증코드 확인 과정에 문제가 생기셨나요?
               <span onClick={() => window.open("http://pf.kakao.com/_Xexkxen", "_blank")}>문의하기</span>
           </p>
-          <Timer className="hidden-timer" key={codeTimerKey} initialSeconds={180} onTimeout={() => setCodeTimeOut(true)} />
         </div>
         </div>
     )    
