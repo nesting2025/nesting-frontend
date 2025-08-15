@@ -1,13 +1,11 @@
 .product-recommend-area {
   width: 100%;
+  box-sizing: border-box;
   padding: 16px 12px;
   background-color: #F7F7FB;
 }
 .product-recommend-area.white {
   background-color: #FFFFFF;
-}
-.product-recommend-area.bottom {
-  padding-bottom: 104px;
 }
 .product-recommend-area .recommend-title {
   font-size: 20px;

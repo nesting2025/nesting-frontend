@@ -3,17 +3,14 @@
 
 .product-recommend-area {
         width: 100%;
+        box-sizing: border-box;
         padding: 16px 12px;
         @include bg-color("bg-weak");
 
         &.white {
             @include bg-color("white");
         }
-
-        &.bottom {
-            padding-bottom: 104px;
-        }
-
+        
         .recommend-title {
             @include font-style("headline4");
             @include text-color("");

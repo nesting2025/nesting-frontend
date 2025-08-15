@@ -2,6 +2,7 @@
 @import "./typography";
 
 .footer {
+    width: 100%;
     padding: 40px 160px;
     @include bg-color("bg-weak");
     display: flex;

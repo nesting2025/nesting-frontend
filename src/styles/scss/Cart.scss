@@ -5,6 +5,7 @@
     min-width: 360px;
     max-width: 768px;
     margin: 0 auto;
+    box-sizing: border-box;
 
     .header {
         width: 100%;
@@ -12,6 +13,7 @@
         display: flex;
         position: relative;
         padding: 12px;
+        box-sizing: border-box;
 
         p {
             @include font-style("title3");
@@ -33,6 +35,7 @@
 
     .tab-wrapper {
         width: 100%;
+        box-sizing: border-box;
         display: flex;
         padding-left: 12px;
         padding-right: 12px;
@@ -101,15 +104,18 @@
 
     .diver {
         width: 100%;
+        box-sizing: border-box;
         height: 8px;
         @include bg-color("bg-strong");
     }
 
     .show-product-area {
         width: 100%;
+        box-sizing: border-box;
 
         .select-product-area {
             width: 100%;
+            box-sizing: border-box;
             display: flex;
             justify-content: space-between;
             padding: 12px 16px;
@@ -129,11 +135,13 @@
         .show-product {
             @include bg-color("bg-weak");
             width: 100%;
+            box-sizing: border-box;
             height: auto;
             padding: 16px;
 
             .delivery-area {
                 width: 100%;
+                box-sizing: border-box;
                 border-radius: 20px;
                 @include bg-color("white");
                 overflow: hidden;

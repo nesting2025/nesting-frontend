@@ -1,15 +1,11 @@
 .cta-area {
-  position: fixed;
+  position: sticky;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 480px;
   z-index: 1000;
   width: 100%;
-  min-width: 360px;
-  max-width: 768px;
   padding: 20px 16px;
   background-color: #FFFFFF;
+  box-sizing: border-box;
 }
 .cta-area button {
   padding: 12px 0 12px 0;
