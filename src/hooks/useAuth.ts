@@ -3,6 +3,7 @@ import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { useAsync } from "./useAsync";
 import { LoginEmailResponseDto } from "../data/dto/Response/auth/LoginEmailResponseDto";
 import { FindEmailResponseDto } from "../data/dto/Response/auth/FindEmailResponseDto";
+import { TokenReissueResponseDto } from "../data/dto/Response/auth/TokenReissueResponseDto";
 
 export const useCheckNickname = () => {
     const {
@@ -156,4 +157,28 @@ export const useLoginNaver = () => {
     } = useAsync<BaseResponseDto<LoginEmailResponseDto>>(AuthRepository.loginNaver);
 
     return { loginNaver, loading, error, data, reset };
+};
+
+export const useSocialLink = () => {
+    const {
+        execute: socialLink,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<null>>(AuthRepository.socialLink);
+
+    return { socialLink, loading, error, data, reset };
+};
+
+export const useTokenReissue = () => {
+    const {
+        execute: tokenReissue,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<TokenReissueResponseDto>>(AuthRepository.tokenReissue);
+
+    return { tokenReissue, loading, error, data, reset };
 };

@@ -1,12 +1,10 @@
 import React, { useEffect } from "react"
 import { useLoginKakao } from "../../hooks/useAuth";
-import { useToast } from "../common/ToastContext";
 import { useNavigate } from "react-router-dom";
 
 const KakaoLogin = () => {
-    const { showToast } = useToast();
     const nav = useNavigate();
-    const { loginKakao, loading, error, data: loginKakaoData, reset } = useLoginKakao();
+    const { loginKakao, data: loginKakaoData } = useLoginKakao();
 
     useEffect(() => {
         if(window.Kakao && !window.Kakao.isInitialized()) {
@@ -39,24 +37,36 @@ const KakaoLogin = () => {
     const callLoginKakao = async (code) => {
         try {
             await loginKakao(code);
-        } catch(err) { 
-            showToast(err.message);
-        }
+        } catch(err) { console.log(err); }
     }
 
     // API data
     useEffect(() => {
         if(loginKakaoData != null) {
             localStorage.setItem("accessToken", loginKakaoData.data?.tokenInfo.accessToken);
-            localStorage.setItem("refreshToken", loginKakaoData.data?.tokenInfo.refreshToken);
 
-            if(loginKakaoData.data?.userInfo.nickname === null) {
-                // 취향등록
-                nav("/signup/preference");
+            if(loginKakaoData.data?.socialId === null) {
+                // 일반 계정 존재하지 않는 사람 -> 회원가입 / 로그인 진행
+                localStorage.setItem("refreshToken", loginKakaoData.data?.tokenInfo.refreshToken);
+
+                if(loginKakaoData.data?.userInfo.nickname === null) {
+                    nav("/signup/preference");  // 취향등록
+                }
+                else {
+                    nav("/");  // 홈화면
+                }
             }
             else {
-                // 홈화면
-                nav("/");
+                // 일반 계정 존재 -> 연동
+                localStorage.setItem("socialId", loginKakaoData.data?.socialId);
+                localStorage.setItem("socialType", "KAKAO");
+                localStorage.setItem("socialLinkName", loginKakaoData.data?.userInfo.name);
+                localStorage.setItem("socialLinkPhone", loginKakaoData.data?.userInfo.phone);
+
+                const email = loginKakaoData.data?.userInfo.email;
+                const type = "connect";
+
+                nav(`/login/account-info?type=${type}`, { state : {email} });
             }
         }
     }, [loginKakaoData]);

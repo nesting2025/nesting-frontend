@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
 import CustomButton from "../components/CustomButton";
-import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup, useFindEmail } from "../hooks/useAuth";
+import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup, useFindEmail, useSocialLink } from "../hooks/useAuth";
 import { useToast } from "../components/common/ToastContext";
 import "../styles/css/AuthVerify.css";
 
@@ -16,6 +16,7 @@ export default function AuthVerify() {
   const { verifyCodeCheck, data: verifyCodeCheckData, reset: resetCodeCheck } = useVerifyCodeCheck();
   const { signup, data: signupData } = useSignup();
   const { findEmail, data: findEmailData } = useFindEmail();
+  const { socialLink, data: socailLinkData } = useSocialLink();
 
   // API 응답 data
   useEffect(() => {
@@ -61,6 +62,15 @@ export default function AuthVerify() {
     }
   }, [findEmailData])
 
+  useEffect(()=> {
+    if(socailLinkData != null) {
+      if(socailLinkData.code === "SUCCESS") {
+        setIsOpen(true); 
+      }
+    }
+    
+  }, [socailLinkData])
+
   const returnTo = localStorage.getItem("returnTo");
   const nav = useNavigate();
   const { showToast } = useToast();
@@ -75,7 +85,6 @@ export default function AuthVerify() {
     marketingReceiveInfo: {},
     authId: null
   });
-  const [purpose, setPurpose] = useState("");
   const [code, setCode] = useState("");
   const [isSendButtonDisabled, setIsSendButtonDisabled] = useState(false);
 
@@ -102,18 +111,23 @@ export default function AuthVerify() {
   // returnTo 값에 따라 purpose 설정
   useEffect(() => {
     if (returnTo === "accountInfo") {
-      setPurpose("FIND_EMAIL");
+      setVerifyPhoneSendDto(prev => ({...prev, purpose: "FIND_EMAIL"}))
     } else if (returnTo === "setupPreference") {
-      setPurpose("SIGN_UP");
-    }
-  }, []);
+      setVerifyPhoneSendDto(prev => ({...prev, purpose: "SIGN_UP"}))
+    } else if (returnTo === "home") {
+      setVerifyPhoneSendDto(prev => ({...prev, purpose: "VERIFY_ACCOUNT"}))
 
-  useEffect(() => {
-    setVerifyPhoneSendDto(prev => ({
-      ...prev,
-      purpose
-    }));
-  }, [purpose]);
+      const name = localStorage.getItem("socialLinkName");
+      const phone = localStorage.getItem("socialLinkPhone");
+      setForm(prev => ({ ...prev, 
+        name: name || "",
+        phone: phone || ""
+      }));
+
+      localStorage.removeItem("socialLinkName");
+      localStorage.removeItem("socialLinkPhone");
+    }
+  }, [returnTo]);
 
   useEffect(() => {
     setVerifyPhoneSendDto((prev) => ({
@@ -181,7 +195,7 @@ export default function AuthVerify() {
   const handleGetVerification = () => {
     
     // 이메일 찾기
-    if(returnTo === "accountInfo") {
+    if(returnTo === "accountInfo" || returnTo === "home") {
       handleSendCode(true);
       setIsSendButtonDisabled(true);
     }
@@ -207,14 +221,24 @@ export default function AuthVerify() {
     } else if (returnTo === "setupPreference") {
 
       try {
-      await signup(form);
-    } catch (e) {console.log(e);}
-      }
+        await signup(form);
+      } catch (e) {console.log(e);}
+    }
+
+    // 소셜연동
+    else if (returnTo === "home") {
+
+      try {
+        const socialId = localStorage.getItem("socialId");
+        const socialType = localStorage.getItem("socialType");
+        socialLink({ socialId, socialType });
+      } catch (e) {console.log(e);}
+    }
   };
 
   return (
     <div className='auth-verify'>
-      <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} />
+      <WelcomeDialog open={isOpen} onOpenChange={setIsOpen} isSocialLink={true} />
 
       <img 
           className="back-button"

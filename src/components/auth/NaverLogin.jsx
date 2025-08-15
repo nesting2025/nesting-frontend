@@ -1,15 +1,13 @@
 import { useEffect } from "react";
 import { useLoginNaver } from "../../hooks/useAuth";
-import { useToast } from "../common/ToastContext";
 import { useNavigate } from "react-router-dom";
 
 const NaverLogin = () => {
     const NAVER_CLIENT_ID = 'bFykTJoiCevWHDXtcnwH';
     const REDIRECT_URI = `${window.location.origin}/login?platform=naver`;
-    const { showToast } = useToast();
     const nav = useNavigate();
     
-    const { loginNaver, loading, error, data: loginNaverData, reset } = useLoginNaver();
+    const { loginNaver, data: loginNaverData } = useLoginNaver();
     
     useEffect(() => {
         const url = new URL(window.location.href);
@@ -59,24 +57,36 @@ const NaverLogin = () => {
     const callLoginNaver =  async (code, state) => {
         try {
             await loginNaver(code, state);
-        } catch(err) { 
-            showToast(err.message);
-        }
+        } catch(err) { console.log(err); }
     }
 
     // API response
     useEffect(()=> {
         if(loginNaverData != null) {
             localStorage.setItem("accessToken", loginNaverData.data?.tokenInfo.accessToken);
-            localStorage.setItem("refreshToken", loginNaverData.data?.tokenInfo.refreshToken);
 
-            if(loginNaverData.data?.userInfo.nickname === null) {
-                // 취향등록
-                nav("/signup/preference");
+            if(loginNaverData.data?.socialId === null) {
+                // 일반 계정 존재하지 않는 사람 -> 회원가입 / 로그인 진행
+                localStorage.setItem("refreshToken", loginNaverData.data?.tokenInfo.refreshToken);
+
+                if(loginNaverData.data?.userInfo.nickname === null) {
+                    nav("/signup/preference");  // 취향등록
+                }
+                else {
+                    nav("/");  // 홈화면
+                }
             }
             else {
-                // 홈화면
-                nav("/");
+                // 일반 계정 존재 -> 연동
+                localStorage.setItem("socialId", loginNaverData.data?.socialId);
+                localStorage.setItem("socialType", "NAVER");
+                localStorage.setItem("socialLinkName", loginNaverData.data?.userInfo.name);
+                localStorage.setItem("socialLinkPhone", loginNaverData.data?.userInfo.phone);
+
+                const email = loginNaverData.data?.userInfo.email;
+                const type = "connect";
+
+                nav(`/login/account-info?type=${type}`, { state : {email} });
             }
         }
     }, [loginNaverData]);

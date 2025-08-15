@@ -15,6 +15,8 @@ const AccountInfo = () => {
     const gotoNextPage = () => {
         if(isConnect) {
             // 본인인증 화면으로
+            localStorage.setItem("returnTo", "home");
+            nav("/verify");
         }
         else {
             nav("/login/nesting", {replace: true});
