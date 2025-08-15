@@ -1,22 +1,8 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import React, { useEffect, useState } from 'react';
 import '../../styles/css/CharacterDialog.css'; // 선택사항: 스타일 별도 분리 가능
+import { characters } from '../../constants/characters';
 
-const characters = [
-    { name: '한교동', image: "/assets/character=hangyodong, status=small.png" },
-    { name: '짱구', image: "/assets/character=shinchan, status=small.png" },
-    { name: '헬로키티', image: "/assets/character=hellokitty, status=small.png" },
-    { name: '쿠로미', image: "/assets/character=kuromi, status=small.png" },
-    { name: '한교동', image: "/assets/character=hangyodong, status=small.png" },
-    { name: '짱구', image: "/assets/character=shinchan, status=small.png" },
-    { name: '헬로키티', image: "/assets/character=hellokitty, status=small.png" },
-    { name: '쿠로미', image: "/assets/character=kuromi, status=small.png" },
-    { name: '한교동', image: "/assets/character=hangyodong, status=small.png" },
-    { name: '짱구', image: "/assets/character=shinchan, status=small.png" },
-    { name: '헬로키티', image: "/assets/character=hellokitty, status=small.png" },
-    { name: '쿠로미', image: "/assets/character=kuromi, status=small.png" },
-    // ... 추가 캐릭터
-  ];
 export default function CharacterDialog({ open, onOpenChange, onComplete, title, children }) {
   const [selected, setSelected] = useState([]);
   const [inputValue, setInputValue] = useState('');

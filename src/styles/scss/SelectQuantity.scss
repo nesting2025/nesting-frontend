@@ -34,11 +34,15 @@
             gap: 0;
             height: 30px;
 
+            .select-quantity-button, .quantity {
+                box-sizing: border-box;
+                height: 30px;
+                @include border-color("line-medium");
+            }
+
             .select-quantity-button {
                 width: 30px;
-                height: 30px;
                 @include bg-color("bg-strong");
-                @include border-color("line-medium");
                 @include font-style("title3");
                 @include text-color("text-disabled");
                 cursor: default;
@@ -52,9 +56,7 @@
 
             .quantity {
                 width: 45px;
-                height: 30px;
                 @include bg-color("white");
-                @include border-color("line-medium");
                 @include font-style("headline5");
                 @include text-color("text-sub2");
                 margin: 0;

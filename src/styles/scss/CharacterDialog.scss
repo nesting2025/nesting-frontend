@@ -187,19 +187,21 @@
             width: 48px;
             height: 48px;
         }
-       }
-        .character-card:nth-of-type(1),
-        .character-card:nth-of-type(2),
-        .character-card:nth-of-type(3),
-        .character-card:nth-of-type(4) {
-          transform: translateX(-10px);
-        }
-        .character-card:nth-of-type(5),
-        .character-card:nth-of-type(6),
-        .character-card:nth-of-type(7),
-        .character-card:nth-of-type(8) {
-          transform: translateX(10px);
-        }
+      }
+
+      .character-card:nth-child(8n+1),
+      .character-card:nth-child(8n+2),
+      .character-card:nth-child(8n+3),
+      .character-card:nth-child(8n+4) {
+        transform: translateX(-10px);
+      }
+
+      .character-card:nth-child(8n+5),
+      .character-card:nth-child(8n+6),
+      .character-card:nth-child(8n+7),
+      .character-card:nth-child(8n+8) {
+        transform: translateX(10px);
+      }
     }
     .dialog-close{
         all: unset;

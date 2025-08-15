@@ -1,11 +1,12 @@
 import '../styles/css/Login.css';
 import { useNavigate } from 'react-router-dom';
+import KakaoLogin from '../components/auth/KakaoLogin';
+import NaverLogin from '../components/auth/NaverLogin';
 
 const Login = () => {
     const nav = useNavigate();
-    
-    const goBack = () => nav("/");
 
+    const goBack = () => nav("/");
     const gotoLoginNesting = () => {
         nav("/login/nesting");
     }
@@ -22,14 +23,8 @@ const Login = () => {
             src="/assets/logo_nesting_string.svg" 
         />
         <p>최애를 차곡차곡, 네스팅</p>
-        <img 
-            className="kakao-button"
-            src="/assets/login/kakao_login.svg" 
-        />
-        <img 
-            className="naver-button"
-            src="/assets/login/naver_login.svg" 
-        />
+        <KakaoLogin />
+        <NaverLogin />
         <div className='diver'>
             <hr/>
             <span>또는</span>

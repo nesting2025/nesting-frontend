@@ -16,4 +16,5 @@ export interface LoginEmailResponseDto {
         characters: string | null;
         goods: string | null;
     };
+    socialId: number | null;
 }

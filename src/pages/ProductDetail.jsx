@@ -811,7 +811,7 @@ const ProductDetail = ( {type='no-overseas'} ) => {
             {/* 문의하기 영역 */}
             <div className='inquiry-area'>
                 <p>1:1 문의하기</p>
-                <img src='/assets/button/inquiry_btn.svg' />
+                <img src='/assets/button/inquiry_btn.svg' onClick={()=> {window.open("http://pf.kakao.com/_Xexkxen", "_blank")}}/>
             </div>
 
             <Footer className='footer' screenSize={screenSize} />

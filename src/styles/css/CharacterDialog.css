@@ -188,16 +188,16 @@
   width: 48px;
   height: 48px;
 }
-.dialog-content .character-grid-cross .character-card:nth-of-type(1),
-.dialog-content .character-grid-cross .character-card:nth-of-type(2),
-.dialog-content .character-grid-cross .character-card:nth-of-type(3),
-.dialog-content .character-grid-cross .character-card:nth-of-type(4) {
+.dialog-content .character-grid-cross .character-card:nth-child(8n+1),
+.dialog-content .character-grid-cross .character-card:nth-child(8n+2),
+.dialog-content .character-grid-cross .character-card:nth-child(8n+3),
+.dialog-content .character-grid-cross .character-card:nth-child(8n+4) {
   transform: translateX(-10px);
 }
-.dialog-content .character-grid-cross .character-card:nth-of-type(5),
-.dialog-content .character-grid-cross .character-card:nth-of-type(6),
-.dialog-content .character-grid-cross .character-card:nth-of-type(7),
-.dialog-content .character-grid-cross .character-card:nth-of-type(8) {
+.dialog-content .character-grid-cross .character-card:nth-child(8n+5),
+.dialog-content .character-grid-cross .character-card:nth-child(8n+6),
+.dialog-content .character-grid-cross .character-card:nth-child(8n+7),
+.dialog-content .character-grid-cross .character-card:nth-child(8n+8) {
   transform: translateX(10px);
 }
 .dialog-content .dialog-close {

@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-between;
   gap: 6px;
+  box-sizing: border-box;
 }
 .default-show-cta .liket-btn {
   width: 46px;
@@ -73,6 +74,7 @@
   justify-content: space-between;
   padding-left: 16px;
   padding-right: 16px;
+  box-sizing: border-box;
   border: 1px solid #E5E5EC;
   background-color: #FFFFFF;
 }
