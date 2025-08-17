@@ -14,6 +14,12 @@
 
     &.disabled {
         cursor: default;
+        .checkmark {
+            @include bg-color("bg-weak");
+            &::after {
+                @include border-color("bg-weak");
+            }
+        }
     }
 
     input {
