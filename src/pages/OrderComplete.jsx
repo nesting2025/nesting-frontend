@@ -23,7 +23,7 @@ const OrderComplete = () => {
         customDetailRequest: ''
     });
 
-    const [orderProductList, setOrderProductList] = useState([
+    const [orderProductDomesticList, setOrderProductDomesticList] = useState([
         {
           imgSrc: "/assets/sample/dummy_product10.svg",
           title: "상품명1",
@@ -53,8 +53,22 @@ const OrderComplete = () => {
         },
     ])
 
+    const [orderProductOverseasList, setOrderProductOverseasList] = useState([
+        {
+          imgSrc: "/assets/sample/dummy_product7.svg",
+          title: "상품명입니다릴라라랄리라",
+          originPrice: 8000,
+          discountedPrice: 5000,
+          quantity: 1,
+          option: "",
+          deliveryFee: 0,
+        },
+      ])
+
+
     const priceSummary = useMemo(() => {
-        const summary = orderProductList.reduce(
+        const allProducts = [...orderProductDomesticList, ...orderProductOverseasList];
+        const summary = allProducts.reduce(
             (acc, product) => {
                 acc.totalOriginPrice += product.originPrice;
                 acc.totalDiscountedPrice += product.discountedPrice;
@@ -73,7 +87,7 @@ const OrderComplete = () => {
             totalPrice: summary.totalDiscountedPrice + summary.totalDeliveryFee
         };
         return result;
-    }, [orderProductList]);
+    }, [orderProductDomesticList, orderProductOverseasList]);
 
     return (
         <div className="order-complete">
@@ -125,18 +139,39 @@ const OrderComplete = () => {
 
             {/* 주문 상품 */}
             <section className="order-section">
-                <div className="order-section-title">주문 상품
-                    <span className="order-section-title count">{orderProductList.length}건</span>
+                {orderProductDomesticList.length > 0 && (
+                <div>
+                    <div className="order-section-title">국내배송 상품
+                    <span className="order-section-title count">{orderProductDomesticList.length}건</span>
+                    </div>
+                    <div className='order-list-area'>
+                    {orderProductDomesticList.map((item, index) => 
+                        <OrderProductCard
+                        key={index} 
+                        productData={item}
+                        />
+                    )}
+                    </div>
                 </div>
-
-                <div className='order-list-area'>
-                {orderProductList.map((item, index) => 
-                    <OrderProductCard
-                    key={index} 
-                    productData={item}
-                    />
                 )}
+                
+                {orderProductDomesticList.length > 0 && orderProductOverseasList.length > 0 && <div className='diver-weak' />}
+                
+                {orderProductOverseasList.length > 0 && (
+                <div>
+                    <div className="order-section-title">해외배송 상품
+                    <span className="order-section-title count">{orderProductOverseasList.length}건</span>
+                    </div>
+                    <div className='order-list-area'>
+                    {orderProductOverseasList.map((item, index) => 
+                        <OrderProductCard
+                        key={index} 
+                        productData={item}
+                        />
+                    )}
+                    </div>
                 </div>
+                )}
             </section>
 
             <div className="diver" />

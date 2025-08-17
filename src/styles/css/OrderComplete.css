@@ -1,6 +1,6 @@
 .order-complete {
   min-width: 360px;
-  max-width: 768px;
+  max-width: 600px;
   margin: 0 auto;
 }
 .order-complete .header {
@@ -83,7 +83,13 @@
   width: 100%;
   box-sizing: border-box;
   height: 8px;
+  margin: 0;
   background-color: #F1F1F5;
+}
+.order-complete .diver-weak {
+  border: 1px solid #E5E5EC;
+  border-bottom: none;
+  margin: 16px 0;
 }
 .order-complete .oreder-detail {
   width: 100%;

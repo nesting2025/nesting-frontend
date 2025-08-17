@@ -1,6 +1,6 @@
 .order-page {
   min-width: 360px;
-  max-width: 768px;
+  max-width: 600px;
   margin: 0 auto;
   font-family: sans-serif;
 }
@@ -256,4 +256,10 @@
   font-weight: 400;
   letter-spacing: -2.5%;
   color: #000000;
+}
+
+.diver {
+  border: 1px solid #E5E5EC;
+  border-bottom: none;
+  margin: 16px 0;
 }

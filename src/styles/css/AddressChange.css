@@ -36,6 +36,7 @@
 }
 .address-card .title .register-btn {
   text-decoration: underline;
+  text-underline-offset: 2px;
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;
@@ -68,8 +69,9 @@
 .address-change .address-bottom-sheet {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  max-width: 768px;
   width: 100%;
+  min-width: 360px;
+  max-width: 600px;
   background-color: white;
   position: fixed;
   z-index: 1001;
@@ -97,4 +99,5 @@
 .address-change .address-bottom-sheet hr {
   margin: 0;
   border: 1px solid #E5E5EC;
+  border-bottom: none;
 }

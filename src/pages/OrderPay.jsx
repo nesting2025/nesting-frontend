@@ -28,7 +28,7 @@ const OrderPay = () => {
     // selectedOption: '',
     // customDetailRequest: ''
   });
-  const [orderProductList, setOrderProductList] = useState([
+  const [orderProductDomesticList, setOrderProductDomesticList] = useState([
     {
       imgSrc: "/assets/sample/dummy_product10.svg",
       title: "상품명1",
@@ -55,6 +55,18 @@ const OrderPay = () => {
       quantity: 3,
       option: "",
       deliveryFee: 3000,
+    },
+  ])
+
+  const [orderProductOverseasList, setOrderProductOverseasList] = useState([
+    {
+      imgSrc: "/assets/sample/dummy_product7.svg",
+      title: "상품명입니다릴라라랄리라",
+      originPrice: 8000,
+      discountedPrice: 5000,
+      quantity: 1,
+      option: "",
+      deliveryFee: 0,
     },
   ])
 
@@ -103,15 +115,16 @@ const OrderPay = () => {
   const [customNum, setCustomNum] = useState("");
 
   const isEnabled = useMemo(()=> {
-    return !isFormEmpty && !!customNum && orderProductList.length > 0 && isCheckbox;
-  }, [isFormEmpty, customNum, orderProductList, isCheckbox])
+    return !isFormEmpty && !!customNum && (orderProductDomesticList.length > 0 || orderProductOverseasList.length > 0) && isCheckbox;
+  }, [isFormEmpty, customNum, orderProductDomesticList, orderProductOverseasList, isCheckbox])
 
   const priceSummary = useMemo(() => {
-        const summary = orderProductList.reduce(
+    const allProducts = [...orderProductDomesticList, ...orderProductOverseasList];
+        const summary = allProducts.reduce(
             (acc, product) => {
                 acc.totalOriginPrice += product.originPrice;
                 acc.totalDiscountedPrice += product.discountedPrice;
-                acc.totalDeliveryFee += product.deliveryFee;            
+                acc.totalDeliveryFee += product.deliveryFee;    
                 return acc;
             },
             {
@@ -126,7 +139,7 @@ const OrderPay = () => {
             totalPrice: summary.totalDiscountedPrice + summary.totalDeliveryFee
         };
         return result;
-    }, [orderProductList]);
+    }, [orderProductDomesticList, orderProductOverseasList]);
 
   return (
     <div className="order-page">
@@ -140,7 +153,7 @@ const OrderPay = () => {
         <div className="order-section-title destination">
           <div className='left-group'>
             <span className='title'>배송지</span>
-            <span className='chip'>{form.isDefaultAdd ? "기본" : "최근"} </span>
+            {form.isDefaultAdd !== undefined && <span className='chip'>{form.isDefaultAdd ? "기본" : "최근"} </span>}
           </div>
             <span className="order-section-title register" onClick={handleAddress}>{isFormEmpty ? '등록' : '변경'}</span>
         </div>
@@ -211,18 +224,39 @@ const OrderPay = () => {
 
       {/* 주문 상품 */}
       <section className="order-section">
-        <div className="order-section-title">주문 상품
-            <span className="order-section-title count">{orderProductList.length}건</span>
-        </div>
-
-        <div className='order-list-area'>
-          {orderProductList.map((item, index) => 
-            <OrderProductCard
-              key={index} 
-              productData={item}
-            />
-          )}
-        </div>
+        {orderProductDomesticList.length > 0 && (
+          <div>
+            <div className="order-section-title">국내배송 상품
+              <span className="order-section-title count">{orderProductDomesticList.length}건</span>
+            </div>
+            <div className='order-list-area'>
+              {orderProductDomesticList.map((item, index) => 
+                <OrderProductCard
+                  key={index} 
+                  productData={item}
+                />
+              )}
+            </div>
+          </div>
+        )}
+        
+        {orderProductDomesticList.length > 0 && orderProductOverseasList.length > 0 && <div className='diver' />}
+        
+        {orderProductOverseasList.length > 0 && (
+          <div>
+            <div className="order-section-title">해외배송 상품
+              <span className="order-section-title count">{orderProductOverseasList.length}건</span>
+            </div>
+            <div className='order-list-area'>
+              {orderProductOverseasList.map((item, index) => 
+                <OrderProductCard
+                  key={index} 
+                  productData={item}
+                />
+              )}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* 결제 수단 */}
@@ -275,7 +309,7 @@ const OrderPay = () => {
         onSelect={handleSlectAddress}
         selectedDestination={form.destination} />}
 
-      <CTAButtonOrderPay totalPrice={priceSummary.totalPrice} productNum={orderProductList.length} isEnabled={isEnabled}/>
+      <CTAButtonOrderPay totalPrice={priceSummary.totalPrice} productNum={orderProductDomesticList.length + orderProductOverseasList.length} isEnabled={isEnabled}/>
     </div>
   );
 };
