@@ -17,17 +17,17 @@ export default function GoodsList() {
         <StickyHeader />
 
         {/* ✅ 카테고리 탭 */}
-        <div className="sticky top-[60px] z-10 bg-white shadow-sm">
+        <div>
           <CategoryTabs />
         </div>
 
         {/* ✅ 필터 바 */}
-        <div className="px-4 py-2 border-b border-gray-200 bg-white">
+        <div>
           <FilterBar />
         </div>
 
         {/* ✅ 상품 리스트 */}
-        <div className="flex-1 px-4 py-4">
+        <div className="goods-list-area">
           <ProductList />
         </div>
 

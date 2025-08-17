@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import "../../styles/css/FilterBars.css";
 import FilterBottomSheet from "./FilterBottomSheet";
 
 export default function FilterBar() {
-  const filterOptions = ["찜 많은 순", "가격", "굿즈 유형"];
+  const [selectedSort, setSelectedSort] = useState("찜 많은 순");
+  const filterOptions = [selectedSort, "가격", "굿즈 유형"];
+  const [isSort, setIsSort] = useState(false);
+  const [activeTab, setActiveTab] = useState("price");
+
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const openFilter = () => setIsFilterOpen(true);
-  const closeFilter = () => setIsFilterOpen(false);
 
   return (
     <>
@@ -16,20 +18,26 @@ export default function FilterBar() {
           className="filter-btn"
           type="button"
           aria-label="필터 열기"
-          onClick={openFilter}
+          onClick={() => setIsFilterOpen(true)}
         >
           <img src="/assets/button/icon_filter.svg" alt="Filter Icon" />
-        </button>
+        </button> 
 
         <div className="divider"></div>
 
         <div className="filter-options">
-          {filterOptions.map((option) => (
+          {filterOptions.map((option, index) => (
             <button
               key={option}
               type="button"
               className="option"
-              onClick={openFilter} // 옵션도 바텀시트 열기
+              onClick={() => {
+                if(index === 0) setIsSort(true);
+                else setIsSort(false);
+                if(index === 1) setActiveTab("price");
+                if(index === 2) setActiveTab("category");
+                setIsFilterOpen(true);
+              }} // 옵션도 바텀시트 열기
             >
               <span>{option}</span>
               <svg
@@ -53,7 +61,8 @@ export default function FilterBar() {
       </div>
 
       {isFilterOpen && (
-        <FilterBottomSheet isOpen={isFilterOpen} onClose={closeFilter} />
+        <FilterBottomSheet isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} 
+        isSort={isSort} selectedSort={selectedSort} onSelectSort={setSelectedSort} InitialActiveTab={activeTab}/>
       )}
     </>
   );

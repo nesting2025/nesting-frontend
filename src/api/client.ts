@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 공통 base 설정
-const BASE_URL = "http://13.124.101.243:9091/users/api/v1";
+const BASE_URL = "https://api-dev.nest-ing.com/users/api/v1";
 const TIMEOUT = 5000;
 const COMMON_HEADERS = {
   'Content-Type': 'application/json',

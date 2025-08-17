@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../../styles/css/ProductList.css";
 import ProductCardPrev from "./ProductCardPrev.jsx";
+import CustomCheckboxnRadioStyle from "../common/CustomCheckboxRadioStyle.jsx";
 
 export default function ProductList() {
   const initialProducts = [
@@ -14,6 +15,7 @@ export default function ProductList() {
       isSoldOut: false,
       isLiked: false,
       imageUrl: "/assets/sample/sample1.svg",
+      isUsed: true,
     },
     {
       id: 2,
@@ -25,6 +27,7 @@ export default function ProductList() {
       isSoldOut: true,
       isLiked: true,
       imageUrl: "/assets/sample/sample1.svg",
+      isUsed: true
     },
   ];
 
@@ -48,14 +51,7 @@ export default function ProductList() {
     <div>
       <div className="filter-result-bar">
         <span className="total">{total}개의 결과</span>
-        <label className="exclude-soldout">
-          <input
-            type="checkbox"
-            checked={excludeSoldOut}
-            onChange={(e) => setExcludeSoldOut(e.target.checked)}
-          />
-          품절 제외
-        </label>
+        <CustomCheckboxnRadioStyle className='checkbox' label="품절제외" checked={excludeSoldOut} onChange={(e) => setExcludeSoldOut(e.target.checked)} />
       </div>
 
       <div className="product-list">
