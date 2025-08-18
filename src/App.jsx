@@ -18,6 +18,7 @@ import AddressRegister from "./pages/AddressRegister";
 import OrderComplete from "./pages/OrderComplete";
 import Cart from "./pages/Cart";
 import Agreement from "./pages/Agreement";
+import ProductReview from "./pages/ProductReview";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
       <Route path="/order/complete" element={<OrderComplete />} />
       <Route path="/address-register" element={<AddressRegister />} />
       <Route path="/product/detail" element={<ProductDetail />} />
+      <Route path="/product/review" element={<ProductReview />} />
       <Route path="/goods" element={<GoodsList />} />
       <Route path="/cart" element={<Cart />} />
       {/* <Route path="/goods/:id" element={<GoodsDetail />} /> */}

@@ -21,7 +21,7 @@ import {
   transactionInfoText2
 } from '../text';
 
-const ProductDetail = ( {type='no-overseas'} ) => {
+const ProductDetail = ( {type='overseas'} ) => {
     const isOverseas = type === 'overseas';
     const isSoldOut = false;
     
@@ -49,19 +49,19 @@ const ProductDetail = ( {type='no-overseas'} ) => {
     const reviews = [
         {
             rating: 2,
-            nickname: "닉네임뒤세글자***",
+            nickname: "닉네임뒤세글자",
             content: "흠냐..글쎄용.",
             photo: "/assets/sample/dummy_product2.svg"
         },
         {
             rating: 5,
-            nickname: "닉네임뒤세글자***",
+            nickname: "닉네임뒤세글자",
             content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 텍스트 영역은 마찬가지로 최대 3줄 노출합니다라라라라라",
             photo: ""
         },
         {
             rating: 5,
-            nickname: "닉네임뒤세글자***",
+            nickname: "닉네임뒤세글자",
             content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 최대 3줄 노출합니다",
             photo: "/assets/sample/dummy_product2.svg"
         },
@@ -636,6 +636,15 @@ const ProductDetail = ( {type='no-overseas'} ) => {
                                 <p className='review-top-content'>{reviewCounts.toLocaleString()}건</p>
                             </div>
                         </div>
+
+                        <div className='review-statistics-area'>
+                            <p>만족도</p>
+                            <p>•</p>
+                            <p className='text-statistics1'>기대 이상이에요</p>
+                            <p>•</p>
+                            <p className='text-statistics2'>90%</p>
+                        </div>
+
                         {/* 리뷰 컴포넌트 */}
                         <div className='reivew-components-area'>
                             {reviews.map((review, index) => (

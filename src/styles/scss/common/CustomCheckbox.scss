@@ -77,5 +77,10 @@
                 text-underline-offset: 3px; 
             }
         }
+
+        &.photo-review {
+            @include text-color();
+            @include font-style("headline6")
+        }
     }
 }

@@ -1,6 +1,6 @@
 .product-detail {
   min-width: 360px;
-  max-width: 768px;
+  max-width: 600px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -10,6 +10,7 @@
 }
 .product-detail .header {
   width: 100%;
+  box-sizing: border-box;
   padding: 12px;
   display: flex;
   justify-content: space-between;
@@ -109,6 +110,7 @@
 }
 .product-detail .title-area {
   width: 100%;
+  box-sizing: border-box;
   padding: 20px 16px 16px 16px;
 }
 .product-detail .title-area .top-row {
@@ -187,6 +189,7 @@
 }
 .product-detail .delivery-area {
   width: 100%;
+  box-sizing: border-box;
   padding: 16px;
 }
 .product-detail .delivery-area .delivery-row {
@@ -213,6 +216,7 @@
 }
 .product-detail .delivery-area .overseas-shipping-info-area {
   width: 100%;
+  box-sizing: border-box;
   margin-top: 16px;
   border-radius: 12px;
   background-color: #F7F7FB;
@@ -321,6 +325,7 @@
 }
 .product-detail .product-origin-area {
   width: 100%;
+  box-sizing: border-box;
   padding: 10px 0 10px 16px;
   display: flex;
   gap: 8px;
@@ -348,6 +353,7 @@
 }
 .product-detail .tab-wrapper {
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   padding-left: 12px;
   padding-right: 12px;
@@ -390,6 +396,7 @@
 }
 .product-detail .product-detail-area {
   width: 100%;
+  box-sizing: border-box;
   padding: 20px 16px 20px 16px;
 }
 .product-detail .product-detail-area .product-detail-info {
@@ -458,6 +465,7 @@
 }
 .product-detail .review-area {
   width: 100%;
+  box-sizing: border-box;
   padding: 16px 0 16px 16px;
 }
 .product-detail .review-area .review-title {
@@ -485,18 +493,35 @@
   font-weight: 500;
   letter-spacing: -2.5%;
   color: #505050;
-  border-radius: 4px;
-  background-color: #F7F7FB;
-  padding: 2px 6px;
   margin-top: 0;
   margin-bottom: 2px;
+}
+.product-detail .review-area .review-statistics-area {
+  background-color: #F7F7FB;
+  border-radius: 4px;
+  padding: 3px 12px;
   display: flex;
-  justify-content: center;
+  gap: 2px;
   align-items: center;
+  margin-top: 16px;
+}
+.product-detail .review-area .review-statistics-area p {
+  margin: 0;
+  color: #767676;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+}
+.product-detail .review-area .review-statistics-area .text-statistics1 {
+  color: #111111;
+}
+.product-detail .review-area .review-statistics-area .text-statistics2 {
+  color: #FFCC4C;
 }
 .product-detail .review-area .reivew-components-area {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   overflow-x: auto;
   padding-right: 16px;
   margin-top: 16px;
@@ -555,6 +580,10 @@
 .product-detail .rating-star-row {
   display: flex;
   gap: 4px;
+  align-items: center;
+}
+.product-detail .rating-star-row img {
+  margin-bottom: 3px;
 }
 .product-detail .rating-star-row.title {
   gap: 0;
@@ -582,6 +611,7 @@
 }
 .product-detail .buy-info-area {
   width: 100%;
+  box-sizing: border-box;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -631,6 +661,7 @@
 }
 .product-detail .inquiry-area {
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   padding: 16px;
@@ -650,13 +681,14 @@
 }
 .product-detail .footer {
   width: 100%;
-  margin: 0 12px;
+  box-sizing: border-box;
   box-sizing: border-box;
 }
 .product-detail .cta-button-area {
   position: sticky;
   bottom: 0;
   width: 100%;
+  box-sizing: border-box;
   background-color: white;
   z-index: 10;
 }
