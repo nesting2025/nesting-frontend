@@ -5,6 +5,7 @@ import useScreenSize from '../hooks/useScreenSize';
 import Footer from '../components/layout/Footer';
 import CTAButton from '../components/CTAButton';
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import {
   shippingPolicyText1,
@@ -21,9 +22,10 @@ import {
   transactionInfoText2
 } from '../text';
 
-const ProductDetail = ( {type='overseas'} ) => {
+const ProductDetail = ( {type='domestic'} ) => {
     const isOverseas = type === 'overseas';
     const isSoldOut = false;
+    const nav = useNavigate();
     
     const {screenSize} = useScreenSize();
 
@@ -281,6 +283,10 @@ const ProductDetail = ( {type='overseas'} ) => {
     const stopStickyRef = useRef(null);
     const [isStickyOff, setIsStickyOff] = useState(false);
     const isStickyOffRef = useRef(false);
+
+    const handleNavigate = () => {
+        nav(`/product/review?type=${isOverseas ? "overseas" : "domestic"}`);
+    }
 
 
     useEffect(() => {
@@ -657,7 +663,7 @@ const ProductDetail = ( {type='overseas'} ) => {
                                 />
                             ))}
                         </div>
-                        <button className='review-button'>네스터들의 리뷰 전체보기</button>
+                        <button className='review-button' onClick={handleNavigate}>네스터들의 리뷰 전체보기</button>
                     </>
                 ): (
                     <button className='review-button no-review'>아직 작성된 리뷰가 없어요</button>

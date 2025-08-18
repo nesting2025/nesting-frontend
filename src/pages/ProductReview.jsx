@@ -1,9 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, use } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import "../styles/css/ProductReviewPage.css";
 import CustomCheckbox from "../components/common/CustomCheckbox";
 import Review from "../components/product/Review";
 
 const ProductReview = () => {
+    const [searchParams] = useSearchParams();
+    const type = searchParams.get("type");
+    const nav = useNavigate();
+
     const reviewCounts = 1996;
     const [openStatistics, setOpenStatistics] = useState(false); 
     const [photoReviewChecked, setPhotoReviewChecked] = useState(false);
@@ -76,14 +81,19 @@ const ProductReview = () => {
         ? reviews.filter(review => review.productImgList && review.productImgList.length > 0)
         : reviews
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     return (
         <div className="product-review-page">
             <div className="header">
                 <img 
                     className="back-button"
                     src="/assets/button/btn_back2.svg" 
+                    onClick={() => nav(-1)}
                 />
-                <p>네스터들의 해외구매 리뷰</p>
+                <p>{type === "overseas" ? "네스터들의 해외구매 리뷰" : "이 상품의 리뷰"}</p>
             </div>
 
             {/* 평균 별점, 리뷰 건수 */}
