@@ -72,7 +72,7 @@
                     box-sizing: border-box;
                     @include border-color("line-medium");
                     border-radius: 8px;
-                    padding: 12px 40px;
+                    padding: 12px 16px 12px 40px;
 
                     &:focus {
                         @include border-color("text-main");
@@ -415,7 +415,7 @@
 
     .FAQ-area {
         @include bg-color("white");
-        padding: 40px 20px 32px 20px;
+        padding: 40px 20px 0 20px;
 
         p { margin: 0; }
 
