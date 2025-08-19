@@ -20,6 +20,7 @@ import Cart from "./pages/Cart";
 import Agreement from "./pages/Agreement";
 import ProductReview from "./pages/ProductReview";
 import ProductRequest from "./pages/ProductRequest";
+import ProductRequestList from "./pages/ProductRequestList";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
       <Route path="/product/detail" element={<ProductDetail />} />
       <Route path="/product/review" element={<ProductReview />} />
       <Route path="/product/request" element={<ProductRequest />} />
+      <Route path="/product/request/list" element={<ProductRequestList />} />
       <Route path="/goods" element={<GoodsList />} />
       <Route path="/cart" element={<Cart />} />
       {/* <Route path="/goods/:id" element={<GoodsDetail />} /> */}

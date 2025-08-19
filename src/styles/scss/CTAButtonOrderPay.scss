@@ -10,6 +10,13 @@
     @include bg-color("white");
     box-sizing: border-box;
 
+    &.product-request {
+        padding-bottom: 12px;
+        border-top: 1px solid #e5e5ec;
+        display: flex;
+        flex-direction: column;
+    }
+
     button {
         padding: 12px 0 12px 0;
         width: 100%;
@@ -26,5 +33,12 @@
         @include bg-color("primary200");
         @include text-color("text-main");
         cursor: pointer;
+    }
+
+    span {
+        @include text-color("status-cautionary");
+        @include font-style("caption2");
+        margin-top: 10px;
+        text-align: center;
     }
 }
