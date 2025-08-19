@@ -66,12 +66,12 @@ const Agreement = () => {
                     <p>{agreementPrivacyText1}</p>
                     <div className="line" />
                     <p>{agreementPrivacyText2}</p>
-                    <img src="/assets/agreement_img1.svg" />
+                    <img src="/assets/table/agreement_img1.svg" />
                     <p>{agreementPrivacyText3}</p>
                     <h3>개인정보 제3자 제공 현황</h3>
-                    <img src="/assets/agreement_img2.svg" className="img2" />
+                    <img src="/assets/table/agreement_img2.svg" className="img2" />
                     <p>{agreementPrivacyText4}</p>
-                    <img src="/assets/agreement_img3.svg" />
+                    <img src="/assets/table/agreement_img3.svg" />
                     <p>{agreementPrivacyText5}</p>
                     </>
                 )}
