@@ -23,7 +23,7 @@ const Header = ({screenSize}) => {
         <a href="#">SHOP</a>
         <a href="#">ABOUT</a>
         <a href="#">CONTACT US</a>
-        <img src="/assets/size=48, type=menu.svg" alt="Menu" className="icon" />
+        <img src="/assets/size=48, type=menu.svg" alt="Menu" className="icon" onClick={() => nav("/login")}/>
       </nav>
 
       <div className="logo">
