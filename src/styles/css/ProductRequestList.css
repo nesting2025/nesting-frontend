@@ -213,6 +213,9 @@
   margin: 10px 0 0 0;
   white-space: nowrap;
 }
+.requested-product .product-area .error-area .select-option .option-row .title.bottom {
+  margin-top: 3px;
+}
 .requested-product .product-area .error-area .select-option .option-row .input-option-area {
   display: flex;
   flex-direction: column;

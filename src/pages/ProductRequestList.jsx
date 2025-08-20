@@ -18,7 +18,6 @@ const ProductRequestList = () => {
             productData: null,
             checked: false,
             requestedDate: "8월 4일",
-            option: []
         },
         {
             link: "http://어쩌고",
@@ -28,13 +27,13 @@ const ProductRequestList = () => {
                 title: "상품명은 최대 1줄 노출 상품명은 최대 1줄 노출 길어지면 말줄임",
                 originPrice: 8000,
                 discountedPrice: 8000,
-                quantity: 1,
-                option: "",
+                option: [
+                    { textOption: "", quantityOption: 1 },
+                ],
                 isSoldout: false
             },
             checked: false,
             requestedDate: "8월 4일",
-            option: []
         },
         {
             link: "http://어쩌고222",
@@ -44,23 +43,30 @@ const ProductRequestList = () => {
                 title: "2222상품명은 최대 1줄 노출 상품명은 최대 1줄 노출 길어지면 말줄임",
                 originPrice: 8000,
                 discountedPrice: 8000,
-                quantity: 1,
-                option: "",
+                option: [
+                    { textOption: "", quantityOption: 1 },
+                ],
                 isSoldout: true
             },
             checked: false,
             requestedDate: "8월 4일",
-            option: []
+            // option: []
         },
         {
             link: "http://어쩌고333",
             status: "error",
-            productData: null,
+            productData: {
+                imgSrc: null,
+                title: null,
+                originPrice: null,
+                discountedPrice: null,
+                option: [
+                    { textOption: "", quantityOption: 1 },
+                ],
+                isSoldout: null
+            },
             checked: false,
             requestedDate: "8월 4일",
-            option: [
-                { textOption: "", quantityOption: 1 }
-            ]
         },
     ]);
 
@@ -78,7 +84,7 @@ const ProductRequestList = () => {
             month: "long",
             day: "numeric",
             }),
-            option: null
+            // option: null
         };
         setRequestedProductLis((prev) => [newItem, ...prev]);
         setProductDomain("");
@@ -91,11 +97,16 @@ const ProductRequestList = () => {
         setRequestedProductLis((prev) =>
             prev.map((item, i) => {
             if (i !== productIndex) return item;
+            if (!item.productData) return item;
+
             return {
                 ...item,
-                option: item.option.map((opt, j) =>
-                j === optionIndex ? { ...opt, quantityOption: newQuantity } : opt
-                )
+                productData: {
+                    ...item.productData,
+                    option: item.productData.option.map((opt, j) =>
+                        j === optionIndex ? { ...opt, quantityOption: newQuantity } : opt
+                    )
+                }
             };
             })
         );
@@ -105,23 +116,34 @@ const ProductRequestList = () => {
         setRequestedProductLis(prev =>
             prev.map((item, i) => {
             if (i !== productIndex) return item;
+            if (!item.productData) return item;
+
             return {
                 ...item,
-                option: item.option.map((opt, j) =>
-                j === optionIndex ? { ...opt, textOption: newText } : opt
-                )
+                productData: {
+                    ...item.productData,
+                    option: item.productData.option.map((opt, j) =>
+                        j === optionIndex ? { ...opt, textOption: newText } : opt
+                    )
+                }
             };
             })
         );
     };
 
     const handleAddOption = (productIndex) => {
-        setRequestedProductLis(prev =>
+        setRequestedProductLis((prev) =>
             prev.map((item, i) =>
-            i === productIndex
-                ? {
+                i === productIndex ? 
+                {
                     ...item,
-                    option: [...(item.option || []), { textOption: "", quantityOption: 1 }]
+                    productData: {
+                        ...item.productData,
+                        option: [
+                            ...(item.productData?.option || []),
+                            { textOption: "", quantityOption: 1 }
+                        ]
+                    }
                 }
                 : item
             )
@@ -172,7 +194,6 @@ const ProductRequestList = () => {
                         status={item.status}
                         productData={item.productData}
                         requestedDate={item.requestedDate}
-                        option={item.option}
                         onChangeQuantity={(optionIdx, newQuantity) => handleChangeQuantity(index, optionIdx, newQuantity)}
                         onChangeTextOption={(optionIdx, value) => handleChangeTextOption(index, optionIdx, value)}
                         onAddOption={() => handleAddOption(index)}
@@ -190,7 +211,7 @@ const ProductRequestList = () => {
 
 export default ProductRequestList;
 
-const RequestedProduct = ({ link, status, productData, checked, requestedDate, option, onChangeQuantity, onChangeTextOption, onAddOption, onRemove, onToggleCheck }) => {
+const RequestedProduct = ({ link, status, productData, checked, requestedDate, onChangeQuantity, onChangeTextOption, onAddOption, onRemove, onToggleCheck }) => {
     return (
         <div className="requested-product">
             <h3>입력된 URL</h3>
@@ -232,7 +253,7 @@ const RequestedProduct = ({ link, status, productData, checked, requestedDate, o
                                 </div>
                             </div>
 
-                            {option.map((option , optionIdx) => (
+                            {productData.option.map((option , optionIdx) => (
                                 <div className="select-option" key={optionIdx}>
                                     <div className="option-row">
                                         <p className="title">옵션</p>
@@ -242,7 +263,7 @@ const RequestedProduct = ({ link, status, productData, checked, requestedDate, o
                                         </div>
                                     </div>
                                     <div className="option-row">
-                                        <p className="title">수량</p>
+                                        <p className="title bottom">수량</p>
                                         <div className="select-quantity">
                                             <button 
                                                 className={`select-quantity-button ${option.quantityOption>1 ? 'active' : ''}`}

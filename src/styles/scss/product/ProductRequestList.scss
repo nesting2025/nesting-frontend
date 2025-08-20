@@ -212,6 +212,10 @@
                         @include font-style("title4");
                         margin: 10px 0 0 0;
                         white-space: nowrap;
+
+                        &.bottom {
+                            margin-top: 3px;
+                        }
                     }
 
                     .input-option-area {

@@ -34,8 +34,9 @@ const OrderPay = () => {
       title: "상품명1",
       originPrice: 10000,  // 수량 포함된 가격
       discountedPrice: 8000,  // 수량 포함된 가격
-      quantity: 1,
-      option: "선택지 A/선택지 ①",
+      option: [
+            { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
+          ],
       deliveryFee: 0,
     },
     {
@@ -43,8 +44,9 @@ const OrderPay = () => {
       title: "상품명2",
       originPrice: 8000,
       discountedPrice: 8000,
-      quantity: 3,
-      option: "",
+      option: [
+            { textOption: "", quantityOption: 3 },
+          ],
       deliveryFee: 0,
     },
       {
@@ -52,8 +54,9 @@ const OrderPay = () => {
       title: "상품명3",
       originPrice: 20000,
       discountedPrice: 16000,
-      quantity: 3,
-      option: "",
+      option: [
+            { textOption: "", quantityOption: 3 },
+          ],
       deliveryFee: 3000,
     },
   ])
@@ -64,8 +67,9 @@ const OrderPay = () => {
       title: "상품명입니다릴라라랄리라",
       originPrice: 8000,
       discountedPrice: 5000,
-      quantity: 1,
-      option: "",
+      option: [
+            { textOption: "", quantityOption: 1 },
+          ],
       deliveryFee: 0,
     },
   ])
