@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/css/FilterBottomSheet.css";
+import { useGetFilterPrices } from "../../hooks/useProducts";
 
 export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSort, onSelectSort, InitialActiveTab }) {
+  const { getFilterPrices, data: getFilterPricesData } = useGetFilterPrices();
+
   const [activeTab, setActiveTab] = useState(InitialActiveTab);
   const [selectedTags, setSelectedTags] = useState([]);
   const [localSort, setLocalSort] = useState(selectedSort);
 
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const serverMinPrice = 2000;
-  const serverMaxPrice = 356450;
+  const serverMinPrice = getFilterPricesData?.minPrice ?? 0; 
+  const serverMaxPrice = getFilterPricesData?.maxPrice ?? 0;
 
   const sortOptions = ["찜 많은 순", "신상품순", "가격 낮은순", "가격 높은순"];
   const categoryOptions = [
@@ -25,6 +28,11 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
     { name: "식기류", count: 2 },
     { name: "기타", count: 0 },
   ];
+
+  useEffect(() => {
+    // 상품 최대/최소 가격 조회 API
+    getFilterPrices();
+  }, [])
 
   // 옵션 toggle
   const toggleTag = (option) => {

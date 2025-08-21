@@ -1,4 +1,5 @@
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto"
+import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto"
 import { ProductsRepository } from "../data/repository/ProductsRepository"
 import { useAsync } from "./useAsync"
@@ -13,5 +14,17 @@ export const useGetProductList = () => {
     } = useAsync<BaseResponseDto<GetProductListResponseDto>>(ProductsRepository.getProductList);
 
     return { getProductList, loading, error, data, reset };
+};
+
+export const useGetFilterPrices = () => {
+    const {
+        execute: getFilterPrices,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<GetFilterPricesResponseDto>>(ProductsRepository.getFilterPrices);
+
+    return { getFilterPrices, loading, error, data, reset };
 };
 

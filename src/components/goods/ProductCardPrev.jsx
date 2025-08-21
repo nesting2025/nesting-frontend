@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../../styles/css/ProductCard.css";
 
 export default function ProductCardPrev({ product, toggleLike, isRecommend = false }) {
-  // const [isLiked, setIsLiked] = useState(false);
 
   const handleLikeClick = (e) => {
     // e.stopPropagation(); // 카드 전체 클릭 이벤트와의 분리.

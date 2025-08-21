@@ -27,14 +27,6 @@ export default function GoodsList() {
     getProductList(getProductListDto);
   }, []);
 
-  // API 응답
-  useEffect(() => {
-    if(getProductListData != null) {
-      console.log(getProductListData);
-    }
-     
-  }, [getProductListData]);
-
   return (
     <div className="page-bg">
       <div className="container">
