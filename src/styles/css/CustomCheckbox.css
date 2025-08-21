@@ -15,6 +15,12 @@
 .checkbox.disabled {
   cursor: default;
 }
+.checkbox.disabled .checkmark {
+  background-color: #F7F7FB;
+}
+.checkbox.disabled .checkmark::after {
+  border: 1px solid #F7F7FB;
+}
 .checkbox input {
   position: absolute;
   opacity: 0;
@@ -67,4 +73,11 @@
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+}
+.checkbox .checkbox-label.photo-review {
+  color: #111111;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
 }

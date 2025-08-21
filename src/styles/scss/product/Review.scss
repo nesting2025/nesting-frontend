@@ -1,0 +1,193 @@
+@import "../colors";
+@import "../typography";
+
+.review {
+    width: 100%;
+    box-sizing: border-box;
+
+    .top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .user-info {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            img {
+                width: 32px;
+                height: 32px;
+            }
+
+            p {
+                @include text-color("text-sub2");
+                @include font-style("caption1");
+                margin: 0;
+            }
+        }
+
+        .date {
+            @include text-color("text-disabled");
+            @include font-style("caption1");
+            margin: 0;
+        }
+    }
+
+    .rating-area {
+        display: flex;
+        gap: 0;
+        margin-top: 12px;
+
+        img {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    .tag-area {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+
+        .tag {
+            @include bg-color("bg-weak");
+            border-radius: 4px;
+            padding: 2px 6px;
+
+            display: flex;
+            gap: 2px;
+
+            p {
+                @include font-style("caption3");
+                @include text-color("text-sub1");
+                margin: 0;
+            }
+
+            .tag-label {
+                @include text-color();
+            }
+        }
+    }
+
+    .content-area {
+        width: 100%;
+        box-sizing: border-box;
+        @include text-color("text-sub1");
+        @include font-style("body2");
+        margin: 12px 0 16px 0;
+    }
+
+    .product-img-area-small {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+
+        // 스크롤바 안보이게
+        scrollbar-width: none;  
+        -ms-overflow-style: none;  
+        &::-webkit-scrollbar {        
+            display: none;
+        }
+
+        .product-one-img {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            @include border-color("line-weak");
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+
+            .product-img {
+                width: 100%;
+                height: 100%;
+            }
+
+            .maximize-btn {
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                right: 8px;
+                bottom: 8px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .product-img-area-large {
+        width: 100%;
+        position: relative;
+        border-radius: 4px;
+        overflow: hidden;
+        @include border-color("line-weak");
+
+        .product-img-scroll {
+            width: 100%;
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+
+            // 스크롤바 안보이게
+            scrollbar-width: none;  
+            -ms-overflow-style: none;  
+            &::-webkit-scrollbar {        
+                display: none;
+            }
+
+            .product-img {
+                flex-shrink: 0;
+                width: 100%;
+                height: auto;
+                scroll-snap-align: start;
+            }
+        }
+
+        .minimize-btn {
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            cursor: pointer;
+        }
+
+        .scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+        .scroll-button.left {
+            left: 8px;
+        }
+
+        .scroll-button.right {
+            right: 8px;
+        }
+
+
+        .img-indicator {
+            padding: 2px 8px;
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            border-radius: 11px;
+            background: rgba(0, 0, 0, 0.7);
+            @include text-color("text-disabled");
+            @include font-style("caption1");
+
+            .highlight {
+                @include text-color("white");
+            }
+        }
+    }
+}
+
+.review:not(:last-child) {
+  border-bottom: 1px solid #e5e5ec;
+  padding-bottom: 20px;
+}

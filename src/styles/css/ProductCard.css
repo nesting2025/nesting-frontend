@@ -8,6 +8,7 @@
   position: relative;
   border-radius: 8px;
   overflow: hidden;
+  border: 1px solid #F1F1F5;
 }
 .product-card .image-wrapper img {
   width: 100%;
@@ -61,6 +62,22 @@
 .product-card .info {
   margin-top: 8px;
   text-align: left;
+}
+.product-card .info .title-area {
+  display: flex;
+  gap: 4px;
+}
+.product-card .info .tag-used {
+  border-radius: 2px;
+  padding: 0 3px;
+  background-color: #F1F1F5;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #505050;
+  display: inline-flex;
+  align-items: center;
 }
 .product-card .info .title {
   color: #505050;
@@ -118,6 +135,4 @@
 .product-card .info .likes img {
   width: 16px;
   height: 16px;
-} • */
-  }
 }

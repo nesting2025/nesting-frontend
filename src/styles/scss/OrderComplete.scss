@@ -3,7 +3,7 @@
 
 .order-complete {
     min-width: 360px;
-    max-width: 768px;
+    max-width: 600px;
     margin: 0 auto;
 
     .header {
@@ -88,7 +88,14 @@
         width: 100%;
         box-sizing: border-box;
         height: 8px;
+        margin: 0;
         @include bg-color("bg-strong");
+    }
+
+    .diver-weak {
+        @include border-color("line-medium");
+        border-bottom: none;
+        margin: 16px 0;
     }
 
     .oreder-detail {

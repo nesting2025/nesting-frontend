@@ -3,7 +3,7 @@
 
 .order-page {
     min-width: 360px;
-    max-width: 768px;
+    max-width: 600px;
     margin: 0 auto;
     font-family: sans-serif;
   }
@@ -230,5 +230,11 @@
     align-items:flex-start;
     @include font-style("body2");
     @include text-color("black");
+  }
+
+  .diver {
+    @include border-color("line-medium");
+    border-bottom: none;
+    margin: 16px 0;
   }
   

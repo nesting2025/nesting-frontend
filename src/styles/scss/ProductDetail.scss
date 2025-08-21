@@ -3,7 +3,7 @@
 
 .product-detail {
     min-width: 360px;
-    max-width: 768px;
+    max-width: 600px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -13,6 +13,7 @@
 
     .header {
         width: 100%;
+        box-sizing: border-box;
         padding: 12px;
         display: flex;
         justify-content: space-between;
@@ -119,6 +120,7 @@
 
     .title-area {
         width: 100%;
+        box-sizing: border-box;
         padding: 20px 16px 16px 16px;
 
         .top-row {
@@ -192,6 +194,7 @@
 
     .delivery-area {
         width: 100%;
+        box-sizing: border-box;
         padding: 16px;
 
         .delivery-row {
@@ -222,6 +225,7 @@
 
         .overseas-shipping-info-area{
             width: 100%;
+            box-sizing: border-box;
             margin-top: 16px;
             border-radius: 12px;
             @include bg-color("bg-weak");
@@ -327,6 +331,7 @@
 
     .product-origin-area {
         width: 100%;
+        box-sizing: border-box;
         padding: 10px 0 10px 16px;
         display: flex;
         gap: 8px;
@@ -354,6 +359,7 @@
 
     .tab-wrapper {
         width: 100%;
+        box-sizing: border-box;
         display: flex;
         padding-left: 12px;
         padding-right: 12px;
@@ -399,6 +405,7 @@
 
     .product-detail-area {
         width: 100%;
+        box-sizing: border-box;
         padding: 20px 16px 20px 16px;
         
         .product-detail-info {
@@ -467,6 +474,7 @@
 
     .review-area {
         width: 100%;
+        box-sizing: border-box;
         padding: 16px 0 16px 16px;
         
         .review-title {
@@ -490,21 +498,38 @@
             .review-top-title {
                 @include font-style("caption3");
                 @include text-color("text-sub2");
-                border-radius: 4px;
-                @include bg-color("bg-weak");
-                padding: 2px 6px;
                 margin-top: 0;
                 margin-bottom: 2px;
+            }
+        }
 
-                display: flex;
-                justify-content: center;
-                align-items: center;
+        .review-statistics-area {
+            @include bg-color("bg-weak");
+            border-radius: 4px;
+            padding: 3px 12px;
+            display: flex;
+            gap: 2px;
+            align-items: center;
+            margin-top: 16px;
+
+            p {
+                margin: 0;
+                @include text-color("text-sub1");
+                @include font-style("caption1");
+            }
+
+            .text-statistics1 {
+                @include text-color();
+            }
+
+            .text-statistics2 {
+                @include text-color("primary400");
             }
         }
 
         .reivew-components-area {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             overflow-x: auto;
             padding-right: 16px;
             margin-top: 16px;
@@ -564,6 +589,10 @@
     .rating-star-row {
         display: flex;
         gap: 4px;
+        align-items: center;
+        img {
+            margin-bottom: 3px;
+        }
 
         &.title {
             gap: 0;
@@ -594,6 +623,7 @@
 
     .buy-info-area {
         width: 100%;
+        box-sizing: border-box;
         padding: 16px;
         display: flex;
         flex-direction: column;
@@ -641,6 +671,7 @@
 
     .inquiry-area {
         width: 100%;
+        box-sizing: border-box;
         display: flex;
         justify-content: space-between;
         padding: 16px;
@@ -661,7 +692,8 @@
 
     .footer {
         width: 100%;
-        margin: 0 12px;
+        box-sizing: border-box;
+        // margin: 0 12px;
         box-sizing: border-box;
     }
 
@@ -669,6 +701,7 @@
         position: sticky;
         bottom: 0;
         width: 100%;
+        box-sizing: border-box;
         background-color: white;
         z-index: 10;
     }

@@ -11,6 +11,7 @@
       position: relative;
       border-radius: 8px;
       overflow: hidden;
+      @include border-color("line-weak");
   
       img {
         width: 100%;
@@ -62,6 +63,21 @@
     .info {
       margin-top: 8px;
       text-align: left;
+
+      .title-area {
+        display: flex;
+        gap: 4px;
+      }
+
+      .tag-used {
+        border-radius: 2px;
+        padding: 0 3px;
+        @include bg-color("bg-strong");
+        @include font-style("caption3");
+        @include text-color("text-sub2");
+        display: inline-flex;
+        align-items: center;
+      }
   
       .title {
         @include text-color("text-sub2");
@@ -110,8 +126,6 @@
       
         @include text-color("text-sub1");
         @include font-style("title4");  
-
-        
     }
     }
 }

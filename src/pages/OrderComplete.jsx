@@ -23,14 +23,15 @@ const OrderComplete = () => {
         customDetailRequest: ''
     });
 
-    const [orderProductList, setOrderProductList] = useState([
+    const [orderProductDomesticList, setOrderProductDomesticList] = useState([
         {
           imgSrc: "/assets/sample/dummy_product10.svg",
           title: "상품명1",
           originPrice: 10000,  // 수량 포함된 가격
           discountedPrice: 8000,  // 수량 포함된 가격
-          quantity: 1,
-          option: "선택지 A/선택지 ①",
+          option: [
+            { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
+          ],
           deliveryFee: 0,
         },
         {
@@ -38,8 +39,9 @@ const OrderComplete = () => {
           title: "상품명2",
           originPrice: 8000,
           discountedPrice: 8000,
-          quantity: 3,
-          option: "",
+          option: [
+            { textOption: "", quantityOption: 3 },
+          ],
           deliveryFee: 0,
         },
          {
@@ -47,14 +49,30 @@ const OrderComplete = () => {
           title: "상품명3",
           originPrice: 20000,
           discountedPrice: 16000,
-          quantity: 3,
-          option: "",
+          option: [
+            { textOption: "", quantityOption: 3 },
+          ],
           deliveryFee: 3000,
         },
     ])
 
+    const [orderProductOverseasList, setOrderProductOverseasList] = useState([
+        {
+          imgSrc: "/assets/sample/dummy_product7.svg",
+          title: "상품명입니다릴라라랄리라",
+          originPrice: 8000,
+          discountedPrice: 5000,
+          option: [
+            { textOption: "", quantityOption: 1 },
+          ],
+          deliveryFee: 0,
+        },
+      ])
+
+
     const priceSummary = useMemo(() => {
-        const summary = orderProductList.reduce(
+        const allProducts = [...orderProductDomesticList, ...orderProductOverseasList];
+        const summary = allProducts.reduce(
             (acc, product) => {
                 acc.totalOriginPrice += product.originPrice;
                 acc.totalDiscountedPrice += product.discountedPrice;
@@ -73,7 +91,7 @@ const OrderComplete = () => {
             totalPrice: summary.totalDiscountedPrice + summary.totalDeliveryFee
         };
         return result;
-    }, [orderProductList]);
+    }, [orderProductDomesticList, orderProductOverseasList]);
 
     return (
         <div className="order-complete">
@@ -125,18 +143,39 @@ const OrderComplete = () => {
 
             {/* 주문 상품 */}
             <section className="order-section">
-                <div className="order-section-title">주문 상품
-                    <span className="order-section-title count">{orderProductList.length}건</span>
+                {orderProductDomesticList.length > 0 && (
+                <div>
+                    <div className="order-section-title">국내배송 상품
+                    <span className="order-section-title count">{orderProductDomesticList.length}건</span>
+                    </div>
+                    <div className='order-list-area'>
+                    {orderProductDomesticList.map((item, index) => 
+                        <OrderProductCard
+                        key={index} 
+                        productData={item}
+                        />
+                    )}
+                    </div>
                 </div>
-
-                <div className='order-list-area'>
-                {orderProductList.map((item, index) => 
-                    <OrderProductCard
-                    key={index} 
-                    productData={item}
-                    />
                 )}
+                
+                {orderProductDomesticList.length > 0 && orderProductOverseasList.length > 0 && <div className='diver-weak' />}
+                
+                {orderProductOverseasList.length > 0 && (
+                <div>
+                    <div className="order-section-title">해외배송 상품
+                    <span className="order-section-title count">{orderProductOverseasList.length}건</span>
+                    </div>
+                    <div className='order-list-area'>
+                    {orderProductOverseasList.map((item, index) => 
+                        <OrderProductCard
+                        key={index} 
+                        productData={item}
+                        />
+                    )}
+                    </div>
                 </div>
+                )}
             </section>
 
             <div className="diver" />

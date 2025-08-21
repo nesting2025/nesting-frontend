@@ -650,3 +650,8 @@ export const agreementMarketingReceiveText2 = `: 이용자의 관심 및 성향�
 
 export const agreementMarketingReceiveText3 = `: 성별, 출생년도, 서비스 이용 기록, 위치정보 등`
 
+export const paymentInfo = `• 배송비는 실무게와 부피 무게 중 더 무거운 쪽으로 계산됩니다.
+• 10원 단위 금액은 올림 계산됩니다. ex) 15,890 >> 15,900
+• 총 상품 가격이 150달러 이하라면 관부가세를 부과하지 않습니다.
+• 총 상품 가격이 150달러 이상일 경우, 예상 관부가세를 별도로 안내드립니다.`
+

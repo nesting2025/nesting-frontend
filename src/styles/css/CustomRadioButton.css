@@ -1,7 +1,8 @@
 .custom-radio {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   cursor: pointer;
+  gap: 4px;
 }
 .custom-radio input {
   display: none;
@@ -12,8 +13,8 @@
   border: 1px solid;
   border: 1px solid #E5E5EC;
   border-radius: 50%;
-  margin-right: 4px;
   box-sizing: border-box;
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,6 +29,22 @@
 .custom-radio .label-text {
   font-size: 18px;
   line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  align-items: center;
+  line-height: 1;
+}
+.custom-radio.checkbox .radio-mark {
+  width: 16px;
+  height: 16px;
+}
+.custom-radio.checkbox input:checked + .radio-mark::after {
+  width: 8px;
+  height: 8px;
+}
+.custom-radio.checkbox .label-text {
+  font-size: 13px;
+  line-height: 18px;
   font-weight: 500;
   letter-spacing: -2.5%;
 }

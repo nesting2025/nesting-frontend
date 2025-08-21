@@ -35,7 +35,10 @@ export default function ProductCardPrev({ product, toggleLike, isRecommend = fal
       </div>
 
       <div className="info">
-        <div className={isRecommend ? "title recommend" : "title"}>{product.title}</div>
+        <div className="title-area">
+          {product.isUsed && <div className="tag-used">중고</div>}
+          <div className={isRecommend ? "title recommend" : "title"}>{product.title}</div>
+        </div>
         <div className="price-info">
           {product.discount > 0 && (
             <span className="discount">{product.discount}%</span>
