@@ -4,7 +4,8 @@ import CustomButton from "../components/CustomButton";
 import { useNavigate } from "react-router-dom";
 import CharacterDialog from "../components/dialog/CharacterDialog";
 import GoodsCategoryDialog from "../components/dialog/GoodsCategoryDialog";
-import { useCheckNickname, useSetPreference } from "../hooks/useAuth";
+import { useCheckNickname } from "../hooks/useAuth";
+import { useSetPreference } from "../hooks/useProfile";
 
 const PreferenceSetup = () => {
     const nav = useNavigate();

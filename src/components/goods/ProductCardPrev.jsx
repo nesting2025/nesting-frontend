@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import "../../styles/css/ProductCard.css";
 
 export default function ProductCardPrev({ product, toggleLike, isRecommend = false }) {
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(false);
 
   const handleLikeClick = (e) => {
-    e.stopPropagation(); // 카드 전체 클릭 이벤트와의 분리.
-    setIsLiked(!isLiked);
+    // e.stopPropagation(); // 카드 전체 클릭 이벤트와의 분리.
+    // setIsLiked(!isLiked);
   };
   return (
     <div className="product-card">
       <div className="image-wrapper">
-        {product.isOverseas && <span className="tag">해외</span>}
+        {product.tag.includes("해외") && <span className="tag">해외</span>}
 
-        <img src={product.imageUrl} alt={product.title} />
+        <img src={product.thumbnail} alt={product.name} />
 
-        {product.isSoldOut && (
+        {product.soldOut && (
           <div className="soldout-overlay">
             <span>품절</span>
           </div>
@@ -24,7 +24,7 @@ export default function ProductCardPrev({ product, toggleLike, isRecommend = fal
         <div className="like-btn" onClick={handleLikeClick}>
           <img
             src={
-              isLiked
+              product.isLiked
                 ? "/assets/button/like_btn_pressed.svg"
                 : "/assets/button/like_btn_default.svg"
             }
@@ -36,19 +36,19 @@ export default function ProductCardPrev({ product, toggleLike, isRecommend = fal
 
       <div className="info">
         <div className="title-area">
-          {product.isUsed && <div className="tag-used">중고</div>}
-          <div className={isRecommend ? "title recommend" : "title"}>{product.title}</div>
+          {product.prefixTag.includes("중고") && <div className="tag-used">중고</div>}
+          <div className={isRecommend ? "title recommend" : "title"}>{product.name}</div>
         </div>
         <div className="price-info">
-          {product.discount > 0 && (
-            <span className="discount">{product.discount}%</span>
+          {product.discountPercent !== null && (
+            <span className="discount">{product.discountPercent}%</span>
           )}
           <span className={isRecommend ? "price recommend" : "price"}>{product.price.toLocaleString()}원</span>
         </div>
         {!isRecommend && (
           <div className="likes">
           <img src="/assets/button/icon_like.svg"></img>
-          {product.likes}
+          {product.likeCount}
         </div>
         )}
       </div>
