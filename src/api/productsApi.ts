@@ -2,6 +2,7 @@ import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { GetProductListDto } from "../data/dto/Request/products/GetProductListDto";
 import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto";
+import { TypeResponseDto } from "../data/dto/Response/products/TypeResponseDto";
 import publicClient from "./client";
 import { requestClient } from "./requestClient";
 
@@ -18,6 +19,12 @@ export const getProductList = async (getProductListDto: GetProductListDto): Prom
 
 export const getFilterPrices = async (): Promise<BaseResponseDto<GetFilterPricesResponseDto>> => {
     const response = await publicClient.get<BaseResponseDto<GetFilterPricesResponseDto>>(`${PRODUCTS_URL}/filter/prices`);
+
+    return response.data;
+};
+
+export const getFilterTypes = async (): Promise<BaseResponseDto<TypeResponseDto[]>> => {
+    const response = await publicClient.get<BaseResponseDto<TypeResponseDto[]>>(`${PRODUCTS_URL}/filter/types`);
 
     return response.data;
 };

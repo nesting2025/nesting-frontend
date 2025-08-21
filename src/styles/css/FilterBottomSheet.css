@@ -123,6 +123,9 @@
   color: #111111;
   background-color: #F1F1F5;
 }
+.sheet-content .options button.disabled {
+  cursor: default;
+}
 .sheet-content .price-inputs {
   display: flex;
   align-items: center;

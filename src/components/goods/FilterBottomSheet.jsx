@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/css/FilterBottomSheet.css";
-import { useGetFilterPrices } from "../../hooks/useProducts";
+import { useGetFilterPrices, useGetFilterTypes } from "../../hooks/useProducts";
 
 export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSort, onSelectSort, InitialActiveTab }) {
   const { getFilterPrices, data: getFilterPricesData } = useGetFilterPrices();
+  const { getFilterTypes, data: getFilterTypesData } = useGetFilterTypes();
 
   const [activeTab, setActiveTab] = useState(InitialActiveTab);
   const [selectedTags, setSelectedTags] = useState([]);
@@ -16,23 +17,26 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
 
   const sortOptions = ["찜 많은 순", "신상품순", "가격 낮은순", "가격 높은순"];
   const categoryOptions = [
-    { name: "인형", count: 1 },
-    { name: "피규어", count: 2 },
-    { name: "가챠", count: 0 },
-    { name: "문구류", count: 1 },
-    { name: "카드", count: 0 },
-    { name: "키링", count: 1 },
-    { name: "의류", count: 1 },
-    { name: "화장품", count: 0 },
-    { name: "케이스", count: 0 },
-    { name: "식기류", count: 2 },
-    { name: "기타", count: 0 },
+    { name: "인형", count: getFilterTypesData?.[0]?.count ?? 0 },
+    { name: "피규어", count: getFilterTypesData?.[1]?.count ?? 0 },
+    { name: "가챠", count: getFilterTypesData?.[2]?.count ?? 0 },
+    { name: "문구류", count: getFilterTypesData?.[3]?.count ?? 0 },
+    { name: "카드", count: getFilterTypesData?.[4]?.count ?? 0 },
+    { name: "키링", count: getFilterTypesData?.[5]?.count ?? 0 },
+    { name: "의류", count: getFilterTypesData?.[6]?.count ?? 0 },
+    { name: "화장품", count: getFilterTypesData?.[7]?.count ?? 0 },
+    { name: "케이스", count: getFilterTypesData?.[8]?.count ?? 0 },
+    { name: "식기류", count: getFilterTypesData?.[9]?.count ?? 0 },
+    { name: "기타", count: getFilterTypesData?.[10]?.count ?? 0 },
   ];
 
   useEffect(() => {
     // 상품 최대/최소 가격 조회 API
-    getFilterPrices();
-  }, [])
+    if(!isSort) {
+      getFilterPrices();
+      getFilterTypes();
+    }
+  }, []);
 
   // 옵션 toggle
   const toggleTag = (option) => {
@@ -170,8 +174,9 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
               {categoryOptions.map((option) => (
                 <button
                   key={option.name}
-                  className={selectedTags.includes(option.name) ? "selected" : ""}
-                  onClick={() => toggleTag(option)}
+                  className={`${selectedTags.includes(option.name) ? "selected" : ""} ${option.count === 0 ? "disabled" : ""}`}
+                  disabled={option.count === 0}
+                  onClick={() => option.count !== 0 && toggleTag(option)}
                 >
                   {option.name}
                   {activeTab === "category" && ` · ${option.count}`}
