@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import StickyHeader from "../components/layout/StickyHeader";
 import CategoryTabs from "../components/goods/CategoryTabs.jsx";
 import FilterBar from "../components/goods/FilterBars";
@@ -12,7 +12,8 @@ export default function GoodsList() {
   const {screenSize} = useScreenSize();
   const { getProductList, data: getProductListData } = useGetProductList();
   const [productList, setProductList] = useState([]);
-  const [showProductLength, setShowProductLength] = useState(false);  // 필터바텀시트에서 단순 상품개수 보여주기용, 상품리스트 화면에 렌더링 x
+  // const [showProductLength, setShowProductLength] = useState(false);  // 필터바텀시트에서 단순 상품개수 보여주기용, 상품리스트 화면에 렌더링 x
+  const [showCountOnly, setShowCountOnly] = useState(false);  // 필터바텀시트에서 단순 상품개수 보여주기용, 상품리스트 화면에 렌더링 x
   const [getProductListDto, setGetProductListDto] = useState({
     page: "0",
     size: "10",
@@ -37,7 +38,7 @@ export default function GoodsList() {
   }
 
   useEffect(() => {
-    if(!showProductLength) {
+    if(!showCountOnly) {
       setProductList(getProductListData?.content || []);
     }
   }, [getProductListData])
@@ -50,7 +51,13 @@ export default function GoodsList() {
 
         {/* 카테고리 탭 */}
         <div>
-          <CategoryTabs />
+          <CategoryTabs onChangeCategory={(category) => {
+            setGetProductListDto((prev) => ({
+            ...prev,
+            category: category === "전체" ? null : category,
+            }));
+            setShowCountOnly(false);
+          }} />
         </div>
 
         {/* 필터 바 */}
@@ -60,15 +67,21 @@ export default function GoodsList() {
           listLength={getProductListData?.content.length ?? 0}
           type={getProductListDto.type}
           price={getProductListDto.price}
-          onSelectSort={(engSort) => {setGetProductListDto(prev => ({
-            ...prev, sortType: engSort
-          })); setShowProductLength(false); }}
+          onSelectSort={(engSort) => {
+            setGetProductListDto(prev => ({
+              ...prev, sortType: engSort
+            })); 
+            setShowCountOnly(false); 
+          }}
           onChangeFilter={(joinedPrices, joinedTypes) => { 
             setGetProductListDto(prev => ({
-            ...prev, type: joinedTypes, price: joinedPrices
+              ...prev, type: joinedTypes, price: joinedPrices
             })); 
-            setShowProductLength(false); }}
-          onSelectFilter={() => {console.log("onSelectFilter실행"); setShowProductLength(true); }}
+            setShowCountOnly(false); 
+          }}
+          onSelectFilter={() => {
+            setShowCountOnly(true); 
+          }}
           />
         </div>
 
@@ -77,9 +90,12 @@ export default function GoodsList() {
           <ProductList 
             products={productList} 
             excludeSoldOut={!getProductListDto.includeSoldOut} 
-            onChangeSoldOut={(checked) => setGetProductListDto(prev => ({
-              ...prev, includeSoldOut: !checked
-            }))}
+            onChangeSoldOut={(checked) => {
+              setGetProductListDto(prev => ({
+                ...prev, includeSoldOut: !checked
+              }));
+              setShowCountOnly(false);
+            }}
           />
         </div>
 
