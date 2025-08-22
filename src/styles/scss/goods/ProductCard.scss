@@ -91,6 +91,7 @@
       }
   
       .title {
+        flex: 1;
         @include text-color("text-sub2");
         @include font-style("body2");
         white-space: nowrap;
