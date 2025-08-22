@@ -6,9 +6,11 @@
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
   }
   
   .dialog-content {
+    z-index: 10000;
     background: white;
     padding: 16px;
     border-radius: 20px;
@@ -38,6 +40,8 @@
       font-size: 1.25rem;
       font-weight: bold;
       margin-bottom: 4px;
+      @include font-style("title2");
+      @include text-color();
     }
     .dialog-description{
       margin-top: 0px;
@@ -223,6 +227,19 @@
       background-color: #F1F1F5;
       color: #999999;
       cursor: not-allowed;
+    }
+
+    .dialog-cancel {
+      width: 100%;
+      height: 46px;
+      border-radius: 8px;
+      margin-top: 28px;
+      margin-bottom: 10px;
+      @include font-style("title4");
+      @include text-color("text-sub1");
+      @include bg-color("white");
+      @include border-color("line-medium");
+      cursor: pointer;
     }
   }
   

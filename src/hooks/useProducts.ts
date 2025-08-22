@@ -40,3 +40,15 @@ export const useGetFilterTypes = () => {
 
     return { getFilterTypes, loading, error, data, reset };
 };
+
+export const useToggleProductLike = () => {
+    const {
+        execute: toggleProductLike,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<boolean>>(ProductsRepository.toggleProductLike);
+
+    return { toggleProductLike, loading, error, data, reset };
+};

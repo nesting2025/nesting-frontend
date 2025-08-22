@@ -4,7 +4,7 @@ import '../../styles/css/CharacterDialog.css';
 
 const categories = ["인형", "피규어", "가챠", "문구류", "카드", "키링", "의류", "화장품", "케이스", "식기류"];
 
-export default function CharacterDialog({ open, onOpenChange, onComplete, title, children }) {
+export default function GoodsCategoryDialog({ open, onOpenChange, onComplete, children }) {
   const [selected, setSelected] = useState([]);
   const [inputValue, setInputValue] = useState('');
 
@@ -38,7 +38,7 @@ export default function CharacterDialog({ open, onOpenChange, onComplete, title,
           <Dialog.Close className='dialog-close-x' asChild>
             <img src="/assets/dialog/dialog_x.png"/>
           </Dialog.Close>
-          <Dialog.Title className="dialog-title" style={{ textAlign: 'center' }}>{title}</Dialog.Title>
+          <Dialog.Title className="dialog-title" style={{ textAlign: 'center' }}>굿즈 유형 선택</Dialog.Title>
           <Dialog.Description className="dialog-description">
             좋아하는 굿즈 위주로 추천해 드릴게요 (최대 3개)
           </Dialog.Description>

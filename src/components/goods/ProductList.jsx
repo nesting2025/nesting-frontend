@@ -5,12 +5,6 @@ import CustomCheckboxnRadioStyle from "../common/CustomCheckboxRadioStyle.jsx";
 
 export default function ProductList({ products, excludeSoldOut, onChangeSoldOut }) {
 
-  const toggleLike = (id) => {
-    // setProducts((prev) =>
-    //   prev.map((p) => (p.id === id ? { ...p, isLiked: !p.isLiked } : p))
-    // );
-  };
-
   return (
     <div>
       <div className="filter-result-bar">
@@ -23,7 +17,6 @@ export default function ProductList({ products, excludeSoldOut, onChangeSoldOut 
           <ProductCardPrev
             key={product.id}
             product={product}
-            toggleLike={toggleLike}
           />
         ))}
       </div>

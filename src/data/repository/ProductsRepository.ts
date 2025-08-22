@@ -1,4 +1,4 @@
-import { getFilterPrices, getFilterTypes, getProductList } from "../../api/productsApi";
+import { getFilterPrices, getFilterTypes, getProductList, toggleProductLike } from "../../api/productsApi";
 import { BaseResponseDto } from "../dto/common/BaseResponseDto";
 import { GetProductListDto } from "../dto/Request/products/GetProductListDto";
 import { GetFilterPricesResponseDto } from "../dto/Response/products/GetFilterPricesResponseDto";
@@ -16,5 +16,9 @@ export const ProductsRepository = {
 
     getFilterTypes: async (): Promise<BaseResponseDto<TypeResponseDto[]>> => {
         return await getFilterTypes();
+    },
+
+    toggleProductLike: async (id: string): Promise<BaseResponseDto<boolean>> => {
+        return await toggleProductLike(id);
     },
 }

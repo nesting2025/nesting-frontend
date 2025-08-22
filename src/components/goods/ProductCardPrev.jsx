@@ -1,12 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/css/ProductCard.css";
+import { useToggleProductLike } from "../../hooks/useProducts";
+import PopupDialog from "../dialog/PopupDialog";
+import { useNavigate } from "react-router-dom";
 
-export default function ProductCardPrev({ product, toggleLike, isRecommend = false }) {
+export default function ProductCardPrev({ product, isRecommend = false }) {
+  const { toggleProductLike, data: toggleProductLikeData } = useToggleProductLike();
 
-  const handleLikeClick = (e) => {
-    // e.stopPropagation(); // 카드 전체 클릭 이벤트와의 분리.
-    // setIsLiked(!isLiked);
+  const [isLiked, setIsLiked] = useState(product.isLiked);
+  const [isOpen, setIsOpen] = useState(false);
+  const nav = useNavigate();
+
+  // 상품 좋아요 토글 API
+  const handleLikeClick = async () => {
+    try {
+      await toggleProductLike(product.id);
+    } catch(e) { 
+      console.log(e); 
+      if(e.message === "해당 요청에 대한 권한이 없습니다.") {
+        // 로그인 팝업
+        setIsOpen(true);
+      }
+    }
   };
+
+  // API 응답
+  useEffect(() => {
+    
+    if(toggleProductLikeData !== null && toggleProductLikeData.code === "SUCCESS") {
+      setIsLiked(toggleProductLikeData.data);
+    }
+  }, [toggleProductLikeData]);
+
+
   return (
     <div className="product-card">
       <div className="image-wrapper">
@@ -23,7 +49,7 @@ export default function ProductCardPrev({ product, toggleLike, isRecommend = fal
         <div className="like-btn" onClick={handleLikeClick}>
           <img
             src={
-              product.isLiked
+              isLiked
                 ? "/assets/button/like_btn_pressed.svg"
                 : "/assets/button/like_btn_default.svg"
             }
@@ -51,6 +77,9 @@ export default function ProductCardPrev({ product, toggleLike, isRecommend = fal
         </div>
         )}
       </div>
+      <PopupDialog open={isOpen} onOpenChange={(newOpen) => setIsOpen(newOpen)} titleText={<>로그인이 필요한 서비스입니다.<br/>로그인 하시겠습니까?</>}
+      onClickLeftBtn={() => {}} onClickRightBtn={() => nav("/login")}
+       />
     </div>
   );
 }

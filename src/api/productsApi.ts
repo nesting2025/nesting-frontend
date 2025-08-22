@@ -3,7 +3,7 @@ import { GetProductListDto } from "../data/dto/Request/products/GetProductListDt
 import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto";
 import { TypeResponseDto } from "../data/dto/Response/products/TypeResponseDto";
-import publicClient from "./client";
+import publicClient, { authClient } from "./client";
 import { requestClient } from "./requestClient";
 
 const PRODUCTS_URL = "/nesting/api/v1/products";
@@ -28,3 +28,9 @@ export const getFilterTypes = async (): Promise<BaseResponseDto<TypeResponseDto[
 
     return response.data;
 };
+
+export const toggleProductLike = async (id: string): Promise<BaseResponseDto<boolean>> => {
+    const response = await authClient.post(`${PRODUCTS_URL}/${id}/like`) as BaseResponseDto<boolean>;
+
+    return response;
+}
