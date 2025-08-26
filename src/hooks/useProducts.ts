@@ -1,5 +1,6 @@
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto"
 import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
+import { GetProductDetailResponseDto } from "../data/dto/Response/products/GetProductDetailResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto"
 import { TypeResponseDto } from "../data/dto/Response/products/TypeResponseDto";
 import { ProductsRepository } from "../data/repository/ProductsRepository"
@@ -51,4 +52,16 @@ export const useToggleProductLike = () => {
     } = useAsync<BaseResponseDto<boolean>>(ProductsRepository.toggleProductLike);
 
     return { toggleProductLike, loading, error, data, reset };
+};
+
+export const useGetProductDetail = () => {
+    const {
+        execute: getProductDetail,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<GetProductDetailResponseDto>>(ProductsRepository.getProductDetail);
+
+    return { getProductDetail, loading, error, data, reset };
 };

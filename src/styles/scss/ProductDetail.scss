@@ -68,8 +68,8 @@
             .product-img {
                 flex-shrink: 0;
                 width: 100%;
-                height: auto;
                 scroll-snap-align: start;
+                aspect-ratio: 1 / 1;
             }
         }
 
@@ -118,7 +118,7 @@
       }
     }
 
-    .title-area {
+    .title-area-product-detail {
         width: 100%;
         box-sizing: border-box;
         padding: 20px 16px 16px 16px;

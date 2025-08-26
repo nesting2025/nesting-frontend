@@ -12,7 +12,7 @@ export default function CategoryTabs({ onChangeCategory }) {
   ];
   const subCategories = {
     전체: ["전체"],
-    산리오: ["전체", "헬로키티", "쿠로미", "포차코", "시나모롤", "마이멜로디", "폼폼푸린", "배드바츠마루", "리틀트윈스타", "턱시도샘", "우사하나"],
+    산리오: ["전체", "한교동", "헬로키티", "쿠로미", "포차코", "시나모롤", "마이멜로디", "폼폼푸린", "배드바츠마루", "리틀트윈스타", "턱시도샘", "우사하나"],
     짱구: ["전체"],
     포켓몬: ["전체"],
     리락쿠마: ["전체"],
@@ -32,7 +32,8 @@ export default function CategoryTabs({ onChangeCategory }) {
     else {
 
       if(selectedSub === "전체") {
-        const allSubs = subs.filter(s => s !== "전체").join(",");
+        // const allSubs = subs.filter(s => s !== "전체").join(",");
+        const allSubs = selectedCategory;
         setCategory(allSubs);
       } else {
         setCategory(selectedSub);

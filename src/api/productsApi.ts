@@ -1,6 +1,7 @@
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { GetProductListDto } from "../data/dto/Request/products/GetProductListDto";
 import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
+import { GetProductDetailResponseDto } from "../data/dto/Response/products/GetProductDetailResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto";
 import { TypeResponseDto } from "../data/dto/Response/products/TypeResponseDto";
 import publicClient, { authClient } from "./client";
@@ -33,4 +34,12 @@ export const toggleProductLike = async (id: string): Promise<BaseResponseDto<boo
     const response = await authClient.post(`${PRODUCTS_URL}/${id}/like`) as BaseResponseDto<boolean>;
 
     return response;
-}
+};
+
+export const getProductDetail = async (id: string) : Promise<BaseResponseDto<GetProductDetailResponseDto>> => {
+    return requestClient(async (client) => {
+        const response = await client.get<BaseResponseDto<GetProductDetailResponseDto>>(`${PRODUCTS_URL}/${id}/detail`);
+
+        return response.data;
+    })
+};

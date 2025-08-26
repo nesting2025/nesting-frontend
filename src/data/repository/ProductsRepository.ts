@@ -1,7 +1,8 @@
-import { getFilterPrices, getFilterTypes, getProductList, toggleProductLike } from "../../api/productsApi";
+import { getFilterPrices, getFilterTypes, getProductDetail, getProductList, toggleProductLike } from "../../api/productsApi";
 import { BaseResponseDto } from "../dto/common/BaseResponseDto";
 import { GetProductListDto } from "../dto/Request/products/GetProductListDto";
 import { GetFilterPricesResponseDto } from "../dto/Response/products/GetFilterPricesResponseDto";
+import { GetProductDetailResponseDto } from "../dto/Response/products/GetProductDetailResponseDto";
 import { GetProductListResponseDto } from "../dto/Response/products/GetProductListResponseDto";
 import { TypeResponseDto } from "../dto/Response/products/TypeResponseDto";
 
@@ -20,5 +21,9 @@ export const ProductsRepository = {
 
     toggleProductLike: async (id: string): Promise<BaseResponseDto<boolean>> => {
         return await toggleProductLike(id);
+    },
+
+    getProductDetail: async (id: string): Promise<BaseResponseDto<GetProductDetailResponseDto>> => {
+        return await getProductDetail(id);
     },
 }

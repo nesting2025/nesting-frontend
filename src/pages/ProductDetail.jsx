@@ -5,7 +5,7 @@ import useScreenSize from '../hooks/useScreenSize';
 import Footer from '../components/layout/Footer';
 import CTAButton from '../components/CTAButton';
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import React from 'react';
 import {
   shippingPolicyText1,
@@ -21,29 +21,87 @@ import {
   transactionInfoText1,
   transactionInfoText2
 } from '../text';
+import { useGetProductDetail, useGetProductList } from '../hooks/useProducts';
 
-const ProductDetail = ( {type='domestic'} ) => {
-    const isOverseas = type === 'overseas';
+const ProductDetail = ( ) => {
+    const { getProductDetail, data: getProductDetailData } = useGetProductDetail();
+    const { getProductList, data: getProductListData} = useGetProductList();
     const isSoldOut = false;
     const nav = useNavigate();
-    
+    const location = useLocation();
     const {screenSize} = useScreenSize();
 
-    const imgList = [
-        "/assets/sample/dummy_product.svg",
-        "/assets/sample/dummy_product8.svg",
-        "/assets/sample/dummy_product9.svg"
-    ]
+    const [productInfo, setProductInfo] = useState({
+        isOverseas: null,
+        shipping: null,
+        shippingInfo: null,
+
+    })
+
+    const [getProductListDto, setGetProductListDto] = useState({
+        page: "0",
+        size: "18",
+        sortType: "LIKE_HIGH",
+        includeSoldOut: true,
+        category: null,
+        type: null,
+        price: null,
+        search: null,
+    });
+    
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+        const productId = location.state?.productId;
+        if(productId) {
+            handleGetProductDetail(productId);
+        }
+    }, [location.state?.productId]);
+
+    // 상품 상세 조회 API
+    const handleGetProductDetail = async (id) => {
+        try {
+            await getProductDetail(id);
+        } catch(e) { console.log(e); }
+    }
+    // API 응답
+    useEffect(() => {
+        if(getProductDetailData !== null) {
+            console.log(getProductDetailData);
+
+            setProductInfo(prev => ({
+                ...prev, isOverseas: getProductDetailData.sourceType === "PROXY",
+                shipping: getProductDetailData.sourceType === "PROXY" ? "해외배송・롯데택배" : "국내배송・로젠택배",
+                shippingInfo: getProductDetailData.sourceType === "PROXY" ? <>네스팅의 평균 해외배송 기간은 <span>9일 이내</span>입니다.</> : <>네스팅의 평균 국내배송 기간은 <span>3일 이내</span>입니다.</>
+            }));
+
+            console.log(getProductDetailData.category
+                    ?.filter(cat => cat !== "산리오")  // 일단은 서브 카테고리가 존재하는 메인카테고리는 산리오밖에 없음 (서브카테고리가 있는 경우 메인카테고리를 제외하고 category 지정)
+                    .join(",") );
+
+            setGetProductListDto(prev => ({
+                ...prev, category: getProductDetailData.category
+                    ?.filter(cat => cat !== "산리오")  // 일단은 서브 카테고리가 존재하는 메인카테고리는 산리오밖에 없음 (서브카테고리가 있는 경우 메인카테고리를 제외하고 category 지정)
+                    .join(",") 
+            }));
+        }
+    }, [getProductDetailData]);
+
+    useEffect(() => {
+        if(getProductListDto.category !== null) {
+            getProductList(getProductListDto);
+        }
+    }, [getProductListDto])
 
     // 해외인지 국내인지에 따라 다르게 변수 매핑
     const productDetialInfo = [
-        {label: '굿즈 유형', value: '피규어'},
-        {label: '상품 상태', value: '중고'},
-        {label: '수량', value: '1'},
+        {label: '굿즈 유형', value: getProductDetailData?.type},
+        {label: '상품 상태', value: getProductDetailData?.condition},
+        {label: '수량', value: getProductDetailData?.stock},
     ]
     const localProductDetialInfo = [
-        {label: '굿즈 유형', value: '키링'},
-        {label: '상품 상태', value: '신상품'},
+        {label: '굿즈 유형', value: getProductDetailData?.type},
+        {label: '상품 상태', value: getProductDetailData?.condition},
         {label: '크기', value: '8cm'},
         {label: '제조사', value: '반다이남코'}
     ]
@@ -68,10 +126,7 @@ const ProductDetail = ( {type='domestic'} ) => {
             photo: "/assets/sample/dummy_product2.svg"
         },
     ]
-    const translatedInfo = `완전 희귀한 레옹 짱구와 마틸다 흰둥이 피규어입니다.\n\n즉시 구매 가능\n상자 없음\n\n상품 상태는 사진으로 확인 바랍니다.`;
-    const price = 10000;
-    const discountRate = 20;
-    const discountedPrice = 8000;
+
     const reviewCounts = 1996;
     const tabList = ['제품 상세', `리뷰 ${reviewCounts.toLocaleString()}`, '상품 구매 안내']
 
@@ -285,8 +340,8 @@ const ProductDetail = ( {type='domestic'} ) => {
     const isStickyOffRef = useRef(false);
 
     const handleNavigate = () => {
-        nav(`/product/review?type=${isOverseas ? "overseas" : "domestic"}`);
-    }
+        nav(`/product/review?type=${productInfo.isOverseas ? "overseas" : "domestic"}`);
+    } 
 
 
     useEffect(() => {
@@ -348,27 +403,27 @@ const ProductDetail = ( {type='domestic'} ) => {
         }
     }
 
-    const handleScrollProduct = () => {
-        const scrollX = productScrollRef.current.scrollLeft;  // 얼마나 스크롤했는지
-        const containerWidth = productScrollRef.current.offsetWidth;  // 요소의 보이는 너비
-        const index = Math.round(scrollX/containerWidth);
-        setCurrentProductIndex(index);
-    }
+    // const handleScrollProduct = () => {
+    //     const scrollX = productScrollRef.current.scrollLeft;  // 얼마나 스크롤했는지
+    //     const containerWidth = productScrollRef.current.offsetWidth;  // 요소의 보이는 너비
+    //     const index = Math.round(scrollX/containerWidth);
+    //     setCurrentProductIndex(index);
+    // }
 
-    const goToProductSlide = (index) => {
-        if(!productScrollRef.current) return;
+    // const goToProductSlide = (index) => {
+    //     if(!productScrollRef.current) return;
 
-        const containerWidth = productScrollRef.current.offsetWidth;
+    //     const containerWidth = productScrollRef.current.offsetWidth;
 
-        productScrollRef.current.scrollTo({
-            left: index * containerWidth,
-            behavior: "smooth"
-        });
+    //     productScrollRef.current.scrollTo({
+    //         left: index * containerWidth,
+    //         behavior: "smooth"
+    //     });
 
-        setTimeout(() => {
-            setCurrentProductIndex(index);
-        }, 300);
-    }
+    //     setTimeout(() => {
+    //         setCurrentProductIndex(index);
+    //     }, 300);
+    // }
 
     // 사용자가 탭을 클릭했을 때 해당 섹션으로 스크롤
     const handleScrollToArea = (index) => {
@@ -424,7 +479,7 @@ const ProductDetail = ( {type='domestic'} ) => {
                     ref={scrollRef}
                     onScroll={handleScrollImg}
                 >
-                    {imgList.map((src, index) => (
+                    {getProductDetailData?.imageUrl?.map((src, index) => (
                         <img
                         key={index}
                         className="product-img"
@@ -453,30 +508,29 @@ const ProductDetail = ( {type='domestic'} ) => {
                 )}
                 <div
                     className='img-indicator'>
-                    <span className='highlight'>{currentIndex + 1}</span> | {imgList.length}
+                    <span className='highlight'>{currentIndex + 1}</span> | {getProductDetailData?.imageUrl?.length}
                 </div>
             </div>
 
             {/* 타이틀 정보 영역 */}
-            <div className='title-area'>
+            <div className='title-area-product-detail'>
                 <div className='top-row'>
-                    <h3 className='prouct-title'>레옹 짱구와 마틸다 흰둥이 피규어-상품명 전부 노출-레옹 짱구와 마틸다 흰둥이 피규어</h3>
+                    <h3 className='prouct-title'>{getProductDetailData?.name}</h3>
                     <img className='share-button' src='/assets/button/btn_share.svg' />
                 </div>
-                <p className={discountRate===0 ? 'product-price big' : 'product-price small'}>
-                    {price.toLocaleString()}
-                    {discountRate===0 ? '원' : ''}
+                <p className={(getProductDetailData?.discountPercent===null) ? 'product-price big' : 'product-price small'}>
+                    {getProductDetailData?.price.toLocaleString()}
+                    {getProductDetailData?.discountPercent===null ? '원' : ''}
                 </p>
-                {discountRate !==0 && (
+                {getProductDetailData?.discountPercent !== null && (
                     <div className='discount-row'>
-                        <p className='discount-rate'>{discountRate}%</p>
-                        <p className='discounted-price'>{discountedPrice.toLocaleString()}
-                            {discountRate===0? '' : '원'}
+                        <p className='discount-rate'>{getProductDetailData?.discountPercent}%</p>
+                        <p className='discounted-price'>{(getProductDetailData?.discountPercent * getProductDetailData?.price).toLocaleString()}원
                         </p>
                     </div>
                 )}
 
-                {isOverseas ? (
+                {productInfo.isOverseas ? (
                     <p className='price-info'>해외 배송비, 관부가세, 수수료가 모두 포함된 가격</p>
                 ) : (
                     <div className='rating-star-row title'>
@@ -497,14 +551,14 @@ const ProductDetail = ( {type='domestic'} ) => {
             <div className='delivery-area'>
                 <div className='delivery-row'>
                     <p className='delivery-info1'>배송</p>
-                    <p className='delivery-info2'>해외직배송・롯데택배</p>
+                    <p className='delivery-info2'>{productInfo.shipping}</p>
                 </div>
                 <div className='delivery-fee-row'>
                     <p className='delivery-info1'>배송비</p>
                     <p className='delivery-info2'>무료<br />(제주 3,000원 / 도서산간 5,000원 추가)</p>
                 </div>
 
-                {isOverseas && (
+                {productInfo.isOverseas && (
                     <div className='overseas-shipping-info-area'>
                         <div className='overseas-shipping-top-row'>
                             <img className='icon' src='/assets/icon/plane.svg' />
@@ -541,14 +595,14 @@ const ProductDetail = ( {type='domestic'} ) => {
                 <div className='overseas-shipping-info-area'>
                     <div className='overseas-shipping-top-row'>
                         <img className='icon' src='/assets/icon/package.svg' />
-                        <h4 className='overseas-shipping-title'>네스팅의 평균 해외배송 기간은 <span>9일 이내</span>입니다.</h4>
+                        <h4 className='overseas-shipping-title'>{productInfo.shippingInfo}</h4>
                     </div>
                     <p className='overseas-shipping-info'>주말/공휴일 제외한 영업일 기준</p>
                 </div>
             </div>
 
             {/* 상품출처 영역 */}
-            {isOverseas && (
+            {productInfo.isOverseas && (
                 <>
                     <div className='diving-area' />
                     <div className='product-origin-area'>
@@ -585,7 +639,13 @@ const ProductDetail = ( {type='domestic'} ) => {
             {/* 제품상세 영역 */}
             <div ref={sectionRefs[0]} className='product-detail-area'>
                 <div className='product-detail-info'>
-                    {localProductDetialInfo.map(({ label , value }) => (
+                    {!productInfo.isOverseas && localProductDetialInfo.map(({ label , value }) => (
+                        <div key={label} className='product-detail-row'>
+                            <p className='product-detail-label'>{label}</p>
+                            <p className='product-detail-value'>{value}</p>
+                        </div>
+                    ))}
+                    {productInfo.isOverseas && productDetialInfo.map(({ label , value }) => (
                         <div key={label} className='product-detail-row'>
                             <p className='product-detail-label'>{label}</p>
                             <p className='product-detail-value'>{value}</p>
@@ -594,21 +654,21 @@ const ProductDetail = ( {type='domestic'} ) => {
                 </div>
                 <div className='diving-line full'/>
 
-                {isOverseas ? (
+                {productInfo.isOverseas ? (
                     <div className='translated-area'>
                         <p className='translate-info'>*일본 메루카리 판매자가 작성한 글을 자동으로 번역했어요</p>
-                        <p className='translated-product-info' style={{ whiteSpace: 'pre-line' }}>{translatedInfo}</p>
+                        <p className='translated-product-info' style={{ whiteSpace: 'pre-line' }}>{getProductDetailData?.description}</p>
                     </div>
                 ) : (
                     <>
                         <div className={`product-detail-images ${showAllImages ? 'expanded' : ''}`}
                             ref={imgWrapperRef}>
-                            {imgList.map((src, index) => (
+                            {getProductDetailData?.imageUrl?.map((src, index) => (
                                 <React.Fragment key={index}>
                                     <img
                                     className="product-img"
                                     src={src} />
-                                    {index < imgList.length-1 && <div className='diving-area weak' />}
+                                    {index < getProductDetailData?.imageUrl?.length-1 && <div className='diving-area weak' />}
                                 </React.Fragment>
                             ))}
                         </div>
@@ -766,7 +826,7 @@ const ProductDetail = ( {type='domestic'} ) => {
                         </div>
                     )}
                 </div>
-                {!isOverseas && (
+                {!productInfo.isOverseas && (
                     <div>
                         <div className='buy-info-row'>
                             <h4 className='buy-info-row-title'>상품정보 제공고시</h4>
@@ -816,8 +876,8 @@ const ProductDetail = ( {type='domestic'} ) => {
             {/* 연관상품 추천 영역 */}
             <ProductSlider
                 className='white'
-                productList={RecommendedProducts}
-                title1="짱구"
+                productList={getProductListData?.content?.filter(product => product.id !== getProductDetailData?.id)}  // 현재 보는 상품 제외하고 추천영역에 보여줌
+                title1={getProductDetailData?.category?.length > 2 ? getProductDetailData?.category[0] : getProductDetailData?.category[1]}
                 title2=" 러버들의 Pick"
             />
 

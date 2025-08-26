@@ -12,7 +12,8 @@ export default function ProductCardPrev({ product, isRecommend = false }) {
   const nav = useNavigate();
 
   // 상품 좋아요 토글 API
-  const handleLikeClick = async () => {
+  const handleLikeClick = async (e) => {
+    e.stopPropagation();
     try {
       await toggleProductLike(product.id);
     } catch(e) { 
@@ -34,9 +35,9 @@ export default function ProductCardPrev({ product, isRecommend = false }) {
 
 
   return (
-    <div className="product-card">
+    <div className="product-card" onClick={() => nav("/product/detail", { state: { productId: product.id } })}>
       <div className="image-wrapper">
-        {product.tag.includes("해외") && <span className="tag">해외</span>}
+        {product.tag?.includes("해외") && <span className="tag">해외</span>}
 
         <img src={product.thumbnail} alt={product.name} />
 
@@ -61,7 +62,7 @@ export default function ProductCardPrev({ product, isRecommend = false }) {
 
       <div className="info">
         <div className="title-area">
-          {product.prefixTag.includes("중고") && <div className="tag-used">중고</div>}
+          {product.prefixTag?.includes("중고") && <div className="tag-used">중고</div>}
           <div className={isRecommend ? "title recommend" : "title"}>{product.name}</div>
         </div>
         <div className="price-info">
