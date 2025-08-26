@@ -21,11 +21,12 @@ import {
   transactionInfoText1,
   transactionInfoText2
 } from '../text';
-import { useGetProductDetail, useGetProductList } from '../hooks/useProducts';
+import { useGetProductDetail, useGetProductList, usePostProductView } from '../hooks/useProducts';
 import { useGetReviewsProduct, useGetReviewsProxy } from '../hooks/useReviews';
 
 const ProductDetail = ( ) => {
     const { getProductDetail, data: getProductDetailData } = useGetProductDetail();
+    const { postProductView, data: postProductViewData } = usePostProductView();
     const { getProductList, data: getProductListData} = useGetProductList();
     const { getReviewsProxy, data: getReviewsProxyData } = useGetReviewsProxy();
     const { getReviewsProduct, data: getReviewsProductData } = useGetReviewsProduct();
@@ -58,6 +59,7 @@ const ProductDetail = ( ) => {
         const productId = location.state?.productId;
         if(productId) {
             handleGetProductDetail(productId);
+            handlePostProductView(productId);
         }
     }, [location.state?.productId]);
 
@@ -65,6 +67,15 @@ const ProductDetail = ( ) => {
     const handleGetProductDetail = async (id) => {
         try {
             await getProductDetail(id);
+        } catch(e) { console.log(e); }
+    }
+    // 상품 조회 로그 저장 API
+    const handlePostProductView = async (id) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            if(!accessToken) return; // 로그인한 회원인 경우에만 API 호출 
+
+            await postProductView(id);
         } catch(e) { console.log(e); }
     }
     // API 응답

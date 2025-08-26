@@ -43,3 +43,9 @@ export const getProductDetail = async (id: string) : Promise<BaseResponseDto<Get
         return response.data;
     })
 };
+
+export const postProductView = async (id: string): Promise<BaseResponseDto<null>> => {
+    const response = await authClient.post(`${PRODUCTS_URL}/${id}/view`) as BaseResponseDto<null>;
+
+    return response;
+};

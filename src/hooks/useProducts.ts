@@ -65,3 +65,15 @@ export const useGetProductDetail = () => {
 
     return { getProductDetail, loading, error, data, reset };
 };
+
+export const usePostProductView = () => {
+    const {
+        execute: postProductView,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<null>>(ProductsRepository.postProductView);
+
+    return { postProductView, loading, error, data, reset };
+};
