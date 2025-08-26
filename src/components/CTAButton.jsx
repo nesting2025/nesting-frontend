@@ -1,12 +1,18 @@
 import "../styles/css/CTAButton.css";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import SelectQuantity from "./SelectQuantity";
 import { useToast } from "./common/ToastContext";
+import { useToggleProductLike } from "../hooks/useProducts";
+import { useNavigate } from "react-router-dom";
+import PopupDialog from "./dialog/PopupDialog";
 
-const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet} ) => {
+const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId}) => {
     const { showToast } = useToast();
-    const [isLike, setIsLiked] = useState(false);
+    const nav = useNavigate();
+    const { toggleProductLike, data: toggleProductLikeData } = useToggleProductLike();
+    const [isLike, setIsLiked] = useState(isLiked);
     const [isOpen, setIsOpen] = useState(isOpenBottomSheet);
+    const [isOpenLoginDialog, setIsOpenLoginDialog] = useState(false);
     const [isDropDownOption, SetIsDropDownOption] = useState(true);
     const [optionList, setOptionList] = useState([
         {
@@ -47,9 +53,36 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet} ) =
         }, 0);
     }, [optionList]);
 
+    useEffect(() => {
+        setIsLiked(isLiked);
+    }, [isLiked]);
+
     const likeImgSrc = isSoldout ? "/assets/button/like_btn2_disabled.svg"
     : isLike ? "/assets/button/like_btn2_pressed.svg" 
     : "/assets/button/like_btn2_default.svg";
+
+    // 상품 좋아요 토글 API
+    const handleLikeClick = async (e) => {
+        e.stopPropagation();
+        if(isSoldout) return;
+
+        try {
+        await toggleProductLike(productId);
+        } catch(e) { 
+        console.log(e); 
+        if(e.message === "해당 요청에 대한 권한이 없습니다.") {
+            // 로그인 팝업
+            setIsOpenLoginDialog(true);
+        }
+        }
+    };
+
+    // API 응답
+    useEffect(() => {
+    if(toggleProductLikeData !== null && toggleProductLikeData.code === "SUCCESS") {
+        setIsLiked(toggleProductLikeData.data);
+    }
+    }, [toggleProductLikeData]);
 
     const handleCloseBottomSheet = () => {
         setIsOpen(false);
@@ -96,10 +129,13 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet} ) =
     
     return (
         <div className="cta-button-area">
+            <PopupDialog open={isOpenLoginDialog} onOpenChange={(newOpen) => setIsOpenLoginDialog(newOpen)} titleText={<>로그인이 필요한 서비스입니다.<br/>로그인 하시겠습니까?</>}
+            onClickLeftBtn={() => {}} onClickRightBtn={() => nav("/login")}
+            />
             {!isOpen && (
                 <div className="default-show-cta">
                     <button 
-                    onClick={() => setIsLiked(prev => !prev)}
+                    onClick={(e) => handleLikeClick(e)}
                     className="liket-btn"
                     disabled={isSoldout}
                     >
@@ -112,6 +148,7 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet} ) =
                     <button 
                         className={`show-buy-bottomsheet ${isSoldout ? "soldout" : ""}`}
                         onClick={()=>setIsOpen(true)}
+                        disabled={isSoldout}
                     >
                         {isSoldout ? "품절된 상품이에요" : "구매하기"}
                     </button>

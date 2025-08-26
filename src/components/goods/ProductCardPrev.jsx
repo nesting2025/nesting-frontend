@@ -69,7 +69,7 @@ export default function ProductCardPrev({ product, isRecommend = false }) {
           {product.discountPercent !== null && (
             <span className="discount">{product.discountPercent}%</span>
           )}
-          <span className={isRecommend ? "price recommend" : "price"}>{product.price.toLocaleString()}원</span>
+          <span className={isRecommend ? "price recommend" : "price"}>{product.discountPercent === null ? product.price.toLocaleString() : product.discountedPrice.toLocaleString()}원</span>
         </div>
         {!isRecommend && (
           <div className="likes">

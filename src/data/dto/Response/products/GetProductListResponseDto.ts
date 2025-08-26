@@ -1,27 +1,18 @@
+import { PageableDto } from "./PageableDto";
+import { SortDto } from "./SortDto";
+
 export interface ProductDto {
     id: string;
     name: string;
     tag: string[];
     prefixTag: string[];
     price: number;
+    discountedPrice: number;
     discountPercent: number;
     thumbnail: string;
     soldOut: boolean;
     likeCount: number;
     isLiked: boolean
-}
-
-export interface PageableDto {
-    pageNumber: number;
-    pageSize: number;
-    sort: {
-        sorted: boolean;
-        empty: boolean;
-        unsorted: boolean
-    };
-    offset: number;
-    paged: boolean;
-    unpaged: boolean
 }
 
 export interface GetProductListResponseDto {
@@ -32,11 +23,7 @@ export interface GetProductListResponseDto {
     last: boolean;
     size: number;
     number: number;
-    sort: {
-        sorted: boolean;
-        empty: boolean;
-        unsorted: boolean
-    };
+    sort: SortDto;
     first: boolean;
     numberOfElements: number;
     empty: boolean;

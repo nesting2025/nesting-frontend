@@ -8,10 +8,14 @@ export interface GetProductDetailResponseDto {
     description: string;
     imageUrl: string[];
     condition: string;
+    size: string;
+    manufacturer: string;
     sourcePlatform: string;
     sourceType: string;
     price: number;
+    discountedPrice: number;
     discountPercent: number;
+    deliveryFee: number;
     optionGroups: OptionGroup[];
     stock: number;
     soldOut: boolean;

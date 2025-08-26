@@ -22,11 +22,14 @@ import {
   transactionInfoText2
 } from '../text';
 import { useGetProductDetail, useGetProductList } from '../hooks/useProducts';
+import { useGetReviewsProduct, useGetReviewsProxy } from '../hooks/useReviews';
 
 const ProductDetail = ( ) => {
     const { getProductDetail, data: getProductDetailData } = useGetProductDetail();
     const { getProductList, data: getProductListData} = useGetProductList();
-    const isSoldOut = false;
+    const { getReviewsProxy, data: getReviewsProxyData } = useGetReviewsProxy();
+    const { getReviewsProduct, data: getReviewsProductData } = useGetReviewsProduct();
+
     const nav = useNavigate();
     const location = useLocation();
     const {screenSize} = useScreenSize();
@@ -35,7 +38,7 @@ const ProductDetail = ( ) => {
         isOverseas: null,
         shipping: null,
         shippingInfo: null,
-
+        reviewTitle: null
     })
 
     const [getProductListDto, setGetProductListDto] = useState({
@@ -67,12 +70,11 @@ const ProductDetail = ( ) => {
     // API 응답
     useEffect(() => {
         if(getProductDetailData !== null) {
-            console.log(getProductDetailData);
-
             setProductInfo(prev => ({
                 ...prev, isOverseas: getProductDetailData.sourceType === "PROXY",
                 shipping: getProductDetailData.sourceType === "PROXY" ? "해외배송・롯데택배" : "국내배송・로젠택배",
-                shippingInfo: getProductDetailData.sourceType === "PROXY" ? <>네스팅의 평균 해외배송 기간은 <span>9일 이내</span>입니다.</> : <>네스팅의 평균 국내배송 기간은 <span>3일 이내</span>입니다.</>
+                shippingInfo: getProductDetailData.sourceType === "PROXY" ? <>네스팅의 평균 해외배송 기간은 <span>9일 이내</span>입니다.</> : <>네스팅의 평균 국내배송 기간은 <span>3일 이내</span>입니다.</>,
+                reviewTitle: getProductDetailData.sourceType === "PROXY" ? "네스터들의 해외구매 리뷰" : "이 상품의 리뷰"
             }));
 
             console.log(getProductDetailData.category
@@ -84,14 +86,23 @@ const ProductDetail = ( ) => {
                     ?.filter(cat => cat !== "산리오")  // 일단은 서브 카테고리가 존재하는 메인카테고리는 산리오밖에 없음 (서브카테고리가 있는 경우 메인카테고리를 제외하고 category 지정)
                     .join(",") 
             }));
+
+            // 리뷰 조회 API
+            if(getProductDetailData.sourceType === "PROXY") {
+                getReviewsProxy(0, 10);
+            } else if (getProductDetailData.sourceType === "STOCKED") {
+                getReviewsProduct(0, 10, getProductDetailData.id);
+            }
         }
     }, [getProductDetailData]);
 
     useEffect(() => {
+        // 연관 상품 리스트 조회 API
         if(getProductListDto.category !== null) {
             getProductList(getProductListDto);
         }
     }, [getProductListDto])
+
 
     // 해외인지 국내인지에 따라 다르게 변수 매핑
     const productDetialInfo = [
@@ -102,8 +113,8 @@ const ProductDetail = ( ) => {
     const localProductDetialInfo = [
         {label: '굿즈 유형', value: getProductDetailData?.type},
         {label: '상품 상태', value: getProductDetailData?.condition},
-        {label: '크기', value: '8cm'},
-        {label: '제조사', value: '반다이남코'}
+        {label: '크기', value: getProductDetailData?.size},
+        {label: '제조사', value: getProductDetailData?.manufacturer}
     ]
 
     const reviews = [
@@ -371,7 +382,6 @@ const ProductDetail = ( ) => {
             if (shouldBeOff !== isStickyOffRef.current) {
                 setIsStickyOff(shouldBeOff);
                 isStickyOffRef.current = shouldBeOff;
-                console.log(`스티키 ${shouldBeOff ? 'off' : 'on'}`);
             }
         }
 
@@ -501,7 +511,7 @@ const ProductDetail = ( ) => {
                     />
                     </>
                 )}
-                {isSoldOut && (
+                {getProductDetailData?.soldOut && (
                 <div className="soldout-overlay">
                     <span>품절</span>
                 </div>
@@ -525,7 +535,7 @@ const ProductDetail = ( ) => {
                 {getProductDetailData?.discountPercent !== null && (
                     <div className='discount-row'>
                         <p className='discount-rate'>{getProductDetailData?.discountPercent}%</p>
-                        <p className='discounted-price'>{(getProductDetailData?.discountPercent * getProductDetailData?.price).toLocaleString()}원
+                        <p className='discounted-price'>{getProductDetailData?.discountedPrice.toLocaleString()}원
                         </p>
                     </div>
                 )}
@@ -555,7 +565,7 @@ const ProductDetail = ( ) => {
                 </div>
                 <div className='delivery-fee-row'>
                     <p className='delivery-info1'>배송비</p>
-                    <p className='delivery-info2'>무료<br />(제주 3,000원 / 도서산간 5,000원 추가)</p>
+                    <p className='delivery-info2'>{getProductDetailData?.deliveryFee === 0 ? "무료" : `${getProductDetailData?.deliveryFee.toLocaleString()}원`}<br />(제주 3,000원 / 도서산간 5,000원 추가)</p>
                 </div>
 
                 {productInfo.isOverseas && (
@@ -685,7 +695,7 @@ const ProductDetail = ( ) => {
 
             {/* 리뷰 영역 */}
             <div ref={sectionRefs[1]} className='review-area'>
-                <h3 className='review-title'>네스터들의 해외구매 리뷰</h3>
+                <h3 className='review-title'>{productInfo.reviewTitle}</h3>
                 {reviews?.length > 0 ? (
                     <>
                         <div className='review-top-area'>
@@ -891,7 +901,11 @@ const ProductDetail = ( ) => {
 
             <Footer className='footer' screenSize={screenSize} />
 
-            <CTAButton className='cta-button-area' isSoldout={isSoldOut} />
+            <CTAButton className='cta-button-area' 
+                isSoldout={getProductDetailData?.soldOut} 
+                isLiked={getProductDetailData?.isLiked}
+                productId={getProductDetailData?.id} 
+            />
 
         </div>
     )
