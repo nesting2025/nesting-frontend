@@ -7,8 +7,18 @@ import ProductSlider from "../components/goods/ProductSlider";
 import '../styles/css/Cart.css';
 import CustomRadioButton from "../components/common/CustomRadioButton";
 import { paymentInfo } from "../text";
+import { useGetProductLikeList, useGetProductRecentViewList } from "../hooks/useProducts";
 
 const Cart = () => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    const { data: getProductLikeListData } = useGetProductLikeList({
+        page: "0", size: "18", includeSoldOut: "true"}, !!accessToken
+    );
+    const { data: getProductRecentViewListData } = useGetProductRecentViewList({
+        page: "0", size: "18", includeSoldOut: "true"}, !!accessToken
+    );
+
     const [orderProducDomesticList, setOrderDomesticProductList] = useState([
         {
           imgSrc: "/assets/sample/dummy_product10.svg",
@@ -59,188 +69,6 @@ const Cart = () => {
           deliveryFee: 0,
         },
     ])
-    const RecommendedProducts = [
-        {
-        id: 1,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 2,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 3,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 4,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 5,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 6,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-        {
-        id: 7,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 8,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 9,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 10,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 11,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 12,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-        {
-        id: 13,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 14,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 15,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 16,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 17,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 18,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-    ];
 
     // 구매대행
     const [availableProductList, setAvailableProductList] = useState([
@@ -770,11 +598,11 @@ const Cart = () => {
             )}
 
             {/* 내가 찜한 상품 */}
-            {activeTab === 0 && (
+            {activeTab === 0 && getProductLikeListData?.content.length > 0 && (
                 <>
                 <div className="diver" />
                 <ProductSlider 
-                    productList={RecommendedProducts}
+                    productList={getProductLikeListData?.content}
                     title1="내가 찜한"
                     title2="상품" />
 
@@ -783,11 +611,11 @@ const Cart = () => {
             )}
 
             {/* 최근 본 상품 */}
-            {activeTab === 0 && (
+            {activeTab === 0 && getProductRecentViewListData?.content.length > 0 && (
                 <>
                 <div className="diver" />
                 <ProductSlider 
-                    productList={RecommendedProducts}
+                    productList={getProductRecentViewListData?.content}
                     title1="최근 본"
                     title2="상품"
                     className="bottom" />

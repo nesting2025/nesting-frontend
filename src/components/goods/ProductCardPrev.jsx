@@ -1,38 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/css/ProductCard.css";
-import { useToggleProductLike } from "../../hooks/useProducts";
+import { useGetProductLikeList, useGetProductRecentViewList, useToggleProductLike } from "../../hooks/useProducts";
 import PopupDialog from "../dialog/PopupDialog";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function ProductCardPrev({ product, isRecommend = false }) {
-  const { toggleProductLike, data: toggleProductLikeData } = useToggleProductLike();
+  const { mutateAsync } = useToggleProductLike();
 
   const [isLiked, setIsLiked] = useState(product.isLiked);
   const [isOpen, setIsOpen] = useState(false);
   const nav = useNavigate();
 
-  // 상품 좋아요 토글 API
+  useEffect(() => {
+    setIsLiked(product.isLiked);
+  }, [product.isLiked]);
+
   const handleLikeClick = async (e) => {
     e.stopPropagation();
     try {
-      await toggleProductLike(product.id);
-    } catch(e) { 
-      console.log(e); 
-      if(e.message === "해당 요청에 대한 권한이 없습니다.") {
-        // 로그인 팝업
+      const result = await mutateAsync(product.id);
+      setIsLiked(result.data); 
+    } catch (err) {
+      console.log(err);
+      if (err.message === "해당 요청에 대한 권한이 없습니다.") {
         setIsOpen(true);
       }
     }
   };
-
-  // API 응답
-  useEffect(() => {
-    
-    if(toggleProductLikeData !== null && toggleProductLikeData.code === "SUCCESS") {
-      setIsLiked(toggleProductLikeData.data);
-    }
-  }, [toggleProductLikeData]);
-
 
   return (
     <div className="product-card" onClick={() => nav("/product/detail", { state: { productId: product.id } })}>
@@ -69,7 +64,9 @@ export default function ProductCardPrev({ product, isRecommend = false }) {
           {product.discountPercent !== null && (
             <span className="discount">{product.discountPercent}%</span>
           )}
-          <span className={isRecommend ? "price recommend" : "price"}>{product.discountPercent === null ? product.price.toLocaleString() : product.discountedPrice.toLocaleString()}원</span>
+          <span className={isRecommend ? "price recommend" : "price"}>
+            {product.discountPercent === null ? (product.price ?? 0).toLocaleString() : (product.discountedPrice ?? 0).toLocaleString()}원
+          </span>
         </div>
         {!isRecommend && (
           <div className="likes">
@@ -79,7 +76,7 @@ export default function ProductCardPrev({ product, isRecommend = false }) {
         )}
       </div>
       <PopupDialog open={isOpen} onOpenChange={(newOpen) => setIsOpen(newOpen)} titleText={<>로그인이 필요한 서비스입니다.<br/>로그인 하시겠습니까?</>}
-      onClickLeftBtn={() => {}} onClickRightBtn={() => nav("/login")}
+      onClickLeftBtn={(e) => e.stopPropagation()} onClickRightBtn={(e) => {e.stopPropagation(); nav("/login");}}
        />
     </div>
   );

@@ -5,6 +5,7 @@ import { GetProductListResponseDto } from "../data/dto/Response/products/GetProd
 import { TypeResponseDto } from "../data/dto/Response/products/TypeResponseDto";
 import { ProductsRepository } from "../data/repository/ProductsRepository"
 import { useAsync } from "./useAsync"
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from "@tanstack/react-query";
 
 export const useGetProductList = () => {
     const {
@@ -43,15 +44,17 @@ export const useGetFilterTypes = () => {
 };
 
 export const useToggleProductLike = () => {
-    const {
-        execute: toggleProductLike,
-        loading,
-        error,
-        data,
-        reset
-    } = useAsync<BaseResponseDto<boolean>>(ProductsRepository.toggleProductLike);
+  const queryClient = useQueryClient();
 
-    return { toggleProductLike, loading, error, data, reset };
+  return useMutation({
+    mutationFn: (productId: string): Promise<BaseResponseDto<boolean>> => 
+      ProductsRepository.toggleProductLike(productId),
+    onSuccess: () => {
+        // 찜한 상품, 최근 본 상품 리스트 갱신
+        queryClient.invalidateQueries({ queryKey: ["productLikeList"] });
+        queryClient.invalidateQueries({ queryKey: ["productRecentViewList"] });
+    }
+  });
 };
 
 export const useGetProductDetail = () => {
@@ -76,4 +79,26 @@ export const usePostProductView = () => {
     } = useAsync<BaseResponseDto<null>>(ProductsRepository.postProductView);
 
     return { postProductView, loading, error, data, reset };
+};
+
+export const useGetProductLikeList = (
+  params: { page: string; size: string; includeSoldOut: string },
+  enabled: boolean = false
+) => {
+  return useQuery<BaseResponseDto<GetProductListResponseDto>>({
+    queryKey: ["productLikeList", params],
+    queryFn: () => ProductsRepository.getProductLikeList(params),
+    enabled,
+  });
+};
+
+export const useGetProductRecentViewList = (
+  params: { page: string; size: string; includeSoldOut: string },
+  enabled: boolean = false
+) => {
+  return useQuery<BaseResponseDto<GetProductListResponseDto>>({
+    queryKey: ["productRecentViewList", params],
+    queryFn: () => ProductsRepository.getProductRecentViewList(params),
+    enabled,
+  });
 };

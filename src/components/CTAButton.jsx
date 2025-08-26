@@ -9,7 +9,8 @@ import PopupDialog from "./dialog/PopupDialog";
 const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId}) => {
     const { showToast } = useToast();
     const nav = useNavigate();
-    const { toggleProductLike, data: toggleProductLikeData } = useToggleProductLike();
+    const { mutateAsync } = useToggleProductLike();
+
     const [isLike, setIsLiked] = useState(isLiked);
     const [isOpen, setIsOpen] = useState(isOpenBottomSheet);
     const [isOpenLoginDialog, setIsOpenLoginDialog] = useState(false);
@@ -67,22 +68,14 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
         if(isSoldout) return;
 
         try {
-        await toggleProductLike(productId);
-        } catch(e) { 
-        console.log(e); 
-        if(e.message === "해당 요청에 대한 권한이 없습니다.") {
-            // 로그인 팝업
-            setIsOpenLoginDialog(true);
-        }
+            const result = await mutateAsync(productId);
+            setIsLiked(result.data);
+        } catch (err) {
+            if (err.message === "해당 요청에 대한 권한이 없습니다.") {
+                setIsOpenLoginDialog(true);
+            }
         }
     };
-
-    // API 응답
-    useEffect(() => {
-    if(toggleProductLikeData !== null && toggleProductLikeData.code === "SUCCESS") {
-        setIsLiked(toggleProductLikeData.data);
-    }
-    }, [toggleProductLikeData]);
 
     const handleCloseBottomSheet = () => {
         setIsOpen(false);

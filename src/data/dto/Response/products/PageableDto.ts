@@ -6,5 +6,5 @@ export interface PageableDto {
     sort: SortDto;
     offset: number;
     paged: boolean;
-    unpaged: boolean
+    unpaged: boolean;
 }

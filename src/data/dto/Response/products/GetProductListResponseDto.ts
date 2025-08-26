@@ -7,8 +7,8 @@ export interface ProductDto {
     tag: string[];
     prefixTag: string[];
     price: number;
-    discountedPrice: number;
-    discountPercent: number;
+    discountedPrice: number | null;
+    discountPercent: number | null;
     thumbnail: string;
     soldOut: boolean;
     likeCount: number;

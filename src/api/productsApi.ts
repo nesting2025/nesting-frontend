@@ -49,3 +49,19 @@ export const postProductView = async (id: string): Promise<BaseResponseDto<null>
 
     return response;
 };
+
+export const getProductLikeList = async (getProductListDto: GetProductListDto): Promise<BaseResponseDto<GetProductListResponseDto>> => {
+    const response = await authClient.get<BaseResponseDto<GetProductListResponseDto>>(`${PRODUCTS_URL}/like`, {
+        params: getProductListDto
+    });
+
+    return response.data;
+};
+
+export const getProductRecentViewList = async (getProductListDto: GetProductListDto): Promise<BaseResponseDto<GetProductListResponseDto>> => {
+    const response = await authClient.get<BaseResponseDto<GetProductListResponseDto>>(`${PRODUCTS_URL}/recent-view`, {
+        params: getProductListDto
+    });
+
+    return response.data;
+};
