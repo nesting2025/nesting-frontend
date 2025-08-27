@@ -1,13 +1,14 @@
 import { getReviewsProduct, getReviewsProxy } from "../../api/reviewsApi";
 import { BaseResponseDto } from "../dto/common/BaseResponseDto";
+import { GetReviewsDto } from "../dto/Request/products/getReviewsDto";
 import { GetReviewsResponseDto } from "../dto/Response/products/GetReviewsResponseDto";
 
 export const ReviewsRepository = {
-    getReviewsProxy : async(page: number, size: number): Promise<BaseResponseDto<GetReviewsResponseDto>> =>{
-        return await getReviewsProxy(page, size);
+    getReviewsProxy : async(getReviewsDto: GetReviewsDto): Promise<BaseResponseDto<GetReviewsResponseDto>> =>{
+        return await getReviewsProxy(getReviewsDto);
     },
 
-    getReviewsProduct: async(page: number, size: number, productId: string): Promise<BaseResponseDto<GetReviewsResponseDto>> => {
-        return await getReviewsProduct(page, size, productId);
+    getReviewsProduct: async(getReviewsDto: GetReviewsDto): Promise<BaseResponseDto<GetReviewsResponseDto>> => {
+        return await getReviewsProduct(getReviewsDto);
     },
 }

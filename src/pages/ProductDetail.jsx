@@ -4,7 +4,7 @@ import ProductSlider from '../components/goods/ProductSlider';
 import useScreenSize from '../hooks/useScreenSize';
 import Footer from '../components/layout/Footer';
 import CTAButton from '../components/CTAButton';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, use } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import React from 'react';
 import {
@@ -39,7 +39,9 @@ const ProductDetail = ( ) => {
         isOverseas: null,
         shipping: null,
         shippingInfo: null,
-        reviewTitle: null
+        reviewTitle: null,
+        reviewCounts: null,
+        reviews: null
     })
 
     const [getProductListDto, setGetProductListDto] = useState({
@@ -52,6 +54,14 @@ const ProductDetail = ( ) => {
         price: null,
         search: null,
     });
+    
+    const [getReviewsDto, setGetReviewsDto] = useState({
+        productId: null,
+        page: 0,
+        size: 10,
+        onlyPhoto: false,
+        sortType: "RECOMMEND"
+    })
     
 
     useEffect(() => {
@@ -98,21 +108,42 @@ const ProductDetail = ( ) => {
                     .join(",") 
             }));
 
-            // 리뷰 조회 API
-            if(getProductDetailData.sourceType === "PROXY") {
-                getReviewsProxy(0, 10);
-            } else if (getProductDetailData.sourceType === "STOCKED") {
-                getReviewsProduct(0, 10, getProductDetailData.id);
-            }
+            setGetReviewsDto(prev => ({
+                ...prev, productId: getProductDetailData.id
+            }))
         }
     }, [getProductDetailData]);
+
+    useEffect(() => {
+        if(getReviewsProxyData !== null) {
+            setProductInfo(prev => ({
+                ...prev, reviewCounts: getReviewsProxyData.numberOfElements,
+                reviews: getReviewsProxyData.content
+            }));
+        } 
+        if(getReviewsProductData !== null) {
+            setProductInfo(prev => ({
+                ...prev, reviewCounts: getReviewsProductData.numberOfElements,
+                reviews: getReviewsProductData.content
+            }));
+        }
+    }, [getReviewsProxyData, getReviewsProductData])
 
     useEffect(() => {
         // 연관 상품 리스트 조회 API
         if(getProductListDto.category !== null) {
             getProductList(getProductListDto);
         }
-    }, [getProductListDto])
+        
+        // 리뷰 조회 API
+        if(getProductDetailData?.sourceType === "PROXY") {
+            console.log(getReviewsDto);
+            getReviewsProxy(getReviewsDto);
+        } else if (getProductDetailData?.sourceType === "STOCKED" && getReviewsDto.productId !== null) {
+            console.log(getReviewsDto);
+            getReviewsProduct(getReviewsDto);
+        }
+    }, [getProductListDto, getReviewsDto])
 
 
     // 해외인지 국내인지에 따라 다르게 변수 매핑
@@ -128,29 +159,28 @@ const ProductDetail = ( ) => {
         {label: '제조사', value: getProductDetailData?.manufacturer}
     ]
 
-    const reviews = [
-        {
-            rating: 2,
-            nickname: "닉네임뒤세글자",
-            content: "흠냐..글쎄용.",
-            photo: "/assets/sample/dummy_product2.svg"
-        },
-        {
-            rating: 5,
-            nickname: "닉네임뒤세글자",
-            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 텍스트 영역은 마찬가지로 최대 3줄 노출합니다라라라라라",
-            photo: ""
-        },
-        {
-            rating: 5,
-            nickname: "닉네임뒤세글자",
-            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 최대 3줄 노출합니다",
-            photo: "/assets/sample/dummy_product2.svg"
-        },
-    ]
+    // const reviews = [
+    //     {
+    //         rating: 2,
+    //         nickname: "닉네임뒤세글자",
+    //         content: "흠냐..글쎄용.",
+    //         photo: "/assets/sample/dummy_product2.svg"
+    //     },
+    //     {
+    //         rating: 5,
+    //         nickname: "닉네임뒤세글자",
+    //         content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 텍스트 영역은 마찬가지로 최대 3줄 노출합니다라라라라라",
+    //         photo: ""
+    //     },
+    //     {
+    //         rating: 5,
+    //         nickname: "닉네임뒤세글자",
+    //         content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 최대 3줄 노출합니다",
+    //         photo: "/assets/sample/dummy_product2.svg"
+    //     },
+    // ]
 
-    const reviewCounts = 1996;
-    const tabList = ['제품 상세', `리뷰 ${reviewCounts.toLocaleString()}`, '상품 구매 안내']
+    const tabList = ['제품 상세', `리뷰 ${productInfo?.reviewCounts?.toLocaleString() ?? 0}`, '상품 구매 안내']
 
     const RecommendedProducts = [
         {
@@ -362,7 +392,7 @@ const ProductDetail = ( ) => {
     const isStickyOffRef = useRef(false);
 
     const handleNavigate = () => {
-        nav(`/product/review?type=${productInfo.isOverseas ? "overseas" : "domestic"}`);
+        nav(`/product/review?type=${productInfo.isOverseas ? "overseas" : "domestic"}&id=${getProductDetailData?.id}`);
     } 
 
 
@@ -561,7 +591,7 @@ const ProductDetail = ( ) => {
                             className='review-top-counts'
                             onClick={()=>handleScrollToArea(1)}
                         >
-                            {reviewCounts.toLocaleString()}개의 리뷰 보기</p>
+                            {productInfo.reviewCounts?.toLocaleString() ?? 0}개의 리뷰 보기</p>
                     </div>
                 )}
             </div>
@@ -707,7 +737,7 @@ const ProductDetail = ( ) => {
             {/* 리뷰 영역 */}
             <div ref={sectionRefs[1]} className='review-area'>
                 <h3 className='review-title'>{productInfo.reviewTitle}</h3>
-                {reviews?.length > 0 ? (
+                {productInfo.reviews?.length > 0 ? (
                     <>
                         <div className='review-top-area'>
                             <div>
@@ -720,7 +750,7 @@ const ProductDetail = ( ) => {
                             <div className='diving-line3'></div>
                             <div>
                                 <p className='review-top-title'>리뷰 건수</p>
-                                <p className='review-top-content'>{reviewCounts.toLocaleString()}건</p>
+                                <p className='review-top-content'>{productInfo.reviewCounts.toLocaleString()}건</p>
                             </div>
                         </div>
 
@@ -734,13 +764,10 @@ const ProductDetail = ( ) => {
 
                         {/* 리뷰 컴포넌트 */}
                         <div className='reivew-components-area'>
-                            {reviews.map((review, index) => (
+                            {productInfo.reviews.map((review, index) => (
                                 <ProductReview
                                     key={index}
-                                    rating={review.rating}
-                                    nickname={review.nickname}
-                                    content={review.content}
-                                    photo={review.photo} 
+                                    review={review}
                                 />
                             ))}
                         </div>

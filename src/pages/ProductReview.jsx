@@ -3,16 +3,53 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import "../styles/css/ProductReviewPage.css";
 import CustomCheckbox from "../components/common/CustomCheckbox";
 import Review from "../components/product/Review";
+import { useGetReviewsProduct, useGetReviewsProxy } from "../hooks/useReviews";
 
 const ProductReview = () => {
+    const { getReviewsProxy, data: getReviewsProxyData } = useGetReviewsProxy();
+    const { getReviewsProduct, data: getReviewsProductData } = useGetReviewsProduct();
+
     const [searchParams] = useSearchParams();
     const type = searchParams.get("type");
+    
     const nav = useNavigate();
 
-    const reviewCounts = 1996;
-    const [openStatistics, setOpenStatistics] = useState(false); 
-    const [photoReviewChecked, setPhotoReviewChecked] = useState(false);
-    const [sort, setSort] = useState("추천순");
+    const [getReviewsDto, setGetReviewsDto] = useState({
+        productId: searchParams.get("id"),
+        page: 0,
+        size: 10,
+        onlyPhoto: false,
+        sortType: "RECOMMEND"
+    })
+
+    const [reviewsData, setReviewsData] = useState({
+        reviewCounts: null,
+        reviews: null,
+    });
+
+    // 리뷰 리스트 조회 API
+    useEffect(() => {
+        if(type === "overseas") {
+            getReviewsProxy(getReviewsDto);
+        } else if(type === "domestic") {
+            getReviewsProduct(getReviewsDto);
+        }
+    }, [getReviewsDto])
+
+    // API 응답
+    useEffect(() => {
+        if(getReviewsProxyData !== null) {
+            setReviewsData(prev => ({...prev, 
+                reviews: getReviewsProxyData.content, reviewCounts: getReviewsProxyData.totalElements}))
+        }
+        if(getReviewsProductData !== null) {
+            setReviewsData(prev => ({...prev, 
+                reviews: getReviewsProductData.content, reviewCounts: getReviewsProductData.totalElements}))
+        }
+    }, [getReviewsProxyData, getReviewsProductData])
+
+
+    const [openStatistics, setOpenStatistics] = useState(false);
     const [isSortOpen, setIsSortOpen] = useState(false);
     const sortRef = useRef();
 
@@ -34,52 +71,6 @@ const ProductReview = () => {
             {label: "잘 모르겠어요", percent: 30},
         ]
     })
-
-    const [reviews, setReviews] = useState([
-        {
-            profileImg: "/assets/icon/icon_default_profile.svg",
-            nickname: "닉넴입니다아",
-            date: "25.07.28",
-            rating: 4,
-            surveyData: [
-                {title: "만족도", label: "기대 이상이에요"},
-                {title: "실물비교", label: "실물이 더 좋아요"},
-                {title: "추천의향", label: "적극 추천해요"},
-            ],
-            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요. 사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요",
-            productImgList: ["/assets/sample/dummy_product.svg", "/assets/sample/dummy_product2.svg", "/assets/sample/dummy_product3.svg", "/assets/sample/dummy_product4.svg", "/assets/sample/dummy_product5.svg",]
-        },
-        {
-            profileImg: "/assets/icon/icon_default_profile.svg",
-            nickname: "닉네임전체노출",
-            date: "25.07.28",
-            rating: 5,
-            surveyData: [
-                {title: "만족도", label: "기대 이상이에요"},
-                {title: "실물비교", label: "실물이 더 좋아요"},
-                {title: "추천의향", label: "적극 추천해요"},
-            ],
-            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요. 사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요",
-            productImgList: ""
-        },
-        {
-            profileImg: "/assets/icon/icon_default_profile.svg",
-            nickname: "닉네임전체노출222222",
-            date: "25.07.28",
-            rating: 1,
-            surveyData: [
-                {title: "만족도", label: "기대 이상이에요"},
-                {title: "실물비교", label: "실물이 더 좋아요"},
-                {title: "추천의향", label: "적극 추천해요"},
-            ],
-            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요. 사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요",
-            productImgList: ["/assets/sample/dummy_product.svg", "/assets/sample/dummy_product2.svg", "/assets/sample/dummy_product3.svg"]
-        },
-    ])
-
-    const filteredReviews = photoReviewChecked
-        ? reviews.filter(review => review.productImgList && review.productImgList.length > 0)
-        : reviews
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -108,7 +99,7 @@ const ProductReview = () => {
                 <div className='diving-line3'></div>
                 <div className="top-area">
                     <p className='review-top-title'>리뷰 건수</p>
-                    <p className='review-top-content'>{reviewCounts.toLocaleString()}건</p>
+                    <p className='review-top-content'>{reviewsData.reviewCounts?.toLocaleString()}건</p>
                 </div>
             </div>
 
@@ -175,19 +166,19 @@ const ProductReview = () => {
 
             {/* 리뷰 필터 */}
             <div className="filter-area">
-                <CustomCheckbox label="포토 리뷰" checkbox={photoReviewChecked} onChange={() => setPhotoReviewChecked(prev => !prev)} className="photo-review" />
+                <CustomCheckbox label="포토 리뷰" checkbox={getReviewsDto.onlyPhoto} onChange={() => setGetReviewsDto(prev => ({...prev, onlyPhoto: !prev.onlyPhoto}))} className="photo-review" />
                 <button  onClick={() => setIsSortOpen(prev => !prev)} >
-                    <p>{sort}</p>
+                    <p>{getReviewsDto.sortType === "RECOMMEND" ? "추천순" : "최신순"}</p>
                     <img src="/assets/button/icon_arrow_down.svg"/>
                 </button>
                 {isSortOpen && 
                 <div className="select-sort" ref={sortRef}>
-                    <button className={sort === "추천순" ? "selected" : ""}
-                        onClick={() => { setSort("추천순"); setIsSortOpen(false); }}>
+                    <button className={getReviewsDto.sortType === "RECOMMEND" ? "selected" : ""}
+                        onClick={() => { setGetReviewsDto(prev => ({...prev, sortType: "RECOMMEND"})); setIsSortOpen(false); }}>
                         추천순</button>
                     <div className="diver-sort" />
-                    <button className={sort === "최신순" ? "selected" : ""}
-                        onClick={() => { setSort("최신순"); setIsSortOpen(false); }}>
+                    <button className={getReviewsDto.sortType === "LATEST" ? "selected" : ""}
+                        onClick={() => { setGetReviewsDto(prev => ({...prev, sortType: "LATEST"})); setIsSortOpen(false); }}>
                         최신순</button>
                 </div> }
                 
@@ -195,11 +186,14 @@ const ProductReview = () => {
 
             {/* 리뷰 영역 */}
             <div className="reviews-area">
-                {filteredReviews.length > 0 ? (
+                {reviewsData.reviews?.length > 0 ? (
                     <>
-                    {filteredReviews.map((review, index) => (
-                        <Review profileImg={review.profileImg} nickname={review.nickname} date={review.date}
-                        rating={review.rating} surveyData={review.surveyData} content={review.content} productImgList={review.productImgList} />
+                    {reviewsData.reviews.map((review, index) => (
+                        <Review key={index}
+                        review={review}
+                        //  profileImg={review.profileImg} nickname={review.nickname} date={review.date}
+                        // rating={review.rating} surveyData={review.surveyData} content={review.content} productImgList={review.productImgList} 
+                        />
                     ))}
                     </>
                 ) : (
