@@ -6,7 +6,7 @@ import { useToggleProductLike } from "../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import PopupDialog from "./dialog/PopupDialog";
 
-const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId}) => {
+const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId, optionGroups, stock, basePrice }) => {
     const { showToast } = useToast();
     const nav = useNavigate();
     const { mutateAsync } = useToggleProductLike();
@@ -15,38 +15,27 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
     const [isOpen, setIsOpen] = useState(isOpenBottomSheet);
     const [isOpenLoginDialog, setIsOpenLoginDialog] = useState(false);
     const [isDropDownOption, SetIsDropDownOption] = useState(true);
-    const [optionList, setOptionList] = useState([
-        {
-            name: "선택지 A",
-            maxQuantity: 5,
-            quantity: 0,
-            price: 8000,
-        },
-        {
-            name: "선택지 B",
-            maxQuantity: 1,
-            quantity: 0,
-            price: 8000,
-        },
-        {
-            name: "선택지 C",
-            maxQuantity: 0,
-            quantity: 0,
-            price: 8000,
-        },
-        {
-            name: "선택지 D",
-            maxQuantity: 3,
-            quantity: 0,
-            price: 8000,
-        },
-        {
-            name: "선택지 E",
-            maxQuantity: 4,
-            quantity: 0,
-            price: 8000,
-        },
-    ]);
+    const [optionList, setOptionList] = useState([]);
+
+    useEffect(() => {
+        if(optionGroups?.length > 0) {
+            const mappedOptions = optionGroups[0].values.map((item) =>({
+                name: item.value,
+                maxQuantity: item.stock,
+                quantity: 0,
+                price: basePrice + item.priceDelta
+            }));
+
+            setOptionList(mappedOptions);
+        } else {
+            setOptionList([{
+                name: "",
+                maxQuantity: stock,
+                quantity: 0,
+                price: basePrice
+            }])
+        }
+    }, [optionGroups, basePrice])
 
     const totalPrice = useMemo(() => {
         return optionList.reduce((total, option) => {
@@ -161,14 +150,14 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
                         />
 
                         {/* 선택지가 하나이고 최대수량이 1개인 경우 */}
-                        {optionList.length === 1  && optionList[0].maxQuantity === 1 ? (
+                        {optionGroups.length === 0 && (stock === 1 || stock === null) ? (
                             <p className="buy-info">*재고가 1개인 상품입니다</p>
                         ) : <></>}
 
                         {optionList.length > 1 ? (
                             <>
                                 <div className={`option-header ${isDropDownOption ? "isDropDown" : ""}`}>
-                                    <p className={`option-title ${isDropDownOption ? "isDropDown" : ""}`}>옵션 1</p>
+                                    <p className={`option-title ${isDropDownOption ? "isDropDown" : ""}`}>{optionGroups?.[0]?.name}</p>
                                     <div className="right-group">
                                         {isDropDownOption && 
                                         <button className="select-all-options" onClick={handleSelectAllOptions}>풀세트 선택하기</button>

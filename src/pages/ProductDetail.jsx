@@ -155,16 +155,16 @@ const ProductDetail = ( ) => {
             setProductInfo(prev => ({
                 ...prev, reviewCounts: getReviewStatisticsProxyData.totalCount,
                 averageScore: getReviewStatisticsProxyData.averageScore.toFixed(1),
-                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction).label,
-                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction).percent
+                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction)?.label,
+                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction)?.percent
             }));
         }
         if(getReviewStatisticsProductData !== null) {
             setProductInfo(prev => ({
                 ...prev, reviewCounts: getReviewStatisticsProductData.totalCount,
                 averageScore: getReviewStatisticsProductData.averageScore.toFixed(1),
-                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction).label,
-                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction).percent
+                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction)?.label,
+                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction)?.percent
             }));
         }
     }, [getReviewsProxyData, getReviewsProductData, getReviewStatisticsProxyData, getReviewStatisticsProductData])
@@ -586,7 +586,7 @@ const ProductDetail = ( ) => {
                             <div className='diving-line3'></div>
                             <div>
                                 <p className='review-top-title'>리뷰 건수</p>
-                                <p className='review-top-content'>{productInfo.reviewCounts.toLocaleString()}건</p>
+                                <p className='review-top-content'>{productInfo.reviewCounts?.toLocaleString()}건</p>
                             </div>
                         </div>
 
@@ -779,6 +779,9 @@ const ProductDetail = ( ) => {
                 isSoldout={getProductDetailData?.soldOut} 
                 isLiked={getProductDetailData?.isLiked}
                 productId={getProductDetailData?.id} 
+                optionGroups={getProductDetailData?.optionGroups}
+                stock={getProductDetailData?.stock}
+                basePrice={getProductDetailData?.price}
             />
 
         </div>

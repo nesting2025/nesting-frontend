@@ -44,8 +44,9 @@
 }
 
 .bottom-sheet {
-    max-width: 768px;    
+    max-width: 600px;    
     width: 100%;
+    box-sizing: border-box;
     padding: 8px 16px 20px 16px;
     background-color: white;
     position: fixed;
@@ -81,6 +82,7 @@
         padding-left: 16px;
         padding-right: 16px;
         box-sizing: border-box;
+        align-items: center;
 
         @include border-color("line-medium");
         @include bg-color("white");
