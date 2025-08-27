@@ -6,16 +6,26 @@
     padding: 8px 8px 16px 8px;
     border: 0px;
     min-width: 112px;
+    
   
     .image-wrapper {
       position: relative;
       border-radius: 8px;
       overflow: hidden;
       @include border-color("line-weak");
+      width: 100%;
+      padding-top: 100%; 
+
   
       img {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
+        height: 100%;
+        object-fit: cover;
         display: block;
+        z-index: 1;
       }
   
       .tag {
@@ -26,7 +36,8 @@
         @include text-color("text-main");
         @include font-style("caption1");
         padding: 5px 10px;
-        border-radius: 8px 0px;
+        border-bottom-right-radius: 8px;
+        z-index: 2;
       }
   
       .soldout-overlay {
@@ -80,6 +91,7 @@
       }
   
       .title {
+        flex: 1;
         @include text-color("text-sub2");
         @include font-style("body2");
         white-space: nowrap;

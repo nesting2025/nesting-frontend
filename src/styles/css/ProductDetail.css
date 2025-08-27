@@ -26,6 +26,7 @@
 .product-detail .header .left-button .back-button {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 .product-detail .header .right-buttons {
   display: flex;
@@ -35,10 +36,12 @@
 .product-detail .header .right-buttons .cart-button {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 .product-detail .header .right-buttons .search-button {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 .product-detail .product-img-area {
   width: 100%;
@@ -58,8 +61,8 @@
 .product-detail .product-img-area .product-img-scroll .product-img {
   flex-shrink: 0;
   width: 100%;
-  height: auto;
   scroll-snap-align: start;
+  aspect-ratio: 1/1;
 }
 .product-detail .product-img-area .scroll-button {
   position: absolute;
@@ -108,40 +111,40 @@
   justify-content: center;
   pointer-events: none;
 }
-.product-detail .title-area {
+.product-detail .title-area-product-detail {
   width: 100%;
   box-sizing: border-box;
   padding: 20px 16px 16px 16px;
 }
-.product-detail .title-area .top-row {
+.product-detail .title-area-product-detail .top-row {
   display: flex;
   justify-content: space-between;
   gap: 12px;
 }
-.product-detail .title-area .top-row .prouct-title {
+.product-detail .title-area-product-detail .top-row .prouct-title {
   font-size: 18px;
   line-height: 26px;
   font-weight: 500;
   letter-spacing: -2.5%;
   margin: 0;
 }
-.product-detail .title-area .top-row .share-button {
+.product-detail .title-area-product-detail .top-row .share-button {
   width: 36px;
   height: 36px;
   cursor: pointer;
 }
-.product-detail .title-area .product-price {
+.product-detail .title-area-product-detail .product-price {
   margin-top: 6px;
   margin-left: 0;
   margin-bottom: 0;
 }
-.product-detail .title-area .product-price.big {
+.product-detail .title-area-product-detail .product-price.big {
   font-size: 24px;
   line-height: 32px;
   font-weight: 600;
   letter-spacing: -2.5%;
 }
-.product-detail .title-area .product-price.small {
+.product-detail .title-area-product-detail .product-price.small {
   font-size: 18px;
   line-height: 26px;
   font-weight: 500;
@@ -149,11 +152,11 @@
   color: #767676;
   text-decoration: line-through;
 }
-.product-detail .title-area .discount-row {
+.product-detail .title-area-product-detail .discount-row {
   display: flex;
   gap: 4px;
 }
-.product-detail .title-area .discount-row .discount-rate {
+.product-detail .title-area-product-detail .discount-row .discount-rate {
   font-size: 24px;
   line-height: 32px;
   font-weight: 600;
@@ -161,7 +164,7 @@
   color: #FAAC25;
   margin: 0;
 }
-.product-detail .title-area .discount-row .discounted-price {
+.product-detail .title-area-product-detail .discount-row .discounted-price {
   font-size: 24px;
   line-height: 32px;
   font-weight: 600;
@@ -169,7 +172,7 @@
   color: #111111;
   margin: 0;
 }
-.product-detail .title-area .price-info {
+.product-detail .title-area-product-detail .price-info {
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;

@@ -1,5 +1,6 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import LoginNesting from "./pages/LoginNesting";
@@ -22,35 +23,37 @@ import ProductReview from "./pages/ProductReview";
 import ProductRequest from "./pages/ProductRequest";
 import ProductRequestList from "./pages/ProductRequestList";
 
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/login/nesting" element={<LoginNesting />} />
-      <Route path="/signup/nesting" element={<SignupNesting />} />
-      <Route path="/signup/preference" element={<PreferenceSetup />} />
-      <Route path="/signup/nesting/agreement" element={<Agreement />} />
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/login/nesting" element={<LoginNesting />} />
+        <Route path="/signup/nesting" element={<SignupNesting />} />
+        <Route path="/signup/preference" element={<PreferenceSetup />} />
+        <Route path="/signup/nesting/agreement" element={<Agreement />} />
 
-      <Route path="/login/find-password" element={<FindPassword />} />
-      <Route path="/login/auth-code" element={<AuthCode /> } />
-      <Route path="/login/reset-password" element={<ResetPassword/> } />
-      <Route path="/login/find-email" element={<FindEmail />} />
-      <Route path="/login/account-info" element={<AccountInfo />} />
-      <Route path="/verify" element={<AuthVerify />} />
-      
-      <Route path="/order" element={<OrderPay />} />
-      <Route path="/order/complete" element={<OrderComplete />} />
-      <Route path="/address-register" element={<AddressRegister />} />
-      <Route path="/product/detail" element={<ProductDetail />} />
-      <Route path="/product/review" element={<ProductReview />} />
-      <Route path="/product/request" element={<ProductRequest />} />
-      <Route path="/product/request/list" element={<ProductRequestList />} />
-      <Route path="/goods" element={<GoodsList />} />
-      <Route path="/cart" element={<Cart />} />
-      {/* <Route path="/goods/:id" element={<GoodsDetail />} /> */}
-    </Routes>
+        <Route path="/login/find-password" element={<FindPassword />} />
+        <Route path="/login/auth-code" element={<AuthCode /> } />
+        <Route path="/login/reset-password" element={<ResetPassword/> } />
+        <Route path="/login/find-email" element={<FindEmail />} />
+        <Route path="/login/account-info" element={<AccountInfo />} />
+        <Route path="/verify" element={<AuthVerify />} />
+        
+        <Route path="/order" element={<OrderPay />} />
+        <Route path="/order/complete" element={<OrderComplete />} />
+        <Route path="/address-register" element={<AddressRegister />} />
+        <Route path="/product/detail" element={<ProductDetail />} />
+        <Route path="/product/review" element={<ProductReview />} />
+        <Route path="/product/request" element={<ProductRequest />} />
+        <Route path="/product/request/list" element={<ProductRequestList />} />
+        <Route path="/goods" element={<GoodsList />} />
+        <Route path="/cart" element={<Cart />} />
+      </Routes>
+    </QueryClientProvider>
   );
 }
 

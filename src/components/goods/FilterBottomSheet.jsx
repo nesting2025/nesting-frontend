@@ -1,42 +1,75 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../../styles/css/FilterBottomSheet.css";
+import { useGetFilterPrices, useGetFilterTypes } from "../../hooks/useProducts";
 
-export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSort, onSelectSort, InitialActiveTab }) {
+export default function FilterBottomSheet(
+  { isOpen, onClose, isSort, selectedSort, onSelectSort, InitialActiveTab, onChangeFilter, onSelectFilter, 
+    listLength, type, price }) {
+  const { getFilterPrices, data: getFilterPricesData } = useGetFilterPrices();
+  const { getFilterTypes, data: getFilterTypesData } = useGetFilterTypes();
+
+  const [minPrice, setMinPrice] = useState(() => {
+    if (!price) return "";
+    const minVal = Number(price.split(",")[0].trim());
+    return isNaN(minVal) ? "" : minVal.toLocaleString();
+  });
+  const [maxPrice, setMaxPrice] = useState(() => {
+    if (!price) return "";
+    const maxVal = Number(price.split(",")[1].trim());
+    return isNaN(maxVal) ? "" : maxVal.toLocaleString();
+  });
+
+  const serverMinPrice = getFilterPricesData?.minPrice ?? 0; 
+  const serverMaxPrice = getFilterPricesData?.maxPrice ?? 0;
+
   const [activeTab, setActiveTab] = useState(InitialActiveTab);
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [localSort, setLocalSort] = useState(selectedSort);
 
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
-  const serverMinPrice = 2000;
-  const serverMaxPrice = 356450;
+  const [selectedTags, setSelectedTags] = useState(() => {
+    if (!type) return [];
+    const typeList = type.split(",").map(t => t.trim()).filter(Boolean);
+    return [...typeList];
+  });
 
   const sortOptions = ["찜 많은 순", "신상품순", "가격 낮은순", "가격 높은순"];
   const categoryOptions = [
-    { name: "인형", count: 1 },
-    { name: "피규어", count: 2 },
-    { name: "가챠", count: 0 },
-    { name: "문구류", count: 1 },
-    { name: "카드", count: 0 },
-    { name: "키링", count: 1 },
-    { name: "의류", count: 1 },
-    { name: "화장품", count: 0 },
-    { name: "케이스", count: 0 },
-    { name: "식기류", count: 2 },
-    { name: "기타", count: 0 },
+    { name: "인형", count: getFilterTypesData?.[0]?.count ?? 0 },
+    { name: "피규어", count: getFilterTypesData?.[1]?.count ?? 0 },
+    { name: "가챠", count: getFilterTypesData?.[2]?.count ?? 0 },
+    { name: "문구류", count: getFilterTypesData?.[3]?.count ?? 0 },
+    { name: "카드", count: getFilterTypesData?.[4]?.count ?? 0 },
+    { name: "키링", count: getFilterTypesData?.[5]?.count ?? 0 },
+    { name: "의류", count: getFilterTypesData?.[6]?.count ?? 0 },
+    { name: "화장품", count: getFilterTypesData?.[7]?.count ?? 0 },
+    { name: "케이스", count: getFilterTypesData?.[8]?.count ?? 0 },
+    { name: "식기류", count: getFilterTypesData?.[9]?.count ?? 0 },
+    { name: "기타", count: getFilterTypesData?.[10]?.count ?? 0 },
   ];
+
+  useEffect(() => {
+    // 상품 최대/최소 가격 조회 API
+    // 상품 유형별 개수 조회 API
+    if(!isSort) {
+      getFilterPrices();
+      getFilterTypes();
+    }
+  }, []);
+
+  useEffect(() => {
+    if(!isSort) {
+      handleFilter();
+      onSelectFilter();  // 상품 개수 보여주기 용
+    }
+  }, [selectedTags])
 
   // 옵션 toggle
   const toggleTag = (option) => {
     const name = typeof option === "string" ? option : option.name;
 
-    if(activeTab === "category") {
-      if (selectedTags.includes(name)) {
-        setSelectedTags(selectedTags.filter((tag) => tag !== name));
-      } else {
-        setSelectedTags([...selectedTags, name]);
-      }
-    }
+    setSelectedTags((prevTags) =>
+      prevTags.includes(name)
+        ? prevTags.filter((tag) => tag !== name)
+        : [...prevTags, name]
+    );
   };
 
   // 선택된 태그 삭제
@@ -55,6 +88,7 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
       setSelectedTags((prev) => prev.filter(tag => !tag.includes("원")));
       return;
     }
+
     const priceTagMin = minPrice === "" ?  serverMinPrice : Number(minPrice.replace(/,/g, ""));
     const priceTagMax = maxPrice === "" ?  serverMaxPrice : Number(maxPrice.replace(/,/g, ""));
 
@@ -76,8 +110,23 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
   }
 
   const handleClose = () => {
-    onSelectSort(localSort);
     onClose();
+  }
+
+  const handleFilter = () => {
+    const priceTags = selectedTags.filter(tag => tag.includes("원"));
+    const joinedPrices = priceTags.length > 0 
+    ? priceTags
+        .map(tag => tag.replace(/,/g, "").replace("원", "")) 
+        .map(tag => tag.split("~").join(","))        
+        .join(",")                                      
+    : null;
+
+    const joinedTypes = selectedTags.filter(tag => !tag.includes("원")).length > 0
+    ? selectedTags.filter(tag => !tag.includes("원")).join(",")
+    : null;
+
+    onChangeFilter(joinedPrices, joinedTypes);
   }
 
   return (
@@ -122,8 +171,11 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
             {sortOptions.map((option) => (
               <button
                 key={option}
-                className={localSort === option? "selected" : ""}
-                onClick={() => setLocalSort(option)}
+                className={selectedSort === option? "selected" : ""}
+                onClick={() => {
+                  onSelectSort(option);
+                  handleClose();
+                }}
               >
                 {option}
               </button>
@@ -162,8 +214,9 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
               {categoryOptions.map((option) => (
                 <button
                   key={option.name}
-                  className={selectedTags.includes(option.name) ? "selected" : ""}
-                  onClick={() => toggleTag(option)}
+                  className={`${selectedTags.includes(option.name) ? "selected" : ""} ${option.count === 0 ? "disabled" : ""}`}
+                  disabled={option.count === 0}
+                  onClick={() => option.count !== 0 && toggleTag(option)}
                 >
                   {option.name}
                   {activeTab === "category" && ` · ${option.count}`}
@@ -208,8 +261,8 @@ export default function FilterBottomSheet({ isOpen, onClose, isSort, selectedSor
           >
             초기화
           </button>
-          <button className="apply-btn">
-            {`${selectedTags.length}개의 상품 보기`}
+          <button className="apply-btn" onClick={() => {handleFilter(); onClose();}}>
+            {`${listLength}개의 상품 보기`}
           </button>
         </div>
       }

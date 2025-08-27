@@ -2,14 +2,30 @@ import React, { use, useState } from "react";
 import "../../styles/css/FilterBars.css";
 import FilterBottomSheet from "./FilterBottomSheet";
 
-export default function FilterBar() {
-  const [selectedSort, setSelectedSort] = useState("찜 많은 순");
-  const filterOptions = [selectedSort, "가격", "굿즈 유형"];
+export default function FilterBar({ sortType, onSelectSort, onChangeFilter, onSelectFilter, listLength, type, price }) {
+  const sortTypeMap = {
+    LIKE_HIGH : "찜 많은 순",
+    LATEST : "신상품순",
+    PRICE_LOW : "가격 낮은순",
+    PRICE_HIGH : "가격 높은순"
+  }
+
+  const filterOptions = [sortTypeMap[sortType], "가격", "굿즈 유형"];
   const [isSort, setIsSort] = useState(false);
   const [activeTab, setActiveTab] = useState("price");
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
+  const reverseSortTypeMap = Object.fromEntries(
+    Object.entries(sortTypeMap).map(([key, value]) => [value, key])
+  );
+
+  const handleSelectSort = (option) => {
+    const engSort = reverseSortTypeMap[option];
+    if(engSort) {
+      onSelectSort(engSort);
+    }
+  }
 
   return (
     <>
@@ -18,7 +34,9 @@ export default function FilterBar() {
           className="filter-btn"
           type="button"
           aria-label="필터 열기"
-          onClick={() => setIsFilterOpen(true)}
+          onClick={() => {
+            setIsSort(false);
+            setIsFilterOpen(true);}}
         >
           <img src="/assets/button/icon_filter.svg" alt="Filter Icon" />
         </button> 
@@ -61,8 +79,13 @@ export default function FilterBar() {
       </div>
 
       {isFilterOpen && (
-        <FilterBottomSheet isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} 
-        isSort={isSort} selectedSort={selectedSort} onSelectSort={setSelectedSort} InitialActiveTab={activeTab}/>
+        <FilterBottomSheet 
+          isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} 
+          isSort={isSort} selectedSort={sortTypeMap[sortType]} onSelectSort={handleSelectSort} InitialActiveTab={activeTab}
+          onChangeFilter={onChangeFilter} 
+          onSelectFilter={onSelectFilter}
+          listLength={listLength} type={type} price={price}
+        />
       )}
     </>
   );

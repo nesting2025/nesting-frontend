@@ -40,7 +40,7 @@
 }
 
 .product-review-page {
-    width: 100%;
+    box-sizing: border-box;
     min-width: 360px;
     max-width: 600px;
     margin: 0 auto;
@@ -48,10 +48,16 @@
     gap: 0;
 
     .header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: white;
+
+        width: 100%;
+        box-sizing: border-box;
         padding: 12px;
         display: flex;
         justify-content: center;
-        position: relative;
 
         img {
             width: 24px;
@@ -69,7 +75,9 @@
     }
 
     .review-top-area {
-        width: fit-content;
+        width:100%;
+        box-sizing: border-box;
+        justify-content: center;
         display: flex;
         gap: 16px;
         margin: 20px auto;
@@ -112,12 +120,12 @@
     }
 
     .review-statistics-area {
-        width: calc(100% - 32px);
+        width: 100%;
         max-width: 400px;
         box-sizing: border-box;
         margin: 20px auto;
         margin-top: 0;
-        padding: 12px;
+        padding: 12px 16px;
         @include border-color("line-medium");
         border-radius: 12px;
 
@@ -159,15 +167,17 @@
 
     .diver {
         width: 100%;
+        box-sizing: border-box;
         height: 8px;
         @include bg-color("bg-strong");
         margin: 0;
     }
 
     .filter-area {
-        width: calc(100% - 32px);
+        width: 100%;
+        padding: 0 16px; 
         box-sizing: border-box;
-        margin: 20px 16px 0 16px;
+        margin: 20px 0 0 0;
         display: flex;
         justify-content: space-between;
         align-items: center;

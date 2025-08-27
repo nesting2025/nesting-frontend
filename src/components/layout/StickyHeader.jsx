@@ -18,8 +18,7 @@ const Header = () => {
       <header className="header small">
         <div className="menu-icon">
           <img
-            src="/assets/size=48, type=menu.svg"
-            alt="Menu"
+            src="/assets/size=24, type=search.svg"
             className="icon"
           />
         </div>
@@ -31,8 +30,7 @@ const Header = () => {
         <div className="icons">
           <div className="search-icon">
             <img
-              src="/assets/size=24, type=search.svg"
-              alt="Search"
+              src="/assets/size=24, type=user.svg"
               className="icon"
             />
           </div>

@@ -46,10 +46,10 @@
   }
 }
 
-.product-list {
+.product-list-area {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 0;
   padding: 20px 12px;
 }

@@ -4,8 +4,8 @@ import ProductSlider from '../components/goods/ProductSlider';
 import useScreenSize from '../hooks/useScreenSize';
 import Footer from '../components/layout/Footer';
 import CTAButton from '../components/CTAButton';
-import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useRef, useEffect, use } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import React from 'react';
 import {
   shippingPolicyText1,
@@ -21,242 +21,184 @@ import {
   transactionInfoText1,
   transactionInfoText2
 } from '../text';
+import { useGetProductDetail, useGetProductList, usePostProductView } from '../hooks/useProducts';
+import { useGetReviewsProduct, useGetReviewsProxy, useGetReviewStatisticsProduct, useGetReviewStatisticsProxy } from '../hooks/useReviews';
 
-const ProductDetail = ( {type='domestic'} ) => {
-    const isOverseas = type === 'overseas';
-    const isSoldOut = false;
+const ProductDetail = ( ) => {
+    const { getProductDetail, data: getProductDetailData } = useGetProductDetail();
+    const { postProductView, data: postProductViewData } = usePostProductView();
+    const { getProductList, data: getProductListData} = useGetProductList();
+    const { getReviewsProxy, data: getReviewsProxyData } = useGetReviewsProxy();
+    const { getReviewsProduct, data: getReviewsProductData } = useGetReviewsProduct();
+    const { getReviewStatisticsProxy, data: getReviewStatisticsProxyData } = useGetReviewStatisticsProxy();
+    const { getReviewStatisticsProduct, data: getReviewStatisticsProductData } = useGetReviewStatisticsProduct();
+
     const nav = useNavigate();
-    
+    const location = useLocation();
     const {screenSize} = useScreenSize();
 
-    const imgList = [
-        "/assets/sample/dummy_product.svg",
-        "/assets/sample/dummy_product8.svg",
-        "/assets/sample/dummy_product9.svg"
-    ]
+    const [productInfo, setProductInfo] = useState({
+        isOverseas: null,
+        shipping: null,
+        shippingInfo: null,
+        reviewTitle: null,
+        reviewCounts: null,
+        averageScore: null,
+        reviews: null,
+        satisfactionLabel: null,
+        satisfactionPercent: null
+    })
+
+    const [getProductListDto, setGetProductListDto] = useState({
+        page: "0",
+        size: "18",
+        sortType: "LIKE_HIGH",
+        includeSoldOut: true,
+        category: null,
+        type: null,
+        price: null,
+        search: null,
+    });
+    
+    const [getReviewsDto, setGetReviewsDto] = useState({
+        productId: null,
+        page: 0,
+        size: 10,
+        onlyPhoto: false,
+        sortType: "RECOMMEND"
+    })
+    
+    const surveyLabelMap = {
+    EXCELLENT: "기대 이상이에요",
+    GOOD: "만족해요",
+    NORMAL: "기대보다 평범해요",
+    };
+    const priority = ["EXCELLENT", "GOOD", "NORMAL"];
+
+    const getTopStatisfaction = (data) => {
+        const entries = Object.entries(data);
+
+        const maxPercent = Math.max(...entries.map(([_, percent]) => percent));
+        const topCandidates = entries.filter(([_, percent]) => percent === maxPercent).map(([key]) => key);
+        for (const key of priority) {
+            if (topCandidates.includes(key)) return { 
+                label: surveyLabelMap[key],
+                percent: data[key]
+            };
+        }
+    }
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+        const productId = location.state?.productId;
+        if(productId) {
+            handleGetProductDetail(productId);
+            handlePostProductView(productId);
+        }
+    }, [location.state?.productId]);
+
+    // 상품 상세 조회 API
+    const handleGetProductDetail = async (id) => {
+        try {
+            await getProductDetail(id);
+        } catch(e) { console.log(e); }
+    }
+    // 상품 조회 로그 저장 API
+    const handlePostProductView = async (id) => {
+        try {
+            const accessToken = localStorage.getItem("accessToken");
+            if(!accessToken) return; // 로그인한 회원인 경우에만 API 호출 
+
+            await postProductView(id);
+        } catch(e) { console.log(e); }
+    }
+    // API 응답
+    useEffect(() => {
+        if(getProductDetailData !== null) {
+            setProductInfo(prev => ({
+                ...prev, isOverseas: getProductDetailData.sourceType === "PROXY",
+                shipping: getProductDetailData.sourceType === "PROXY" ? "해외배송・롯데택배" : "국내배송・로젠택배",
+                shippingInfo: getProductDetailData.sourceType === "PROXY" ? <>네스팅의 평균 해외배송 기간은 <span>9일 이내</span>입니다.</> : <>네스팅의 평균 국내배송 기간은 <span>3일 이내</span>입니다.</>,
+                reviewTitle: getProductDetailData.sourceType === "PROXY" ? "네스터들의 해외구매 리뷰" : "이 상품의 리뷰"
+            }));
+
+            console.log(getProductDetailData.category
+                    ?.filter(cat => cat !== "산리오")  // 일단은 서브 카테고리가 존재하는 메인카테고리는 산리오밖에 없음 (서브카테고리가 있는 경우 메인카테고리를 제외하고 category 지정)
+                    .join(",") );
+
+            setGetProductListDto(prev => ({
+                ...prev, category: getProductDetailData.category
+                    ?.filter(cat => cat !== "산리오")  // 일단은 서브 카테고리가 존재하는 메인카테고리는 산리오밖에 없음 (서브카테고리가 있는 경우 메인카테고리를 제외하고 category 지정)
+                    .join(",") 
+            }));
+
+            setGetReviewsDto(prev => ({
+                ...prev, productId: getProductDetailData.id
+            }))
+        }
+    }, [getProductDetailData]);
+
+    useEffect(() => {
+        if(getReviewsProxyData !== null) {
+            setProductInfo(prev => ({
+                ...prev, 
+                reviews: getReviewsProxyData.content
+            }));
+        } 
+        if(getReviewsProductData !== null) {
+            setProductInfo(prev => ({
+                ...prev, 
+                reviews: getReviewsProductData.content
+            }));
+        }
+        if(getReviewStatisticsProxyData !== null) {
+            setProductInfo(prev => ({
+                ...prev, reviewCounts: getReviewStatisticsProxyData.totalCount,
+                averageScore: getReviewStatisticsProxyData.averageScore.toFixed(1),
+                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction)?.label,
+                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction)?.percent
+            }));
+        }
+        if(getReviewStatisticsProductData !== null) {
+            setProductInfo(prev => ({
+                ...prev, reviewCounts: getReviewStatisticsProductData.totalCount,
+                averageScore: getReviewStatisticsProductData.averageScore.toFixed(1),
+                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction)?.label,
+                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction)?.percent
+            }));
+        }
+    }, [getReviewsProxyData, getReviewsProductData, getReviewStatisticsProxyData, getReviewStatisticsProductData])
+
+    useEffect(() => {
+        // 연관 상품 리스트 조회 API
+        if(getProductListDto.category !== null) {
+            getProductList(getProductListDto);
+        }
+        
+        // 리뷰 조회 API, 리뷰 통계 API
+        if(getProductDetailData?.sourceType === "PROXY") {
+            getReviewsProxy(getReviewsDto);
+            getReviewStatisticsProxy();
+        } else if (getProductDetailData?.sourceType === "STOCKED" && getReviewsDto.productId !== null) {
+            getReviewsProduct(getReviewsDto);
+            getReviewStatisticsProduct(getReviewsDto.productId);
+        }
+    }, [getProductListDto, getReviewsDto])
+
 
     // 해외인지 국내인지에 따라 다르게 변수 매핑
     const productDetialInfo = [
-        {label: '굿즈 유형', value: '피규어'},
-        {label: '상품 상태', value: '중고'},
-        {label: '수량', value: '1'},
+        {label: '굿즈 유형', value: getProductDetailData?.type},
+        {label: '상품 상태', value: getProductDetailData?.condition},
+        {label: '수량', value: getProductDetailData?.stock},
     ]
     const localProductDetialInfo = [
-        {label: '굿즈 유형', value: '키링'},
-        {label: '상품 상태', value: '신상품'},
-        {label: '크기', value: '8cm'},
-        {label: '제조사', value: '반다이남코'}
+        {label: '굿즈 유형', value: getProductDetailData?.type},
+        {label: '상품 상태', value: getProductDetailData?.condition},
+        {label: '크기', value: getProductDetailData?.size},
+        {label: '제조사', value: getProductDetailData?.manufacturer}
     ]
-
-    const reviews = [
-        {
-            rating: 2,
-            nickname: "닉네임뒤세글자",
-            content: "흠냐..글쎄용.",
-            photo: "/assets/sample/dummy_product2.svg"
-        },
-        {
-            rating: 5,
-            nickname: "닉네임뒤세글자",
-            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 텍스트 영역은 마찬가지로 최대 3줄 노출합니다라라라라라",
-            photo: ""
-        },
-        {
-            rating: 5,
-            nickname: "닉네임뒤세글자",
-            content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 최대 3줄 노출합니다",
-            photo: "/assets/sample/dummy_product2.svg"
-        },
-    ]
-    const translatedInfo = `완전 희귀한 레옹 짱구와 마틸다 흰둥이 피규어입니다.\n\n즉시 구매 가능\n상자 없음\n\n상품 상태는 사진으로 확인 바랍니다.`;
-    const price = 10000;
-    const discountRate = 20;
-    const discountedPrice = 8000;
-    const reviewCounts = 1996;
-    const tabList = ['제품 상세', `리뷰 ${reviewCounts.toLocaleString()}`, '상품 구매 안내']
-
-    const RecommendedProducts = [
-        {
-        id: 1,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 2,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 3,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 4,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 5,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 6,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-        {
-        id: 7,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 8,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 9,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 10,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 11,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 12,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-        {
-        id: 13,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 14,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 15,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 16,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 17,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 18,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-    ];
+    const tabList = ['제품 상세', `리뷰 ${productInfo?.reviewCounts?.toLocaleString() ?? 0}`, '상품 구매 안내']
 
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -285,8 +227,8 @@ const ProductDetail = ( {type='domestic'} ) => {
     const isStickyOffRef = useRef(false);
 
     const handleNavigate = () => {
-        nav(`/product/review?type=${isOverseas ? "overseas" : "domestic"}`);
-    }
+        nav(`/product/review?type=${productInfo.isOverseas ? "overseas" : "domestic"}&id=${getProductDetailData?.id}`);
+    } 
 
 
     useEffect(() => {
@@ -316,7 +258,6 @@ const ProductDetail = ( {type='domestic'} ) => {
             if (shouldBeOff !== isStickyOffRef.current) {
                 setIsStickyOff(shouldBeOff);
                 isStickyOffRef.current = shouldBeOff;
-                console.log(`스티키 ${shouldBeOff ? 'off' : 'on'}`);
             }
         }
 
@@ -348,27 +289,27 @@ const ProductDetail = ( {type='domestic'} ) => {
         }
     }
 
-    const handleScrollProduct = () => {
-        const scrollX = productScrollRef.current.scrollLeft;  // 얼마나 스크롤했는지
-        const containerWidth = productScrollRef.current.offsetWidth;  // 요소의 보이는 너비
-        const index = Math.round(scrollX/containerWidth);
-        setCurrentProductIndex(index);
-    }
+    // const handleScrollProduct = () => {
+    //     const scrollX = productScrollRef.current.scrollLeft;  // 얼마나 스크롤했는지
+    //     const containerWidth = productScrollRef.current.offsetWidth;  // 요소의 보이는 너비
+    //     const index = Math.round(scrollX/containerWidth);
+    //     setCurrentProductIndex(index);
+    // }
 
-    const goToProductSlide = (index) => {
-        if(!productScrollRef.current) return;
+    // const goToProductSlide = (index) => {
+    //     if(!productScrollRef.current) return;
 
-        const containerWidth = productScrollRef.current.offsetWidth;
+    //     const containerWidth = productScrollRef.current.offsetWidth;
 
-        productScrollRef.current.scrollTo({
-            left: index * containerWidth,
-            behavior: "smooth"
-        });
+    //     productScrollRef.current.scrollTo({
+    //         left: index * containerWidth,
+    //         behavior: "smooth"
+    //     });
 
-        setTimeout(() => {
-            setCurrentProductIndex(index);
-        }, 300);
-    }
+    //     setTimeout(() => {
+    //         setCurrentProductIndex(index);
+    //     }, 300);
+    // }
 
     // 사용자가 탭을 클릭했을 때 해당 섹션으로 스크롤
     const handleScrollToArea = (index) => {
@@ -399,12 +340,13 @@ const ProductDetail = ( {type='domestic'} ) => {
                     <img 
                     className="back-button"
                     src="/assets/button/btn_back2.svg" 
+                    onClick={() => nav(-1)}
                     />
                 </div>
                 <div className='right-buttons'>
                     <img 
                     className="search-button"
-                    src="/assets/size=24, type=search.svg"
+                    src="/assets/size=24, type=user.svg"
                     />
                     <img 
                     className="cart-button"
@@ -424,7 +366,7 @@ const ProductDetail = ( {type='domestic'} ) => {
                     ref={scrollRef}
                     onScroll={handleScrollImg}
                 >
-                    {imgList.map((src, index) => (
+                    {getProductDetailData?.imageUrl?.map((src, index) => (
                         <img
                         key={index}
                         className="product-img"
@@ -446,47 +388,46 @@ const ProductDetail = ( {type='domestic'} ) => {
                     />
                     </>
                 )}
-                {isSoldOut && (
+                {getProductDetailData?.soldOut && (
                 <div className="soldout-overlay">
                     <span>품절</span>
                 </div>
                 )}
                 <div
                     className='img-indicator'>
-                    <span className='highlight'>{currentIndex + 1}</span> | {imgList.length}
+                    <span className='highlight'>{currentIndex + 1}</span> | {getProductDetailData?.imageUrl?.length}
                 </div>
             </div>
 
             {/* 타이틀 정보 영역 */}
-            <div className='title-area'>
+            <div className='title-area-product-detail'>
                 <div className='top-row'>
-                    <h3 className='prouct-title'>레옹 짱구와 마틸다 흰둥이 피규어-상품명 전부 노출-레옹 짱구와 마틸다 흰둥이 피규어</h3>
+                    <h3 className='prouct-title'>{getProductDetailData?.name}</h3>
                     <img className='share-button' src='/assets/button/btn_share.svg' />
                 </div>
-                <p className={discountRate===0 ? 'product-price big' : 'product-price small'}>
-                    {price.toLocaleString()}
-                    {discountRate===0 ? '원' : ''}
+                <p className={(getProductDetailData?.discountPercent===null) ? 'product-price big' : 'product-price small'}>
+                    {getProductDetailData?.price.toLocaleString()}
+                    {getProductDetailData?.discountPercent===null ? '원' : ''}
                 </p>
-                {discountRate !==0 && (
+                {getProductDetailData?.discountPercent !== null && (
                     <div className='discount-row'>
-                        <p className='discount-rate'>{discountRate}%</p>
-                        <p className='discounted-price'>{discountedPrice.toLocaleString()}
-                            {discountRate===0? '' : '원'}
+                        <p className='discount-rate'>{getProductDetailData?.discountPercent}%</p>
+                        <p className='discounted-price'>{getProductDetailData?.discountedPrice.toLocaleString()}원
                         </p>
                     </div>
                 )}
 
-                {isOverseas ? (
+                {productInfo.isOverseas ? (
                     <p className='price-info'>해외 배송비, 관부가세, 수수료가 모두 포함된 가격</p>
                 ) : (
                     <div className='rating-star-row title'>
                         <img className='star-img title' src='/assets/icon/star.svg' />
-                        <p className='review-top-content title'>4.8</p>
+                        <p className='review-top-content title'>{productInfo.averageScore}</p>
                         <p 
                             className='review-top-counts'
                             onClick={()=>handleScrollToArea(1)}
                         >
-                            {reviewCounts.toLocaleString()}개의 리뷰 보기</p>
+                            {productInfo.reviewCounts?.toLocaleString() ?? 0}개의 리뷰 보기</p>
                     </div>
                 )}
             </div>
@@ -497,14 +438,14 @@ const ProductDetail = ( {type='domestic'} ) => {
             <div className='delivery-area'>
                 <div className='delivery-row'>
                     <p className='delivery-info1'>배송</p>
-                    <p className='delivery-info2'>해외직배송・롯데택배</p>
+                    <p className='delivery-info2'>{productInfo.shipping}</p>
                 </div>
                 <div className='delivery-fee-row'>
                     <p className='delivery-info1'>배송비</p>
-                    <p className='delivery-info2'>무료<br />(제주 3,000원 / 도서산간 5,000원 추가)</p>
+                    <p className='delivery-info2'>{getProductDetailData?.deliveryFee === 0 ? "무료" : `${getProductDetailData?.deliveryFee.toLocaleString()}원`}<br />(제주 3,000원 / 도서산간 5,000원 추가)</p>
                 </div>
 
-                {isOverseas && (
+                {productInfo.isOverseas && (
                     <div className='overseas-shipping-info-area'>
                         <div className='overseas-shipping-top-row'>
                             <img className='icon' src='/assets/icon/plane.svg' />
@@ -541,14 +482,14 @@ const ProductDetail = ( {type='domestic'} ) => {
                 <div className='overseas-shipping-info-area'>
                     <div className='overseas-shipping-top-row'>
                         <img className='icon' src='/assets/icon/package.svg' />
-                        <h4 className='overseas-shipping-title'>네스팅의 평균 해외배송 기간은 <span>9일 이내</span>입니다.</h4>
+                        <h4 className='overseas-shipping-title'>{productInfo.shippingInfo}</h4>
                     </div>
                     <p className='overseas-shipping-info'>주말/공휴일 제외한 영업일 기준</p>
                 </div>
             </div>
 
             {/* 상품출처 영역 */}
-            {isOverseas && (
+            {productInfo.isOverseas && (
                 <>
                     <div className='diving-area' />
                     <div className='product-origin-area'>
@@ -585,7 +526,13 @@ const ProductDetail = ( {type='domestic'} ) => {
             {/* 제품상세 영역 */}
             <div ref={sectionRefs[0]} className='product-detail-area'>
                 <div className='product-detail-info'>
-                    {localProductDetialInfo.map(({ label , value }) => (
+                    {!productInfo.isOverseas && localProductDetialInfo.map(({ label , value }) => (
+                        <div key={label} className='product-detail-row'>
+                            <p className='product-detail-label'>{label}</p>
+                            <p className='product-detail-value'>{value}</p>
+                        </div>
+                    ))}
+                    {productInfo.isOverseas && productDetialInfo.map(({ label , value }) => (
                         <div key={label} className='product-detail-row'>
                             <p className='product-detail-label'>{label}</p>
                             <p className='product-detail-value'>{value}</p>
@@ -594,21 +541,21 @@ const ProductDetail = ( {type='domestic'} ) => {
                 </div>
                 <div className='diving-line full'/>
 
-                {isOverseas ? (
+                {productInfo.isOverseas ? (
                     <div className='translated-area'>
                         <p className='translate-info'>*일본 메루카리 판매자가 작성한 글을 자동으로 번역했어요</p>
-                        <p className='translated-product-info' style={{ whiteSpace: 'pre-line' }}>{translatedInfo}</p>
+                        <p className='translated-product-info' style={{ whiteSpace: 'pre-line' }}>{getProductDetailData?.description}</p>
                     </div>
                 ) : (
                     <>
                         <div className={`product-detail-images ${showAllImages ? 'expanded' : ''}`}
                             ref={imgWrapperRef}>
-                            {imgList.map((src, index) => (
+                            {getProductDetailData?.imageUrl?.map((src, index) => (
                                 <React.Fragment key={index}>
                                     <img
                                     className="product-img"
                                     src={src} />
-                                    {index < imgList.length-1 && <div className='diving-area weak' />}
+                                    {index < getProductDetailData?.imageUrl?.length-1 && <div className='diving-area weak' />}
                                 </React.Fragment>
                             ))}
                         </div>
@@ -625,41 +572,38 @@ const ProductDetail = ( {type='domestic'} ) => {
 
             {/* 리뷰 영역 */}
             <div ref={sectionRefs[1]} className='review-area'>
-                <h3 className='review-title'>네스터들의 해외구매 리뷰</h3>
-                {reviews?.length > 0 ? (
+                <h3 className='review-title'>{productInfo.reviewTitle}</h3>
+                {productInfo.reviews?.length > 0 ? (
                     <>
                         <div className='review-top-area'>
                             <div>
                                 <p className='review-top-title'>평균 별점</p>
                                 <div className='rating-star-row'>
                                     <img className='star-img' src='/assets/icon/star.svg' />
-                                    <p className='review-top-content'>4.8</p>
+                                    <p className='review-top-content'>{productInfo.averageScore}</p>
                                 </div>
                             </div>
                             <div className='diving-line3'></div>
                             <div>
                                 <p className='review-top-title'>리뷰 건수</p>
-                                <p className='review-top-content'>{reviewCounts.toLocaleString()}건</p>
+                                <p className='review-top-content'>{productInfo.reviewCounts?.toLocaleString()}건</p>
                             </div>
                         </div>
 
                         <div className='review-statistics-area'>
                             <p>만족도</p>
                             <p>•</p>
-                            <p className='text-statistics1'>기대 이상이에요</p>
+                            <p className='text-statistics1'>{productInfo.satisfactionLabel}</p>
                             <p>•</p>
-                            <p className='text-statistics2'>90%</p>
+                            <p className='text-statistics2'>{productInfo.satisfactionPercent}%</p>
                         </div>
 
                         {/* 리뷰 컴포넌트 */}
                         <div className='reivew-components-area'>
-                            {reviews.map((review, index) => (
+                            {productInfo.reviews.map((review, index) => (
                                 <ProductReview
                                     key={index}
-                                    rating={review.rating}
-                                    nickname={review.nickname}
-                                    content={review.content}
-                                    photo={review.photo} 
+                                    review={review}
                                 />
                             ))}
                         </div>
@@ -766,7 +710,7 @@ const ProductDetail = ( {type='domestic'} ) => {
                         </div>
                     )}
                 </div>
-                {!isOverseas && (
+                {!productInfo.isOverseas && (
                     <div>
                         <div className='buy-info-row'>
                             <h4 className='buy-info-row-title'>상품정보 제공고시</h4>
@@ -816,8 +760,8 @@ const ProductDetail = ( {type='domestic'} ) => {
             {/* 연관상품 추천 영역 */}
             <ProductSlider
                 className='white'
-                productList={RecommendedProducts}
-                title1="짱구"
+                productList={getProductListData?.content?.filter(product => product.id !== getProductDetailData?.id)}  // 현재 보는 상품 제외하고 추천영역에 보여줌
+                title1={getProductDetailData?.category?.length > 2 ? getProductDetailData?.category[0] : getProductDetailData?.category[1]}
                 title2=" 러버들의 Pick"
             />
 
@@ -831,7 +775,14 @@ const ProductDetail = ( {type='domestic'} ) => {
 
             <Footer className='footer' screenSize={screenSize} />
 
-            <CTAButton className='cta-button-area' isSoldout={isSoldOut} />
+            <CTAButton className='cta-button-area' 
+                isSoldout={getProductDetailData?.soldOut} 
+                isLiked={getProductDetailData?.isLiked}
+                productId={getProductDetailData?.id} 
+                optionGroups={getProductDetailData?.optionGroups}
+                stock={getProductDetailData?.stock}
+                basePrice={getProductDetailData?.price}
+            />
 
         </div>
     )

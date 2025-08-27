@@ -1,41 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/css/CategoryTabs.css";
 
-export default function CategoryTabs() {
+export default function CategoryTabs({ onChangeCategory }) {
   const mainCategories = [
     "전체",
-    "짱구",
     "산리오",
+    "짱구",
     "포켓몬",
     "리락쿠마",
-    "진격의 거인",
-    "귀멸의 칼날",
-    "디즈니",
+    "치이카와",
   ];
   const subCategories = {
     전체: ["전체"],
-    짱구: ["전체", "짱구", "맹구", "기타"],
-    산리오: ["전체", "쿠로미", "헬로키티"],
-    포켓몬: [
-      "전체",
-      "피카츄",
-      "이브이",
-      "꼬부기",
-      "파이리",
-      "버터플",
-      "야도란",
-      "피죤투",
-      "또가스",
-      "이상해씨",
-    ],
-    리락쿠마: ["전체", "리락쿠마"],
-    "진격의 거인": ["전체", "에렌", "미카사", "리바이"],
-    "귀멸의 칼날": ["전체", "탄지로", "네즈코", "젠이츠"],
-    디즈니: ["전체", "미키마우스", "엘사", "토이스토리"],
+    산리오: ["전체", "한교동", "헬로키티", "쿠로미", "포차코", "시나모롤", "마이멜로디", "폼폼푸린", "배드바츠마루", "리틀트윈스타", "턱시도샘", "우사하나"],
+    짱구: ["전체"],
+    포켓몬: ["전체"],
+    리락쿠마: ["전체"],
+    치이카와: ["전체"]
   };
 
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [selectedSub, setSelectedSub] = useState("전체");
+  const [category, setCategory] = useState("전체");
+
+  useEffect(() => {
+    const subs = subCategories[selectedCategory] || ["전체"];
+
+    if(subs.length === 1) {
+      setCategory(selectedCategory);
+    }
+    else {
+
+      if(selectedSub === "전체") {
+        // const allSubs = subs.filter(s => s !== "전체").join(",");
+        const allSubs = selectedCategory;
+        setCategory(allSubs);
+      } else {
+        setCategory(selectedSub);
+      }
+    }
+
+  }, [selectedCategory, selectedSub]);
+
+
+  useEffect(() => {
+    onChangeCategory(category);
+  }, [category]);
 
   return (
     <div className="category-tabs w-full">

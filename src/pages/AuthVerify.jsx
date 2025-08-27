@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef, use } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import WelcomeDialog from "../components/dialog/WelcomeDialog";
 import CustomButton from "../components/CustomButton";
-import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup, useFindEmail, useSocialLink } from "../hooks/useAuth";
+import { useVerifyPhoneSend, useVerifyCodeCheck, useCheckValidPhone, useSignup, useFindEmail } from "../hooks/useAuth";
 import { useToast } from "../components/common/ToastContext";
 import "../styles/css/AuthVerify.css";
+import { useSocialLink } from "../hooks/useAccount";
 
 export default function AuthVerify() {
   const { checkValidPhone, data: checkValidPhoneData, reset } = useCheckValidPhone();

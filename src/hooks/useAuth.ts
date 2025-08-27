@@ -123,18 +123,6 @@ export const useFindEmail = () => {
     return { findEmail, loading, error, data, reset };
 };
 
-export const useSetPreference = () => {
-    const {
-        execute: setPreference,
-        loading,
-        error,
-        data,
-        reset
-    } = useAsync<BaseResponseDto<null>>(AuthRepository.setPreference);
-
-    return { setPreference, loading, error, data, reset };
-};
-
 export const useLoginKakao = () => {
     const {
         execute: loginKakao,
@@ -157,18 +145,6 @@ export const useLoginNaver = () => {
     } = useAsync<BaseResponseDto<LoginEmailResponseDto>>(AuthRepository.loginNaver);
 
     return { loginNaver, loading, error, data, reset };
-};
-
-export const useSocialLink = () => {
-    const {
-        execute: socialLink,
-        loading,
-        error,
-        data,
-        reset
-    } = useAsync<BaseResponseDto<null>>(AuthRepository.socialLink);
-
-    return { socialLink, loading, error, data, reset };
 };
 
 export const useTokenReissue = () => {

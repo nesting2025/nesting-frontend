@@ -120,6 +120,10 @@
         @include text-color();
         @include bg-color("bg-strong");
       }
+
+      &.disabled {
+        cursor: default;
+      }
     }
   }
 
