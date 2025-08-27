@@ -22,7 +22,7 @@ import {
   transactionInfoText2
 } from '../text';
 import { useGetProductDetail, useGetProductList, usePostProductView } from '../hooks/useProducts';
-import { useGetReviewsProduct, useGetReviewsProxy } from '../hooks/useReviews';
+import { useGetReviewsProduct, useGetReviewsProxy, useGetReviewStatisticsProduct, useGetReviewStatisticsProxy } from '../hooks/useReviews';
 
 const ProductDetail = ( ) => {
     const { getProductDetail, data: getProductDetailData } = useGetProductDetail();
@@ -30,6 +30,8 @@ const ProductDetail = ( ) => {
     const { getProductList, data: getProductListData} = useGetProductList();
     const { getReviewsProxy, data: getReviewsProxyData } = useGetReviewsProxy();
     const { getReviewsProduct, data: getReviewsProductData } = useGetReviewsProduct();
+    const { getReviewStatisticsProxy, data: getReviewStatisticsProxyData } = useGetReviewStatisticsProxy();
+    const { getReviewStatisticsProduct, data: getReviewStatisticsProductData } = useGetReviewStatisticsProduct();
 
     const nav = useNavigate();
     const location = useLocation();
@@ -41,7 +43,10 @@ const ProductDetail = ( ) => {
         shippingInfo: null,
         reviewTitle: null,
         reviewCounts: null,
-        reviews: null
+        averageScore: null,
+        reviews: null,
+        satisfactionLabel: null,
+        satisfactionPercent: null
     })
 
     const [getProductListDto, setGetProductListDto] = useState({
@@ -63,6 +68,25 @@ const ProductDetail = ( ) => {
         sortType: "RECOMMEND"
     })
     
+    const surveyLabelMap = {
+    EXCELLENT: "기대 이상이에요",
+    GOOD: "만족해요",
+    NORMAL: "기대보다 평범해요",
+    };
+    const priority = ["EXCELLENT", "GOOD", "NORMAL"];
+
+    const getTopStatisfaction = (data) => {
+        const entries = Object.entries(data);
+
+        const maxPercent = Math.max(...entries.map(([_, percent]) => percent));
+        const topCandidates = entries.filter(([_, percent]) => percent === maxPercent).map(([key]) => key);
+        for (const key of priority) {
+            if (topCandidates.includes(key)) return { 
+                label: surveyLabelMap[key],
+                percent: data[key]
+            };
+        }
+    }
 
     useEffect(() => {
         window.scrollTo(0,0);
@@ -117,17 +141,33 @@ const ProductDetail = ( ) => {
     useEffect(() => {
         if(getReviewsProxyData !== null) {
             setProductInfo(prev => ({
-                ...prev, reviewCounts: getReviewsProxyData.numberOfElements,
+                ...prev, 
                 reviews: getReviewsProxyData.content
             }));
         } 
         if(getReviewsProductData !== null) {
             setProductInfo(prev => ({
-                ...prev, reviewCounts: getReviewsProductData.numberOfElements,
+                ...prev, 
                 reviews: getReviewsProductData.content
             }));
         }
-    }, [getReviewsProxyData, getReviewsProductData])
+        if(getReviewStatisticsProxyData !== null) {
+            setProductInfo(prev => ({
+                ...prev, reviewCounts: getReviewStatisticsProxyData.totalCount,
+                averageScore: getReviewStatisticsProxyData.averageScore.toFixed(1),
+                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction).label,
+                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProxyData.surveyStatistics.satisfaction).percent
+            }));
+        }
+        if(getReviewStatisticsProductData !== null) {
+            setProductInfo(prev => ({
+                ...prev, reviewCounts: getReviewStatisticsProductData.totalCount,
+                averageScore: getReviewStatisticsProductData.averageScore.toFixed(1),
+                satisfactionLabel: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction).label,
+                satisfactionPercent: getTopStatisfaction(getReviewStatisticsProductData.surveyStatistics.satisfaction).percent
+            }));
+        }
+    }, [getReviewsProxyData, getReviewsProductData, getReviewStatisticsProxyData, getReviewStatisticsProductData])
 
     useEffect(() => {
         // 연관 상품 리스트 조회 API
@@ -135,13 +175,13 @@ const ProductDetail = ( ) => {
             getProductList(getProductListDto);
         }
         
-        // 리뷰 조회 API
+        // 리뷰 조회 API, 리뷰 통계 API
         if(getProductDetailData?.sourceType === "PROXY") {
-            console.log(getReviewsDto);
             getReviewsProxy(getReviewsDto);
+            getReviewStatisticsProxy();
         } else if (getProductDetailData?.sourceType === "STOCKED" && getReviewsDto.productId !== null) {
-            console.log(getReviewsDto);
             getReviewsProduct(getReviewsDto);
+            getReviewStatisticsProduct(getReviewsDto.productId);
         }
     }, [getProductListDto, getReviewsDto])
 
@@ -158,212 +198,7 @@ const ProductDetail = ( ) => {
         {label: '크기', value: getProductDetailData?.size},
         {label: '제조사', value: getProductDetailData?.manufacturer}
     ]
-
-    // const reviews = [
-    //     {
-    //         rating: 2,
-    //         nickname: "닉네임뒤세글자",
-    //         content: "흠냐..글쎄용.",
-    //         photo: "/assets/sample/dummy_product2.svg"
-    //     },
-    //     {
-    //         rating: 5,
-    //         nickname: "닉네임뒤세글자",
-    //         content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 텍스트 영역은 마찬가지로 최대 3줄 노출합니다라라라라라",
-    //         photo: ""
-    //     },
-    //     {
-    //         rating: 5,
-    //         nickname: "닉네임뒤세글자",
-    //         content: "사진 그대로예요. 보자마자 살 걸 후회했네여! 완전 레어한 아이템이라 너무 좋아요-리뷰 최대 3줄 노출합니다",
-    //         photo: "/assets/sample/dummy_product2.svg"
-    //     },
-    // ]
-
     const tabList = ['제품 상세', `리뷰 ${productInfo?.reviewCounts?.toLocaleString() ?? 0}`, '상품 구매 안내']
-
-    const RecommendedProducts = [
-        {
-        id: 1,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 2,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 3,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 4,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 5,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 6,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-        {
-        id: 7,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 8,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 9,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 10,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 11,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 12,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-        {
-        id: 13,
-        title: "레옹 짱구와 마틸다 힌둥",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: false,
-        imageUrl: "/assets/sample/dummy_product2.svg",
-        },
-        {
-        id: 14,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: false,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product3.svg",
-        },
-        {
-        id: 15,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product4.svg",
-        },
-        {
-        id: 16,
-        title: "짱구2-상품명은무조건한줄처리",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product5.svg",
-        },
-        {
-        id: 17,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product6.svg",
-        },
-        {
-        id: 18,
-        title: "상품명 최대 1줄 노출 길이 테스트",
-        price: 8000,
-        discount: 0,
-        isOverseas: true,
-        isSoldOut: false,
-        isLiked: true,
-        imageUrl: "/assets/sample/dummy_product7.svg",
-        },
-    ];
 
     const [isHovered, setIsHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -505,12 +340,13 @@ const ProductDetail = ( ) => {
                     <img 
                     className="back-button"
                     src="/assets/button/btn_back2.svg" 
+                    onClick={() => nav(-1)}
                     />
                 </div>
                 <div className='right-buttons'>
                     <img 
                     className="search-button"
-                    src="/assets/size=24, type=search.svg"
+                    src="/assets/size=24, type=user.svg"
                     />
                     <img 
                     className="cart-button"
@@ -586,7 +422,7 @@ const ProductDetail = ( ) => {
                 ) : (
                     <div className='rating-star-row title'>
                         <img className='star-img title' src='/assets/icon/star.svg' />
-                        <p className='review-top-content title'>4.8</p>
+                        <p className='review-top-content title'>{productInfo.averageScore}</p>
                         <p 
                             className='review-top-counts'
                             onClick={()=>handleScrollToArea(1)}
@@ -744,7 +580,7 @@ const ProductDetail = ( ) => {
                                 <p className='review-top-title'>평균 별점</p>
                                 <div className='rating-star-row'>
                                     <img className='star-img' src='/assets/icon/star.svg' />
-                                    <p className='review-top-content'>4.8</p>
+                                    <p className='review-top-content'>{productInfo.averageScore}</p>
                                 </div>
                             </div>
                             <div className='diving-line3'></div>
@@ -757,9 +593,9 @@ const ProductDetail = ( ) => {
                         <div className='review-statistics-area'>
                             <p>만족도</p>
                             <p>•</p>
-                            <p className='text-statistics1'>기대 이상이에요</p>
+                            <p className='text-statistics1'>{productInfo.satisfactionLabel}</p>
                             <p>•</p>
-                            <p className='text-statistics2'>90%</p>
+                            <p className='text-statistics2'>{productInfo.satisfactionPercent}%</p>
                         </div>
 
                         {/* 리뷰 컴포넌트 */}

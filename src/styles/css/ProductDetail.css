@@ -26,6 +26,7 @@
 .product-detail .header .left-button .back-button {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 .product-detail .header .right-buttons {
   display: flex;
@@ -35,10 +36,12 @@
 .product-detail .header .right-buttons .cart-button {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 .product-detail .header .right-buttons .search-button {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
 .product-detail .product-img-area {
   width: 100%;

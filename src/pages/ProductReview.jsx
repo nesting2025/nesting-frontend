@@ -3,16 +3,20 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import "../styles/css/ProductReviewPage.css";
 import CustomCheckbox from "../components/common/CustomCheckbox";
 import Review from "../components/product/Review";
-import { useGetReviewsProduct, useGetReviewsProxy } from "../hooks/useReviews";
+import { useGetReviewsProduct, useGetReviewsProxy, useGetReviewStatisticsProduct, useGetReviewStatisticsProxy } from "../hooks/useReviews";
 
 const ProductReview = () => {
     const { getReviewsProxy, data: getReviewsProxyData } = useGetReviewsProxy();
     const { getReviewsProduct, data: getReviewsProductData } = useGetReviewsProduct();
+    const { getReviewStatisticsProxy, data: getReviewStatisticsProxyData } = useGetReviewStatisticsProxy();
+    const { getReviewStatisticsProduct, data: getReviewStatisticsProductData } = useGetReviewStatisticsProduct();
 
     const [searchParams] = useSearchParams();
     const type = searchParams.get("type");
-    
     const nav = useNavigate();
+    const [openStatistics, setOpenStatistics] = useState(false);
+    const [isSortOpen, setIsSortOpen] = useState(false);
+    const sortRef = useRef();
 
     const [getReviewsDto, setGetReviewsDto] = useState({
         productId: searchParams.get("id"),
@@ -24,15 +28,87 @@ const ProductReview = () => {
 
     const [reviewsData, setReviewsData] = useState({
         reviewCounts: null,
+        averageScore: null,
         reviews: null,
+        surveyData: {
+            satisfaction : [
+                {label: "기대 이상이에요", percent: 0},
+                {label: "만족해요", percent: 0},
+                {label: "기대보다 평범해요", percent: 0},
+            ],
+            originalComparison: [
+                {label: "실물이 더 좋아요", percent: 0},
+                {label: "똑같아요", percent: 0},
+                {label: "조금 달라요", percent: 0},
+            ],
+            recommend: [
+                {label: "적극 추천해요", percent: 0},
+                {label: "보통이에요", percent: 0},
+                {label: "잘 모르겠어요", percent: 0},
+            ]
+        }
     });
 
-    // 리뷰 리스트 조회 API
+    const surveyLabelMap = {
+        satisfaction: {
+            EXCELLENT: "기대 이상이에요",
+            GOOD: "만족해요",
+            NORMAL: "기대보다 평범해요",
+        },
+        originalComparison: {
+            SAME: "똑같아요",
+            DIFFERENT: "조금 달라요",
+            GOOD: "실물이 더 좋아요",
+        },
+        recommend: {
+            RECOMMEND: "적극 추천해요",
+            NORMAL: "보통이에요",
+            SOSO: "잘 모르겠어요",
+        },
+    }
+
+    const transformSurveyStatistics = (surveyStatistics) => {
+        setReviewsData(prev => {
+            const newSurveyData = {};
+
+            Object.entries(prev.surveyData).forEach(([localKey, defaultItems]) => {
+            const serverValues = surveyStatistics?.[localKey] || {};
+
+            const items = defaultItems.map(item => {
+                const serverLabelKey = Object.entries(surveyLabelMap[localKey] || {}).find(
+                ([k, v]) => v === item.label
+                )?.[0];
+
+                const percent = serverLabelKey && serverValues[serverLabelKey] != null
+                ? serverValues[serverLabelKey]
+                : 0;
+
+                return { label: item.label, percent };
+            });
+
+            // 내림차순 정렬 + 기본 순서 유지
+            items.sort(
+                (a, b) =>
+                b.percent - a.percent ||
+                defaultItems.findIndex(d => d.label === a.label) -
+                defaultItems.findIndex(d => d.label === b.label)
+            );
+
+            newSurveyData[localKey] = items;
+            });
+
+            return { ...prev, surveyData: newSurveyData };
+        });
+    };
+
+    // 리뷰 리스트 조회, 리뷰 통계 API
     useEffect(() => {
         if(type === "overseas") {
             getReviewsProxy(getReviewsDto);
+            getReviewStatisticsProxy();
         } else if(type === "domestic") {
             getReviewsProduct(getReviewsDto);
+            getReviewStatisticsProduct(getReviewsDto.productId);
         }
     }, [getReviewsDto])
 
@@ -40,37 +116,27 @@ const ProductReview = () => {
     useEffect(() => {
         if(getReviewsProxyData !== null) {
             setReviewsData(prev => ({...prev, 
-                reviews: getReviewsProxyData.content, reviewCounts: getReviewsProxyData.totalElements}))
+                reviews: getReviewsProxyData.content}));
         }
         if(getReviewsProductData !== null) {
             setReviewsData(prev => ({...prev, 
-                reviews: getReviewsProductData.content, reviewCounts: getReviewsProductData.totalElements}))
+                reviews: getReviewsProductData.content}));
         }
-    }, [getReviewsProxyData, getReviewsProductData])
-
-
-    const [openStatistics, setOpenStatistics] = useState(false);
-    const [isSortOpen, setIsSortOpen] = useState(false);
-    const sortRef = useRef();
-
-
-    const [surveyData, setSurveyData] = useState({
-        satisfaction : [
-            {label: "기대 이상이에요", percent: 85},
-            {label: "만족해요", percent: 3},
-            {label: "기대보다 평범해요", percent: 2},
-        ],
-        realComparison: [
-            {label: "실물이 더 좋아요", percent: 56},
-            {label: "똑같아요", percent: 24},
-            {label: "조금 달라요", percent: 20},
-        ],
-        recommend: [
-            {label: "적극 추천해요", percent: 40},
-            {label: "보통이에요", percent: 30},
-            {label: "잘 모르겠어요", percent: 30},
-        ]
-    })
+        if(getReviewStatisticsProxyData !== null) {
+            setReviewsData(prev => ({...prev, 
+                reviewCounts: getReviewStatisticsProxyData.totalCount, 
+                averageScore: getReviewStatisticsProxyData.averageScore.toFixed(1)}),
+            );
+            transformSurveyStatistics(getReviewStatisticsProxyData.surveyStatistics);
+        }
+        if(getReviewStatisticsProductData !== null) {
+            setReviewsData(prev => ({...prev, 
+                reviewCounts: getReviewStatisticsProductData.totalCount,
+                averageScore: getReviewStatisticsProductData.averageScore.toFixed(1)})
+            );
+            transformSurveyStatistics(getReviewStatisticsProductData.surveyStatistics);
+        }
+    }, [getReviewsProxyData, getReviewsProductData, getReviewStatisticsProxyData, getReviewStatisticsProductData])
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -93,7 +159,7 @@ const ProductReview = () => {
                     <p className='review-top-title'>평균 별점</p>
                     <div className='rating-star-row'>
                         <img className='star-img' src='/assets/icon/star.svg' />
-                        <p className='review-top-content'>4.8</p>
+                        <p className='review-top-content'>{reviewsData.averageScore}</p>
                     </div>
                 </div>
                 <div className='diving-line3'></div>
@@ -108,17 +174,17 @@ const ProductReview = () => {
                 <div className="survey-area">
                     <div className="row">
                         <p className="title">만족도</p>
-                        <ReviewPercent label={surveyData.satisfaction[0].label} percent={surveyData.satisfaction[0].percent} />
+                        <ReviewPercent label={reviewsData.surveyData.satisfaction?.[0]?.label} percent={reviewsData.surveyData.satisfaction?.[0]?.percent} />
                     </div>
                     {openStatistics && (
                         <>
                         <div className="row">
                             <p className="title" />
-                            <ReviewPercent label={surveyData.satisfaction[1].label} percent={surveyData.satisfaction[1].percent} />
+                            <ReviewPercent label={reviewsData.surveyData.satisfaction?.[1]?.label} percent={reviewsData.surveyData.satisfaction?.[1]?.percent} />
                         </div>
                         <div className="row">
                             <p className="title" />
-                            <ReviewPercent label={surveyData.satisfaction[2].label} percent={surveyData.satisfaction[2].percent} />
+                            <ReviewPercent label={reviewsData.surveyData.satisfaction?.[2]?.label} percent={reviewsData.surveyData.satisfaction?.[2]?.percent} />
                         </div>
                         </>
                     )}
@@ -126,17 +192,17 @@ const ProductReview = () => {
                 <div className="survey-area">
                     <div className="row">
                         <p className="title">실물비교</p>
-                        <ReviewPercent label={surveyData.realComparison[0].label} percent={surveyData.realComparison[0].percent} />
+                        <ReviewPercent label={reviewsData.surveyData.originalComparison?.[0]?.label} percent={reviewsData.surveyData.originalComparison?.[0]?.percent} />
                     </div>
                     {openStatistics && (
                         <>
                         <div className="row">
                             <p className="title" />
-                            <ReviewPercent label={surveyData.realComparison[1].label} percent={surveyData.realComparison[1].percent} />
+                            <ReviewPercent label={reviewsData.surveyData.originalComparison?.[1]?.label} percent={reviewsData.surveyData.originalComparison?.[1]?.percent} />
                         </div>
                         <div className="row">
                             <p className="title" />
-                            <ReviewPercent label={surveyData.realComparison[2].label} percent={surveyData.realComparison[2].percent} />
+                            <ReviewPercent label={reviewsData.surveyData.originalComparison?.[2]?.label} percent={reviewsData.surveyData.originalComparison?.[2]?.percent} />
                         </div>
                         </>
                     )}
@@ -144,17 +210,17 @@ const ProductReview = () => {
                 <div className="survey-area">
                     <div className="row">
                         <p className="title">추천의향</p>
-                        <ReviewPercent label={surveyData.recommend[0].label} percent={surveyData.recommend[0].percent} />
+                        <ReviewPercent label={reviewsData.surveyData.recommend?.[0]?.label} percent={reviewsData.surveyData.recommend?.[0]?.percent} />
                     </div>
                     {openStatistics && (
                         <>
                         <div className="row">
                             <p className="title" />
-                            <ReviewPercent label={surveyData.recommend[1].label} percent={surveyData.recommend[1].percent} />
+                            <ReviewPercent label={reviewsData.surveyData.recommend?.[1]?.label} percent={reviewsData.surveyData.recommend?.[1]?.percent} />
                         </div>
                         <div className="row">
                             <p className="title" />
-                            <ReviewPercent label={surveyData.recommend[2].label} percent={surveyData.recommend[2].percent} />
+                            <ReviewPercent label={reviewsData.surveyData.recommend?.[2]?.label} percent={reviewsData.surveyData.recommend?.[2]?.percent} />
                         </div>
                         </>
                     )}
@@ -189,11 +255,7 @@ const ProductReview = () => {
                 {reviewsData.reviews?.length > 0 ? (
                     <>
                     {reviewsData.reviews.map((review, index) => (
-                        <Review key={index}
-                        review={review}
-                        //  profileImg={review.profileImg} nickname={review.nickname} date={review.date}
-                        // rating={review.rating} surveyData={review.surveyData} content={review.content} productImgList={review.productImgList} 
-                        />
+                        <Review key={index} review={review} />
                     ))}
                     </>
                 ) : (
