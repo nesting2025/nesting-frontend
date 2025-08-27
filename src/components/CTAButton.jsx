@@ -5,11 +5,13 @@ import { useToast } from "./common/ToastContext";
 import { useToggleProductLike } from "../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import PopupDialog from "./dialog/PopupDialog";
+import { useAddCart } from "../hooks/useCart";
 
 const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId, optionGroups, stock, basePrice }) => {
     const { showToast } = useToast();
     const nav = useNavigate();
     const { mutateAsync } = useToggleProductLike();
+    const { addCart, data: addCartData } = useAddCart();
 
     const [isLike, setIsLiked] = useState(isLiked);
     const [isOpen, setIsOpen] = useState(isOpenBottomSheet);
@@ -23,7 +25,8 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
                 name: item.value,
                 maxQuantity: item.stock,
                 quantity: 0,
-                price: basePrice + item.priceDelta
+                price: basePrice + item.priceDelta,
+                priceDelta: item.priceDelta,
             }));
 
             setOptionList(mappedOptions);
@@ -94,14 +97,40 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
         SetIsDropDownOption(prev => !prev)
     }
 
-    const addToCart = () => {
+    const addToCart = async () => {
         if(totalPrice === 0) {
             showToast("옵션을 먼저 선택해 주세요");
             return;
         }
 
-        showToast("장바구니에 상품을 담았어요", "cart");
+        // 장바구니 담기 API 연결
+        const addCartDto = {
+            productId: productId,
+            quantity: optionList?.length > 1 ? null : optionList[0].quantity,
+            options: optionList?.length <= 1 
+                ? null 
+                : optionList
+                .filter(opt => opt.quantity > 0)
+                .map(opt => ({
+                    name: optionGroups?.[0]?.name,
+                    value: opt.name,
+                    quantity: opt.quantity,
+                    priceDelta: opt.priceDelta
+                })) 
+        };
+
+        try {
+            await addCart(addCartDto);
+        } catch(e) {
+            setIsOpenLoginDialog(true);  // 오류 발생 시 로그인 팝업 띄움
+        }
     }
+    // API 응답
+    useEffect(() => {
+        if(addCartData !== null) {
+            if(addCartData?.code === "SUCCESS") showToast("장바구니에 상품을 담았어요", "cart");
+        }
+    }, [addCartData]);
 
     const buyProduct = () => {
         if(totalPrice === 0) {
