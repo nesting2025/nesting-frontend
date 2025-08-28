@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/css/ProductRequest.css";
 import CTAButtonOrderPay from "../components/CTAButtonOrderPay";
+import { useLoadProxyRequst } from "../hooks/useProducts";
 
 const ProductRequest = () => {
     const nav = useNavigate();
     const [activeTab, setActiveTab] = useState("이용 방법");
     const [productDomain, setProductDomain] = useState("");
+    const { loadProxyRequst, loading, error, data: loadProxyRequstData } = useLoadProxyRequst();
 
     const precautionList = [
         {
@@ -109,6 +111,19 @@ const ProductRequest = () => {
         );
     };
 
+    // 구매대행 상품 불러오기 API 
+    const handleLoadProxyRequest = async () => {
+        try {
+            await loadProxyRequst(productDomain);
+        } catch (e) { console.log(e); }
+    }
+    // API 응답
+    useEffect(() => {
+        if(loadProxyRequstData !== null) {
+            nav("/product/request/list");
+        }
+    }, [loadProxyRequstData])
+
     return (
         <div className="product-request">
             <div className="header">
@@ -119,6 +134,23 @@ const ProductRequest = () => {
                 />
                 <p>구매대행 요청하기</p>
             </div>
+
+            {loading && (
+                <div className="loading-error-area">
+                    <img src="/assets/service/bird_proxy_request_loading.svg" />
+                    <h3>상품을 불러오고 있어요</h3>
+                    <h5>잠시만 기다려 주세요</h5>
+                </div>
+            )}
+
+            {error && (
+                <div className="loading-error-area">
+                    <img src="/assets/service/bird_proxy_request_error.svg" />
+                    <h3>상품을 불러오지 못했어요</h3>
+                    <h5>다시 시도해 주세요. 문제가 반복될 시 <span onClick={()=> {window.open("http://pf.kakao.com/_Xexkxen", "_blank")}}>고객센터</span>로 문의를 남겨주시면 확인 도와드릴게요.</h5>
+                    <button onClick={() => nav("/product/request/list")}>다시 시도하기</button>
+                </div>
+            )}
 
             <section className="title-area">
                 <h1>링크 하나로<br />해외 상품 구매 끝!</h1>
@@ -247,8 +279,8 @@ const ProductRequest = () => {
                 <h5>잠깐! 구매 전 아래 유의사항을 확인하세요!</h5>
 
                 <div className="content-area">
-                    {precautionList.map((item) => (
-                        <div className="precaution-row">
+                    {precautionList.map((item, index) => (
+                        <div className="precaution-row" key={index}>
                             <div className="title-row">
                                 <p className="highlight">{item.number}.</p>
                                 <p className="title"> {item.title}</p>
@@ -288,8 +320,8 @@ const ProductRequest = () => {
                 <h3 className="white">교환 & 환불(반품) 안내</h3>
                 <h5 className="white">반드시 확인해 주세요!</h5>
                 <div className="content-area">
-                    {exchagneRefundList.map((item) => (
-                        <div className="content-row">
+                    {exchagneRefundList.map((item, index) => (
+                        <div className="content-row" key={index}>
                             {item}
                         </div>
                     ))}
@@ -325,7 +357,7 @@ const ProductRequest = () => {
                 </div>
             </section>
 
-            <CTAButtonOrderPay type="next" isEnabled={productDomain} />
+            {!loading && !error && <CTAButtonOrderPay type="next" isEnabled={productDomain} onClickButton={handleLoadProxyRequest} />}
 
         </div>
     )

@@ -2,6 +2,7 @@ import { BaseResponseDto } from "../data/dto/common/BaseResponseDto"
 import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
 import { GetProductDetailResponseDto } from "../data/dto/Response/products/GetProductDetailResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto"
+import { LoadProxyRequstDto } from "../data/dto/Response/products/LoadProxyRequestDto";
 import { TypeResponseDto } from "../data/dto/Response/products/TypeResponseDto";
 import { ProductsRepository } from "../data/repository/ProductsRepository"
 import { useAsync } from "./useAsync"
@@ -101,4 +102,16 @@ export const useGetProductRecentViewList = (
     queryFn: () => ProductsRepository.getProductRecentViewList(params),
     enabled,
   });
+};
+
+export const useLoadProxyRequst = () => {
+  const {
+    execute: loadProxyRequst,
+    loading,
+    error,
+    data,
+    reset
+  } = useAsync<BaseResponseDto<LoadProxyRequstDto>>(ProductsRepository.loadProxyRequst);
+
+  return { loadProxyRequst, loading, error, data, reset };
 };

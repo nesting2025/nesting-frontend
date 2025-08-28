@@ -3,11 +3,13 @@ import { GetProductListDto } from "../data/dto/Request/products/GetProductListDt
 import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
 import { GetProductDetailResponseDto } from "../data/dto/Response/products/GetProductDetailResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto";
+import { LoadProxyRequstDto } from "../data/dto/Response/products/LoadProxyRequestDto";
 import { TypeResponseDto } from "../data/dto/Response/products/TypeResponseDto";
 import publicClient, { authClient } from "./client";
 import { requestClient } from "./requestClient";
 
 const PRODUCTS_URL = "/nesting/api/v1/products";
+const PROXY_REQUEST_URL = "/nesting/api/v1/proxy-requests"
 
 export const getProductList = async (getProductListDto: GetProductListDto): Promise<BaseResponseDto<GetProductListResponseDto>> => {
     return requestClient(async (client) => {
@@ -62,6 +64,15 @@ export const getProductRecentViewList = async (getProductListDto: GetProductList
     const response = await authClient.get<BaseResponseDto<GetProductListResponseDto>>(`${PRODUCTS_URL}/recent-view`, {
         params: getProductListDto
     });
+
+    return response.data;
+};
+
+export const loadProxyRequst = async (sourceUrl: string): Promise<BaseResponseDto<LoadProxyRequstDto>> => {
+    const response = await authClient.post<BaseResponseDto<LoadProxyRequstDto>>(`${PROXY_REQUEST_URL}/load`, 
+        { sourceUrl },
+        { timeout: 20000 }
+    );
 
     return response.data;
 };

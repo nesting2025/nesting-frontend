@@ -1,6 +1,6 @@
 import '../styles/css/CTAButtonOrderPay.css';
 
-const CTAButtonOrderPay = ( { totalPrice ,productNum, isEnabled, type="pay" } ) => {
+const CTAButtonOrderPay = ( { totalPrice ,productNum, isEnabled, type="pay", onClickButton } ) => {
     let btnText;
     if(type === "pay") {
         btnText = productNum !== 0 ? `${totalPrice.toLocaleString()}원 결제하기 ・ 총 ${productNum}건` : "상품을 선택해 주세요"
@@ -12,7 +12,7 @@ const CTAButtonOrderPay = ( { totalPrice ,productNum, isEnabled, type="pay" } ) 
 
     return(
         <div className={`cta-area ${type}`}>
-            <button className={`${isEnabled ? "enabled" : ""}`} disabled={!isEnabled}>
+            <button className={`${isEnabled ? "enabled" : ""}`} disabled={!isEnabled} onClick={onClickButton}>
                 {btnText}
             </button>
 
