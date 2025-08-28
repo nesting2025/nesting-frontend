@@ -1,5 +1,6 @@
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto";
 import { GetProductListDto } from "../data/dto/Request/products/GetProductListDto";
+import { postProxyRequestDto } from "../data/dto/Request/products/PostProxyRequestDto";
 import { GetFilterPricesResponseDto } from "../data/dto/Response/products/GetFilterPricesResponseDto";
 import { GetProductDetailResponseDto } from "../data/dto/Response/products/GetProductDetailResponseDto";
 import { GetProductListResponseDto } from "../data/dto/Response/products/GetProductListResponseDto";
@@ -71,8 +72,14 @@ export const getProductRecentViewList = async (getProductListDto: GetProductList
 export const loadProxyRequst = async (sourceUrl: string): Promise<BaseResponseDto<LoadProxyRequstDto>> => {
     const response = await authClient.post<BaseResponseDto<LoadProxyRequstDto>>(`${PROXY_REQUEST_URL}/load`, 
         { sourceUrl },
-        { timeout: 20000 }
+        { timeout: 2 }
     );
 
     return response.data;
+};
+
+export const postProxyRequest = async (postProxyRequestDto: postProxyRequestDto): Promise<BaseResponseDto<null>> => {
+    const response = await authClient.post(`${PROXY_REQUEST_URL}`, postProxyRequestDto) as BaseResponseDto<null>;
+
+    return response;
 };

@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import "../styles/css/ProductRequest.css";
 import CTAButtonOrderPay from "../components/CTAButtonOrderPay";
 import { useLoadProxyRequst } from "../hooks/useProducts";
+import PopupDialog from "../components/dialog/PopupDialog";
 
 const ProductRequest = () => {
     const nav = useNavigate();
     const [activeTab, setActiveTab] = useState("이용 방법");
     const [productDomain, setProductDomain] = useState("");
     const { loadProxyRequst, loading, error, data: loadProxyRequstData } = useLoadProxyRequst();
+    const [isOpenLoginDialog, setIsOpenLoginDialog] = useState(false);
 
     const precautionList = [
         {
@@ -113,19 +115,30 @@ const ProductRequest = () => {
 
     // 구매대행 상품 불러오기 API 
     const handleLoadProxyRequest = async () => {
+        if(!localStorage.getItem("accessToken")) {
+            setIsOpenLoginDialog(true);
+            return;
+        }
         try {
             await loadProxyRequst(productDomain);
-        } catch (e) { console.log(e); }
+        } catch (e) { 
+            console.log(e); 
+        }
     }
     // API 응답
     useEffect(() => {
         if(loadProxyRequstData !== null) {
-            nav("/product/request/list");
+            nav("/product/request/list", { 
+                state: {
+                    sourceUrl: productDomain, ...loadProxyRequstData
+                }
+            });
         }
     }, [loadProxyRequstData])
 
     return (
         <div className="product-request">
+            <PopupDialog open={isOpenLoginDialog} onOpenChange={(newOpen) => setIsOpenLoginDialog(newOpen)} titleText={<>로그인이 필요한 서비스입니다.<br/>로그인 하시겠습니까?</>} />
             <div className="header">
                 <img 
                     className="back-button"

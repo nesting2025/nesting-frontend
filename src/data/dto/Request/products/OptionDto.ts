@@ -1,6 +1,6 @@
 export interface OptionDto {
-    name: string;
+    name?: string | null;
     value: string;
     quantity: number;
-    priceDelta: number;
+    priceDelta?: number | null;
 }

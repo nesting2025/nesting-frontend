@@ -2,10 +2,12 @@
 @import "./typography";
 
 .cta-area {
-    position: sticky;
+    position: fixed;
     bottom: 0;
     z-index: 1000;
     width: 100%;
+    min-width: 360px;
+    max-width: 600px;
     padding: 20px 16px;
     @include bg-color("white");
     box-sizing: border-box;
@@ -15,6 +17,7 @@
         border-top: 1px solid #e5e5ec;
         display: flex;
         flex-direction: column;
+
     }
 
     button {

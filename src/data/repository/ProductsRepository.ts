@@ -1,6 +1,7 @@
-import { getFilterPrices, getFilterTypes, getProductDetail, getProductLikeList, getProductList, getProductRecentViewList, loadProxyRequst, postProductView, toggleProductLike } from "../../api/productsApi";
+import { getFilterPrices, getFilterTypes, getProductDetail, getProductLikeList, getProductList, getProductRecentViewList, loadProxyRequst, postProductView, postProxyRequest, toggleProductLike } from "../../api/productsApi";
 import { BaseResponseDto } from "../dto/common/BaseResponseDto";
 import { GetProductListDto } from "../dto/Request/products/GetProductListDto";
+import { postProxyRequestDto } from "../dto/Request/products/PostProxyRequestDto";
 import { GetFilterPricesResponseDto } from "../dto/Response/products/GetFilterPricesResponseDto";
 import { GetProductDetailResponseDto } from "../dto/Response/products/GetProductDetailResponseDto";
 import { GetProductListResponseDto } from "../dto/Response/products/GetProductListResponseDto";
@@ -42,5 +43,9 @@ export const ProductsRepository = {
 
     loadProxyRequst: async (sourceUrl: string): Promise<BaseResponseDto<LoadProxyRequstDto>> => {
         return await loadProxyRequst(sourceUrl);
+    },
+
+    postProxyRequest: async (postProxyRequestDto: postProxyRequestDto): Promise<BaseResponseDto<null>> => {
+        return await postProxyRequest(postProxyRequestDto);
     },
 }

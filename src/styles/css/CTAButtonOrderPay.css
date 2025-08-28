@@ -1,8 +1,10 @@
 .cta-area {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   z-index: 1000;
   width: 100%;
+  min-width: 360px;
+  max-width: 600px;
   padding: 20px 16px;
   background-color: #FFFFFF;
   box-sizing: border-box;

@@ -1,7 +1,7 @@
 import '../../styles/css/OrderProductCard.css';
 
 const OrderProductCard = ({ productData }) => {
-    const { productThumbnail, productName, totalPrice, totalDiscountedPrice, quantity, option, options, soldOut=false, status } = productData;
+    const { productThumbnail, productName, totalPrice, totalDiscountedPrice, quantity, option, options, soldOut=false, status, productPrice } = productData;
     
     return (
         <div className="order-product-card">
@@ -14,7 +14,7 @@ const OrderProductCard = ({ productData }) => {
                     <div className="order-product-title">{productName}</div>
                     <div className="order-product-price" style={{display:'flex',alignItems:'center'}}> 
                     {totalDiscountedPrice && <span className="order-origin-price">{totalPrice?.toLocaleString()}원</span>}
-                    <span className="order-sale-price">{(totalDiscountedPrice ? totalDiscountedPrice : totalPrice)?.toLocaleString()}원</span>
+                    <span className="order-sale-price">{(totalDiscountedPrice ?? totalPrice ?? productPrice)?.toLocaleString()}원</span>
                     </div>
                 </div>
             </div>

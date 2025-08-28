@@ -115,3 +115,15 @@ export const useLoadProxyRequst = () => {
 
   return { loadProxyRequst, loading, error, data, reset };
 };
+
+export const usePostProxyRequest = () => {
+  const {
+    execute: postProxyRequest,
+    loading,
+    error,
+    data,
+    reset
+  } = useAsync<BaseResponseDto<null>>(ProductsRepository.postProxyRequest);
+
+  return { postProxyRequest, loading, error, data, reset };
+};
