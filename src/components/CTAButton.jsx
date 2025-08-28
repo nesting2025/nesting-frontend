@@ -20,7 +20,7 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
     const [optionList, setOptionList] = useState([]);
 
     useEffect(() => {
-        if(optionGroups?.length > 0) {
+        if(optionGroups && optionGroups.length > 0) {
             const mappedOptions = optionGroups[0].values.map((item) =>({
                 name: item.value,
                 maxQuantity: item.stock,
@@ -122,7 +122,7 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
         try {
             await addCart(addCartDto);
         } catch(e) {
-            setIsOpenLoginDialog(true);  // 오류 발생 시 로그인 팝업 띄움
+            if(e.message === "예기치 못한 오류가 발생했습니다.") setIsOpenLoginDialog(true);  // 오류 발생 시 로그인 팝업 띄움
         }
     }
     // API 응답
@@ -179,7 +179,7 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
                         />
 
                         {/* 선택지가 하나이고 최대수량이 1개인 경우 */}
-                        {optionGroups.length === 0 && (stock === 1 || stock === null) ? (
+                        {optionGroups === null && (stock === 1 || stock === null) ? (
                             <p className="buy-info">*재고가 1개인 상품입니다</p>
                         ) : <></>}
 

@@ -1,4 +1,5 @@
 import { BaseResponseDto } from "../data/dto/common/BaseResponseDto"
+import { GetCartResponseDto } from "../data/dto/Response/products/GetCartResponseDto";
 import { CartRepository } from "../data/repository/CartRepository"
 import { useAsync } from "./useAsync"
 
@@ -13,3 +14,15 @@ export const useAddCart = () => {
 
     return { addCart, loading, error, data, reset };
 };
+
+export const useGetCart = () => {
+    const {
+        execute: getCart,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<GetCartResponseDto>>(CartRepository.getCart);
+
+    return { getCart, loading, error, data, reset };
+}

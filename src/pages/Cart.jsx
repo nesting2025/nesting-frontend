@@ -8,6 +8,7 @@ import '../styles/css/Cart.css';
 import CustomRadioButton from "../components/common/CustomRadioButton";
 import { paymentInfo } from "../text";
 import { useGetProductLikeList, useGetProductRecentViewList } from "../hooks/useProducts";
+import { useGetCart } from "../hooks/useCart";
 
 const Cart = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -18,131 +19,133 @@ const Cart = () => {
     const { data: getProductRecentViewListData } = useGetProductRecentViewList({
         page: "0", size: "18", includeSoldOut: "true"}, !!accessToken
     );
+    const { getCart, data: getCartData } = useGetCart();
 
+    // 네스팅 상품
     const [orderProducDomesticList, setOrderDomesticProductList] = useState([
-        {
-          imgSrc: "/assets/sample/dummy_product10.svg",
-          title: "상품명1",
-          originPrice: 10000,  // 수량 포함된 가격
-          discountedPrice: 8000,  // 수량 포함된 가격
-          option: [
-            { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
-          ],
-          isSoldout: true,
-          isChecked: false,
-          deliveryFee: 0,
-        },
-        {
-          imgSrc: "/assets/sample/dummy_product8.svg",
-          title: "상품명2",
-          originPrice: 8000,
-          discountedPrice: 8000,
-          quantity: 3,
-          option: [
-            { textOption: "", quantityOption: 3 },
-          ],
-          isChecked: false,
-          deliveryFee: 0,
-        },
-         {
-          imgSrc: "/assets/sample/dummy_product4.svg",
-          title: "상품명3",
-          originPrice: 20000,
-          discountedPrice: 16000,
-          option: [
-            { textOption: "", quantityOption: 2 },
-          ],
-          isChecked: false,
-          deliveryFee: 3000,
-        },
+        // {
+        //   imgSrc: "/assets/sample/dummy_product10.svg",
+        //   title: "상품명1",
+        //   originPrice: 10000,  // 수량 포함된 가격
+        //   discountedPrice: 8000,  // 수량 포함된 가격
+        //   option: [
+        //     { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
+        //   ],
+        //   isSoldout: true,
+        //   isChecked: false,
+        //   deliveryFee: 0,
+        // },
+        // {
+        //   imgSrc: "/assets/sample/dummy_product8.svg",
+        //   title: "상품명2",
+        //   originPrice: 8000,
+        //   discountedPrice: 8000,
+        //   quantity: 3,
+        //   option: [
+        //     { textOption: "", quantityOption: 3 },
+        //   ],
+        //   isChecked: false,
+        //   deliveryFee: 0,
+        // },
+        //  {
+        //   imgSrc: "/assets/sample/dummy_product4.svg",
+        //   title: "상품명3",
+        //   originPrice: 20000,
+        //   discountedPrice: 16000,
+        //   option: [
+        //     { textOption: "", quantityOption: 2 },
+        //   ],
+        //   isChecked: false,
+        //   deliveryFee: 3000,
+        // },
     ])
     const [orderProductOverseasList, setOrderProductOverseasList] = useState([
-        {
-          imgSrc: "/assets/sample/dummy_product9.svg",
-          title: "상품명입니다아아아아",
-          originPrice: 12000,
-          discountedPrice: 8000,
-          option: [
-            { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
-          ],
-          isChecked: false,
-          deliveryFee: 0,
-        },
+        // {
+        //   imgSrc: "/assets/sample/dummy_product9.svg",
+        //   title: "상품명입니다아아아아",
+        //   originPrice: 12000,
+        //   discountedPrice: 8000,
+        //   option: [
+        //     { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
+        //   ],
+        //   isChecked: false,
+        //   deliveryFee: 0,
+        // },
     ])
 
     // 구매대행
     const [availableProductList, setAvailableProductList] = useState([
-        {
-          imgSrc: "/assets/sample/dummy_product3.svg",
-          title: "관리자가 입력한 상품명",
-          originPrice: 8000,  
-          discountedPrice: 8000,  
-          option: [
-            { textOption: "", quantityOption: 1 },
-          ],
-          isSoldout: true,
-          isChecked: false,
-          deliveryFee: 0,
-          message: "",
-        },
-        {
-          imgSrc: "/assets/sample/dummy_product4.svg",
-          title: "관리자가 입력한 상품명222",
-          originPrice: 16000,
-          discountedPrice: 16000,
-          option: [
-            { textOption: "", quantityOption: 3 },
-          ],
-          isChecked: false,
-          deliveryFee: 0,
-          message: "",
-        },
-        {
-          imgSrc: "/assets/sample/dummy_product5.svg",
-          title: "관리자가 입력한 상품명333",
-          originPrice: 20000,
-          discountedPrice: 20000,
-          option: [
-            { textOption: "블랙/L", quantityOption: 3 },
-            { textOption: "블랙/L", quantityOption: 3 },
-          ],
-          isChecked: false,
-          deliveryFee: 3000, 
-          message: "1월에 발매되는 예약 상품이에요.",
-        },
+        // {
+        //   imgSrc: "/assets/sample/dummy_product3.svg",
+        //   title: "관리자가 입력한 상품명",
+        //   originPrice: 8000,  
+        //   discountedPrice: 8000,  
+        //   option: [
+        //     { textOption: "", quantityOption: 1 },
+        //   ],
+        //   isSoldout: true,
+        //   isChecked: false,
+        //   deliveryFee: 0,
+        //   message: "",
+        // },
+        // {
+        //   imgSrc: "/assets/sample/dummy_product4.svg",
+        //   title: "관리자가 입력한 상품명222",
+        //   originPrice: 16000,
+        //   discountedPrice: 16000,
+        //   option: [
+        //     { textOption: "", quantityOption: 3 },
+        //   ],
+        //   isChecked: false,
+        //   deliveryFee: 0,
+        //   message: "",
+        // },
+        // {
+        //   imgSrc: "/assets/sample/dummy_product5.svg",
+        //   title: "관리자가 입력한 상품명333",
+        //   originPrice: 20000,
+        //   discountedPrice: 20000,
+        //   option: [
+        //     { textOption: "블랙/L", quantityOption: 3 },
+        //     { textOption: "블랙/L", quantityOption: 3 },
+        //   ],
+        //   isChecked: false,
+        //   deliveryFee: 3000, 
+        //   message: "1월에 발매되는 예약 상품이에요.",
+        // },
     ])
-    const [waitingProductList, setWaitingProductList] = useState([
-        {
-          imgSrc: "/assets/service/bird_product_request_list.svg",
-          title: "7월 11일 요청 상품",
-          originPrice: 0,  
-          discountedPrice: 0,  
-          option: [
-            { textOption: "블랙/L", quantityOption: 1 },
-          ],
-          isSoldout: false,
-          isWaiting: true,
-          isUnableOrder: true,
-          isChecked: false,
-          deliveryFee: 0,
-          message: "해당 상품은 재고 부족으로 주문이 불가합니다.",
-        },
-        {
-          imgSrc: "/assets/service/bird_product_request_list.svg",
-          title: "7월 11일 요청 상품",
-          originPrice: 0,
-          discountedPrice: 0,
-          option: [
-            { textOption: "블랙/L", quantityOption: 1 },
-            { textOption: "아이보리/L", quantityOption: 1 },
-          ],
-          isSoldout: false,
-          isWaiting: true,
-          isUnableOrder: false,
-          isChecked: false,
-          deliveryFee: 0,
-          message: "",
-        },
+    const [pendingProductList, setPendingProductList] = useState([
+        // {
+        //   imgSrc: "/assets/service/bird_product_request_list.svg",
+        //   title: "7월 11일 요청 상품",
+        //   originPrice: 0,  
+        //   discountedPrice: 0,  
+        //   option: [
+        //     { textOption: "블랙/L", quantityOption: 1 },
+        //   ],
+        //   isSoldout: false,
+        //   isWaiting: true,
+        //   isUnableOrder: true,
+        //   isChecked: false,
+        //   deliveryFee: 0,
+        //   message: "해당 상품은 재고 부족으로 주문이 불가합니다.",
+        // },
+        // {
+        //   imgSrc: "/assets/service/bird_product_request_list.svg",
+        //   title: "7월 11일 요청 상품",
+        //   originPrice: 0,
+        //   discountedPrice: 0,
+        //   option: [
+        //     { textOption: "블랙/L", quantityOption: 1 },
+        //     { textOption: "아이보리/L", quantityOption: 1 },
+        //   ],
+        //   isSoldout: false,
+        //   isWaiting: true,
+        //   isUnableOrder: false,
+        //   isChecked: false,
+        //   deliveryFee: 0,
+        //   message: "",
+        // },
     ])
 
     const [extraOption, setExtraOption] = useState([
@@ -170,6 +173,49 @@ const Cart = () => {
         },
     ])
 
+    // 장바구니 조회 API
+    useEffect(() => {
+        try {
+            if(accessToken) getCart();
+        } catch (e) {console.log(e);}
+    }, [])
+
+    // API 응답
+    useEffect(() => {
+        if(getCartData !== null) {
+            console.log(getCartData);
+
+            setOrderDomesticProductList(
+                getCartData.nestingCartItems.domesticItems.map(item => ({
+                    ...item,
+                    isChecked: false,
+                }))
+            );
+
+            setOrderProductOverseasList(
+                getCartData.nestingCartItems.internationalItems.map(item => ({
+                    ...item,
+                    isChecked: false,
+                }))
+            );
+
+            setAvailableProductList(
+                getCartData.buyAgentCartItems.approvedItems.map(item => ({
+                    ...item,
+                    isChecked: false,
+                }))
+            );
+
+            setPendingProductList(
+                getCartData.buyAgentCartItems.pendingItems.map(item => ({
+                    ...item,
+                    isChecked: false,
+                }))
+            );
+
+        }
+    }, [getCartData])
+
     const [estimates, setEstimates] = useState({
         productPrice: {label: "상품 금액", price: 0},
         serviceFee: {label: "대행 수수료", price: 0},
@@ -187,7 +233,7 @@ const Cart = () => {
     const [activeTab, setActiveTab] = useState(0);
 
     const firstProductList = activeTab === 0 ? orderProducDomesticList : availableProductList;
-    const secondProductList = activeTab === 0 ? orderProductOverseasList : waitingProductList;
+    const secondProductList = activeTab === 0 ? orderProductOverseasList : pendingProductList;
 
     const [isCheckbox, setIsCheckbox] = useState(false);  // 전체 선택
     const [isOpenBottomSheet, SetIsOpenBottomSheet] = useState(false);
@@ -272,9 +318,9 @@ const Cart = () => {
 
     // 선택된 상품 가져오기 (네스팅 상품)
     const checkedDomesticProducts = useMemo(()=>
-        orderProducDomesticList.filter(item => item.isChecked), [orderProducDomesticList]);
+        orderProducDomesticList?.filter(item => item.isChecked), [orderProducDomesticList]);
     const checkedOverseasProducts = useMemo(()=>
-        orderProductOverseasList.filter(item => item.isChecked), [orderProductOverseasList]);
+        orderProductOverseasList?.filter(item => item.isChecked), [orderProductOverseasList]);
     const checkedAllProducts = useMemo(()=>
         [...checkedDomesticProducts, ...checkedOverseasProducts], [checkedDomesticProducts, checkedOverseasProducts]);
 
@@ -336,7 +382,7 @@ const Cart = () => {
                     prev.filter((_, i) => i !== index));
                 break;
             case "waiting":
-                setWaitingProductList(prev =>
+                setPendingProductList(prev =>
                     prev.filter((_, i) => i !== index));
                 break;
             default:
@@ -479,7 +525,7 @@ const Cart = () => {
                                     {secondProductList.map((item, index) => (
                                         <div key={index} >
                                             <OrderCartProductCard
-                                                productData={{...item, isOverseas: true}}
+                                                productData={{...item}}
                                                 onCheckChange={() =>{ activeTab === 0 && toggleProductCheck("overseas", index)}}
                                                 onRemove={() => { activeTab === 0 ? handleRemvoeProduct("overseas", index) : handleRemvoeProduct("waiting", index)}}
                                                 activeTab = {activeTab}
@@ -630,7 +676,7 @@ const Cart = () => {
             {isOpenBottomSheet && 
                 <CTAButton
                     isSoldout={false}
-                    isOpenBottomSheet={true} 
+                    isOpenBottomSheet={true}
                     onCloseBottomSheet={()=>SetIsOpenBottomSheet(false)}
             />}
         </div>
@@ -640,6 +686,8 @@ const Cart = () => {
 export default Cart;
 
 const OrderCartProductCard = ( {productData, onCheckChange, onRemove, activeTab, onClickBottomButton} ) => {
+    console.log(productData);
+    const price = productData.totalDiscountedPrice ? productData.totalDiscountedPrice : productData.totalPrice;
         return(
             <div className="order-cart-product">
                 <div className="select-product-row">
@@ -647,42 +695,42 @@ const OrderCartProductCard = ( {productData, onCheckChange, onRemove, activeTab,
                         label=""
                         checked={productData.isChecked}
                         onChange={onCheckChange}
-                        disabled={productData.isWaiting ? productData.isWaiting : productData.isSoldout}
+                        disabled={productData.status === "PENDING" ? productData.status === "PENDING" : productData.soldOut}
                     />
                     <img src="/assets/button/btn_x2.svg" onClick={onRemove} />
                 </div>
                 <OrderProductCard productData={productData} />
                 {activeTab === 0 && (
                     <div className="button-row">
-                        <button className={`${productData.isSoldout || productData.isOverseas ? "soldout" : ""}`}
-                        disabled={productData.isSoldout || productData.isOverseas}
+                        <button className={`${productData.soldOut || productData.deliveryType === "INTERNATIONAL" ? "soldout" : ""}`}
+                        disabled={productData.soldOut || productData.deliveryType === "INTERNATIONAL"}
                         onClick={onClickBottomButton}>
                             옵션 변경
                         </button>
-                        <button className={`${productData.isSoldout ? "soldout" : ""}`}
-                        disabled={productData.isSoldout}>
+                        <button className={`${productData.soldOut ? "soldout" : ""}`}
+                        disabled={productData.soldOut}>
                             바로 구매하기
                         </button>
                     </div>
                 )}
-                {activeTab === 0 && (
+                {activeTab === 0 && productData.deliveryType === "INTERNATIONAL" && (
                     <p className="total-price-area">
-                        {productData.isSoldout ? (
+                        {productData.soldOut ? (
                             "품절되었어요"
                         ): productData.deliveryFee === 0 ? (
                             <>
-                            {productData.discountedPrice.toLocaleString()}원 + <span>&nbsp;무료배송&nbsp;</span> = {productData.discountedPrice.toLocaleString()}원
+                            {price.toLocaleString()}원 + <span>&nbsp;무료배송&nbsp;</span> = {price.toLocaleString()}원
                             </>
                         ): (
                             <>
-                            {productData.discountedPrice.toLocaleString()}원 + 배송비 {productData.deliveryFee.toLocaleString()}원 = {(productData.discountedPrice + productData.deliveryFee).toLocaleString()}원
+                            {price.toLocaleString()}원 + 배송비 {productData?.deliveryFee?.toLocaleString()}원 = {(price + productData?.deliveryFee)?.toLocaleString()}원
                             </>
                         )}
                     </p>
                 )}
-                {productData.message && (
+                {productData.extraMemo && (
                     <div className="message-area">
-                        관리자 메시지) <br/>{productData.message}
+                        관리자 메시지) <br/>{productData.extraMemo}
                     </div>
                 )}
             </div>
