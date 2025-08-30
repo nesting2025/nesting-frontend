@@ -22,3 +22,9 @@ export const modifyCartOption = async(addCartDto: AddCartDto, cartItemId: string
     
     return response;
 };
+
+export const deleteCartItem = async(cartItemId: string): Promise<BaseResponseDto<null>> => {
+    const response = await authClient.delete(`${CART_URL}/${cartItemId}`) as BaseResponseDto<null>;
+
+    return response;
+};

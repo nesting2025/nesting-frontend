@@ -38,3 +38,15 @@ export const useModifyCartOption = () => {
 
     return { modifyCartOption, loading, error, data, reset };
 };
+
+export const useDeleteCartItem = () => {
+    const {
+        execute: deleteCartItem,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<null>>(CartRepository.deleteCartItem);
+
+    return { deleteCartItem, loading, error, data, reset };
+};

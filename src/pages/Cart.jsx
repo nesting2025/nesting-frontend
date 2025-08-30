@@ -8,7 +8,7 @@ import '../styles/css/Cart.css';
 import CustomRadioButton from "../components/common/CustomRadioButton";
 import { paymentInfo } from "../text";
 import { useGetProductDetail, useGetProductLikeList, useGetProductRecentViewList } from "../hooks/useProducts";
-import { useGetCart } from "../hooks/useCart";
+import { useDeleteCartItem, useGetCart } from "../hooks/useCart";
 
 const Cart = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -21,6 +21,7 @@ const Cart = () => {
     );
     const { getCart, data: getCartData } = useGetCart();
     const { getProductDetail, data: getProductDetailData } = useGetProductDetail();
+    const { deleteCartItem, data: deleteCartItemData } = useDeleteCartItem();
 
     // 네스팅 상품
     const [orderProducDomesticList, setOrderDomesticProductList] = useState([]);
@@ -278,48 +279,38 @@ const Cart = () => {
         return result;
     }, [checkedAllProducts, domesticShippingFee, overseasCombinedShippingFee]);
 
-    // 선택 상품 삭제
+    // 선택 상품 삭제 API
     const handleRemoveSelectedProducts = () => {
-        if(activeTab === 0) {
-            setOrderDomesticProductList(prev=>
-                prev.filter(item => !item.isChecked)
-            );
+        let idsToDelete = [];
 
-            setOrderProductOverseasList(prev=>
-                prev.filter(item => !item.isChecked)
-            );
+        if(activeTab === 0) {
+            idsToDelete = [
+            ...orderProducDomesticList.filter(item => item.isChecked).map(item => item.id),
+            ...orderProductOverseasList.filter(item => item.isChecked).map(item => item.id),
+        ];
         }
         else {
-            setAvailableProductList(prev=>
-                prev.filter(item => !item.isChecked)
-            );
+            idsToDelete = availableProductList.filter(item => item.isChecked).map(item => item.id);
         }
+
+        idsToDelete.forEach(cartId => {
+            deleteCartItem(cartId);
+        });
     }
 
-    // 개별 상품 삭제
-    const handleRemvoeProduct = (listyType, index) => {
-
-        switch(listyType) {
-            case "domestic" : 
-                setOrderDomesticProductList(prev =>
-                    prev.filter((_, i) => i !== index));
-                break;
-            case "overseas" :
-                setOrderProductOverseasList(prev =>
-                    prev.filter((_, i) => i !== index));
-                break;
-            case "available":
-                setAvailableProductList(prev =>
-                    prev.filter((_, i) => i !== index));
-                break;
-            case "waiting":
-                setPendingProductList(prev =>
-                    prev.filter((_, i) => i !== index));
-                break;
-            default:
-                break;
-        }
+    // 개별 상품 삭제 API
+    const handleRemvoeProduct = (cartId) => {
+        deleteCartItem(cartId);
     }
+
+    useEffect(() => {
+        if(deleteCartItemData !== null) {
+            console.log()
+            if(deleteCartItemData.code === "SUCCESS") {
+                getCart();
+            }
+        }
+    }, [deleteCartItemData]);
 
     // 구매대행 견적서
     useEffect(() => {
@@ -478,7 +469,7 @@ const Cart = () => {
                                             <OrderCartProductCard
                                                 productData={item}
                                                 onCheckChange={() =>{ activeTab === 0 ? toggleProductCheck("domestic", index) :  toggleProductCheck("available", index)}}
-                                                onRemove={() => { activeTab === 0 ? handleRemvoeProduct("domestic", index) : handleRemvoeProduct("available", index)}}
+                                                onRemove={() => handleRemvoeProduct(item.id)}
                                                 activeTab = {activeTab}
                                                 onClickBottomButton={() => handleChangeOption(item.productId, item.options, item.quantity, item.id)}
                                             />
@@ -504,7 +495,7 @@ const Cart = () => {
                                             <OrderCartProductCard
                                                 productData={{...item}}
                                                 onCheckChange={() =>{ activeTab === 0 && toggleProductCheck("overseas", index)}}
-                                                onRemove={() => { activeTab === 0 ? handleRemvoeProduct("overseas", index) : handleRemvoeProduct("waiting", index)}}
+                                                onRemove={() => handleRemvoeProduct(item.id)}
                                                 activeTab = {activeTab}
                                                 onClickBottomButton={() => SetIsOpenBottomSheet(prev => !prev)}
                                             />
@@ -698,7 +689,7 @@ const OrderCartProductCard = ( {productData, onCheckChange, onRemove, activeTab,
                         label=""
                         checked={productData.isChecked}
                         onChange={onCheckChange}
-                        disabled={productData.status === "PENDING" ? productData.status === "PENDING" : productData.soldOut}
+                        disabled={productData.status === "PENDING" || productData.status === "REJECTED" || productData.soldOut}
                     />
                     <img src="/assets/button/btn_x2.svg" onClick={onRemove} />
                 </div>
