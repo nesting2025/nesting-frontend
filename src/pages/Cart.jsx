@@ -51,6 +51,8 @@ const Cart = () => {
     const [isCheckbox, setIsCheckbox] = useState(false);  // 전체 선택
     const [isOpenBottomSheet, SetIsOpenBottomSheet] = useState(false);
     const [productDetail, setProductDetail] = useState({
+        productId: null,
+        cartId: null,
         optionGroups: null,
         stock: 0,
         basePrice: 0,
@@ -383,7 +385,13 @@ const Cart = () => {
 
     // 옵션 변경
     // 상품 상세의 optionGroups를 넘겨줌
-    const handleChangeOption = async (productId, options, quantity) => {
+    const handleChangeOption = async (productId, options, quantity, id) => {
+        setProductDetail(prev => ({
+            ...prev,
+            productId: productId,
+            cartId: id
+        }));
+
         if(!options || options.length === 0) {
             setProductDetail(prev => ({
                 ...prev,
@@ -472,7 +480,7 @@ const Cart = () => {
                                                 onCheckChange={() =>{ activeTab === 0 ? toggleProductCheck("domestic", index) :  toggleProductCheck("available", index)}}
                                                 onRemove={() => { activeTab === 0 ? handleRemvoeProduct("domestic", index) : handleRemvoeProduct("available", index)}}
                                                 activeTab = {activeTab}
-                                                onClickBottomButton={() => handleChangeOption(item.productId, item.options, item.quantity)}
+                                                onClickBottomButton={() => handleChangeOption(item.productId, item.options, item.quantity, item.id)}
                                             />
                                             {index < firstProductList.length - 1 && <div className="diver2"/>}
                                         </div>
@@ -666,11 +674,14 @@ const Cart = () => {
                     isSoldout={false}
                     isOpenBottomSheet={true}
                     onCloseBottomSheet={()=>SetIsOpenBottomSheet(false)}
+                    productId={productDetail.productId}
                     optionGroups={productDetail.optionGroups}
                     stock={productDetail.stock}
                     basePrice={productDetail.basePrice}
                     isModify={true}
                     selectedOptions={productDetail.selectedOptions}
+                    cartId={productDetail.cartId}
+                    refetchCart={getCart}
                 />
             }
         </div>

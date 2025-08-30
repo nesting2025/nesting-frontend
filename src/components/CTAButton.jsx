@@ -5,13 +5,14 @@ import { useToast } from "./common/ToastContext";
 import { useToggleProductLike } from "../hooks/useProducts";
 import { useNavigate } from "react-router-dom";
 import PopupDialog from "./dialog/PopupDialog";
-import { useAddCart } from "../hooks/useCart";
+import { useAddCart, useModifyCartOption } from "../hooks/useCart";
 
-const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId, optionGroups, stock, basePrice, isModify=false, selectedOptions }) => {
+const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId, optionGroups, stock, basePrice, isModify=false, selectedOptions, cartId, refetchCart }) => {
     const { showToast } = useToast();
     const nav = useNavigate();
     const { mutateAsync } = useToggleProductLike();
     const { addCart, data: addCartData } = useAddCart();
+    const { modifyCartOption, data: modifyCartOptionData } = useModifyCartOption();
 
     const [isLike, setIsLiked] = useState(isLiked);
     const [isOpen, setIsOpen] = useState(isOpenBottomSheet);
@@ -130,7 +131,7 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
             return;
         }
 
-        // 장바구니 담기 API 연결
+        // 장바구니 담기 API 
         const addCartDto = {
             productId: productId,
             quantity: optionList?.length > 1 ? null : optionList[0].quantity,
@@ -159,11 +160,43 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
         }
     }, [addCartData]);
 
-    const handleModifyOption = () => {
+    const handleModifyOption = async () => {
         if(totalPrice === 0) {
             showToast("옵션을 한 개 이상 선택해 주세요");
+            return;
+        }
+
+        // 장바구니 옵션 수정 API
+        const addCartDto = {
+            productId: productId,
+            quantity: optionList?.length > 1 ? null : optionList[0].quantity,
+            options: optionList?.length <= 1 
+                ? null 
+                : optionList
+                .filter(opt => opt.quantity > 0)
+                .map(opt => ({
+                    name: optionGroups?.[0]?.name,
+                    value: opt.name,
+                    quantity: opt.quantity,
+                    priceDelta: opt.priceDelta
+                })) 
+        };
+
+        try {
+            await modifyCartOption(addCartDto, cartId);
+        } catch(e) {
+            console.log(e);
         }
     }
+
+    useEffect(() => {
+        if(modifyCartOptionData !== null) {
+            if(modifyCartOptionData.code === "SUCCESS") {
+                onCloseBottomSheet?.();
+                refetchCart?.();
+            }
+        }
+    }, [modifyCartOptionData])
 
     const buyProduct = () => {
         if(totalPrice === 0) {

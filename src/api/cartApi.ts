@@ -16,3 +16,9 @@ export const getCart = async() : Promise<BaseResponseDto<GetCartResponseDto>> =>
 
     return response.data;
 };
+
+export const modifyCartOption = async(addCartDto: AddCartDto, cartItemId: string): Promise<BaseResponseDto<null>> => {
+    const response = await authClient.put(`${CART_URL}/${cartItemId}`, addCartDto) as BaseResponseDto<null>;
+    
+    return response;
+};

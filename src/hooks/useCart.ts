@@ -25,4 +25,16 @@ export const useGetCart = () => {
     } = useAsync<BaseResponseDto<GetCartResponseDto>>(CartRepository.getCart);
 
     return { getCart, loading, error, data, reset };
-}
+};
+
+export const useModifyCartOption = () => {
+    const {
+        execute: modifyCartOption,
+        loading,
+        error,
+        data,
+        reset
+    } = useAsync<BaseResponseDto<null>>(CartRepository.modifyCartOption);
+
+    return { modifyCartOption, loading, error, data, reset };
+};

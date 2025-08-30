@@ -1,4 +1,4 @@
-import { addCart, getCart } from "../../api/cartApi";
+import { addCart, getCart, modifyCartOption } from "../../api/cartApi";
 import { BaseResponseDto } from "../dto/common/BaseResponseDto";
 import { AddCartDto } from "../dto/Request/products/AddCartDto";
 import { GetCartResponseDto } from "../dto/Response/products/GetCartResponseDto";
@@ -10,5 +10,9 @@ export const CartRepository = {
 
     getCart: async(): Promise<BaseResponseDto<GetCartResponseDto>> => {
         return await getCart();
+    },
+    
+    modifyCartOption: async (addCartDto: AddCartDto, cartItemId: string): Promise<BaseResponseDto<null>> => {
+        return await modifyCartOption(addCartDto, cartItemId);
     },
 }
