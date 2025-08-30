@@ -201,6 +201,26 @@
                 .content-area {
                     padding: 16px 12px;
                 }
+
+                .delivery-footer {
+                    padding: 16px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                    text-align: center;
+                    border-top: 1px solid #E5E5EC;
+
+                    p {
+                        margin: 0;
+                        @include font-style("body1-1");
+                        @include text-color("text-sub2");
+                    }
+
+                    span {
+                        @include font-style("body3");
+                        @include text-color("text-sub1");
+                    }
+                }
             }
 
             .cart-info-row {
@@ -262,9 +282,16 @@
                 justify-content: space-between;        
                 padding: 5px 0 5px 0;
 
+                &.small {
+                    padding: 4px 0 4px 8px;
+                    position: relative;
+                }
+
                 .order-price-title {
                     @include font-style("body1");
                     @include text-color("text-sub2");
+
+                    &.small { @include font-style("body3"); }
                 }
 
                 .order-price-content {
@@ -272,6 +299,22 @@
                     @include text-color();
 
                     &.red { @include text-color("status-destructive"); }
+
+                    &.small {
+                        @include font-style("caption1");
+                        @include text-color("text-sub2");                        
+                    }
+                }
+
+                .saving-rate {
+                    border-radius: 2px;
+                    background-color: rgba(0, 191, 64, 0.1);
+                    @include text-color("status-positive");
+                    @include font-style("caption3");
+                    padding: 2px 4px;
+                    position: absolute;
+                    left: 0;
+                    margin-left: 85px;
                 }
             }
 
@@ -468,15 +511,10 @@
     }
 
     .total-price-area {
-        display: flex;
-        justify-content: center;
+        text-align: center;
         @include font-style("body1");
         @include text-color("text-sub2");
         margin: 0;
-
-        span {
-            @include text-color("status-positive");
-        }
     }
 
     .message-area {

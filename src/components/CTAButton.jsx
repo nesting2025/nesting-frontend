@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import PopupDialog from "./dialog/PopupDialog";
 import { useAddCart } from "../hooks/useCart";
 
-const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId, optionGroups, stock, basePrice }) => {
+const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isLiked, productId, optionGroups, stock, basePrice, isModify=false, selectedOptions }) => {
     const { showToast } = useToast();
     const nav = useNavigate();
     const { mutateAsync } = useToggleProductLike();
@@ -18,27 +18,55 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
     const [isOpenLoginDialog, setIsOpenLoginDialog] = useState(false);
     const [isDropDownOption, SetIsDropDownOption] = useState(true);
     const [optionList, setOptionList] = useState([]);
+    const [isAvailableModify, setIsAvailableModify] = useState(false);
 
     useEffect(() => {
+        if(isModify) {
+            SetIsDropDownOption(false);
+        }
+    },[isModify]);
+
+    useEffect(() => {
+        console.log(selectedOptions);
         if(optionGroups && optionGroups.length > 0) {
-            const mappedOptions = optionGroups[0].values.map((item) =>({
-                name: item.value,
-                maxQuantity: item.stock,
-                quantity: 0,
-                price: basePrice + item.priceDelta,
-                priceDelta: item.priceDelta,
-            }));
+            const mappedOptions = optionGroups[0].values.map((item) =>{
+                const existingOptions = selectedOptions?.find(opt => opt.value === item.value);
+
+                return {
+                    name: item.value,
+                    maxQuantity: item.stock,
+                    quantity: existingOptions?.quantity || 0,
+                    price: basePrice + item.priceDelta,
+                    priceDelta: item.priceDelta,
+                };
+            });
 
             setOptionList(mappedOptions);
         } else {
+            const existingOption = selectedOptions?.[0];
             setOptionList([{
                 name: "",
                 maxQuantity: stock,
-                quantity: 0,
+                quantity: existingOption?.quantity || 0,
                 price: basePrice
             }])
         }
-    }, [optionGroups, basePrice])
+    }, [optionGroups, basePrice]);
+
+    useEffect(() => {
+        if (!selectedOptions || optionList.length < 1 || !isModify) return;
+
+        const hasChanges = optionList.some((item) => {
+            // selectedOptions에서 value가 같은 것 찾기
+            const selected = selectedOptions.find(opt => opt.value === item.name);
+            // 선택 안 된 옵션은 quantity 0으로 간주
+            const selectedQuantity = selected?.quantity || 0;
+
+            return selectedQuantity !== item.quantity;
+        });
+
+        setIsAvailableModify(hasChanges);
+    }, [optionList, selectedOptions, isModify]);
 
     const totalPrice = useMemo(() => {
         return optionList.reduce((total, option) => {
@@ -132,6 +160,12 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
         }
     }, [addCartData]);
 
+    const handleModifyOption = () => {
+        if(totalPrice === 0) {
+            showToast("옵션을 한 개 이상 선택해 주세요");
+        }
+    }
+
     const buyProduct = () => {
         if(totalPrice === 0) {
             showToast("옵션을 먼저 선택해 주세요");
@@ -211,6 +245,7 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
                                                     }    
                                                 }}
                                             >{option.name}
+                                            {option.priceDelta > 0 && ` (+${option.priceDelta.toLocaleString()}원)`}
                                             {option.maxQuantity===0 && " (품절)"}
                                             </div>
                                         ))}
@@ -218,7 +253,7 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
                                 )}   
                             </>        
                         ) : (
-                            optionList[0].quantity === 0 && handleOptionClick(0)
+                            optionList[0]?.quantity === 0 && handleOptionClick(0)
                         )}             
 
                         <div className={`selected-area ${optionList.length > 1 ? 'list' : ''}`}>
@@ -249,10 +284,15 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
                         </div>
                         <hr/>
 
-                        <div className="bottom-sheet-button-row">
-                            <button className="show-buy-bottomsheet cart" onClick={addToCart}>장바구니 담기</button>
-                            <button className="show-buy-bottomsheet buy" onClick={buyProduct}>구매하기</button>
-                        </div>
+                        {isModify ? 
+                            <button className={`show-buy-bottomsheet modify ${isAvailableModify ? "" : "soldout"}`} disabled={!isAvailableModify}
+                            onClick={handleModifyOption}>변경사항 저장하기</button> 
+                            : (
+                            <div className="bottom-sheet-button-row">
+                                <button className="show-buy-bottomsheet cart" onClick={addToCart}>장바구니 담기</button>
+                                <button className="show-buy-bottomsheet buy" onClick={buyProduct}>구매하기</button>
+                            </div>
+                        )}
 
                     </div>
                 </>

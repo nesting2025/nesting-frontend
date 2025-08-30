@@ -72,7 +72,7 @@ export const getProductRecentViewList = async (getProductListDto: GetProductList
 export const loadProxyRequst = async (sourceUrl: string): Promise<BaseResponseDto<LoadProxyRequstDto>> => {
     const response = await authClient.post<BaseResponseDto<LoadProxyRequstDto>>(`${PROXY_REQUEST_URL}/load`, 
         { sourceUrl },
-        { timeout: 2 }
+        { timeout: 20000 }
     );
 
     return response.data;

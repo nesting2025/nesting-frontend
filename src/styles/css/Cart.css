@@ -197,6 +197,29 @@
 .cart-area .show-product-area .show-product .delivery-area .content-area {
   padding: 16px 12px;
 }
+.cart-area .show-product-area .show-product .delivery-area .delivery-footer {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+  border-top: 1px solid #E5E5EC;
+}
+.cart-area .show-product-area .show-product .delivery-area .delivery-footer p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #505050;
+}
+.cart-area .show-product-area .show-product .delivery-area .delivery-footer span {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
+  color: #767676;
+}
 .cart-area .show-product-area .show-product .cart-info-row {
   display: flex;
   gap: 4px;
@@ -262,12 +285,22 @@
   justify-content: space-between;
   padding: 5px 0 5px 0;
 }
+.cart-area .show-product-area .order-section .order-price-row.small {
+  padding: 4px 0 4px 8px;
+  position: relative;
+}
 .cart-area .show-product-area .order-section .order-price-row .order-price-title {
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;
   letter-spacing: -2.5%;
   color: #505050;
+}
+.cart-area .show-product-area .order-section .order-price-row .order-price-title.small {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  letter-spacing: -2.5%;
 }
 .cart-area .show-product-area .order-section .order-price-row .order-price-content {
   font-size: 16px;
@@ -278,6 +311,26 @@
 }
 .cart-area .show-product-area .order-section .order-price-row .order-price-content.red {
   color: #FF4242;
+}
+.cart-area .show-product-area .order-section .order-price-row .order-price-content.small {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  color: #505050;
+}
+.cart-area .show-product-area .order-section .order-price-row .saving-rate {
+  border-radius: 2px;
+  background-color: rgba(0, 191, 64, 0.1);
+  color: #00BF40;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: -2.5%;
+  padding: 2px 4px;
+  position: absolute;
+  left: 0;
+  margin-left: 85px;
 }
 .cart-area .show-product-area .order-section .price-total {
   margin-top: 4px;
@@ -481,17 +534,13 @@
   color: #999999;
 }
 .order-cart-product .total-price-area {
-  display: flex;
-  justify-content: center;
+  text-align: center;
   font-size: 15px;
   line-height: 22px;
   font-weight: 400;
   letter-spacing: -2.5%;
   color: #505050;
   margin: 0;
-}
-.order-cart-product .total-price-area span {
-  color: #00BF40;
 }
 .order-cart-product .message-area {
   width: 100%;

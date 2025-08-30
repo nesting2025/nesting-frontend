@@ -5,9 +5,9 @@ import App from "./App.jsx";
 import { ToastProvider } from "./components/common/ToastContext";
 
 createRoot(document.getElementById("root")).render(
-    <ToastProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+        <ToastProvider>
             <App />
-        </BrowserRouter>
-    </ToastProvider>
+        </ToastProvider>
+    </BrowserRouter>
 );

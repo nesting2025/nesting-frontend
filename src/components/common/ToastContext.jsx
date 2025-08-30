@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
 import "../../styles/css/ToastContext.css";
+import { useNavigate } from "react-router-dom";
 
 const ToastContext = createContext();
 
 export const ToastProvider = ({children}) => {
     const [toast, setToast] = useState(null);
+    const nav = useNavigate();
 
     const showToast = (message, type="") => {
         setToast({ message, type });
@@ -18,7 +20,7 @@ export const ToastProvider = ({children}) => {
                 <div className="toast-area">
                     <div className="toast-row">
                         <p className="toast-msg">{toast.message}</p>
-                        {toast.type === "cart" && <p className="goto-cart">바로가기</p> }
+                        {toast.type === "cart" && <p className="goto-cart" onClick={() => nav("/cart")}>바로가기</p> }
                     </div>
                 </div>
             )}

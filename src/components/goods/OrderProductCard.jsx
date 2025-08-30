@@ -1,7 +1,7 @@
 import '../../styles/css/OrderProductCard.css';
 
 const OrderProductCard = ({ productData }) => {
-    const { productThumbnail, productName, totalPrice, totalDiscountedPrice, quantity, option, options, soldOut=false, status, productPrice } = productData;
+    const { productThumbnail, productName, totalPrice, totalDiscountedPrice, quantity, options, soldOut=false, status, productPrice } = productData;
     
     return (
         <div className="order-product-card">
@@ -18,21 +18,15 @@ const OrderProductCard = ({ productData }) => {
                     </div>
                 </div>
             </div>
-            {!options && (
+            {options.length === 0 && (
                 <div className="order-quantity">
                     <p>
                         <span>수량:</span>
-                        <span className="order-quantity-count">{option ? option.quantity : quantity}개</span>
+                        <span className="order-quantity-count">{quantity}개</span>
                     </p>
-                    {option && option.value && (
-                        <>
-                            <p className='line'>|</p>
-                            <p>{option.value}</p>
-                        </>
-                    )}
                 </div>
             )}
-            {options && options.map((option, i) => (
+            {options.length > 0 && options.map((option, i) => (
                 <div className="order-quantity" key={i}>
                     <p>
                         <span>수량:</span>
@@ -44,6 +38,7 @@ const OrderProductCard = ({ productData }) => {
                             <p>{option.value}</p>
                         </>
                     )}
+                    {option.priceDelta > 0 && <p>(+{option.priceDelta.toLocaleString()}원)</p> }
                 </div>
             )) }
         </div>

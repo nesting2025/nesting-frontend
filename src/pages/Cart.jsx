@@ -7,7 +7,7 @@ import ProductSlider from "../components/goods/ProductSlider";
 import '../styles/css/Cart.css';
 import CustomRadioButton from "../components/common/CustomRadioButton";
 import { paymentInfo } from "../text";
-import { useGetProductLikeList, useGetProductRecentViewList } from "../hooks/useProducts";
+import { useGetProductDetail, useGetProductLikeList, useGetProductRecentViewList } from "../hooks/useProducts";
 import { useGetCart } from "../hooks/useCart";
 
 const Cart = () => {
@@ -20,133 +20,42 @@ const Cart = () => {
         page: "0", size: "18", includeSoldOut: "true"}, !!accessToken
     );
     const { getCart, data: getCartData } = useGetCart();
+    const { getProductDetail, data: getProductDetailData } = useGetProductDetail();
 
     // 네스팅 상품
-    const [orderProducDomesticList, setOrderDomesticProductList] = useState([
-        // {
-        //   imgSrc: "/assets/sample/dummy_product10.svg",
-        //   title: "상품명1",
-        //   originPrice: 10000,  // 수량 포함된 가격
-        //   discountedPrice: 8000,  // 수량 포함된 가격
-        //   option: [
-        //     { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
-        //   ],
-        //   isSoldout: true,
-        //   isChecked: false,
-        //   deliveryFee: 0,
-        // },
-        // {
-        //   imgSrc: "/assets/sample/dummy_product8.svg",
-        //   title: "상품명2",
-        //   originPrice: 8000,
-        //   discountedPrice: 8000,
-        //   quantity: 3,
-        //   option: [
-        //     { textOption: "", quantityOption: 3 },
-        //   ],
-        //   isChecked: false,
-        //   deliveryFee: 0,
-        // },
-        //  {
-        //   imgSrc: "/assets/sample/dummy_product4.svg",
-        //   title: "상품명3",
-        //   originPrice: 20000,
-        //   discountedPrice: 16000,
-        //   option: [
-        //     { textOption: "", quantityOption: 2 },
-        //   ],
-        //   isChecked: false,
-        //   deliveryFee: 3000,
-        // },
-    ])
-    const [orderProductOverseasList, setOrderProductOverseasList] = useState([
-        // {
-        //   imgSrc: "/assets/sample/dummy_product9.svg",
-        //   title: "상품명입니다아아아아",
-        //   originPrice: 12000,
-        //   discountedPrice: 8000,
-        //   option: [
-        //     { textOption: "선택지 A/선택지 ①", quantityOption: 1 },
-        //   ],
-        //   isChecked: false,
-        //   deliveryFee: 0,
-        // },
-    ])
-
+    const [orderProducDomesticList, setOrderDomesticProductList] = useState([]);
+    const [orderProductOverseasList, setOrderProductOverseasList] = useState([]);
     // 구매대행
-    const [availableProductList, setAvailableProductList] = useState([
-        // {
-        //   imgSrc: "/assets/sample/dummy_product3.svg",
-        //   title: "관리자가 입력한 상품명",
-        //   originPrice: 8000,  
-        //   discountedPrice: 8000,  
-        //   option: [
-        //     { textOption: "", quantityOption: 1 },
-        //   ],
-        //   isSoldout: true,
-        //   isChecked: false,
-        //   deliveryFee: 0,
-        //   message: "",
-        // },
-        // {
-        //   imgSrc: "/assets/sample/dummy_product4.svg",
-        //   title: "관리자가 입력한 상품명222",
-        //   originPrice: 16000,
-        //   discountedPrice: 16000,
-        //   option: [
-        //     { textOption: "", quantityOption: 3 },
-        //   ],
-        //   isChecked: false,
-        //   deliveryFee: 0,
-        //   message: "",
-        // },
-        // {
-        //   imgSrc: "/assets/sample/dummy_product5.svg",
-        //   title: "관리자가 입력한 상품명333",
-        //   originPrice: 20000,
-        //   discountedPrice: 20000,
-        //   option: [
-        //     { textOption: "블랙/L", quantityOption: 3 },
-        //     { textOption: "블랙/L", quantityOption: 3 },
-        //   ],
-        //   isChecked: false,
-        //   deliveryFee: 3000, 
-        //   message: "1월에 발매되는 예약 상품이에요.",
-        // },
-    ])
-    const [pendingProductList, setPendingProductList] = useState([
-        // {
-        //   imgSrc: "/assets/service/bird_product_request_list.svg",
-        //   title: "7월 11일 요청 상품",
-        //   originPrice: 0,  
-        //   discountedPrice: 0,  
-        //   option: [
-        //     { textOption: "블랙/L", quantityOption: 1 },
-        //   ],
-        //   isSoldout: false,
-        //   isWaiting: true,
-        //   isUnableOrder: true,
-        //   isChecked: false,
-        //   deliveryFee: 0,
-        //   message: "해당 상품은 재고 부족으로 주문이 불가합니다.",
-        // },
-        // {
-        //   imgSrc: "/assets/service/bird_product_request_list.svg",
-        //   title: "7월 11일 요청 상품",
-        //   originPrice: 0,
-        //   discountedPrice: 0,
-        //   option: [
-        //     { textOption: "블랙/L", quantityOption: 1 },
-        //     { textOption: "아이보리/L", quantityOption: 1 },
-        //   ],
-        //   isSoldout: false,
-        //   isWaiting: true,
-        //   isUnableOrder: false,
-        //   isChecked: false,
-        //   deliveryFee: 0,
-        //   message: "",
-        // },
-    ])
+    const [availableProductList, setAvailableProductList] = useState([]);
+    const [pendingProductList, setPendingProductList] = useState([]);
+
+    const [estimates, setEstimates] = useState({
+        productPrice: {label: "상품 금액", price: 0},
+        serviceFee: {label: "대행 수수료", price: 0},
+        shippingFee: {label: "해외+국내 배송비", price: 0},
+        combinedShippingFee: {label: "합배송비", price: 0},
+        totalAmount: {label: "총 금액", price: 0},
+        paymentFee: {label: "+결제 수수료(3.4%)", price: 0},
+        extraPackagingFee: {label: "+[선택] 추가 포장 비용", price: 0},
+        insuranceFee: {label: "+[선택] 해외 배송 보상 보험료", price: 0},
+        finalPaymentAmount:{label: "최종 결제 금액", price: 0},}
+    )
+
+    const tabList = [`네스팅 상품 (${orderProducDomesticList.length + orderProductOverseasList.length})`, `구매대행 (${availableProductList.length})`];
+    const tabRef = useRef(null);
+    const [activeTab, setActiveTab] = useState(0);
+
+    const firstProductList = activeTab === 0 ? orderProducDomesticList : availableProductList;
+    const secondProductList = activeTab === 0 ? orderProductOverseasList : pendingProductList;
+
+    const [isCheckbox, setIsCheckbox] = useState(false);  // 전체 선택
+    const [isOpenBottomSheet, SetIsOpenBottomSheet] = useState(false);
+    const [productDetail, setProductDetail] = useState({
+        optionGroups: null,
+        stock: 0,
+        basePrice: 0,
+        selectedOptions: null
+    })
 
     const [extraOption, setExtraOption] = useState([
         {
@@ -215,28 +124,6 @@ const Cart = () => {
 
         }
     }, [getCartData])
-
-    const [estimates, setEstimates] = useState({
-        productPrice: {label: "상품 금액", price: 0},
-        serviceFee: {label: "대행 수수료", price: 0},
-        shippingFee: {label: "해외+국내 배송비", price: 0},
-        combinedShippingFee: {label: "합배송비", price: 0},
-        totalAmount: {label: "총 금액", price: 0},
-        paymentFee: {label: "+결제 수수료(3.4%)", price: 0},
-        extraPackagingFee: {label: "+[선택] 추가 포장 비용", price: 0},
-        insuranceFee: {label: "+[선택] 해외 배송 보상 보험료", price: 0},
-        finalPaymentAmount:{label: "최종 결제 금액", price: 0},}
-    )
-
-    const tabList = [`네스팅 상품 (${orderProducDomesticList.length + orderProductOverseasList.length})`, `구매대행 (${availableProductList.length})`];
-    const tabRef = useRef(null);
-    const [activeTab, setActiveTab] = useState(0);
-
-    const firstProductList = activeTab === 0 ? orderProducDomesticList : availableProductList;
-    const secondProductList = activeTab === 0 ? orderProductOverseasList : pendingProductList;
-
-    const [isCheckbox, setIsCheckbox] = useState(false);  // 전체 선택
-    const [isOpenBottomSheet, SetIsOpenBottomSheet] = useState(false);
 
     // 상품 선택하기
     const toggleProductCheck = (listyType, index) => {
@@ -324,28 +211,70 @@ const Cart = () => {
     const checkedAllProducts = useMemo(()=>
         [...checkedDomesticProducts, ...checkedOverseasProducts], [checkedDomesticProducts, checkedOverseasProducts]);
 
+    // 네스팅 국내배송 배송비
+    const { domesticTotal, domesticShippingFee } = useMemo(() => {
+        const domesticTotal = checkedDomesticProducts
+            ?.reduce((sum, item) => sum + (item.totalDiscountedPrice ?? item.totalPrice ?? 0), 0);
+
+        const domesticShippingFee = 
+            domesticTotal === 0 ? 0 : domesticTotal > 50000 ? 0 : 2900;
+
+        return { domesticTotal, domesticShippingFee };
+        
+    }, [checkedDomesticProducts]);
+
+    // 네스팅 해외배송 배송비
+    const { overseasCombinedShippingFee, overseasSavingRate } = useMemo(() => {
+        // 배송비 0원이 아닌 상품만 필터링
+        const overseasFee = checkedOverseasProducts?.filter(
+            item => (item.deliveryFee ?? 0) > 0
+        ) ?? [];
+
+        if(overseasFee.length >=2) {
+            const totalFee = overseasFee.reduce(
+                (sum, item) => sum + (item.deliveryFee ?? 0), 0
+            );
+
+            const aveFee = totalFee / overseasFee.length;
+            const combinedFee = Math.round(aveFee * 1.2);
+            const savingRate = Math.round((1 - combinedFee / totalFee) * 100);
+
+            return {
+                overseasCombinedShippingFee: combinedFee,
+                overseasSavingRate: savingRate,
+            };
+        } 
+
+        return {
+            overseasCombinedShippingFee: overseasFee[0]?.deliveryFee ?? 0,
+            overseasSavingRate: null,
+        };
+    }, [checkedOverseasProducts]);
+    
+
     // 선택된 상품 가격 (네스팅 상품)
-    const priceSummary = useMemo(() => {
+    const nestingPriceSummary = useMemo(() => {
         const summary = checkedAllProducts.reduce(
             (acc, product) => {
-                acc.totalOriginPrice += product.originPrice;
-                acc.totalDiscountedPrice += product.discountedPrice;
-                acc.totalDeliveryFee += product.deliveryFee;            
+                acc.totalOriginPrice += product.totalPrice ?? 0;
+                acc.totalDiscountedPrice += product.totalDiscountedPrice === null ? product.totalPrice : product.totalDiscountedPrice;
                 return acc;
             },
             {
                 totalOriginPrice: 0,
                 totalDiscountedPrice: 0,
-                totalDeliveryFee: 0
             }
         );
+        const totalDeliveryFee = domesticShippingFee + overseasCombinedShippingFee;
+
         const result = {
             ...summary,
+            totalDeliveryFee,
             totalDiscount: summary.totalOriginPrice - summary.totalDiscountedPrice,
-            totalPrice: summary.totalDiscountedPrice + summary.totalDeliveryFee
+            totalPrice: (summary.totalDiscountedPrice ?? 0) + (summary.totalDeliveryFee ?? 0)
         };
         return result;
-    }, [checkedAllProducts]);
+    }, [checkedAllProducts, domesticShippingFee, overseasCombinedShippingFee]);
 
     // 선택 상품 삭제
     const handleRemoveSelectedProducts = () => {
@@ -395,13 +324,13 @@ const Cart = () => {
         const checkedProducts = availableProductList.filter(item => item.isChecked);
 
         // 상품 금액
-        const productPrice = checkedProducts.reduce((sum, item) => sum += item.originPrice, 0)
+        const productPrice = checkedProducts.reduce((sum, item) => sum += item.totalPrice, 0)
 
         // 대행 수수료 계산
         const serviceFee = checkedProducts.reduce((sum, item) => {
             let fee;
-            if (item.originPrice >= 100000) {
-                fee = item.originPrice * 0.05;  // 10만원 이상이면 5% 부과
+            if (item.totalPrice >= 100000) {
+                fee = item.totalPrice * 0.05;  // 10만원 이상이면 5% 부과
             } else {
                 fee = 3000;  // 그 외는 링크당 3000원
             }
@@ -409,14 +338,16 @@ const Cart = () => {
         }, 0);
 
         // 해외+국내 배송비
-        const deliveryFees = checkedProducts.map(item => item.deliveryFee || 0);
+        const deliveryFees = checkedProducts
+            .map(item => item.deliveryFee || 0)
+            .filter(fee => fee > 0);
         const shippingFee = deliveryFees.length > 1
             ? (deliveryFees.reduce((sum, fee) => sum + fee, 0) / deliveryFees.length) * 1.2
             : deliveryFees[0] || 0;
 
         // 합배송비
         const combinedShippingFee = checkedProducts.reduce((sum, item) => {
-            const optionFee = item.option.length > 1 ? (item.option.length - 1) * 500 : 0; // 옵션 개수별
+            const optionFee = item.options.length > 1 ? (item.options.length - 1) * 500 : 0; // 옵션 개수별
             return sum + optionFee;
         }, 0);
         const productCountFee = checkedProducts.length > 1 ? (checkedProducts.length - 1) * 500 : 0;
@@ -449,6 +380,39 @@ const Cart = () => {
         }));
 
     }, [availableProductList, extraOption])
+
+    // 옵션 변경
+    // 상품 상세의 optionGroups를 넘겨줌
+    const handleChangeOption = async (productId, options, quantity) => {
+        if(!options || options.length === 0) {
+            setProductDetail(prev => ({
+                ...prev,
+                selectedOptions: [{name: '', value: '', quantity: quantity, priceDelta: 0}]
+            }));
+        } else {
+            setProductDetail(prev => ({
+                ...prev,
+                selectedOptions: options
+            }));
+        }
+
+        try {
+            getProductDetail(productId);
+        } catch(e) { console.log(e); }
+    
+    }
+
+    useEffect(() => {
+        if(getProductDetailData !== null) {
+            setProductDetail(prev => ({
+                ...prev,
+                optionGroups: getProductDetailData.optionGroups,
+                stock: getProductDetailData.stock,
+                basePrice: getProductDetailData.discountedPrice ?? getProductDetailData.price,
+            }));
+            SetIsOpenBottomSheet(prev => !prev);
+        }
+    }, [getProductDetailData]);
 
     return (
         <div className="cart-area">
@@ -508,15 +472,20 @@ const Cart = () => {
                                                 onCheckChange={() =>{ activeTab === 0 ? toggleProductCheck("domestic", index) :  toggleProductCheck("available", index)}}
                                                 onRemove={() => { activeTab === 0 ? handleRemvoeProduct("domestic", index) : handleRemvoeProduct("available", index)}}
                                                 activeTab = {activeTab}
-                                                onClickBottomButton={() => SetIsOpenBottomSheet(prev => !prev)}
+                                                onClickBottomButton={() => handleChangeOption(item.productId, item.options, item.quantity)}
                                             />
                                             {index < firstProductList.length - 1 && <div className="diver2"/>}
                                         </div>
                                     ))}
                                 </div>
+                                {activeTab === 0 && checkedDomesticProducts.length > 0 && (
+                                    <div className="delivery-footer">
+                                        <p>배송비 {domesticShippingFee === 0 ? "무료" : `${domesticShippingFee.toLocaleString()}원`}</p>
+                                        {domesticShippingFee !== 0 && <span>{(50000-domesticTotal).toLocaleString()}원만 더 담으면 무료배송</span>}
+                                    </div>
+                                )}
                             </div>
                         )}
-                        {}
 
                         {secondProductList.length > 0 && (
                             <div className={`delivery-area bottom ${orderProducDomesticList.length===0 ? 'empty-top' : ''}`}>
@@ -535,6 +504,12 @@ const Cart = () => {
                                         </div>
                                     ))}
                                 </div>
+                                {activeTab === 0 && checkedOverseasProducts.length > 0 && (
+                                    <div className="delivery-footer">
+                                        <p>{checkedOverseasProducts.length}건 총 배송비 {overseasCombinedShippingFee.toLocaleString()}원</p>
+                                        {overseasSavingRate !== null && <span>배송비 {overseasSavingRate}% 절약</span>}
+                                    </div>
+                                )}
                             </div>
                         )} 
                         {activeTab === 0 ? (
@@ -557,19 +532,32 @@ const Cart = () => {
                             <div className="order-section-title">결제 금액</div>
                             <div className="order-price-row">
                                 <span className="order-price-title">상품 금액</span>
-                                <span className="order-price-content">{priceSummary.totalOriginPrice.toLocaleString()}원</span>
+                                <span className="order-price-content">{nestingPriceSummary.totalOriginPrice.toLocaleString()}원</span>
                             </div>
                             <div className="order-price-row">
                                 <span className="order-price-title">할인 금액</span>
-                                <span className="order-price-content red">-{priceSummary.totalDiscount.toLocaleString()}원</span>
+                                <span className="order-price-content red">-{nestingPriceSummary.totalDiscount === 0 ? "" : `${nestingPriceSummary.totalDiscount.toLocaleString()}원`}</span>
                             </div>
                             <div className="order-price-row">
                                 <span className="order-price-title">배송비</span>
-                                <span className="order-price-content">{priceSummary.totalDeliveryFee === 0 ? "무료배송": `${priceSummary.totalDeliveryFee.toLocaleString()}원`}</span>
+                                <span className="order-price-content">{nestingPriceSummary.totalDeliveryFee.toLocaleString()}원</span>
                             </div>
+                            {checkedDomesticProducts.length > 0 && (
+                                <div className="order-price-row small">
+                                    <span className="order-price-title small">- 국내 배송비</span>
+                                    <span className="order-price-content small">{domesticShippingFee === 0 ? "무료배송" : `${domesticShippingFee.toLocaleString()}원`}</span>
+                                </div>
+                            )}
+                            {checkedOverseasProducts.length > 0 && (
+                                <div className="order-price-row small">
+                                    <span className="order-price-title small">- 해외 배송비</span>
+                                    {overseasSavingRate && <span className="saving-rate">배송비를 {overseasSavingRate}% 절약했어요!</span>}
+                                    <span className="order-price-content small">{overseasCombinedShippingFee === 0 ? "무료베송" : `${overseasCombinedShippingFee.toLocaleString()}원`}</span>
+                                </div>
+                            )}
                             <div className="price-total">
                                 <span className="price-total-title">총 결제 금액</span>
-                                <span className="price-total-content">{priceSummary.totalPrice.toLocaleString()}원</span>
+                                <span className="price-total-content">{nestingPriceSummary.totalPrice.toLocaleString()}원</span>
                             </div>
                         </section>
                     )}
@@ -669,7 +657,7 @@ const Cart = () => {
             )}
             
             <CTAButtonOrderPay
-                totalPrice={activeTab === 0 ? priceSummary.totalPrice : estimates.finalPaymentAmount.price}
+                totalPrice={activeTab === 0 ? nestingPriceSummary.totalPrice : estimates.finalPaymentAmount.price}
                 productNum={activeTab === 0 ? checkedAllProducts.length : availableProductList.filter(item => item.isChecked).length}
                 isEnabled={activeTab === 0 ? checkedAllProducts.length > 0 : availableProductList.filter(item => item.isChecked).length > 0} />
 
@@ -678,7 +666,13 @@ const Cart = () => {
                     isSoldout={false}
                     isOpenBottomSheet={true}
                     onCloseBottomSheet={()=>SetIsOpenBottomSheet(false)}
-            />}
+                    optionGroups={productDetail.optionGroups}
+                    stock={productDetail.stock}
+                    basePrice={productDetail.basePrice}
+                    isModify={true}
+                    selectedOptions={productDetail.selectedOptions}
+                />
+            }
         </div>
     )
 }
@@ -686,8 +680,6 @@ const Cart = () => {
 export default Cart;
 
 const OrderCartProductCard = ( {productData, onCheckChange, onRemove, activeTab, onClickBottomButton} ) => {
-    console.log(productData);
-    const price = productData.totalDiscountedPrice ? productData.totalDiscountedPrice : productData.totalPrice;
         return(
             <div className="order-cart-product">
                 <div className="select-product-row">
@@ -715,17 +707,7 @@ const OrderCartProductCard = ( {productData, onCheckChange, onRemove, activeTab,
                 )}
                 {activeTab === 0 && productData.deliveryType === "INTERNATIONAL" && (
                     <p className="total-price-area">
-                        {productData.soldOut ? (
-                            "품절되었어요"
-                        ): productData.deliveryFee === 0 ? (
-                            <>
-                            {price.toLocaleString()}원 + <span>&nbsp;무료배송&nbsp;</span> = {price.toLocaleString()}원
-                            </>
-                        ): (
-                            <>
-                            {price.toLocaleString()}원 + 배송비 {productData?.deliveryFee?.toLocaleString()}원 = {(price + productData?.deliveryFee)?.toLocaleString()}원
-                            </>
-                        )}
+                        배송비 {productData.deliveryFee?.toLocaleString()}원
                     </p>
                 )}
                 {productData.extraMemo && (

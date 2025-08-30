@@ -201,6 +201,10 @@
     @include font-style("title4");
     @include text-color();
 
+    &.modify {
+        margin-top: 20px;   
+    }
+
     &.soldout{
         @include bg-color("bg-weak");
         @include text-color("text-disabled");

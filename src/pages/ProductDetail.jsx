@@ -781,7 +781,7 @@ const ProductDetail = ( ) => {
                 productId={getProductDetailData?.id} 
                 optionGroups={getProductDetailData?.optionGroups}
                 stock={getProductDetailData?.stock}
-                basePrice={getProductDetailData?.price}
+                basePrice={getProductDetailData?.discountedPrice ?? getProductDetailData?.price}
             />
 
         </div>

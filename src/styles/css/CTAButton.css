@@ -190,6 +190,9 @@
   letter-spacing: -2.5%;
   color: #111111;
 }
+.show-buy-bottomsheet.modify {
+  margin-top: 20px;
+}
 .show-buy-bottomsheet.soldout {
   background-color: #F7F7FB;
   color: #999999;
