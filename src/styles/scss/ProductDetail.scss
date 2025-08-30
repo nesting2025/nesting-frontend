@@ -210,6 +210,10 @@
             height: 40px;
             margin-top: 8px;
             position: relative;
+
+            &.no-height {
+                height: auto;
+            }
         }
 
         .delivery-info1 {
@@ -313,6 +317,7 @@
                 @include text-color("text-sub2");
                 @include font-style("caption1");
                 margin: 0;
+                white-space: pre-wrap;
 
                 &.ver2 {
                     @include font-style("caption3");

@@ -418,7 +418,7 @@ const ProductDetail = ( ) => {
                 )}
 
                 {productInfo.isOverseas ? (
-                    <p className='price-info'>해외 배송비, 관부가세, 수수료가 모두 포함된 가격</p>
+                    <p className='price-info'>관부가세, 수수료가 모두 포함된 가격</p>
                 ) : (
                     <div className='rating-star-row title'>
                         <img className='star-img title' src='/assets/icon/star.svg' />
@@ -440,9 +440,12 @@ const ProductDetail = ( ) => {
                     <p className='delivery-info1'>배송</p>
                     <p className='delivery-info2'>{productInfo.shipping}</p>
                 </div>
-                <div className='delivery-fee-row'>
+                <div className={`delivery-fee-row ${productInfo.isOverseas ? "no-height" : ""}`}>
                     <p className='delivery-info1'>배송비</p>
-                    <p className='delivery-info2'>{getProductDetailData?.deliveryFee === 0 ? "무료" : `${getProductDetailData?.deliveryFee.toLocaleString()}원`}<br />(제주 3,000원 / 도서산간 5,000원 추가)</p>
+                    <p className='delivery-info2'>
+                        {!productInfo.isOverseas ? "5만원 미만 결제 시 배송비 2,900원" : getProductDetailData?.deliveryFee === 0 ? "무료" : `${getProductDetailData?.deliveryFee.toLocaleString()}원`}
+                        {!productInfo.isOverseas && <><br />(제주 3,000원 / 도서산간 5,000원 추가)</>}
+                    </p>
                 </div>
 
                 {productInfo.isOverseas && (
@@ -647,19 +650,21 @@ const ProductDetail = ( ) => {
                                 <div className='shipping-rows ver2'>
                                     <div className='shipping-row'>
                                         <p className='show-more-shipping-title ver2'>판매자 지정 택배사</p>
-                                        <p className='show-more-shipping-contents ver2'>롯데 택배</p>
+                                        <p className='show-more-shipping-contents ver2'>{productInfo.isOverseas ? "롯데택배" : "로젠택배"}</p>
                                     </div>
                                     <div className='shipping-row'>
                                         <p className='show-more-shipping-title ver2'>반품배송비</p>
-                                        <p className='show-more-shipping-contents ver2'>편도 20,000원 (최초 배송비 무료인 경우 40,000원 부과)</p>
+                                        <p className='show-more-shipping-contents ver2'>
+                                            {productInfo.isOverseas ? "편도 20,000원 (최초 배송비 무료인 경우 40,000원 부과)" : "편도 4,000원 (최초 배송비 무료인 경우 8,000원 부과)"}
+                                        </p>
                                     </div>
                                     <div className='shipping-row'>
                                         <p className='show-more-shipping-title ver2'>교환배송비</p>
-                                        <p className='show-more-shipping-contents ver2'>40,000원</p>
+                                        <p className='show-more-shipping-contents ver2'>{productInfo.isOverseas ? "40,000원" : "8,000원"}</p>
                                     </div>
                                     <div className='shipping-row'>
                                         <p className='show-more-shipping-title ver2'>보내실 곳</p>
-                                        <p className='show-more-shipping-contents ver2'>서울특별시 성북구 삼선교로6길 20 102호 (우: 02865)</p>
+                                        <p className='show-more-shipping-contents ver2'>네스팅 계약 택배사에서 자동 수거 예정</p>
                                     </div>
                                 </div>
                             </div>

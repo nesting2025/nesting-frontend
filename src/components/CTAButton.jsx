@@ -27,7 +27,6 @@ const CTAButton =( { isSoldout, isOpenBottomSheet=false, onCloseBottomSheet, isL
     },[isModify]);
 
     useEffect(() => {
-        console.log(selectedOptions);
         if(optionGroups && optionGroups.length > 0) {
             const mappedOptions = optionGroups[0].values.map((item) =>{
                 const existingOptions = selectedOptions?.find(opt => opt.value === item.value);

@@ -205,6 +205,9 @@
   margin-top: 8px;
   position: relative;
 }
+.product-detail .delivery-area .delivery-fee-row.no-height {
+  height: auto;
+}
 .product-detail .delivery-area .delivery-info1 {
   letter-spacing: -2.5%;
   color: #767676;
@@ -310,6 +313,7 @@
   font-weight: 500;
   letter-spacing: -2.5%;
   margin: 0;
+  white-space: pre-wrap;
 }
 .product-detail .shipping-rows .shipping-row .show-more-shipping-contents.ver2 {
   font-size: 11px;
